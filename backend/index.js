@@ -309,6 +309,65 @@ app.post('/api/portal/checkout', async (req, res) => {
     }
 });
 
+// ====== SALES MODULE ENDPOINTS ======
+app.get('/api/customers', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('customer').select('id, name');
+        if (error) throw error;
+        const mapped = data.map(c => ({
+            id: c.id,
+            name: c.name || 'ลูกค้าทั่วไป',
+            credit_limit: 50000 // Mock limit
+        }));
+        // Fallback if empty database
+        if (mapped.length === 0) {
+            mapped.push({ id: 1, name: "บริษัท ทดสอบ จำกัด", credit_limit: 100000 });
+        }
+        res.json(mapped);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get('/api/products', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('product').select('id, name');
+        if (error) throw error;
+        const mapped = data.map(p => ({
+            ...p,
+            base_price: 15.00
+        }));
+        if (mapped.length === 0) {
+            mapped.push(
+                { id: 1, name: "กล่องอาร์ตการ์ด 250g", base_price: 5 },
+                { id: 2, name: "ใบปลิว A4", base_price: 0.8 },
+                { id: 3, name: "โบรชัวร์ พับ 3", base_price: 2.5 }
+            );
+        }
+        res.json(mapped);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/job_orders', async (req, res) => {
+    const { customer_id, product_id, quantity, total_price } = req.body;
+    try {
+        const { data, error } = await supabase.from('job_order').insert([{
+            customer_id,
+            product_id, // Map the foreign key
+            quantity,
+            total_price,
+            status: 'pending',
+            production_stage: 'planning'
+        }]).select('id').single();
+        if (error) throw error;
+        res.json({ success: true, id: data.id });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
