@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookandbox ERP</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome from CDN (Since node modules aren't available) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Book<span style="color:#5b92e5">and</span>box</div>
+        </div>
+        
+        <div class="role-selector">
+            <p style="font-size: 0.8rem; margin-bottom: 0.5rem;">ทดสอบการแสดงผลตามสิทธิ์</p>
+            <select id="roleSelect" onchange="changeRole()">
+                <option value="ceo">CEO (ผู้บริหาร)</option>
+                <option value="hr">HR (ฝ่ายบุคคล)</option>
+                <option value="sales">Sales (หน้าขาย)</option>
+                <option value="prod">Production (ฝ่ายผลิต)</option>
+                <option value="acc">Accounting (บัญชี)</option>
+            </select>
+        </div>
+
+        <nav class="nav-links" id="navLinks">
+            <a class="nav-item active" onclick="switchView('dashboard')" id="nav-dashboard">
+                <i class="fa-solid fa-chart-pie"></i> ภาพรวม (CEO)
+            </a>
+            <a class="nav-item" onclick="switchView('adweb')" id="nav-adweb">
+                <i class="fa-brands fa-line"></i> Ad Web (ติดต่อลูกค้า)
+            </a>
+            <a class="nav-item" onclick="switchView('sales')" id="nav-sales">
+                <i class="fa-solid fa-cart-shopping"></i> เสนอราคา/ขาย
+            </a>
+            <a class="nav-item" onclick="switchView('production')" id="nav-production">
+                <i class="fa-solid fa-industry"></i> ฝ่ายผลิต
+            </a>
+            <a class="nav-item" onclick="switchView('accounting')" id="nav-accounting">
+                <i class="fa-solid fa-file-invoice-dollar"></i> บัญชีการเงิน
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="flex align-center gap-4">
+                <i class="fa-solid fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+                <h2 class="text-primary" id="pageTitle">ภาพรวม (Dashboard)</h2>
+            </div>
+            <div class="topbar-right">
+                <i class="fa-regular fa-bell" style="font-size: 1.2rem; color: var(--text-muted); cursor: pointer;"></i>
+                <div class="profile-wrap">
+                    <div class="avatar">C</div>
+                    <div style="display: none;" class="desktop-only">
+                        <p style="font-size: 0.9rem; font-weight: 500; color: var(--text-dark); margin:0;">คุณณัฐวุฒิ</p>
+                        <p style="font-size: 0.8rem;">CEO</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Views Area -->
+        <div class="view-container">
+            
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view-section active">
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3>35,000</h3>
+                            <p>ลูกค้าในระบบทั้งหมด</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#dcfce3; color:#15803d;"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="stat-info">
+                            <h3>42</h3>
+                            <p>พนักงานทั้งหมด (HR)</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#e0f2fe; color:#0284c7;"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="stat-info">
+                            <h3>128</h3>
+                            <p>ใบสั่งผลิตกำลังดำเนินการ</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fee2e2; color:#b91c1c;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="stat-info">
+                            <h3>14</h3>
+                            <p>ยอดเงินรอตรวจสอบ</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container p-4">
+                    <h3 class="mb-4">รายการผลิตล่าสุด (CEO View)</h3>
+                    <table id="ceo-table">
+                        <!-- Populated by JS -->
+                    </table>
+                </div>
+            </section>
+
+            <!-- Ad Web View -->
+            <section id="view-adweb" class="view-section">
+                <div class="flex justify-between align-center mb-4">
+                    <div>
+                        <h3 class="text-primary">LINE Official CRM</h3>
+                        <p>จัดการข้อความและติดตามลูกค้า</p>
+                    </div>
+                    <button class="btn btn-primary"><i class="fa-solid fa-sync"></i> โหลดข้อความใหม่</button>
+                </div>
+                
+                <div class="chat-container shadow">
+                    <!-- Contact List -->
+                    <div class="chat-list" id="chat-list">
+                        <!-- Populated by JS -->
+                    </div>
+                    <!-- Chat Area -->
+                    <div class="chat-main">
+                        <div class="p-4" style="border-bottom: 1px solid var(--border-color); background: white;">
+                            <h4 id="chat-customer-name">เลือกแชทเพื่อดูข้อความ</h4>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" class="form-control" id="line-reply-input" placeholder="พิมพ์ข้อความตอบกลับลูกค้า...">
+                            <button class="btn btn-primary" onclick="window.sendMockMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button class="btn btn-outline" onclick="window.createOrderFromChat()"><i class="fa-solid fa-cart-plus"></i> สร้างออเดอร์</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sales View -->
+            <section id="view-sales" class="view-section">
+                <div class="flex justify-between align-center mb-4">
+                    <h3>สร้างคำสั่งซื้อ / ใบเสนอราคา</h3>
+                </div>
+                
+                <div class="flex gap-4" style="flex-wrap: wrap;">
+                    <!-- Order Form -->
+                    <div class="table-container p-4" style="flex: 2; min-width: 300px;">
+                        <h4 class="mb-4">รายละเอียดงานพิมพ์</h4>
+                        
+                        <div class="dashboard-grid">
+                            <div class="form-group">
+                                <label>เลือกลูกค้า (จาก 35,000 ราย)</label>
+                                <input type="text" class="form-control" placeholder="ค้นหาชื่อ หรือ LINE ID...">
+                            </div>
+                            <div class="form-group">
+                                <label>ประเภทสินค้า</label>
+                                <select class="form-control" id="product-type" onchange="calculatePrice()">
+                                    <option value="leaflet">ใบปลิว</option>
+                                    <option value="brochure">โบรชัวร์</option>
+                                    <option value="box">กล่องอาร์ตการ์ด</option>
+                                    <option value="calendar">ปฏิทินตั้งโต๊ะ</option>
+                                    <option value="card">บัตรพลาสติก</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>จำนวน (ชิ้น/ใบ)</label>
+                                <input type="number" class="form-control" id="order-qty" value="1000" onkeyup="calculatePrice()" onchange="calculatePrice()">
+                            </div>
+                            <div class="form-group">
+                                <label>ราคาต่อหน่วยโดยประมาณ (บาท)</label>
+                                <input type="text" class="form-control" id="unit-price" value="1.50" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>รายละเอียดเพิ่มเติม (เช่น เคลือบเงา, ไดคัท)</label>
+                            <textarea class="form-control" rows="3" placeholder="ระบุความต้องการเพิ่มเติมของลูกค้า..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="table-container p-4" style="flex: 1; min-width: 250px; background: var(--primary); color: white;">
+                        <h4 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1rem;">สรุปยอด</h4>
+                        <div class="mt-4 flex justify-between">
+                            <span>ราคาสินค้า:</span>
+                            <span id="summary-price">1,500.00 บาท</span>
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <span>VAT (7%):</span>
+                            <span id="summary-vat">105.00 บาท</span>
+                        </div>
+                        <div class="mt-4 flex justify-between" style="font-size: 1.5rem; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem; margin-top: 1rem;">
+                            <span>ยอดรวมสุทธิ:</span>
+                            <span id="summary-total">1,605.00 บาท</span>
+                        </div>
+                        
+                        <button class="btn bg-white mt-4" style="width: 100%; color: var(--primary); justify-content: center;" onclick="window.submitSalesOrder()">
+                            <i class="fa-solid fa-check-circle"></i> ยืนยันสั่งผลิต (ส่งต่อฝ่ายผลิต-บัญชี)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Production View -->
+            <section id="view-production" class="view-section">
+                <div class="flex justify-between align-center mb-4">
+                    <h3>ใบสั่งงานที่เข้ามา (Job Orders)</h3>
+                    <div class="flex gap-2">
+                        <button class="btn btn-outline">ทั้งหมด (128)</button>
+                        <button class="btn btn-primary">รอดำเนินการ (42)</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="production-table">
+                        <!-- Populated by JS -->
+                    </table>
+                </div>
+
+                <!-- Production Detail / Raw Material Mock -->
+                <div class="table-container p-4 mt-4" id="prod-detail" style="display: none; border-left: 5px solid var(--primary);">
+                    <h4>รายละเอียดวัตถุดิบ ใบสั่งงาน #<span id="pd-job-id"></span></h4>
+                    <div class="dashboard-grid mt-4">
+                        <div class="form-group">
+                            <label>สถานที่พิมพ์ / เครื่องจักร</label>
+                            <select class="form-control">
+                                <option>เครื่องพิมพ์ Offset (Heidelberg 4 สี)</option>
+                                <option>เครื่องพิมพ์ Digital 1</option>
+                                <option>เครื่องตัด</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>เบิกกระดาษ/อาร์ตการ์ด</label>
+                            <select class="form-control">
+                                <option>อาร์ตการ์ด 250 แกรม - 5,000 แผ่น (คลัง A)</option>
+                                <option>กระดาษปอนด์ 80 แกรม - 1 รีม (คลัง B)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-4 bg-white" style="background:#10b981; color:white;" onclick="window.startProduction()">
+                        อัปเดตสถานะเป็น "กำลังพิมพ์"
+                    </button>
+                </div>
+            </section>
+
+            <!-- Accounting View -->
+            <section id="view-accounting" class="view-section">
+                 <div class="flex justify-between align-center mb-4">
+                    <div>
+                        <h3 class="text-primary">ตรวจสอบบัญชี & Reconcile</h3>
+                        <p>เช็คเงินเข้าเทียบกับใบสั่งงาน</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Bank Feed mock -->
+                    <div class="table-container p-4" style="border-top: 4px solid var(--success);">
+                        <h4 class="mb-4"><i class="fa-solid fa-building-columns"></i> เงินเข้าบัญชีธนาคาร (Statement)</h4>
+                        <table style="font-size: 0.9rem;">
+                            <thead>
+                                <tr><th>วันที่/เวลา</th><th>จำนวนเงิน</th><th>ต้นทาง</th><th>จัดการ</th></tr>
+                            </thead>
+                            <tbody id="bank-feed-table">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Open Invoices -->
+                    <div class="table-container p-4" style="border-top: 4px solid var(--warning);">
+                        <h4 class="mb-4"><i class="fa-solid fa-file-invoice"></i> บิลรอชำระ (Unmatched)</h4>
+                        <table style="font-size: 0.9rem;">
+                            <thead>
+                                <tr><th>เลขที่เอกสาร</th><th>ลูกค้า</th><th>ยอดเรียกเก็บ</th></tr>
+                            </thead>
+                            <tbody id="unmatched-table">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="table-container p-4 mt-4">
+                    <h4 class="mb-4 text-primary">ระบบสั่งงานแบบเครดิต (ผลิตก่อนจ่าย)</h4>
+                    <p class="mb-4">สำหรับลูกค้าเครดิต หรือลูกค้าประจำที่เซ็นสัญญากับฝ่ายขาย พนักงานบัญชีสามารถกดยืนยันปล่อยงานผลิตล่วงหน้าได้</p>
+                    <table style="font-size: 0.9rem;">
+                        <thead>
+                            <tr><th>เลขใบสั่งงาน</th><th>ลูกค้า</th><th>ยอดเงิน</th><th>เครดิตคงเหลือ</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="credit-table">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JS Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

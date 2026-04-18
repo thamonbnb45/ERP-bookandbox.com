@@ -1,0 +1,126 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API_URL = 'http://localhost:3001/api';
+
+const MOCK_BANK_FEED = [
+    { id: 1, date: '18/04 11:30', amount: 1500.00, ref: 'KBANK xxxx1234', matched: false },
+    { id: 2, date: '18/04 09:15', amount: 12500.00, ref: 'SCB xxxx9999', matched: false },
+    { id: 3, date: '18/04 13:45', amount: 1605.00, ref: 'BBL xxxx1122', matched: false }
+];
+
+export default function Accounting() {
+  const [jobOrders, setJobOrders] = useState([]);
+  const [bankFeeds, setBankFeeds] = useState(MOCK_BANK_FEED);
+
+  useEffect(() => {
+    fetchJobOrders();
+  }, []);
+
+  const fetchJobOrders = () => {
+    axios.get(`${API_URL}/job_orders`)
+         .then(res => setJobOrders(res.data))
+         .catch(err => console.error(err));
+  };
+
+  const handleMatch = (feedId, amount) => {
+    const isMatched = confirm(`คุณต้องการจับคู่ (Reconcile) ยอดเงิน ฿${amount.toLocaleString()} กับระบบใช่หรือไม่?`);
+    if (isMatched) {
+      setBankFeeds(prev => prev.map(f => f.id === feedId ? { ...f, matched: true } : f));
+      alert("กระทบยอดสำเร็จ! สถานะของใบสั่งซื้อจะถูกปรับให้ชำระเงินแล้ว");
+    }
+  };
+
+  const handleApproveCredit = (jobId) => {
+    alert(`อนุมัติให้ใบสั่งงาน #${jobId} (เครดิตลูกค้า) สามารถเริ่มเข้าฝ่ายผลิตได้ทันที!`);
+    // Ideally update status in DB
+  };
+
+  return (
+    <div className="view-section active">
+      <div className="flex justify-between align-center mb-4">
+        <div>
+            <h3 className="text-primary">ตรวจสอบบัญชี & Reconcile</h3>
+            <p>เช็คเงินเข้าเทียบกับใบสั่งงาน (Accounting Department)</p>
+        </div>
+      </div>
+
+      <div className="dashboard-grid">
+        {/* Bank Feed */}
+        <div className="table-container p-4 shadow" style={{ borderTop: '4px solid var(--success)' }}>
+            <h4 className="mb-4"><i className="fa-solid fa-building-columns"></i> เงินเข้าบัญชีธนาคาร (Statement)</h4>
+            <table style={{ fontSize: '0.9rem' }}>
+                <thead>
+                    <tr><th>เวลา</th><th>ยอดเงิน</th><th>จัดการ</th></tr>
+                </thead>
+                <tbody>
+                  {bankFeeds.map(feed => (
+                    <tr key={feed.id} style={{ opacity: feed.matched ? 0.5 : 1 }}>
+                      <td>{feed.date} <br/><small>{feed.ref}</small></td>
+                      <td className="text-success" style={{ fontWeight: 600 }}>+฿{feed.amount.toLocaleString()}</td>
+                      <td>
+                        {feed.matched ? (
+                           <span className="status-badge status-done"><i className="fa-solid fa-check"></i> Matched</span>
+                        ) : (
+                           <button className="btn btn-primary" style={{ padding: '0.2rem 0.5rem', fontSize: '0.8rem' }} onClick={() => handleMatch(feed.id, feed.amount)}>
+                             จับคู่
+                           </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+            </table>
+        </div>
+
+        {/* Unmatched Invoices */}
+        <div className="table-container p-4 shadow" style={{ borderTop: '4px solid var(--warning)' }}>
+            <h4 className="mb-4"><i className="fa-solid fa-file-invoice"></i> ใบเรียกเก็บเงินที่รอกระทบยอด</h4>
+            <table style={{ fontSize: '0.9rem' }}>
+                <thead>
+                    <tr><th>ใบสั่งงาน</th><th>ลูกค้า</th><th>ยอดเรียกเก็บ</th></tr>
+                </thead>
+                <tbody>
+                  {jobOrders.filter(j => j.status === 'pending').map(job => (
+                    <tr key={job.id}>
+                      <td><strong>#JOB-{job.id}</strong></td>
+                      <td>{job.customer}</td>
+                      <td style={{ fontWeight: 600 }}>฿{job.total_price.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                  {jobOrders.length === 0 && (
+                    <tr><td colSpan="3" style={{textAlign:'center'}}>ไม่พบข้อมูลหนี้คงค้าง</td></tr>
+                  )}
+                </tbody>
+            </table>
+        </div>
+      </div>
+
+      {/* Credit Approval */}
+      <div className="table-container p-4 mt-4 shadow" style={{ borderTop: '4px solid var(--primary)' }}>
+        <h4 className="mb-4 text-primary">ระบบสั่งงานแบบเครดิต (ผลิตก่อนจ่าย)</h4>
+        <p className="mb-4">พนักงานบัญชีสามารถกดยืนยันปล่อยงานเครดิต เพื่อให้ฝ่ายผลิตเริ่มทำงานได้ก่อน (ขึ้นอยู่กับวงเงินคงเหลือของลูกค้า)</p>
+        <table style={{ fontSize: '0.9rem' }}>
+            <thead>
+                <tr><th>เลขใบสั่งงาน</th><th>ลูกค้า</th><th>ยอดรวมบิล</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+               {jobOrders.map(job => (
+                 <tr key={`credit-${job.id}`}>
+                   <td><strong>#JOB-{job.id}</strong></td>
+                   <td>{job.customer} <br/><span className="status-badge status-pending" style={{fontSize:'0.7rem'}}>วงเงินพิจารณา</span></td>
+                   <td>฿{job.total_price.toLocaleString()}</td>
+                   <td>
+                     <button className="btn btn-outline" style={{ padding: '0.2rem 0.6rem', fontSize: '0.8rem' }} onClick={() => handleApproveCredit(job.id)}>
+                       <i className="fa-solid fa-lock-open"></i> ปลดล็อคเครดิตสั่งผลิต
+                     </button>
+                   </td>
+                 </tr>
+               ))}
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+  );
+}
