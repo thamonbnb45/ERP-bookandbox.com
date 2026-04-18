@@ -181,10 +181,10 @@ export default function Dashboard() {
          <h2 className="text-accent mb-2"><i className="fa-solid fa-brain"></i> วิเคราะห์เจาะลึกพฤติกรรมลูกค้า (CRM AI Insights)</h2>
          <p className="text-muted mb-4">วิเคราะห์จากประวัติแชทลูกค้าทั้งหมด {insights.totalClientMsgs} ข้อความย้อนหลัง 1 เดือน</p>
          
-         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
             
             {/* Keyword Popularity */}
-            <div className="table-container p-4 shadow text-center">
+            <div className="table-container p-4 shadow text-center" style={{ flex: '1', minWidth: '300px' }}>
                 <h4 className="mb-4">แฮชแท็กคำฮิต (Keyword Trending)</h4>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={wordData.slice(0, 7)} layout="vertical">
@@ -198,7 +198,7 @@ export default function Dashboard() {
             </div>
 
             {/* Peak Hours */}
-            <div className="table-container p-4 shadow text-center" style={{gridColumn: 'span 2'}}>
+            <div className="table-container p-4 shadow text-center" style={{ flex: '2', minWidth: '500px' }}>
                 <h4 className="mb-4">ช่วงเวลาลูกค้าทักแชทเยอะที่สุด (Peak Chat Hours)</h4>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={peakData}>
