@@ -146,7 +146,7 @@ export default function AdWeb() {
                         <img src={lead.avatar_url} alt="avatar" className="avatar" style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover' }} />
                     ) : (
                         <div className="avatar" style={{ background: '#e2e8f0', color: '#333', width: '45px', height: '45px' }}>
-                            {lead.erp_alias_name.charAt(0)}
+                            {(lead.erp_alias_name || lead.original_name || '?').charAt(0)}
                         </div>
                     )}
                     {/* Status Dot */}
@@ -162,7 +162,7 @@ export default function AdWeb() {
 
                 <div style={{ overflow: 'hidden', width: '100%', marginLeft: '10px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontSize: '0.95rem' }}>{lead.erp_alias_name}</strong>
+                    <strong style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontSize: '0.95rem' }}>{lead.erp_alias_name || lead.original_name}</strong>
                     {renderTierBadge(lead.analytics.tier)}
                   </div>
                   <p style={{ fontSize: '0.8rem', marginTop: '0.2rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : 'inherit' }}>
@@ -186,7 +186,7 @@ export default function AdWeb() {
                         {editingLead ? (
                             <input type="text" className="form-control" value={aliasName} onChange={e => setAliasName(e.target.value)} style={{fontSize: '1.2rem', fontWeight: 'bold', width: '250px'}}/>
                         ) : (
-                            <h4 style={{ margin: 0, display: 'inline-block', fontSize: '1.3rem' }}>{activeLead.erp_alias_name}</h4>
+                            <h4 style={{ margin: 0, display: 'inline-block', fontSize: '1.3rem' }}>{activeLead.erp_alias_name || activeLead.original_name}</h4>
                         )}
                         <small style={{display: 'block', color: 'var(--text-muted)'}}>
                             LINE ID: {activeLead.original_name}
@@ -238,8 +238,8 @@ export default function AdWeb() {
                         </>
                     ) : (
                         <button className="btn btn-outline ml-2" style={{padding: '0.4rem 0.6rem', fontSize:'0.8rem'}} onClick={() => {
-                            setAliasName(activeLead.erp_alias_name);
-                            setTagInput(activeLead.tags.join(', '));
+                            setAliasName(activeLead.erp_alias_name || activeLead.original_name);
+                            setTagInput((activeLead.tags || []).join(', '));
                             setStatusTicked(activeLead.sales_status);
                             setEditingLead(true);
                         }}><i className="fa-solid fa-pen"></i></button>
