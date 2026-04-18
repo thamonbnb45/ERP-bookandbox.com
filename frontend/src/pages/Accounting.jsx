@@ -12,15 +12,25 @@ const MOCK_BANK_FEED = [
 export default function Accounting() {
   const [jobOrders, setJobOrders] = useState([]);
   const [bankFeeds, setBankFeeds] = useState(MOCK_BANK_FEED);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchJobOrders();
   }, []);
 
   const fetchJobOrders = () => {
+    setIsLoading(true);
     axios.get(`${API_URL}/job_orders`)
-         .then(res => setJobOrders(res.data))
-         .catch(err => console.error(err));
+         .then(res => {
+             // Filter only jobs that are awaiting accounting approval
+             const pendingJobs = res.data.filter(j => j.production_stage === 'awaiting_payment');
+             setJobOrders(pendingJobs);
+             setIsLoading(false);
+         })
+         .catch(err => {
+             console.error(err);
+             setIsLoading(false);
+         });
   };
 
   const handleMatch = (feedId, amount) => {
@@ -31,9 +41,18 @@ export default function Accounting() {
     }
   };
 
-  const handleApproveCredit = (jobId) => {
-    alert(`อนุมัติให้ใบสั่งงาน #${jobId} (เครดิตลูกค้า) สามารถเริ่มเข้าฝ่ายผลิตได้ทันที!`);
-    // Ideally update status in DB
+  const handleApproveCredit = async (jobId) => {
+    const confirmApprove = confirm(`อนุมัติให้ใบสั่งงาน #${jobId} ผ่านเข้าสู่ฝ่ายผลิตใช่หรือไม่?`);
+    if (!confirmApprove) return;
+    
+    try {
+        await axios.put(`${API_URL}/job_orders/${jobId}/approve_payment`);
+        alert(`✅ อนุมัติสำเร็จ! บิล #${jobId} ถูกส่งเข้ากระดานฝ่ายผลิตแล้ว`);
+        fetchJobOrders();
+    } catch (err) {
+        alert("เกิดข้อผิดพลาดในการอนุมัติ");
+        console.error(err);
+    }
   };
 
   return (
@@ -75,21 +94,42 @@ export default function Accounting() {
 
         {/* Unmatched Invoices */}
         <div className="table-container p-4 shadow" style={{ borderTop: '4px solid var(--warning)' }}>
-            <h4 className="mb-4"><i className="fa-solid fa-file-invoice"></i> ใบเรียกเก็บเงินที่รอกระทบยอด</h4>
+            <h4 className="mb-4"><i className="fa-solid fa-file-invoice"></i> บิลที่รอเรียกเก็บเงิน & หัก ณ ที่จ่าย 3%</h4>
             <table style={{ fontSize: '0.9rem' }}>
                 <thead>
-                    <tr><th>ใบสั่งงาน</th><th>ลูกค้า</th><th>ยอดเรียกเก็บ</th></tr>
+                    <tr>
+                        <th>ใบสั่งงาน</th>
+                        <th>ลูกค้า / สินค้า</th>
+                        <th>ยอดสุทธิ (100%)</th>
+                        <th>หัก 3% (WHT)</th>
+                        <th>ยอดโอนจริง</th>
+                    </tr>
                 </thead>
                 <tbody>
-                  {jobOrders.filter(j => j.status === 'pending').map(job => (
-                    <tr key={job.id}>
-                      <td><strong>#JOB-{job.id}</strong></td>
-                      <td>{job.customer}</td>
-                      <td style={{ fontWeight: 600 }}>฿{job.total_price.toLocaleString()}</td>
-                    </tr>
-                  ))}
-                  {jobOrders.length === 0 && (
-                    <tr><td colSpan="3" style={{textAlign:'center'}}>ไม่พบข้อมูลหนี้คงค้าง</td></tr>
+                  {isLoading ? (
+                      <tr><td colSpan="5" className="text-center">กำลังโหลดข้อมูล...</td></tr>
+                  ) : jobOrders.length > 0 ? (
+                      jobOrders.map(job => {
+                        const wht3 = job.total_price * 0.03;
+                        const netPay = job.total_price - wht3;
+                        return (
+                          <tr key={job.id}>
+                            <td>
+                                <strong>#JOB-{job.id}</strong><br/>
+                                <span className="status-badge status-pending" style={{fontSize: '0.7rem'}}>รอชำระเงิน</span>
+                            </td>
+                            <td>
+                                {typeof job.customer === 'object' ? job.customer.name : job.customer} <br/>
+                                <small className="text-muted">{typeof job.product === 'object' ? job.product.name : job.product}</small>
+                            </td>
+                            <td style={{ fontWeight: 600 }}>฿{job.total_price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="text-danger">-฿{wht3.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="text-success" style={{ fontWeight: 'bold' }}>฿{netPay.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                          </tr>
+                        );
+                      })
+                  ) : (
+                      <tr><td colSpan="5" className="text-center">ไม่มีบิลค้างชำระ</td></tr>
                   )}
                 </tbody>
             </table>
@@ -102,21 +142,31 @@ export default function Accounting() {
         <p className="mb-4">พนักงานบัญชีสามารถกดยืนยันปล่อยงานเครดิต เพื่อให้ฝ่ายผลิตเริ่มทำงานได้ก่อน (ขึ้นอยู่กับวงเงินคงเหลือของลูกค้า)</p>
         <table style={{ fontSize: '0.9rem' }}>
             <thead>
-                <tr><th>เลขใบสั่งงาน</th><th>ลูกค้า</th><th>ยอดรวมบิล</th><th>Action</th></tr>
+                <tr><th>เลขใบสั่งงาน</th><th>ลูกค้า</th><th>ยอดโอนรวมสุทธิ (หลังหัก 3%)</th><th>Action</th></tr>
             </thead>
             <tbody>
-               {jobOrders.map(job => (
-                 <tr key={`credit-${job.id}`}>
-                   <td><strong>#JOB-{job.id}</strong></td>
-                   <td>{job.customer} <br/><span className="status-badge status-pending" style={{fontSize:'0.7rem'}}>วงเงินพิจารณา</span></td>
-                   <td>฿{job.total_price.toLocaleString()}</td>
-                   <td>
-                     <button className="btn btn-outline" style={{ padding: '0.2rem 0.6rem', fontSize: '0.8rem' }} onClick={() => handleApproveCredit(job.id)}>
-                       <i className="fa-solid fa-lock-open"></i> ปลดล็อคเครดิตสั่งผลิต
-                     </button>
-                   </td>
-                 </tr>
-               ))}
+               {isLoading ? (
+                  <tr><td colSpan="4" className="text-center">กำลังโหลดข้อมูล...</td></tr>
+               ) : jobOrders.length > 0 ? (
+                   jobOrders.map(job => {
+                       const wht3 = job.total_price * 0.03;
+                       const netPay = job.total_price - wht3;
+                       return (
+                         <tr key={`credit-${job.id}`}>
+                           <td><strong>#JOB-{job.id}</strong></td>
+                           <td>{typeof job.customer === 'object' ? job.customer.name : job.customer}</td>
+                           <td className="text-primary" style={{fontWeight: 'bold'}}>฿{netPay.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                           <td>
+                             <button className="btn btn-outline" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', borderColor: 'var(--success)', color: 'var(--success)' }} onClick={() => handleApproveCredit(job.id)}>
+                               <i className="fa-solid fa-check-double"></i> อนุมัติเงินเข้า / ปลดล็อคเข้าผลิต
+                             </button>
+                           </td>
+                         </tr>
+                       );
+                   })
+               ) : (
+                   <tr><td colSpan="4" className="text-center">ไม่มีบิลรออนุมัติ</td></tr>
+               )}
             </tbody>
         </table>
       </div>

@@ -257,6 +257,21 @@ app.put('/api/job_orders/:id/move', async (req, res) => {
     }
 });
 
+app.put('/api/job_orders/:id/approve_payment', async (req, res) => {
+    const jobId = req.params.id;
+    try {
+        const { error } = await supabase.from('job_order').update({
+            production_stage: 'planning',
+            status: 'progress' // Moves to kanban
+        }).eq('id', jobId);
+        
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 app.put('/api/job_orders/:id/tracking', async (req, res) => {
     const jobId = req.params.id;
     const { tracking_number } = req.body;
@@ -299,7 +314,7 @@ app.post('/api/portal/checkout', async (req, res) => {
             quantity: quantity,
             total_price: totalPrice,
             status: 'pending',
-            production_stage: 'planning'
+            production_stage: 'awaiting_payment' // Blocks from entering Production Kanban until Accounting approves
         }]).select('id').single();
         
         if (jobErr) throw jobErr;
@@ -359,7 +374,7 @@ app.post('/api/job_orders', async (req, res) => {
             quantity,
             total_price,
             status: 'pending',
-            production_stage: 'planning'
+            production_stage: 'awaiting_payment'
         }]).select('id').single();
         if (error) throw error;
         res.json({ success: true, id: data.id });
