@@ -487,6 +487,130 @@ app.get('/api/seed', async (req, res) => {
     }
 });
 
+// ====== DEEP CHAT ANALYTICS ======
+app.get('/api/seed_chats', async (req, res) => {
+    try {
+        const { data: leads } = await supabase.from('lead_contact').select('id, created_at');
+        if (!leads || leads.length === 0) return res.json({ error: 'No leads found to seed.' });
+        
+        const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        
+        const possibleChats = [
+            { t: 'อยากได้กล่องแพคเกจจิ้งแบบในรูปนี้ค่ะ ทำได้ไหมคะ?', m: 'https://images.unsplash.com/photo-1595079676339-15348bb9bf04?auto=format&fit=crop&q=80&w=400' },
+            { t: 'พิมพ์ใบปลิว 2000 ใบ ส่งด่วนวันศุกร์นี้เรทเท่าไหร่ครับ', m: null },
+            { t: 'ขอราคาพิมพ์กล่องครีม 5,000 ใบค่ะ ไซส์ 5x5x10 cm', m: null },
+            { t: 'แบบนี้ถ้าเจาะหน้าต่างพลาสติกใสด้วยคิดเพิ่มกี่บาท?', m: 'https://images.unsplash.com/photo-1620950341777-66a9d702afc5?auto=format&fit=crop&q=80&w=400' },
+            { t: 'สติ๊กเกอร์ไดคัทวงกลม ขนาด 3cm ดวงละเท่าไหร่', m: null },
+            { t: 'พี่คะ งานที่โอนไปเมื่อวาน จัดส่งรึยังคะ ด่วนมากๆ', m: null },
+            { t: 'สนใจพิมพ์โบรชัวร์ขนาด A4 พับ 3 ครับ ขอใบเสนอราคาด้วยจัดซื้อ', m: null },
+            { t: 'สีที่ได้จากการพิมพ์จะเพี้ยนจากหน้าจอมั้ยคะ มีปรู๊ฟสีฟรีมั้ย?', m: 'https://images.unsplash.com/photo-1596489370830-10901e8ce4cc?auto=format&fit=crop&q=80&w=400' },
+            { t: 'กล่องลูกฟูกห่อของ ส่งไปรษณีย์ มีไซส์มาตรฐานมั้ย หรือต้องสั่งทำ?', m: null },
+            { t: 'ใช้กระดาษอาร์ตการ์ด 300 แกรม เคลือบด้าน สปอตยูวี เฉพาะโลโก้', m: null }
+        ];
+
+        let msgPayloads = [];
+
+        // Distribute around 100 messages total across random leads
+        for(let i=0; i<100; i++) {
+            const lead = leads[randomInt(0, leads.length - 1)];
+            const chatObj = possibleChats[randomInt(0, possibleChats.length - 1)];
+            
+            // Randomize hour of day by taking lead's created_at and adding random hours
+            const baseTime = new Date(lead.created_at);
+            // shift between 8 AM and 10 PM
+            const hourOffset = randomInt(8, 22);
+            baseTime.setUTCHours(hourOffset);
+            baseTime.setUTCMinutes(randomInt(0, 59));
+
+            msgPayloads.push({
+                lead_id: lead.id,
+                sender: 'client',
+                type: chatObj.m ? 'image' : 'text',
+                text_content: chatObj.t,
+                media_url: chatObj.m,
+                created_at: baseTime.toISOString()
+            });
+            
+            // 70% chance Admin replies
+            if (Math.random() > 0.3) {
+                baseTime.setUTCMinutes(baseTime.getUTCMinutes() + randomInt(2, 30)); // 2 to 30 min reply time
+                msgPayloads.push({
+                    lead_id: lead.id,
+                    sender: 'admin',
+                    type: 'text',
+                    text_content: 'แอดมินรับทราบครับ แนะนำส่งแบบหรือขนาดเพื่อให้ตีราคานะครับ',
+                    created_at: baseTime.toISOString()
+                });
+            }
+        }
+
+        await supabase.from('chat_message').insert(msgPayloads);
+        res.json({ success: true, count: msgPayloads.length, message: "Mock Deep chats fully seeded!" });
+
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get('/api/dashboard/insights', async (req, res) => {
+    try {
+        const { data: chats, error } = await supabase
+            .from('chat_message')
+            .select('text_content, type, media_url, created_at, sender')
+            .eq('sender', 'client'); // Only analyze client behaviors
+            
+        if (error) throw error;
+        
+        let wordFreq = {
+            'กล่อง': 0, 'ใบปลิว': 0, 'สติ๊กเกอร์': 0, 'ด่วน': 0, 
+            'ราคา': 0, 'ส่ง': 0, 'โบรชัวร์': 0, 'แบบ': 0
+        };
+        
+        let peakHours = Array(24).fill(0);
+        let gallery = [];
+        let totalClientMsgs = chats.length;
+
+        chats.forEach(msg => {
+            // Hours Analytics
+            const hour = new Date(msg.created_at).getUTCHours() + 7; // Convert UTC to GMT+7 naive
+            const localHour = hour >= 24 ? hour - 24 : hour; 
+            peakHours[localHour] += 1;
+            
+            // Image Gallery
+            if (msg.type === 'image' && msg.media_url) {
+                gallery.push(msg.media_url);
+            }
+            
+            // Keyword Freq
+            if (msg.text_content) {
+                const text = msg.text_content;
+                if (text.includes('กล่อง') || text.includes('แพคเกจ')) wordFreq['กล่อง']++;
+                if (text.includes('ใบปลิว')) wordFreq['ใบปลิว']++;
+                if (text.includes('สติ๊กเกอร์')) wordFreq['สติ๊กเกอร์']++;
+                if (text.includes('ด่วน')) wordFreq['ด่วน']++;
+                if (text.includes('เรท') || text.includes('ราคา') || text.includes('กี่บาท')) wordFreq['ราคา']++;
+                if (text.includes('ส่ง') || text.includes('จัดส่ง')) wordFreq['ส่ง']++;
+                if (text.includes('โบรชัวร์')) wordFreq['โบรชัวร์']++;
+                if (text.includes('แบบ') || text.includes('ปรู๊ฟ')) wordFreq['แบบ']++;
+            }
+        });
+
+        // Filter valid gallery uniques
+        const uniqueGallery = [...new Set(gallery)].slice(0, 8); // Max 8 unique images
+
+        res.json({
+            success: true,
+            totalClientMsgs,
+            wordFreq,
+            peakHours,
+            gallery: uniqueGallery
+        });
+
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

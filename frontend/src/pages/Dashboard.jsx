@@ -11,6 +11,7 @@ const COLORS = ['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899', '#10b981'
 
 export default function Dashboard() {
   const [metrics, setMetrics] = useState(null);
+  const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,12 +20,32 @@ export default function Dashboard() {
 
   const fetchDashboardMetrics = async () => {
     try {
-      const res = await axios.get(`${API_URL}/dashboard/metrics`);
-      setMetrics(res.data);
+      const [resMetrics, resInsights] = await Promise.all([
+         axios.get(`${API_URL}/dashboard/metrics`),
+         axios.get(`${API_URL}/dashboard/insights`)
+      ]);
+      setMetrics(resMetrics.data);
+      if(resInsights.data.success) {
+         setInsights(resInsights.data);
+      }
     } catch (err) {
       console.error(err);
       alert("Failed to load dashboard data");
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const seedDeepChats = async () => {
+    try {
+      if(!confirm("ต้องการสร้างแชทสมมติ 100 ข้อความ + รูปภาพ ย้อนหลัง 30 วันหรือไม่?")) return;
+      setLoading(true);
+      await axios.get(`${API_URL}/seed_chats`);
+      alert("จำลองการแชทลูกค้าเรียบร้อยแล้ว!");
+      await fetchDashboardMetrics();
+    } catch(err) {
+      console.error(err);
+      alert("Error seeding deep chats");
       setLoading(false);
     }
   };
@@ -53,6 +74,19 @@ export default function Dashboard() {
     value: stagesCount[key]
   })).filter(item => item.value > 0);
 
+  // Formatting Insights data
+  let wordData = [];
+  let peakData = [];
+  if (insights) {
+      wordData = Object.keys(insights.wordFreq).map(word => ({
+          subject: word, A: insights.wordFreq[word], fullMark: 50
+      })).sort((a,b) => b.A - a.A); // sort desc
+
+      peakData = insights.peakHours.map((count, hour) => ({
+          hour: `${hour}:00`, 'ข้อความ': count
+      }));
+  }
+
   return (
     <div className="view-section active p-4">
       <div className="flex justify-between align-center mb-4">
@@ -60,9 +94,14 @@ export default function Dashboard() {
           <h2 className="text-primary mb-2">ภาพรวมธุรกิจ (Business Dashboard)</h2>
           <p className="text-muted">ข้อมูลสรุปผลประกอบการย้อนหลัง 30 วัน</p>
         </div>
-        <button className="btn btn-outline" onClick={seedMockData}>
-          <i className="fa-solid fa-magic"></i> จำลองตัวเลข (Seed 30 Days)
-        </button>
+        <div>
+            <button className="btn btn-outline mr-2" onClick={seedMockData}>
+            <i className="fa-solid fa-magic"></i> จำลองตัวเลข (Seed 30 Days)
+            </button>
+            <button className="btn btn-primary" onClick={seedDeepChats}>
+            <i className="fa-solid fa-comments"></i> เริ่มวิจัยแชทลูกค้า (AI Analytics)
+            </button>
+        </div>
       </div>
 
       {/* KPI Cards */}
@@ -135,6 +174,59 @@ export default function Dashboard() {
         </div>
 
       </div>
+
+      {/* --- AI MARKET INSIGHTS SECTION --- */}
+      {insights && (
+      <div className="mt-5 pt-4" style={{borderTop: '2px dashed var(--border-color)'}}>
+         <h2 className="text-accent mb-2"><i className="fa-solid fa-brain"></i> วิเคราะห์เจาะลึกพฤติกรรมลูกค้า (CRM AI Insights)</h2>
+         <p className="text-muted mb-4">วิเคราะห์จากประวัติแชทลูกค้าทั้งหมด {insights.totalClientMsgs} ข้อความย้อนหลัง 1 เดือน</p>
+         
+         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            
+            {/* Keyword Popularity */}
+            <div className="table-container p-4 shadow text-center">
+                <h4 className="mb-4">แฮชแท็กคำฮิต (Keyword Trending)</h4>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={wordData.slice(0, 7)} layout="vertical">
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false}/>
+                        <XAxis type="number" hide />
+                        <YAxis dataKey="subject" type="category" width={100} style={{fontSize:'0.8rem', fontWeight:'bold'}} />
+                        <RechartsTooltip />
+                        <Bar dataKey="A" fill="#ec4899" radius={[0, 4, 4, 0]} name="จำนวนที่พูดถึง (ครั้ง)" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+
+            {/* Peak Hours */}
+            <div className="table-container p-4 shadow text-center" style={{gridColumn: 'span 2'}}>
+                <h4 className="mb-4">ช่วงเวลาลูกค้าทักแชทเยอะที่สุด (Peak Chat Hours)</h4>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={peakData}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                        <XAxis dataKey="hour" tick={{fontSize: 10}} interval={2} />
+                        <YAxis />
+                        <RechartsTooltip />
+                        <Bar dataKey="ข้อความ" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+         </div>
+
+         {/* Reference Gallery */}
+         {insights.gallery && insights.gallery.length > 0 && (
+             <div className="table-container p-4 shadow mt-4">
+                 <h4 className="mb-4"><i className="fa-solid fa-images text-accent"></i> คลังรูปภาพอ้างอิงที่ลูกค้าส่งมา (Reference Gallery)</h4>
+                 <div style={{display: 'flex', gap: '1rem', flexWrap:'wrap'}}>
+                     {insights.gallery.map((imgUrl, i) => (
+                         <div key={i} style={{width: '200px', height: '200px', borderRadius:'12px', overflow:'hidden', border:'1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}}>
+                             <img src={imgUrl} alt={`ref-${i}`} style={{width:'100%', height:'100%', objectFit:'cover'}} />
+                         </div>
+                     ))}
+                 </div>
+             </div>
+         )}
+      </div>
+      )}
 
     </div>
   );
