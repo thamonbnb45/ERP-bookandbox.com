@@ -41,7 +41,7 @@ export default function AdWeb() {
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [activeLead?.messages]);
+  }, [activeLead?.messages?.length, activeLeadId]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !activeLeadId) return;
