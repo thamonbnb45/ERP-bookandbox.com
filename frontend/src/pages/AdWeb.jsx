@@ -15,6 +15,9 @@ export default function AdWeb() {
   const [tagInput, setTagInput] = useState('');
   const [statusTicked, setStatusTicked] = useState('i');
   
+  // Image Lightbox
+  const [previewImage, setPreviewImage] = useState(null);
+  
   const chatEndRef = useRef(null);
   const navigate = useNavigate();
 
@@ -115,6 +118,17 @@ export default function AdWeb() {
 
   return (
     <div className="view-section active" style={{ height: 'calc(100vh - var(--topbar-height) - 4rem)'}}>
+      {/* Lightbox Modal */}
+      {previewImage && (
+        <div 
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          onClick={() => setPreviewImage(null)}
+        >
+            <img src={previewImage} alt="preview" style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '12px', objectFit: 'contain' }} />
+            <button style={{ position: 'absolute', top: '20px', right: '30px', background: 'transparent', border: 'none', color: 'white', fontSize: '2rem', cursor: 'pointer' }}>&times;</button>
+        </div>
+      )}
+
       <div className="flex justify-between align-center mb-4">
         <div>
           <h3 className="text-primary">LINE Official CRM (Sales Optimized)</h3>
@@ -270,17 +284,26 @@ export default function AdWeb() {
           </div>
           
           <div className="chat-messages" style={{ flex: 1, padding: '1.5rem', overflowY: 'auto', background: '#f1f5f9' }}>
-            {activeLead.messages.map((msg, idx) => (
-              <div key={idx} className={`message ${msg.sender === 'client' ? 'msg-client' : 'msg-admin'}`} style={{ clear: 'both', maxWidth: '60%' }}>
-                {msg.sender === 'client' && (
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>{activeLead.original_name}</div>
-                )}
-                {msg.type === 'text' && <div>{msg.text_content}</div>}
-                {msg.type === 'image' && msg.media_url && (
-                  <div><img src={msg.media_url} alt="Media" style={{ maxWidth: '100%', borderRadius: '8px' }} /></div>
-                )}
+            {activeLead.messages.map((msg, idx) => {
+              const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : '';
+              return (
+              <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.sender === 'client' ? 'flex-start' : 'flex-end', marginBottom: '1rem' }}>
+                  {msg.sender === 'client' && (
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.2rem', marginLeft: '0.5rem' }}>{activeLead.original_name}</div>
+                  )}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', flexDirection: msg.sender === 'client' ? 'row' : 'row-reverse', gap: '0.5rem' }}>
+                      <div className={`message ${msg.sender === 'client' ? 'msg-client' : 'msg-admin'}`} style={{ margin: 0, maxWidth: '300px' }}>
+                        {msg.type === 'text' && <div>{msg.text_content}</div>}
+                        {msg.type === 'image' && msg.media_url && (
+                          <div style={{ cursor: 'zoom-in' }} onClick={() => setPreviewImage(msg.media_url)}>
+                              <img src={msg.media_url} alt="Media" style={{ maxWidth: '100%', borderRadius: '8px', display: 'block' }} />
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>{timeStr}</div>
+                  </div>
               </div>
-            ))}
+            )})}
             <div ref={chatEndRef} />
           </div>
           

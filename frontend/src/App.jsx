@@ -19,9 +19,9 @@ function Sidebar() {
           <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
              <i className="fa-solid fa-chart-pie"></i> ภาพรวม (CEO)
           </Link>
-          <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`}>
-             <i className="fa-brands fa-line"></i> Ad Web (ติดต่อลูกค้า)
-          </Link>
+          <NavLink to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`}>
+             <i className="fa-brands fa-line"></i> แชท (Chat)
+          </NavLink>
           <Link to="/sales" className={`nav-item ${location.pathname === '/sales' ? 'active' : ''}`}>
               <i className="fa-solid fa-cart-shopping"></i> เสนอราคา/ขาย
           </Link>
@@ -68,7 +68,7 @@ function App() {
             <Sidebar />
             <main className="main-content">
               <Routes>
-                <Route path="/adweb" element={<><Topbar title="Ad Web (ติดต่อลูกค้า)" /><div className="view-container"><AdWeb /></div></>} />
+                <Route path="/adweb" element={<><Topbar title="แชท (Chat)" /><div className="view-container"><AdWeb /></div></>} />
                 <Route path="/sales" element={<><Topbar title="เสนอราคา/ขาย" /><div className="view-container"><Sales /></div></>} />
                 <Route path="/production" element={<><Topbar title="ฝ่ายผลิต" /><div className="view-container"><Production /></div></>} />
                 <Route path="/accounting" element={<><Topbar title="บัญชีและเบิกจ่าย" /><div className="view-container"><Accounting /></div></>} />
