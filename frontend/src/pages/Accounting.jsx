@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
 const MOCK_BANK_FEED = [
     { id: 1, date: '18/04 11:30', amount: 1500.00, ref: 'KBANK xxxx1234', matched: false },

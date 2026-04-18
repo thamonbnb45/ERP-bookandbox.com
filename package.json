@@ -1,0 +1,8 @@
+{
+  "name": "bookandbox-erp-root",
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "cd frontend && npm install && npm run build && rm -rf ../backend/public && mv dist ../backend/public && cd ../backend && npm install",
+    "start": "cd backend && node index.js"
+  }
+}

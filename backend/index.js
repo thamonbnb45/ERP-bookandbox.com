@@ -11,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public'))); // Serve React Frontend
 
 // Supabase Init
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -308,7 +309,12 @@ app.post('/api/portal/checkout', async (req, res) => {
     }
 });
 
-const PORT = 3001;
+// React router fallback
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Enterprise Supabase Backend API running on http://localhost:${PORT}`);
 });

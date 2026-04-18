@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
 export default function AdWeb() {
   const [leads, setLeads] = useState([]);

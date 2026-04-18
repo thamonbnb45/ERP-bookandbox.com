@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
 const STAGES = [
   { id: 'planning', label: '📅 รอวางแผน', color: '#f1f5f9', header: '#94a3b8' },
