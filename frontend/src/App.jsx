@@ -4,6 +4,7 @@ import AdWeb from './pages/AdWeb';
 import Production from './pages/Production';
 import Accounting from './pages/Accounting';
 import CustomerPortal from './pages/CustomerPortal';
+import Dashboard from './pages/Dashboard';
 import './index.css';
 
 function Sidebar() {
@@ -71,7 +72,7 @@ function App() {
                 <Route path="/sales" element={<><Topbar title="เสนอราคา/ขาย" /><div className="view-container"><Sales /></div></>} />
                 <Route path="/production" element={<><Topbar title="ฝ่ายผลิต" /><div className="view-container"><Production /></div></>} />
                 <Route path="/accounting" element={<><Topbar title="บัญชีและเบิกจ่าย" /><div className="view-container"><Accounting /></div></>} />
-                <Route path="/" element={<><Topbar title="ภาพรวม (Dashboard)" /><div className="view-container"><h1>(อยู่ระหว่างพัฒนาโมดูล Dashboard)</h1></div></>} />
+                <Route path="/" element={<><Topbar title="ภาพรวม (Dashboard)" /><Dashboard /></>} />
               </Routes>
             </main>
           </div>

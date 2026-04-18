@@ -368,6 +368,110 @@ app.post('/api/job_orders', async (req, res) => {
     }
 });
 
+// ====== DASHBOARD & SEED ENDPOINTS ======
+app.get('/api/dashboard/metrics', async (req, res) => {
+    try {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        // 1. Get orders from last 30 days
+        const { data: orders, error: oErr } = await supabase
+            .from('job_order')
+            .select('created_at, total_price, production_stage, status')
+            .gte('created_at', thirtyDaysAgo.toISOString());
+            
+        // 2. Get active leads
+        const { count: leadsCount } = await supabase
+            .from('lead_contact')
+            .select('id', { count: 'exact', head: true });
+            
+        if(oErr) throw oErr;
+        
+        let totalRevenue = 0;
+        let completedOrders = 0;
+        let stagesCount = { planning: 0, design: 0, printer: 0, diecut: 0, gluing: 0, shipping: 0 };
+        
+        // Ensure empty dates out of 30
+        let recentDays = Array.from({length: 15}, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (14 - i));
+            return { date: d.toISOString().split('T')[0], sales: 0 };
+        });
+
+        orders.forEach(o => {
+            totalRevenue += o.total_price || 0;
+            if(o.status === 'completed' || o.production_stage === 'shipping') completedOrders++;
+            if(stagesCount[o.production_stage] !== undefined) {
+                stagesCount[o.production_stage]++;
+            } else {
+                stagesCount[o.production_stage] = 1;
+            }
+            
+            // Map daily sum
+            const dStr = new Date(o.created_at).toISOString().split('T')[0];
+            const dayObj = recentDays.find(d => d.date === dStr);
+            if(dayObj) dayObj.sales += (o.total_price || 0);
+        });
+
+        res.json({
+            totalRevenue,
+            totalOrders: orders.length,
+            completedOrders,
+            leadsCount: leadsCount || 0,
+            stagesCount,
+            dailySales: recentDays
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// TEMPORARY ENDPOINT TO SEED MOCK DATA
+app.get('/api/seed', async (req, res) => {
+    try {
+        const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        const randomDateLast30Days = () => {
+            const prevDate = new Date();
+            prevDate.setDate(prevDate.getDate() - randomInt(0, 30));
+            return prevDate.toISOString();
+        };
+        const STAGES = ['planning', 'design', 'printer', 'diecut', 'gluing', 'shipping'];
+        
+        // Just create 50 job orders randomly
+        const jobsToInsert = [];
+        for(let i=0; i<50; i++) {
+            const qty = randomInt(500, 15000);
+            const stage = STAGES[randomInt(0, STAGES.length - 1)];
+            const isCompleted = Math.random() > 0.6 || stage === 'shipping';
+            jobsToInsert.push({
+                customer_id: 1, // Fallback to first customer
+                product_id: 1, // Fallback to first product
+                quantity: qty,
+                total_price: qty * 2.5 * (1 + (Math.random() * 0.2)),
+                status: isCompleted ? 'completed' : 'progress',
+                production_stage: isCompleted ? 'shipping' : stage,
+                created_at: randomDateLast30Days()
+            });
+        }
+        await supabase.from('job_order').insert(jobsToInsert);
+        
+        // Create random leads
+        const leads = [];
+        for(let i=0; i<30; i++){
+            leads.push({
+                line_user_id: `U_SEED_${randomInt(10000,99999)}`,
+                original_name: `User ${randomInt(100,999)}`,
+                created_at: randomDateLast30Days()
+            });
+        }
+        await supabase.from('lead_contact').insert(leads);
+        
+        res.json({ success: true, message: "Seeded 50 jobs and 30 leads!" });
+    } catch(e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
