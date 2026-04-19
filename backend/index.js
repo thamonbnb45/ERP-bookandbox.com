@@ -224,6 +224,50 @@ app.put('/api/leads/:id', async (req, res) => {
     }
 });
 
+app.post('/api/chats/:id/convert-to-order', async (req, res) => {
+    const leadId = req.params.id;
+    const { product_id, quantity, total_price } = req.body;
+    
+    try {
+        // 1. Get Lead
+        const { data: lead, error: leadErr } = await supabase.from('lead_contact').select('*').eq('id', leadId).single();
+        if (leadErr || !lead) return res.status(404).json({error: 'Lead not found'});
+        
+        let customerId = lead.customer_id;
+        
+        // 2. Create customer if not exists
+        if (!customerId) {
+            const { data: cust, error: custErr } = await supabase.from('customer').insert([{
+                name: lead.erp_alias_name || lead.original_name,
+                credit_limit: 0
+            }]).select('id').single();
+            if (custErr) throw custErr;
+            customerId = cust.id;
+            
+            // update lead
+            await supabase.from('lead_contact').update({ customer_id: customerId }).eq('id', leadId);
+        }
+        
+        // 3. Create job order
+        const { data: job, error: jobErr } = await supabase.from('job_order').insert([{
+            customer_id: customerId,
+            product_id: parseInt(product_id),
+            quantity: parseInt(quantity),
+            total_price: parseFloat(total_price),
+            status: 'pending',
+            production_stage: 'awaiting_payment'
+        }]).select('id').single();
+        if (jobErr) throw jobErr;
+        
+        // 4. Update sales status to won
+        await supabase.from('lead_contact').update({ sales_status: 'won' }).eq('id', leadId);
+        
+        res.json({ success: true, job_id: job.id });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // Kanban / Production Endpoints
 app.get('/api/job_orders', async (req, res) => {
     try {

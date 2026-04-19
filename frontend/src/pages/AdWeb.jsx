@@ -51,6 +51,13 @@ export default function AdWeb() {
   const [editRevenueGrade, setEditRevenueGrade] = useState('');
   const [editVisitRequired, setEditVisitRequired] = useState(false);
   
+  // Order Modal State
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [selectedProductId, setSelectedProductId] = useState('');
+  const [orderQty, setOrderQty] = useState(1000);
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
+  
   // Image Lightbox
   const [previewImage, setPreviewImage] = useState(null);
   
@@ -60,6 +67,7 @@ export default function AdWeb() {
   // Polling backend
   useEffect(() => {
     fetchChats();
+    axios.get(`${API_URL}/products`).then(res => setProducts(res.data)).catch(e => console.error(e));
     const interval = setInterval(fetchChats, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -141,6 +149,30 @@ export default function AdWeb() {
     setEditRevenueGrade(activeLead.company_revenue_grade || '');
     setEditVisitRequired(activeLead.visit_required || false);
     setEditingLead(true);
+  };
+
+  const handleConvertToOrder = async () => {
+    if (!selectedProductId || orderQty <= 0) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน"); return;
+    }
+    const product = products.find(p => p.id.toString() === selectedProductId);
+    const total = (product.base_price * orderQty) * 1.07;
+    
+    setIsSubmittingOrder(true);
+    try {
+        const res = await axios.post(`${API_URL}/chats/${activeLeadId}/convert-to-order`, {
+            product_id: selectedProductId,
+            quantity: orderQty,
+            total_price: total
+        });
+        alert(`สร้างใบสั่งผลิตและส่งไปหน้า Production สำเร็จ! Job Order ID: ${res.data.job_id}`);
+        setShowOrderModal(false);
+        fetchChats();
+    } catch (e) {
+        alert("Failed to create order");
+    } finally {
+        setIsSubmittingOrder(false);
+    }
   };
 
   const renderTierBadge = (tier) => {
@@ -364,7 +396,12 @@ export default function AdWeb() {
                             <button className="btn btn-outline btn-sm" onClick={() => setEditingLead(false)}>ยกเลิก</button>
                         </>
                     ) : (
-                        <button className="btn btn-outline" style={{padding: '0.4rem 0.6rem', fontSize:'0.8rem'}} onClick={startEditing}><i className="fa-solid fa-pen"></i></button>
+                        <>
+                          <button className="btn btn-outline" style={{padding: '0.4rem 0.6rem', fontSize:'0.8rem'}} onClick={startEditing}><i className="fa-solid fa-pen"></i></button>
+                          <button className="btn btn-primary" style={{padding: '0.4rem 0.8rem', fontSize:'0.8rem', background: '#1e293b', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}} onClick={() => setShowOrderModal(true)}>
+                              <i className="fa-solid fa-file-invoice"></i> สร้างใบงานผลิต
+                          </button>
+                        </>
                     )}
                 </div>
             </div>
@@ -513,6 +550,56 @@ export default function AdWeb() {
         </div>
         )}
       </div>
+
+      {/* Chat-To-Order Modal */}
+      {showOrderModal && activeLead && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', width: '400px', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+                <h4 style={{marginTop: 0, color: '#0f4c81'}}><i className="fa-solid fa-file-invoice"></i> สร้างใบงานผลิตจากแชท</h4>
+                <p style={{fontSize: '0.85rem', color: '#64748b'}}>กำลังสร้างบิลผลิตให้ลูกค้า: <strong style={{color: '#0f172a'}}>{activeLead.original_name}</strong></p>
+                
+                <div className="form-group mt-4">
+                    <label style={{fontSize: '0.8rem'}}>เลือกสินค้าที่จะสั่งผลิต</label>
+                    <select className="form-control" value={selectedProductId} onChange={e => setSelectedProductId(e.target.value)}>
+                        <option value="">-- เลือกประเภทงานพิมพ์ --</option>
+                        {products.map(p => (
+                            <option key={p.id} value={p.id}>{p.name} ({p.base_price.toLocaleString()} บ./ชิ้น)</option>
+                        ))}
+                    </select>
+                </div>
+                
+                <div className="form-group">
+                    <label style={{fontSize: '0.8rem'}}>จำนวนที่สั่งผลิต (ชิ้น/ใบ)</label>
+                    <input type="number" className="form-control" value={orderQty} onChange={e => setOrderQty(e.target.value)} min="1" />
+                </div>
+                
+                {selectedProductId && (
+                    <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#166534'}}>
+                            <span>ราคาฐานสุทธิ:</span> 
+                            <span>{(products.find(p => p.id.toString() === selectedProductId)?.base_price * orderQty).toLocaleString()} ฿</span>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#166534'}}>
+                            <span>ภาษีมูลค่าเพิ่ม (VAT 7%):</span> 
+                            <span>{((products.find(p => p.id.toString() === selectedProductId)?.base_price * orderQty) * 0.07).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ฿</span>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '1.2rem', borderTop: '1px solid #bbf7d0', paddingTop: '0.5rem', marginTop: '0.5rem', color: '#15803d'}}>
+                            <span>ยอดชำระสุทธิ:</span> 
+                            <span>{((products.find(p => p.id.toString() === selectedProductId)?.base_price * orderQty) * 1.07).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ฿</span>
+                        </div>
+                    </div>
+                )}
+                
+                <div className="flex" style={{gap: '1rem', marginTop: '2rem'}}>
+                    <button className="btn btn-outline" style={{flex: 1, padding: '0.8rem'}} onClick={() => setShowOrderModal(false)}>ยกเลิก</button>
+                    <button className="btn btn-primary" style={{flex: 1, padding: '0.8rem', background: '#10b981', boxShadow: '0 4px 6px rgba(16, 185, 129, 0.3)'}} onClick={handleConvertToOrder} disabled={!selectedProductId || isSubmittingOrder}>
+                        {isSubmittingOrder ? 'กำลังสร้าง...' : '✅ ยืนยันสร้างบิล'}
+                    </button>
+                </div>
+            </div>
+        </div>
+      )}
+
     </div>
   );
 }
