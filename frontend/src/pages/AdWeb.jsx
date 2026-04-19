@@ -113,7 +113,7 @@ export default function AdWeb() {
       if (!activeLead) return;
       // Auto-update alias prefix to match status
       let newAlias = activeLead.erp_alias_name || activeLead.original_name;
-      const statusMap = { 'i': 'I', 'o': 'O', 'c': 'C' };
+      const statusMap = { 'i': 'I', 'o': 'O', 'c': 'C', 'nt': 'NT' };
       const parts = newAlias.split('-');
       if (parts.length >= 2) {
           parts[0] = statusMap[newStatus] || parts[0];
@@ -250,11 +250,41 @@ export default function AdWeb() {
         </div>
       )}
 
-      {/* Header + Platform Filter Tabs */}
+      {/* Header + Daily Stats */}
       <div className="flex justify-between align-center mb-4">
         <div>
           <h3 className="text-primary"><i className="fa-solid fa-headset"></i> Omni-Channel Chat Center</h3>
           <p>รวมแชท LINE / Facebook / TikTok + CRM ลูกค้าเจ้าใหญ่</p>
+        </div>
+        <div style={{display: 'flex', gap: '0.8rem'}}>
+          {(() => {
+            const today = new Date().toDateString();
+            const todayLeads = leads.filter(l => l.messages.length > 0 && new Date(l.messages[0].created_at).toDateString() === today);
+            const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === today).length, 0);
+            const ntCount = leads.filter(l => l.sales_status === 'nt').length;
+            const iCount = leads.filter(l => l.sales_status === 'i').length;
+            const cCount = leads.filter(l => l.sales_status === 'c').length;
+            return (
+              <>
+                <div style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{todayLeads.length}</div>
+                  <div style={{fontSize: '0.6rem', color: '#0369a1'}}>แชทวันนี้</div>
+                </div>
+                <div style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{cCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#166534'}}>ซื้อแล้ว</div>
+                </div>
+                <div style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{iCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>สนใจ</div>
+                </div>
+                <div style={{background: '#fef2f2', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#dc2626'}}>{ntCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#991b1b'}}>NT ผี</div>
+                </div>
+              </>
+            );
+          })()}
         </div>
       </div>
       
@@ -333,7 +363,9 @@ export default function AdWeb() {
                         <h5 style={{margin: '0 0 0.3rem 0', color: '#0f172a', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
                             <span style={{
                               whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '160px',
-                              color: lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a'
+                              color: lead.sales_status === 'nt' ? '#dc2626' : lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
+                              textDecoration: lead.sales_status === 'nt' ? 'line-through' : 'none',
+                              opacity: lead.sales_status === 'nt' ? 0.6 : 1
                             }}>
                               {lead.erp_alias_name || lead.original_name}
                             </span>
@@ -442,24 +474,29 @@ export default function AdWeb() {
                         <div style={{background: '#f1f5f9', padding: '3px', borderRadius: '8px', display: 'flex'}}>
                             <button 
                                 className={`btn btn-sm ${activeLead.sales_status === 'i' ? 'btn-primary' : ''}`} 
-                                style={{background: activeLead.sales_status !== 'i' ? 'transparent' : '', color: activeLead.sales_status !== 'i' ? '#64748b' : '', fontSize: '0.75rem'}}
+                                style={{background: activeLead.sales_status !== 'i' ? 'transparent' : '', color: activeLead.sales_status !== 'i' ? '#64748b' : '', fontSize: '0.7rem'}}
                                 onClick={() => handleToggleStatus('i')}
                             >
                                 I สนใจ
                             </button>
                             <button 
-                                className={`btn btn-sm ${activeLead.sales_status === 'o' ? '' : ''}`} 
-                                style={{background: activeLead.sales_status === 'o' ? '#f59e0b' : 'transparent', color: activeLead.sales_status === 'o' ? 'white' : '#64748b', fontSize: '0.75rem'}}
+                                style={{background: activeLead.sales_status === 'o' ? '#f59e0b' : 'transparent', color: activeLead.sales_status === 'o' ? 'white' : '#64748b', fontSize: '0.7rem', border: 'none', padding: '0.3rem 0.5rem', borderRadius: '6px', cursor: 'pointer'}}
                                 onClick={() => handleToggleStatus('o')}
                             >
                                 O โอกาส
                             </button>
                             <button 
                                 className={`btn btn-sm ${activeLead.sales_status === 'c' ? 'btn-success' : ''}`} 
-                                style={{background: activeLead.sales_status !== 'c' ? 'transparent' : '', color: activeLead.sales_status !== 'c' ? '#64748b' : '', fontSize: '0.75rem'}}
+                                style={{background: activeLead.sales_status !== 'c' ? 'transparent' : '', color: activeLead.sales_status !== 'c' ? '#64748b' : '', fontSize: '0.7rem'}}
                                 onClick={() => handleToggleStatus('c')}
                             >
                                 C ซื้อแล้ว
+                            </button>
+                            <button 
+                                style={{background: activeLead.sales_status === 'nt' ? '#dc2626' : 'transparent', color: activeLead.sales_status === 'nt' ? 'white' : '#64748b', fontSize: '0.7rem', border: 'none', padding: '0.3rem 0.5rem', borderRadius: '6px', cursor: 'pointer'}}
+                                onClick={() => handleToggleStatus('nt')}
+                            >
+                                NT ผี
                             </button>
                         </div>
                     )}
