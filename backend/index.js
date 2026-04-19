@@ -678,7 +678,7 @@ app.get('/api/production_log/summary', async (req, res) => {
         if (error) throw error;
 
         // Calculate OEE per machine
-        const machines = ['SM74F', 'SM102F'];
+        const machines = ['SM74F', 'SM102F', 'KM C12000', 'KM C4070', 'Diecut', 'Folder', 'Stitcher', 'Cutter'];
         const machineStats = machines.map(m => {
             const mLogs = (logs || []).filter(l => l.machine === m);
             const totalPlanned = mLogs.reduce((s, l) => s + (l.planned_duration_min || 0), 0);

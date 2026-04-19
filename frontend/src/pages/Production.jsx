@@ -15,6 +15,12 @@ const STAGES = [
 const MACHINES = [
   { id: 'SM74F', name: 'SM74F (Heidelberg 2003)', maxPlates: 12, icon: 'fa-solid fa-print', color: '#3b82f6', year: 'มค.2569' },
   { id: 'SM102F', name: 'SM102F (Heidelberg 1999)', maxPlates: 10, icon: 'fa-solid fa-print', color: '#8b5cf6', year: 'พย.2567' },
+  { id: 'KM C12000', name: 'Konica 12000 (Digital)', maxPlates: 30, icon: 'fa-solid fa-print', color: '#06b6d4', year: 'Digital' },
+  { id: 'KM C4070', name: 'Konica 4070 (Digital)', maxPlates: 20, icon: 'fa-solid fa-print', color: '#0ea5e9', year: 'Digital' },
+  { id: 'Cutter', name: 'เครื่องตัด (Polar)', maxPlates: 50, icon: 'fa-solid fa-ruler-combined', color: '#eab308', year: 'Post-press' },
+  { id: 'Diecut', name: 'เครื่องปั๊มไดคัท/ฟอยล์', maxPlates: 15, icon: 'fa-solid fa-stamp', color: '#f97316', year: 'Post-press' },
+  { id: 'Folder', name: 'เครื่องพับ', maxPlates: 20, icon: 'fa-solid fa-scroll', color: '#ef4444', year: 'Post-press' },
+  { id: 'Stitcher', name: 'เครื่องเก็บเย็บ', maxPlates: 15, icon: 'fa-solid fa-book', color: '#ec4899', year: 'Post-press' },
 ];
 
 const DEPARTMENTS = [
@@ -127,10 +133,23 @@ export default function Production() {
   };
 
   // Capacity
-  const printingJobs = jobOrders.filter(j => j.production_stage === 'printing');
+  const printingJobs = jobOrders.filter(j => j.production_stage === 'printing' || j.production_stage === 'pre_press');
+  const postPressJobs = jobOrders.filter(j => j.production_stage === 'post_press');
   const activeJobs = jobOrders.filter(j => j.production_stage !== 'shipping');
+  
   const capacityData = MACHINES.map(m => {
-    const load = m.id === 'SM74F' ? Math.min(Math.ceil(printingJobs.length * 0.55), m.maxPlates) : Math.min(Math.ceil(printingJobs.length * 0.45), m.maxPlates);
+    let load = 0;
+    if (['SM74F', 'SM102F', 'KM C12000', 'KM C4070'].includes(m.id)) {
+        if (m.id === 'SM74F') load = Math.min(Math.ceil(printingJobs.length * 0.4), m.maxPlates);
+        else if (m.id === 'SM102F') load = Math.min(Math.ceil(printingJobs.length * 0.3), m.maxPlates);
+        else if (m.id === 'KM C12000') load = Math.min(Math.ceil(printingJobs.length * 0.2), m.maxPlates);
+        else if (m.id === 'KM C4070') load = Math.min(Math.ceil(printingJobs.length * 0.1), m.maxPlates);
+    } else {
+        if (m.id === 'Cutter') load = Math.min(Math.ceil(postPressJobs.length * 0.8), m.maxPlates);
+        else if (m.id === 'Diecut') load = Math.min(Math.ceil(postPressJobs.length * 0.3), m.maxPlates);
+        else if (m.id === 'Folder') load = Math.min(Math.ceil(postPressJobs.length * 0.5), m.maxPlates);
+        else if (m.id === 'Stitcher') load = Math.min(Math.ceil(postPressJobs.length * 0.4), m.maxPlates);
+    }
     const pct = Math.round((load / m.maxPlates) * 100);
     return { ...m, load, pct };
   });
@@ -162,7 +181,7 @@ export default function Production() {
         <div>
           <h3 className="text-primary">🏭 Production Control</h3>
           <p style={{ margin: 0, color: '#64748b', fontSize: '0.85rem' }}>
-            เครื่อง SM74F + SM102F | กำลังผลิต <strong>22 กรอบ/วัน</strong> | งาน Active: <strong style={{ color: activeJobs.length > 20 ? '#ef4444' : '#10b981' }}>{activeJobs.length}</strong>
+            เครื่องพิมพ์ + หลังพิมพ์ | กำลังผลิตรวม <strong>{MACHINES.reduce((s,m) => s+m.maxPlates, 0)} งาน/วัน</strong> | งาน Active: <strong style={{ color: activeJobs.length > 30 ? '#ef4444' : '#10b981' }}>{activeJobs.length}</strong>
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.3rem' }}>
@@ -179,10 +198,10 @@ export default function Production() {
       </div>
 
       {/* Machine Capacity Bar (always visible) */}
-      <div style={{ padding: '0.8rem 1.5rem', display: 'flex', gap: '0.8rem' }}>
+      <div style={{ padding: '0.8rem 1.5rem', display: 'flex', gap: '0.8rem', overflowX: 'auto' }}>
         {capacityData.map(machine => (
           <div key={machine.id} style={{
-            flex: 1, background: 'white', borderRadius: '10px', padding: '0.8rem',
+            flex: '0 0 auto', width: '200px', background: 'white', borderRadius: '10px', padding: '0.8rem',
             border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
@@ -204,7 +223,7 @@ export default function Production() {
               }}></div>
             </div>
             <div style={{ marginTop: '0.3rem', fontSize: '0.65rem', color: '#94a3b8', display: 'flex', justifyContent: 'space-between' }}>
-              <span>{machine.load}/{machine.maxPlates} กรอบ/วัน</span>
+              <span>{machine.load}/{machine.maxPlates} งาน/วัน</span>
               <span style={{ color: '#64748b' }}>{machine.year}</span>
             </div>
             {machine.pct >= 80 && <span style={{ fontSize: '0.6rem', color: '#ef4444', fontWeight: 700 }}>⚠️ ใกล้เต็ม!</span>}
@@ -216,7 +235,7 @@ export default function Production() {
           color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
         }}>
           <div style={{ fontSize: '2rem', fontWeight: 800 }}>{capacityData.reduce((s, m) => s + m.load, 0)}</div>
-          <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>/ 22 กรอบรวม</div>
+          <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>/ {MACHINES.reduce((s,m) => s+m.maxPlates, 0)} งานรวม</div>
           <div style={{ fontSize: '0.6rem', marginTop: '0.2rem', opacity: 0.6 }}>07:00 – 21:00 น.</div>
         </div>
       </div>
@@ -272,9 +291,9 @@ export default function Production() {
             <h4 style={{ marginBottom: '1rem' }}><i className="fa-solid fa-clipboard-list"></i> บันทึกงานรายกะ / รายออร์เดอร์</h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.8rem' }}>
               <div>
-                <label style={{ fontSize: '0.75rem', color: '#64748b' }}>เครื่องพิมพ์</label>
+                <label style={{ fontSize: '0.75rem', color: '#64748b' }}>เครื่องจักร</label>
                 <select className="form-control" value={logForm.machine} onChange={e => setLogForm({...logForm, machine: e.target.value})}>
-                  {MACHINES.map(m => <option key={m.id} value={m.id}>{m.id} ({m.maxPlates} กรอบ/วัน)</option>)}
+                  {MACHINES.map(m => <option key={m.id} value={m.id}>{m.id} ({m.maxPlates} งาน/วัน)</option>)}
                 </select>
               </div>
               <div>
@@ -406,24 +425,28 @@ export default function Production() {
           ) : (
             <>
               {/* Machine OEE Cards */}
-              <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
-                {oeeSummary.machineStats.map(m => (
-                  <div key={m.machine} className="table-container p-4 shadow" style={{ flex: 1, borderTop: `4px solid ${m.machine === 'SM74F' ? '#3b82f6' : '#8b5cf6'}` }}>
-                    <h4 style={{ textAlign: 'center', marginBottom: '1rem' }}><i className="fa-solid fa-print"></i> {m.machine}</h4>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginBottom: '1rem' }}>
-                      <OEEGauge value={m.oee} label="OEE" />
-                      <OEEGauge value={m.availability} label="Avail." color="#3b82f6" />
-                      <OEEGauge value={m.performance} label="Perf." color="#f59e0b" />
-                      <OEEGauge value={m.quality} label="Quality" color="#22c55e" />
+              <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
+                {oeeSummary.machineStats.map(m => {
+                  const machineConfig = MACHINES.find(mc => mc.id === m.machine);
+                  const color = machineConfig?.color || '#3b82f6';
+                  return (
+                    <div key={m.machine} className="table-container p-4 shadow" style={{ minWidth: '400px', flex: '0 0 auto', borderTop: `4px solid ${color}` }}>
+                      <h4 style={{ textAlign: 'center', marginBottom: '1rem' }}><i className={machineConfig?.icon || 'fa-solid fa-print'}></i> {m.machine}</h4>
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginBottom: '1rem' }}>
+                        <OEEGauge value={m.oee} label="OEE" />
+                        <OEEGauge value={m.availability} label="Avail." color="#3b82f6" />
+                        <OEEGauge value={m.performance} label="Perf." color="#f59e0b" />
+                        <OEEGauge value={m.quality} label="Quality" color="#22c55e" />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: '0.75rem', color: '#64748b' }}>
+                        <span>✅ ของดี: <strong style={{color:'#22c55e'}}>{m.totalGood.toLocaleString()}</strong></span>
+                        <span>❌ ของเสีย: <strong style={{color:'#ef4444'}}>{m.totalDefect.toLocaleString()}</strong></span>
+                        <span>⏱️ Downtime: <strong>{m.totalDown} นาที</strong></span>
+                      </div>
+                      {m.entries === 0 && <div style={{ textAlign: 'center', color: '#94a3b8', marginTop: '0.5rem', fontSize: '0.8rem' }}>ไม่มีข้อมูล — กรอกในแท็บ "บันทึกงาน"</div>}
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: '0.75rem', color: '#64748b' }}>
-                      <span>✅ ของดี: <strong style={{color:'#22c55e'}}>{m.totalGood.toLocaleString()}</strong></span>
-                      <span>❌ ของเสีย: <strong style={{color:'#ef4444'}}>{m.totalDefect.toLocaleString()}</strong></span>
-                      <span>⏱️ Downtime: <strong>{m.totalDown} นาที</strong></span>
-                    </div>
-                    {m.entries === 0 && <div style={{ textAlign: 'center', color: '#94a3b8', marginTop: '0.5rem', fontSize: '0.8rem' }}>ไม่มีข้อมูล — กรอกในแท็บ "บันทึกงาน"</div>}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Defect Pareto */}
