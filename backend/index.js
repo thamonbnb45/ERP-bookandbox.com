@@ -593,6 +593,140 @@ app.get('/api/dashboard/metrics', async (req, res) => {
     }
 });
 
+// ====== PRODUCTION LOG & OEE ======
+
+// Auto-create production_log table
+app.get('/api/production_log/init', async (req, res) => {
+    try {
+        // Try to select from table first
+        const { error: checkErr } = await supabase.from('production_log').select('id').limit(1);
+        if (checkErr && checkErr.message.includes('does not exist')) {
+            // Table doesn't exist — create via raw SQL
+            const { error: sqlErr } = await supabase.rpc('exec_sql', { query: `
+                CREATE TABLE IF NOT EXISTS production_log (
+                    id SERIAL PRIMARY KEY,
+                    machine TEXT,
+                    department TEXT,
+                    operator_name TEXT,
+                    job_ref TEXT,
+                    planned_duration_min INT DEFAULT 480,
+                    actual_run_min INT DEFAULT 0,
+                    downtime_min INT DEFAULT 0,
+                    downtime_reason TEXT,
+                    planned_qty INT DEFAULT 0,
+                    actual_qty INT DEFAULT 0,
+                    good_qty INT DEFAULT 0,
+                    defect_qty INT DEFAULT 0,
+                    defect_reason TEXT,
+                    notes TEXT,
+                    created_at TIMESTAMPTZ DEFAULT NOW()
+                );
+            `});
+            if (sqlErr) {
+                return res.json({ status: 'manual_create_needed', error: sqlErr.message, 
+                    sql: 'CREATE TABLE production_log (id SERIAL PRIMARY KEY, machine TEXT, department TEXT, operator_name TEXT, job_ref TEXT, planned_duration_min INT DEFAULT 480, actual_run_min INT DEFAULT 0, downtime_min INT DEFAULT 0, downtime_reason TEXT, planned_qty INT DEFAULT 0, actual_qty INT DEFAULT 0, good_qty INT DEFAULT 0, defect_qty INT DEFAULT 0, defect_reason TEXT, notes TEXT, created_at TIMESTAMPTZ DEFAULT NOW());'
+                });
+            }
+            return res.json({ status: 'created' });
+        }
+        res.json({ status: 'exists' });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Save production log entry
+app.post('/api/production_log', async (req, res) => {
+    try {
+        const { error } = await supabase.from('production_log').insert([req.body]);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Get all production logs (with optional date filter)
+app.get('/api/production_log', async (req, res) => {
+    try {
+        let query = supabase.from('production_log').select('*').order('created_at', { ascending: false });
+        if (req.query.date) {
+            const start = req.query.date + 'T00:00:00';
+            const end = req.query.date + 'T23:59:59';
+            query = query.gte('created_at', start).lte('created_at', end);
+        }
+        if (req.query.department) {
+            query = query.eq('department', req.query.department);
+        }
+        const { data, error } = await query.limit(200);
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// OEE summary dashboard
+app.get('/api/production_log/summary', async (req, res) => {
+    try {
+        const days = parseInt(req.query.days) || 7;
+        const since = new Date();
+        since.setDate(since.getDate() - days);
+
+        const { data: logs, error } = await supabase.from('production_log').select('*')
+            .gte('created_at', since.toISOString());
+        if (error) throw error;
+
+        // Calculate OEE per machine
+        const machines = ['SM74F', 'SM102F'];
+        const machineStats = machines.map(m => {
+            const mLogs = (logs || []).filter(l => l.machine === m);
+            const totalPlanned = mLogs.reduce((s, l) => s + (l.planned_duration_min || 0), 0);
+            const totalRun = mLogs.reduce((s, l) => s + (l.actual_run_min || 0), 0);
+            const totalDown = mLogs.reduce((s, l) => s + (l.downtime_min || 0), 0);
+            const totalTarget = mLogs.reduce((s, l) => s + (l.planned_qty || 0), 0);
+            const totalActual = mLogs.reduce((s, l) => s + (l.actual_qty || 0), 0);
+            const totalGood = mLogs.reduce((s, l) => s + (l.good_qty || 0), 0);
+
+            const availability = totalPlanned > 0 ? ((totalPlanned - totalDown) / totalPlanned) * 100 : 0;
+            const performance = totalTarget > 0 ? (totalActual / totalTarget) * 100 : 0;
+            const quality = totalActual > 0 ? (totalGood / totalActual) * 100 : 0;
+            const oee = (availability / 100) * (performance / 100) * (quality / 100) * 100;
+
+            return {
+                machine: m, entries: mLogs.length,
+                availability: Math.round(availability * 10) / 10,
+                performance: Math.round(performance * 10) / 10,
+                quality: Math.round(quality * 10) / 10,
+                oee: Math.round(oee * 10) / 10,
+                totalGood, totalDefect: totalActual - totalGood, totalDown
+            };
+        });
+
+        // Defect breakdown
+        const defectReasons = {};
+        (logs || []).forEach(l => {
+            if (l.defect_reason && l.defect_qty > 0) {
+                defectReasons[l.defect_reason] = (defectReasons[l.defect_reason] || 0) + l.defect_qty;
+            }
+        });
+
+        // Department summary
+        const depts = ['pre_press', 'printing', 'post_press', 'shipping'];
+        const deptStats = depts.map(d => {
+            const dLogs = (logs || []).filter(l => l.department === d);
+            const totalGood = dLogs.reduce((s, l) => s + (l.good_qty || 0), 0);
+            const totalActual = dLogs.reduce((s, l) => s + (l.actual_qty || 0), 0);
+            const totalDefect = totalActual - totalGood;
+            return { department: d, entries: dLogs.length, totalGood, totalDefect, totalActual };
+        });
+
+        res.json({ machineStats, defectReasons, deptStats, totalLogs: (logs || []).length });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // One-time migration: reformat existing leads to Bookandbox naming convention
 app.get('/api/migrate-names', async (req, res) => {
     try {
