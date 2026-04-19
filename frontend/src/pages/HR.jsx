@@ -155,10 +155,12 @@ export default function HR() {
                 {DEPARTMENTS.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
               </select>
             </div>
+            {/* Hidden for privacy
             <div>
               <label style={{ fontSize: '0.8rem', color: '#64748b' }}>เงินเดือน</label>
               <input type="number" className="form-control" value={newEmp.salary} onChange={e => setNewEmp({...newEmp, salary: Number(e.target.value)})} />
             </div>
+            */}
             <div>
               <label style={{ fontSize: '0.8rem', color: '#64748b' }}>หมวดบัญชี</label>
               <select className="form-control" value={newEmp.cost_type} onChange={e => setNewEmp({...newEmp, cost_type: e.target.value})}>
@@ -174,12 +176,13 @@ export default function HR() {
       )}
 
       {/* KPI Cards */}
-      <div className="dashboard-grid mb-4">
+      <div className="dashboard-grid mb-4" style={{ gridTemplateColumns: '1fr' }}>
         <div className="table-container p-4 shadow text-center" style={{ borderTop: '4px solid #3b82f6' }}>
           <i className="fa-solid fa-users" style={{ fontSize: '1.8rem', color: '#3b82f6', marginBottom: '0.5rem' }}></i>
           <h3 className="text-muted" style={{ fontSize: '0.85rem' }}>พนักงานทั้งหมด</h3>
           <h2 style={{ fontSize: '2rem', color: '#3b82f6' }}>{employees.length} <span style={{fontSize:'0.9rem'}}>คน</span></h2>
         </div>
+        {/* Salary KPIs Hidden for privacy
         <div className="table-container p-4 shadow text-center" style={{ borderTop: '4px solid #ef4444' }}>
           <i className="fa-solid fa-industry" style={{ fontSize: '1.8rem', color: '#ef4444', marginBottom: '0.5rem' }}></i>
           <h3 className="text-muted" style={{ fontSize: '0.85rem' }}>ต้นทุนเงินเดือน (COGS)</h3>
@@ -195,6 +198,7 @@ export default function HR() {
           <h3 className="text-muted" style={{ fontSize: '0.85rem' }}>เงินเดือนรวม/เดือน</h3>
           <h2 style={{ fontSize: '1.5rem', color: '#10b981' }}>฿{totalSalary.toLocaleString()}</h2>
         </div>
+        */}
       </div>
 
       {/* Charts Row */}
@@ -288,7 +292,7 @@ export default function HR() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748b' }}>
                   <span><i className={dept?.icon} style={{ color: dept?.color }}></i> {dept?.label.split('(')[0]}</span>
-                  <span>฿{(emp.salary || 0).toLocaleString()}</span>
+                  {/* <span title="ซ่อนเงินเดือนไว้ชั่วคราว">฿XX,XXX</span> */}
                 </div>
 
                 {/* Utilization Bar */}
