@@ -267,15 +267,21 @@ export default function AdWeb() {
 
                 <div style={{ overflow: 'hidden', width: '100%', marginLeft: '10px' }}>
                         <h5 style={{margin: '0 0 0.3rem 0', color: '#0f172a', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
-                            {lead.original_name}
-                            {lead.company_revenue_grade && renderTierBadge(lead.company_revenue_grade)}
+                            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '120px' }}>{lead.original_name}</span>
+                            {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
                         </h5>
-                        <div style={{fontSize: '0.75rem', color: '#64748b', display: 'flex', justifyContent: 'space-between'}}>
-                            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px' }}>
-                                {lead.erp_alias_name !== lead.original_name ? `(${lead.erp_alias_name})` : ''} 
-                                {lead.company_role || lead.industry ? `• ${lead.company_role || lead.industry}` : ''}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
+                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px' }}>
+                                {previewText}
+                            </p>
+                            <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
+                                {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
                             </span>
-                            <span>{timeStr}</span>
+                        </div>
+                        <div style={{fontSize: '0.65rem', color: '#94a3b8', display: 'flex', gap: '0.3rem', marginTop: '0.2rem', alignItems: 'center'}}>
+                            {lead.erp_alias_name !== lead.original_name && <span style={{color: '#64748b'}}>({lead.erp_alias_name})</span>}
+                            {lead.company_role || lead.industry ? <span>• {lead.company_role || lead.industry}</span> : null}
+                            {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontWeight: 700 }}>{revGrade.label}</span>}
                         </div>
                 </div>
               </div>
