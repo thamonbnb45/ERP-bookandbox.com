@@ -144,9 +144,11 @@ app.post('/api/webhook', async (req, res) => {
 
                 // Auto-Responder Logic
                 if (msgType === 'text') {
-                    const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
-                    const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
-                    const isAfterHours = timeNum >= 1730 || timeNum < 830;
+                    // [TEST MODE] Override time condition specifically for user testing
+                    // const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+                    // const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
+                    // const isAfterHours = timeNum >= 1730 || timeNum < 830;
+                    const isAfterHours = true; // เปิดโหมดทดสอบ 24 ชม.
 
                     if (isAfterHours && channelToken !== 'DUMMY_TOKEN') {
                         const aiResponse = await getAIBestMatch(textContent);
