@@ -73,12 +73,43 @@ const downloadLineMedia = async (messageId) => {
             const writable = fs.createWriteStream(filePath);
             stream.pipe(writable);
             stream.on('end', () => resolve(`http://localhost:3001/uploads/${fileName}`));
-            stream.on('error', reject);
         });
     } catch (e) {
         return null;
     }
 }
+
+const getAIBestMatch = async (message) => {
+    try {
+        let { data: kbItems } = await supabase.from('knowledge_base').select('*');
+        if (!kbItems || kbItems.length === 0) {
+            kbItems = [
+                { category: 'pricing', trigger_keywords: 'สติกเกอร์,ดวงละ,3cm,3 ซม,ราคา', content: 'สวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊' },
+                { category: 'specs', trigger_keywords: 'กระดาษ,ลูกฟูก,กล่อง,หนา,รับน้ำหนัก', content: 'สวัสดีครับ แอดมินขออนุญาตแนะนำสเปคที่เหมาะสมที่สุดให้นะครับ 📦\n\n• หากเป็นกล่องใส่สินค้าทั่วไป เน้นความสวยงาม: แนะนำเป็นกระดาษอาร์ตการ์ด 350 แกรม พิมพ์สีสด ทรงสวยครับ\n• หากสินค้ามีน้ำหนัก หรือต้องส่งผ่านขนส่ง: แนะนำเป็นกล่องลูกฟูกลอน E (จั่วปัง) โครงสร้างจะแข็งแรงเป็นพิเศษครับ\n\nเบื้องต้นคุณลูกค้าต้องการใส่สินค้าประเภทไหน แจ้งแอดมินให้ช่วยประเมินได้เลยนะครับ ยินดีให้คำปรึกษาฟรีครับ ✨' },
+                { category: 'delivery', trigger_keywords: 'ส่ง,กี่วัน,จัดส่ง,ค่าส่ง,เวลา', content: 'สำหรับการจัดส่งและการผลิตของทางโรงพิมพ์เรา 🚚\n\n• ระยะเวลาผลิต: ประมาณ 10-14 วันทำการ หลังคอนเฟิร์มแบบพิมพ์ครับ\n• การจัดส่ง: พิเศษสุด! จัดส่งฟรีในเขต กทม. และปริมณฑล เมื่อมียอดสั่งผลิตเกิน 10,000 บาทครับ\n*(สำหรับต่างจังหวัด คิดค่าส่งตามเรทขนส่งจริง ไม่มีบวกเพิ่มครับ)\n\nหากงานลูกค้ารีบใช้ด่วน แจ้งวันที่ต้องการสินค้ากับแอดมินได้เลยนะครับ จะได้เช็คคิวแทรกให้เป็นกรณีพิเศษครับ 🙏' },
+                { category: 'print', trigger_keywords: 'ใบปลิว,แผ่นพับ,1000,1,000', content: 'สวัสดีครับ ขอบคุณที่ให้ความไว้วางใจโรงพิมพ์ของเรานะครับ 🙏\n\nสำหรับงานพิมพ์ใบปลิว 1,000 ใบ แอดมินแนะนำเป็นกระดาษอาร์ตมัน 130 แกรม ซึ่งเป็นสเปคมาตรฐานที่ให้สีสันสวยงาม ดูพรีเมียมครับ\n\n📌 สรุปราคาประเมิน:\n• ราคาต่อใบ: เพียง 1.50 บาท/ใบ\n• ยอดรวมทั้งสิ้น: 1,500 บาท\n• ระยะเวลาผลิตด่วน: 3-5 วันทำการ\n\nหากลูกค้ายืนยันสเปคนี้ สามารถแจ้งชื่อ เบอร์โทร และที่อยู่จัดส่งได้เลยครับ แอดมินจะดำเนินการจองคิวผลิตให้ทันทีครับ 😊'}
+            ];
+        }
+        
+        let bestMatch = null;
+        let highestScore = 0;
+        
+        for (const item of kbItems) {
+            const keywords = item.trigger_keywords.split(',').map(k => k.trim().toLowerCase());
+            let score = 0;
+            keywords.forEach(kw => {
+                if (message.toLowerCase().includes(kw)) score++;
+            });
+            if (score > highestScore) {
+                highestScore = score;
+                bestMatch = item.content;
+            }
+        }
+        return bestMatch;
+    } catch(e) {
+        return null;
+    }
+};
 
 app.post('/api/webhook', async (req, res) => {
     const events = req.body.events;
@@ -110,6 +141,34 @@ app.post('/api/webhook', async (req, res) => {
                     text_content: textContent,
                     media_url: mediaUrl
                 }]);
+
+                // Auto-Responder Logic
+                if (msgType === 'text') {
+                    const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+                    const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
+                    const isAfterHours = timeNum >= 1730 || timeNum < 830;
+
+                    if (isAfterHours && channelToken !== 'DUMMY_TOKEN') {
+                        const aiResponse = await getAIBestMatch(textContent);
+                        if (aiResponse) {
+                            const autoReplyTxt = `🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\n${aiResponse}\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏`;
+                            
+                            // Send auto-reply to LINE
+                            try {
+                                await lineClient.pushMessage(userId, { type: 'text', text: autoReplyTxt });
+                                // Save to DB so admin sees it
+                                await supabase.from('chat_message').insert([{
+                                    lead_id: leadId,
+                                    sender: 'admin',
+                                    type: 'text',
+                                    text_content: autoReplyTxt
+                                }]);
+                            } catch (replyErr) {
+                                console.error('Failed to send auto-reply:', replyErr);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -717,50 +776,8 @@ app.get('/api/kb', async (req, res) => {
 app.post('/api/ai/suggest', async (req, res) => {
     const { message } = req.body;
     try {
-        let { data: kbItems } = await supabase.from('knowledge_base').select('*');
-        
-        // Fallback robust mock if table doesn't exist or is empty
-        if (!kbItems || kbItems.length === 0) {
-            kbItems = [
-                { 
-                  category: 'pricing', 
-                  trigger_keywords: 'สติกเกอร์,ดวงละ,3cm,3 ซม,ราคา', 
-                  content: 'สวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊' 
-                },
-                { 
-                  category: 'specs', 
-                  trigger_keywords: 'กระดาษ,ลูกฟูก,กล่อง,หนา,รับน้ำหนัก', 
-                  content: 'สวัสดีครับ แอดมินขออนุญาตแนะนำสเปคที่เหมาะสมที่สุดให้นะครับ 📦\n\n• หากเป็นกล่องใส่สินค้าทั่วไป เน้นความสวยงาม: แนะนำเป็นกระดาษอาร์ตการ์ด 350 แกรม พิมพ์สีสด ทรงสวยครับ\n• หากสินค้ามีน้ำหนัก หรือต้องส่งผ่านขนส่ง: แนะนำเป็นกล่องลูกฟูกลอน E (จั่วปัง) โครงสร้างจะแข็งแรงเป็นพิเศษครับ\n\nเบื้องต้นคุณลูกค้าต้องการใส่สินค้าประเภทไหน แจ้งแอดมินให้ช่วยประเมินได้เลยนะครับ ยินดีให้คำปรึกษาฟรีครับ ✨' 
-                },
-                { 
-                  category: 'delivery', 
-                  trigger_keywords: 'ส่ง,กี่วัน,จัดส่ง,ค่าส่ง,เวลา', 
-                  content: 'สำหรับการจัดส่งและการผลิตของทางโรงพิมพ์เรา 🚚\n\n• ระยะเวลาผลิต: ประมาณ 10-14 วันทำการ หลังคอนเฟิร์มแบบพิมพ์ครับ\n• การจัดส่ง: พิเศษสุด! จัดส่งฟรีในเขต กทม. และปริมณฑล เมื่อมียอดสั่งผลิตเกิน 10,000 บาทครับ\n*(สำหรับต่างจังหวัด คิดค่าส่งตามเรทขนส่งจริง ไม่มีบวกเพิ่มครับ)\n\nหากงานลูกค้ารีบใช้ด่วน แจ้งวันที่ต้องการสินค้ากับแอดมินได้เลยนะครับ จะได้เช็คคิวแทรกให้เป็นกรณีพิเศษครับ 🙏' 
-                },
-                { 
-                  category: 'print', 
-                  trigger_keywords: 'ใบปลิว,แผ่นพับ,1000,1,000', 
-                  content: 'สวัสดีครับ ขอบคุณที่ให้ความไว้วางใจโรงพิมพ์ของเรานะครับ 🙏\n\nสำหรับงานพิมพ์ใบปลิว 1,000 ใบ แอดมินแนะนำเป็นกระดาษอาร์ตมัน 130 แกรม ซึ่งเป็นสเปคมาตรฐานที่ให้สีสันสวยงาม ดูพรีเมียมครับ\n\n📌 สรุปราคาประเมิน:\n• ราคาต่อใบ: เพียง 1.50 บาท/ใบ\n• ยอดรวมทั้งสิ้น: 1,500 บาท\n• ระยะเวลาผลิตด่วน: 3-5 วันทำการ\n\nหากลูกค้ายืนยันสเปคนี้ สามารถแจ้งชื่อ เบอร์โทร และที่อยู่จัดส่งได้เลยครับ แอดมินจะดำเนินการจองคิวผลิตให้ทันทีครับ 😊'
-                }
-            ];
-        }
-        
-        let bestMatch = '';
-        let highestScore = 0;
-        
-        for (const item of kbItems) {
-            const keywords = item.trigger_keywords.split(',').map(k => k.trim().toLowerCase());
-            let score = 0;
-            keywords.forEach(kw => {
-                if (message.toLowerCase().includes(kw)) score++;
-            });
-            if (score > highestScore) {
-                highestScore = score;
-                bestMatch = item.content;
-            }
-        }
-        
-        if (highestScore > 0) {
+        const bestMatch = await getAIBestMatch(message);
+        if (bestMatch) {
             res.json({ suggestion: bestMatch, is_ai: true });
         } else {
             res.json({ suggestion: "สวัสดีครับ สนใจสั่งผลิตงานพิมพ์ประเภทไหน แจ้งรายละเอียด จำนวน และสเปคเบื้องต้นให้แอดมินประเมินราคาให้ได้เลยนะครับ ยินดีให้บริการครับ 😊", is_ai: false });
