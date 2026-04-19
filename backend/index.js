@@ -686,6 +686,69 @@ app.get('/api/dashboard/insights', async (req, res) => {
     }
 });
 
+// ====== AI KNOWLEDGE BASE ENDPOINTS ======
+app.get('/api/kb/init', async (req, res) => {
+    try {
+        const { error } = await supabase.rpc('run_sql', { sql: `
+            CREATE TABLE IF NOT EXISTS knowledge_base (
+              id SERIAL PRIMARY KEY,
+              category TEXT NOT NULL,
+              trigger_keywords TEXT NOT NULL,
+              content TEXT NOT NULL,
+              created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+            );
+        ` });
+        await supabase.from('knowledge_base').insert([
+            { category: 'pricing', trigger_keywords: 'สติกเกอร์,ดวงละ,3cm,3 ซม,ราคา', content: 'สำหรับสติกเกอร์ไดคัทขนาด 3cm จะอยู่ที่ดวงละประมาณ 0.50 - 0.80 บาท ขึ้นอยู่กับเนื้อสติกเกอร์ (PP/PVC) และจำนวนที่สั่งผลิตค่ะ หากสั่งจำนวนมากเกิน 5,000 ดวง ราคาจะถูกลงอีกค่ะ' },
+            { category: 'specs', trigger_keywords: 'กระดาษ,ลูกฟูก,อาร์ตการ์ด,หนา,รับน้ำหนัก', content: 'แอดมินแนะนำเป็นกระดาษอาร์ตการ์ด 350 แกรมสำหรับกล่องทั่วไปค่ะ แต่ถ้าต้องการรับน้ำหนักมาก แนะนำเป็นกล่องลูกฟูกลอน E หุ้มกระดาษพิมพ์ลายจะแข็งแรงที่สุดครับ' },
+            { category: 'delivery', trigger_keywords: 'ส่ง,กี่วัน,จัดส่ง,ค่าส่ง', content: 'ระยะเวลาผลิตปกติ 10-14 วัน จัดส่งฟรีในกรุงเทพฯ และปริมณฑลเมื่อสั่งยอดเกิน 10,000 บาทครับ สำหรบต่างจังหวัดคิดค่าส่งตามจริงครับ' }
+        ]);
+        res.send('KB init check');
+    } catch (e) {
+        res.send(e.message);
+    }
+});
+
+app.get('/api/kb', async (req, res) => {
+    const { data } = await supabase.from('knowledge_base').select('*').order('id', { ascending: false });
+    res.json(data || []);
+});
+
+app.post('/api/ai/suggest', async (req, res) => {
+    const { message } = req.body;
+    try {
+        const { data: kbItems } = await supabase.from('knowledge_base').select('*');
+        if (!kbItems || kbItems.length === 0) {
+            return res.json({ suggestion: 'ยังไม่มีข้อมูลในคลังความรู้ AI' });
+        }
+        
+        let bestMatch = '';
+        let highestScore = 0;
+        
+        for (const item of kbItems) {
+            const keywords = item.trigger_keywords.split(',').map(k => k.trim().toLowerCase());
+            let score = 0;
+            keywords.forEach(kw => {
+                if (message.toLowerCase().includes(kw)) score++;
+            });
+            if (score > highestScore) {
+                highestScore = score;
+                bestMatch = item.content;
+            }
+        }
+        
+        const intro = ["💡 AI แนะนำ: ", "🤖 จากคลังความรู้ AI: ", "✨ ขอเสนอแนะให้ตอบว่า: "][Math.floor(Math.random() * 3)];
+        
+        if (highestScore > 0) {
+            res.json({ suggestion: intro + "\n" + bestMatch, is_ai: true });
+        } else {
+            res.json({ suggestion: "🤖 AI: ไม่พบข้อมูลอ้างอิงที่ตรงกับคำถามในระบบ", is_ai: false });
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // ====== HR MODULE ======
 app.get('/api/hr/employees', async (req, res) => {
     try {

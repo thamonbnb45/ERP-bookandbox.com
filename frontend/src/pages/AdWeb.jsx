@@ -61,6 +61,9 @@ export default function AdWeb() {
   // Image Lightbox
   const [previewImage, setPreviewImage] = useState(null);
   
+  // AI Feature
+  const [isAIGenerating, setIsAIGenerating] = useState(false);
+  
   const chatEndRef = useRef(null);
   const navigate = useNavigate();
 
@@ -172,6 +175,27 @@ export default function AdWeb() {
         alert("Failed to create order");
     } finally {
         setIsSubmittingOrder(false);
+    }
+  };
+
+  const handleAskAI = async () => {
+    if (!activeLead || activeLead.messages.length === 0) return;
+    setIsAIGenerating(true);
+    setInputValue('🤖 กำลังให้ AI อ่านคำถามและค้นหาข้อมูลราคาจากระบบ...');
+    try {
+        const lastClientMsg = [...activeLead.messages].reverse().find(m => m.sender === 'client');
+        if (!lastClientMsg || lastClientMsg.type !== 'text') {
+            setInputValue('🤖 AI: ลูกค้ายังไม่มีคำถามที่เป็นข้อความล่าสุดให้ AI วิเคราะห์ครับ');
+            setIsAIGenerating(false);
+            return;
+        }
+        
+        const res = await axios.post(`${API_URL}/ai/suggest`, { message: lastClientMsg.text_content });
+        setInputValue(res.data.suggestion);
+    } catch (e) {
+        setInputValue('🤖 AI Error: ระบบไม่สามารถเชื่อมต่อคลังความรู้ได้');
+    } finally {
+        setIsAIGenerating(false);
     }
   };
 
@@ -523,6 +547,10 @@ export default function AdWeb() {
             
             {/* Magic Quick Reply Buttons */}
             <div style={{display: 'flex', gap: '0.4rem', flexWrap: 'wrap'}}>
+                <button className="btn" style={{fontSize: '0.75rem', padding: '0.3rem 0.6rem', border: `none`, color: 'white', background: 'linear-gradient(135deg, #8b5cf6, #d946ef)', borderRadius: '20px', fontWeight: 'bold', boxShadow: '0 2px 4px rgba(139, 92, 246, 0.3)'}} onClick={handleAskAI} disabled={isAIGenerating}>
+                    {isAIGenerating ? <i className="fa-solid fa-circle-notch fa-spin"></i> : <i className="fa-solid fa-wand-magic-sparkles"></i>} ร่างคำตอบด้วย AI
+                </button>
+                <div style={{width: '1px', background: '#cbd5e1', margin: '0 0.2rem'}}></div>
                 {QUICK_REPLIES.map((qr, idx) => (
                   <button key={idx} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid ${qr.color}`, color: qr.color, background: 'transparent', borderRadius: '20px'}} onClick={() => setInputValue(qr.text)}>
                       <i className={qr.icon}></i> {qr.label}
