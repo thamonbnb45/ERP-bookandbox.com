@@ -174,7 +174,12 @@ app.post('/api/webhook', async (req, res) => {
                                     text_content: autoReplyTxt
                                 }]);
                             } catch (replyErr) {
-                                console.error('Failed to send auto-reply:', replyErr);
+                                await supabase.from('chat_message').insert([{
+                                    lead_id: leadId,
+                                    sender: 'admin',
+                                    type: 'text',
+                                    text_content: `[SDK ERROR LOG] ` + (replyErr.message || JSON.stringify(replyErr))
+                                }]);
                             }
                         }
                     }
