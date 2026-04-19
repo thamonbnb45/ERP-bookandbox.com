@@ -154,12 +154,20 @@ app.post('/api/webhook', async (req, res) => {
                             
                             // Send auto-reply to LINE using correct v11 syntax
                             try {
+                                let success = false;
                                 if (event.replyToken) {
-                                    await lineClient.replyMessage({
-                                        replyToken: event.replyToken,
-                                        messages: [{ type: 'text', text: autoReplyTxt }]
-                                    });
-                                } else {
+                                    try {
+                                        await lineClient.replyMessage({
+                                            replyToken: event.replyToken,
+                                            messages: [{ type: 'text', text: autoReplyTxt }]
+                                        });
+                                        success = true;
+                                    } catch(e) {
+                                        console.error('replyMessage failed, attempting pushMessage');
+                                    }
+                                }
+                                
+                                if (!success) {
                                     await lineClient.pushMessage({
                                         to: userId,
                                         messages: [{ type: 'text', text: autoReplyTxt }]
