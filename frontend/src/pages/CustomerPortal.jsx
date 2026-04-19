@@ -66,6 +66,36 @@ export default function CustomerPortal() {
       }, 2000);
   };
 
+  // Job Tracking State
+  const [trackPhone, setTrackPhone] = useState('');
+  const [trackResult, setTrackResult] = useState(null);
+  const [trackLoading, setTrackLoading] = useState(false);
+  const [showTracker, setShowTracker] = useState(false);
+
+  const STAGE_STEPS = [
+    { key: 'awaiting_payment', label: 'รอชำระ', icon: 'fa-solid fa-clock' },
+    { key: 'planning', label: 'วางแผนผลิต', icon: 'fa-solid fa-clipboard-list' },
+    { key: 'design', label: 'ตรวจไฟล์', icon: 'fa-solid fa-pen-ruler' },
+    { key: 'printer', label: 'พิมพ์', icon: 'fa-solid fa-print' },
+    { key: 'diecut', label: 'หลังพิมพ์', icon: 'fa-solid fa-scissors' },
+    { key: 'gluing', label: 'ประกอบ', icon: 'fa-solid fa-hands' },
+    { key: 'shipping', label: 'จัดส่ง', icon: 'fa-solid fa-truck-fast' }
+  ];
+
+  const handleTrackJob = async () => {
+    if (!trackPhone.trim()) return;
+    setTrackLoading(true);
+    try {
+      const res = await axios.get(`${API_URL}/portal/track/${trackPhone.trim()}`);
+      setTrackResult(res.data);
+    } catch (err) {
+      setTrackResult({ error: 'ไม่พบหมายเลขนี้ในระบบ กรุณาตรวจสอบอีกครั้ง' });
+    }
+    setTrackLoading(false);
+  };
+
+  const getStageIndex = (stage) => STAGE_STEPS.findIndex(s => s.key === stage);
+
   if(step === 3) {
       return (
           <div style={{minHeight: '100vh', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: '"Kanit", sans-serif'}}>
@@ -88,10 +118,97 @@ export default function CustomerPortal() {
         {/* HERO E-COMMERCE HEADER */}
         <header style={{ background: '#1e293b', width: '100%', color: 'white', padding: '1rem 5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 style={{margin:0}}>Book<span style={{color: '#3b82f6'}}>and</span>box.com <span style={{fontSize: '1rem', fontWeight: 'normal', color: '#94a3b8'}}>| Print Portal</span></h2>
-            <div>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <button 
+                  onClick={() => setShowTracker(!showTracker)}
+                  style={{ background: showTracker ? '#3b82f6' : 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '20px', fontSize: '0.9rem', border: 'none', color: 'white', cursor: 'pointer', transition: 'all 0.2s' }}
+                >
+                  <i className="fa-solid fa-magnifying-glass"></i> ตรวจสอบสถานะงาน
+                </button>
                 <span style={{background: 'rgba(255,255,255,0.1)', padding: '0.4rem 1rem', borderRadius: '20px', fontSize: '0.9rem'}}><i className="fa-solid fa-truck"></i> จัดส่งฟรีทั่วประเทศ เมื่อสั่ง 1,000 ชิ้นขึ้นไป</span>
             </div>
         </header>
+
+        {/* JOB TRACKING PANEL */}
+        {showTracker && (
+          <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', padding: '2rem 5%', color: 'white' }}>
+            <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+              <h3 style={{ color: 'white', marginBottom: '0.5rem' }}><i className="fa-solid fa-search"></i> ตรวจสอบสถานะงานพิมพ์</h3>
+              <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>กรอกเบอร์โทรที่ใช้สั่งงาน เพื่อดูสถานะการผลิตแบบ Real-time</p>
+              <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1rem' }}>
+                <input 
+                  type="text" 
+                  placeholder="เบอร์โทรศัพท์ เช่น 0812345678" 
+                  value={trackPhone} 
+                  onChange={e => setTrackPhone(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleTrackJob()}
+                  style={{ flex: 1, padding: '0.8rem 1rem', borderRadius: '8px', border: 'none', fontSize: '1rem', fontFamily: 'Kanit' }}
+                />
+                <button onClick={handleTrackJob} disabled={trackLoading} style={{ padding: '0.8rem 1.5rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontFamily: 'Kanit', fontSize: '1rem' }}>
+                  {trackLoading ? 'กำลังค้นหา...' : 'ค้นหา'}
+                </button>
+              </div>
+
+              {/* Track Results */}
+              {trackResult && (
+                <div style={{ marginTop: '1.5rem' }}>
+                  {trackResult.error ? (
+                    <div style={{ background: 'rgba(239,68,68,0.15)', padding: '1rem', borderRadius: '8px', color: '#fca5a5' }}>
+                      <i className="fa-solid fa-circle-xmark"></i> {trackResult.error}
+                    </div>
+                  ) : (
+                    <div>
+                      <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
+                        <strong>👤 {trackResult.customer.name}</strong> — พบ {trackResult.orders.length} รายการ
+                      </div>
+                      {trackResult.orders.map((order, idx) => {
+                        const currentIdx = getStageIndex(order.production_stage);
+                        return (
+                          <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '1.2rem', marginBottom: '0.8rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
+                              <span><strong>JOB #{order.id}</strong> — {order.product} x {order.quantity}</span>
+                              <span style={{ color: '#10b981', fontWeight: 700 }}>฿{(order.total_price || 0).toLocaleString()}</span>
+                            </div>
+                            {/* Timeline Steps */}
+                            <div style={{ display: 'flex', gap: '0', alignItems: 'center' }}>
+                              {STAGE_STEPS.map((stage, sIdx) => {
+                                const isDone = sIdx <= currentIdx;
+                                const isCurrent = sIdx === currentIdx;
+                                return (
+                                  <div key={sIdx} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+                                    <div style={{
+                                      width: '32px', height: '32px', borderRadius: '50%',
+                                      background: isDone ? (isCurrent ? '#3b82f6' : '#10b981') : 'rgba(255,255,255,0.15)',
+                                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                      fontSize: '0.8rem', color: 'white', zIndex: 2,
+                                      boxShadow: isCurrent ? '0 0 12px rgba(59,130,246,0.6)' : 'none',
+                                      animation: isCurrent ? 'pulse 1.5s infinite' : 'none'
+                                    }}>
+                                      <i className={stage.icon}></i>
+                                    </div>
+                                    <span style={{ fontSize: '0.6rem', marginTop: '0.3rem', color: isDone ? '#93c5fd' : '#64748b', textAlign: 'center', fontWeight: isCurrent ? 700 : 400 }}>{stage.label}</span>
+                                    {sIdx < STAGE_STEPS.length - 1 && (
+                                      <div style={{ position: 'absolute', top: '15px', left: '50%', width: '100%', height: '2px', background: isDone && sIdx < currentIdx ? '#10b981' : 'rgba(255,255,255,0.15)', zIndex: 1 }}></div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            {order.tracking_number && (
+                              <div style={{ marginTop: '0.8rem', background: 'rgba(16,185,129,0.15)', padding: '0.5rem 0.8rem', borderRadius: '6px', fontSize: '0.85rem', color: '#6ee7b7' }}>
+                                📦 Tracking: <strong>{order.tracking_number}</strong>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* BREADCRUMB */}
         <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', padding: '1rem 5%' }}>

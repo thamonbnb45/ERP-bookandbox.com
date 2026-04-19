@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, 
-  PieChart, Pie, Cell, Legend
+  PieChart, Pie, Cell, Legend, AreaChart, Area
 } from 'recharts';
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
@@ -20,17 +20,20 @@ export default function Dashboard() {
 
   const fetchDashboardMetrics = async () => {
     try {
-      const [resMetrics, resInsights] = await Promise.all([
+      const [resMetrics, resInsights, resSeasonal] = await Promise.all([
          axios.get(`${API_URL}/dashboard/metrics`),
-         axios.get(`${API_URL}/dashboard/insights`)
+         axios.get(`${API_URL}/dashboard/insights`),
+         axios.get(`${API_URL}/dashboard/seasonal`)
       ]);
       setMetrics(resMetrics.data);
       if(resInsights.data.success) {
          setInsights(resInsights.data);
       }
+      if(resSeasonal.data) {
+         setMetrics(prev => ({ ...prev, seasonal: resSeasonal.data }));
+      }
     } catch (err) {
       console.error(err);
-      alert("Failed to load dashboard data");
     } finally {
       setLoading(false);
     }
@@ -174,6 +177,99 @@ export default function Dashboard() {
         </div>
 
       </div>
+
+      {/* --- SEASONAL TREND SECTION --- */}
+      {metrics.seasonal && (
+      <div className="mt-5 pt-4" style={{borderTop: '2px dashed var(--border-color)'}}>
+         <h2 className="text-primary mb-2"><i className="fa-solid fa-calendar-days"></i> วิเคราะห์ฤดูกาลสินค้า (Seasonal Trend)</h2>
+         <p className="text-muted mb-4">คาดการณ์ปริมาณงาน 12 เดือน เพื่อวางแผนการผลิตและจัดซื้อวัตถุดิบล่วงหน้า</p>
+         
+         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+           <div className="table-container p-4 shadow" style={{ flex: 2, minWidth: '500px', height: '380px' }}>
+             <h4 className="mb-4 text-center">ปริมาณงานรายเดือน (Monthly Production Volume)</h4>
+             <ResponsiveContainer width="100%" height="85%">
+               <AreaChart data={metrics.seasonal.monthlyOrders}>
+                 <defs>
+                   <linearGradient id="colorOrders" x1="0" y1="0" x2="0" y2="1">
+                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                     <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                   </linearGradient>
+                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                     <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                   </linearGradient>
+                 </defs>
+                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                 <XAxis dataKey="month" tick={{fontSize: 11}} />
+                 <YAxis yAxisId="left" tickFormatter={(v) => `${v}`} />
+                 <YAxis yAxisId="right" orientation="right" tickFormatter={(v) => `฿${(v/1000)}k`} />
+                 <RechartsTooltip />
+                 <Area yAxisId="left" type="monotone" dataKey="orders" stroke="#3b82f6" fill="url(#colorOrders)" name="จำนวนงาน" />
+                 <Area yAxisId="right" type="monotone" dataKey="revenue" stroke="#10b981" fill="url(#colorRevenue)" name="รายได้ (฿)" />
+               </AreaChart>
+             </ResponsiveContainer>
+           </div>
+           
+           <div className="table-container p-4 shadow" style={{ flex: 1, minWidth: '300px' }}>
+             <h4 className="mb-4 text-center">🔥 เดือนที่ต้องเตรียมตัว</h4>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+               {metrics.seasonal.monthlyOrders
+                 .sort((a, b) => b.orders - a.orders)
+                 .slice(0, 5)
+                 .map((m, idx) => {
+                   const maxOrders = metrics.seasonal.monthlyOrders.reduce((max, item) => Math.max(max, item.orders), 1);
+                   const pct = Math.round((m.orders / maxOrders) * 100);
+                   return (
+                   <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                     <span style={{ width: '55px', fontWeight: 700, fontSize: '0.85rem', color: idx === 0 ? '#ef4444' : '#334155' }}>{m.month}</span>
+                     <div style={{ flex: 1, background: '#f1f5f9', borderRadius: '8px', height: '28px', overflow: 'hidden' }}>
+                       <div style={{ width: `${pct}%`, height: '100%', background: idx === 0 ? '#ef4444' : idx === 1 ? '#f59e0b' : '#3b82f6', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '0.5rem', transition: 'width 0.5s' }}>
+                         <span style={{ color: 'white', fontSize: '0.75rem', fontWeight: 700 }}>{m.orders} งาน</span>
+                       </div>
+                     </div>
+                   </div>
+                 )})}
+             </div>
+             <div style={{ marginTop: '1rem', padding: '0.8rem', background: '#fef3c7', borderRadius: '8px', fontSize: '0.8rem', color: '#92400e' }}>
+               <i className="fa-solid fa-lightbulb"></i> <strong>คำแนะนำ:</strong> เตรียมสต็อกกระดาษและจัดกะเพิ่มล่วงหน้า 1-2 เดือนก่อนช่วง Peak
+             </div>
+           </div>
+         </div>
+
+         {/* Platform Distribution */}
+         {metrics.seasonal.platformDist && (
+         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+           <div className="table-container p-4 shadow" style={{ flex: 1, minWidth: '300px', height: '320px' }}>
+             <h4 className="mb-4 text-center">สัดส่วนลูกค้าตามช่องทาง (Platform)</h4>
+             <ResponsiveContainer width="100%" height="85%">
+               <PieChart>
+                 <Pie data={metrics.seasonal.platformDist} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={5} dataKey="value" label={({name, percent}) => `${name} (${(percent * 100).toFixed(0)}%)`}>
+                   {metrics.seasonal.platformDist.map((entry, index) => (
+                     <Cell key={`plat-${index}`} fill={entry.name === 'LINE' ? '#06C755' : entry.name === 'Facebook' ? '#0084FF' : '#010101'} />
+                   ))}
+                 </Pie>
+                 <RechartsTooltip />
+                 <Legend />
+               </PieChart>
+             </ResponsiveContainer>
+           </div>
+           <div className="table-container p-4 shadow" style={{ flex: 1, minWidth: '300px', height: '320px' }}>
+             <h4 className="mb-4 text-center">สัดส่วนอุตสาหกรรมลูกค้า (Industry)</h4>
+             <ResponsiveContainer width="100%" height="85%">
+               <PieChart>
+                 <Pie data={metrics.seasonal.industryDist} cx="50%" cy="50%" outerRadius={90} paddingAngle={3} dataKey="value" label={({name, percent}) => `${name} (${(percent * 100).toFixed(0)}%)`}>
+                   {(metrics.seasonal.industryDist || []).map((entry, index) => (
+                     <Cell key={`ind-${index}`} fill={COLORS[index % COLORS.length]} />
+                   ))}
+                 </Pie>
+                 <RechartsTooltip />
+               </PieChart>
+             </ResponsiveContainer>
+           </div>
+         </div>
+         )}
+      </div>
+      )}
 
       {/* --- AI MARKET INSIGHTS SECTION --- */}
       {insights && (
