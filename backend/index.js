@@ -157,7 +157,13 @@ app.get('/api/chats', async (req, res) => {
                 erp_alias_name: lead.erp_alias_name,
                 avatar_url: lead.avatar_url,
                 tags: lead.tags, 
-                sales_status: lead.sales_status, 
+                sales_status: lead.sales_status,
+                platform: lead.platform || 'line',
+                company_role: lead.company_role || null,
+                sla_days: lead.sla_days || null,
+                industry: lead.industry || null,
+                company_revenue_grade: lead.company_revenue_grade || null,
+                visit_required: lead.visit_required || false,
                 analytics: analytics,
                 messages: msgs || []
             };
@@ -199,14 +205,17 @@ app.post('/api/chats/:id/reply', async (req, res) => {
 
 app.put('/api/leads/:id', async (req, res) => {
     const leadId = req.params.id;
-    const { erp_alias_name, tags, sales_status } = req.body;
+    const { erp_alias_name, tags, sales_status, company_role, sla_days, industry, company_revenue_grade, visit_required } = req.body;
     
     try {
-        const { error } = await supabase.from('lead_contact').update({
-            erp_alias_name,
-            tags,
-            sales_status
-        }).eq('id', leadId);
+        const updatePayload = { erp_alias_name, tags, sales_status };
+        if (company_role !== undefined) updatePayload.company_role = company_role;
+        if (sla_days !== undefined) updatePayload.sla_days = sla_days;
+        if (industry !== undefined) updatePayload.industry = industry;
+        if (company_revenue_grade !== undefined) updatePayload.company_revenue_grade = company_revenue_grade;
+        if (visit_required !== undefined) updatePayload.visit_required = visit_required;
+        
+        const { error } = await supabase.from('lead_contact').update(updatePayload).eq('id', leadId);
         
         if (error) throw error;
         res.json({ success: true });
@@ -470,18 +479,40 @@ app.get('/api/seed', async (req, res) => {
         }
         await supabase.from('job_order').insert(jobsToInsert);
         
-        // Create random leads
+        // Create random leads with omni-channel platforms
+        const PLATFORMS = ['line', 'line', 'line', 'facebook', 'facebook', 'tiktok'];
+        const ROLES = ['จัดซื้อ', 'Marketing', 'เจ้าของกิจการ', 'Graphic Designer', null];
+        const INDUSTRIES = ['ครีม/สกินแคร์', 'อาหารเสริม', 'เครื่องสำอาง', 'OEM โรงงาน', 'อีเว้นต์/ออกบูธ', 'ร้านอาหาร/คาเฟ่', null];
+        const REVENUE_GRADES = [null, '50M', '100M', '200M', '500M', '1B'];
+        const SLA_OPTIONS = [null, 1, 3, 7, 10, 14, 20, 30];
+        const THAI_NAMES_FB = ['ร้านสวัสดีความงาม', 'แบรนด์ MiracleGlow', 'บจก.โกลเด้นแพค', 'ตลาดนัดครีเอทีฟ', 'ร้านลุงป้อม Printing'];
+        const THAI_NAMES_TK = ['@beautybynam', '@creamcraftTH', '@boxdesign.co', '@cosmepack99', '@eventbox_bkk'];
+        const THAI_NAMES_LINE = ['คุณมิ้ม จัดซื้อ ABC', 'พี่ปุ้ย GoldenPack', 'คุณนัท DesignHub', 'คุณแอน CreamFactory', 'พี่มาร์ค EventPro'];
+        
         const leads = [];
         for(let i=0; i<30; i++){
+            const platform = PLATFORMS[randomInt(0, PLATFORMS.length - 1)];
+            let name = `User ${randomInt(100,999)}`;
+            if (platform === 'facebook') name = THAI_NAMES_FB[randomInt(0, THAI_NAMES_FB.length - 1)];
+            else if (platform === 'tiktok') name = THAI_NAMES_TK[randomInt(0, THAI_NAMES_TK.length - 1)];
+            else name = THAI_NAMES_LINE[randomInt(0, THAI_NAMES_LINE.length - 1)];
+            
             leads.push({
-                line_user_id: `U_SEED_${randomInt(10000,99999)}`,
-                original_name: `User ${randomInt(100,999)}`,
+                line_user_id: `U_SEED_${platform}_${randomInt(10000,99999)}`,
+                original_name: name,
+                erp_alias_name: name,
+                platform: platform,
+                company_role: ROLES[randomInt(0, ROLES.length - 1)],
+                industry: INDUSTRIES[randomInt(0, INDUSTRIES.length - 1)],
+                company_revenue_grade: REVENUE_GRADES[randomInt(0, REVENUE_GRADES.length - 1)],
+                sla_days: SLA_OPTIONS[randomInt(0, SLA_OPTIONS.length - 1)],
+                visit_required: Math.random() > 0.7,
                 created_at: randomDateLast30Days()
             });
         }
         await supabase.from('lead_contact').insert(leads);
         
-        res.json({ success: true, message: "Seeded 50 jobs and 30 leads!" });
+        res.json({ success: true, message: "Seeded 50 jobs and 30 omni-channel leads!" });
     } catch(e) {
         res.status(500).json({ error: e.message });
     }

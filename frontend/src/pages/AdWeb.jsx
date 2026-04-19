@@ -4,16 +4,52 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
+// Platform config
+const PLATFORM_CONFIG = {
+  line:     { icon: 'fa-brands fa-line',          color: '#06C755', label: 'LINE',     bg: '#e6f9ee' },
+  facebook: { icon: 'fa-brands fa-facebook-messenger', color: '#0084FF', label: 'Facebook', bg: '#e3f0ff' },
+  tiktok:   { icon: 'fa-brands fa-tiktok',        color: '#010101', label: 'TikTok',   bg: '#f0f0f0' }
+};
+
+// Quick reply scripts
+const QUICK_REPLIES = [
+  { label: 'ถามสเปค', icon: 'fa-solid fa-ruler-combined', color: '#8b5cf6', text: 'เพื่อให้คุณลูกค้าได้ราคาที่แม่นยำที่สุด รบกวนแจ้ง:\n1. ขนาด (กว้างxยาวxสูง)\n2. จำนวนที่ต้องการ\n3. กระดาษที่ต้องการ (อาร์ตการ์ด/ลูกฟูก)\nเพื่อให้ระบบคำนวณราคาโปรโมชั่นให้นะคะ😊' },
+  { label: 'เช็คไฟล์', icon: 'fa-solid fa-file-circle-check', color: '#ec4899', text: '⚠️ ข้อควรระวังในการเตรียมไฟล์งาน:\n✅ กรุณาตรวจสอบระยะตัดตก (Bleed) 3mm\n✅ โหมดสี CMYK เท่านั้น (ไม่ใช่ RGB)\n✅ ความละเอียดไม่ต่ำกว่า 300 DPI\n✅ ตรวจ Version V1/V2 ก่อนส่งไฟล์\nขอบคุณมากค่ะ!' },
+  { label: 'แจ้งเวลา', icon: 'fa-solid fa-clock', color: '#f59e0b', text: 'ระยะเวลาการผลิตตามประเภทงาน:\n🟢 งานด่วน (Rush): 1-3 วันทำการ (+30%)\n🔵 งานปกติ (Standard): 7-10 วันทำการ\n🟣 งานสต็อค (Stock): 14-30 วันทำการ (ราคาพิเศษ)\n\nหากต้องการงานเร่งด่วนกรุณาแจ้งล่วงหน้านะคะ' },
+  { label: 'ขอปรู๊ฟ', icon: 'fa-solid fa-eye', color: '#10b981', text: '📋 ขั้นตอนการตรวจปรู๊ฟก่อนพิมพ์:\n1. ทีมงานจะส่งไฟล์ Digital Proof ผ่านแชท\n2. กรุณาตรวจสอบ: ขนาด/สี/ข้อความ/โลโก้\n3. กดยืนยัน "OK to Print" ผ่านลิงก์\n⚠️ หลังยืนยันแล้วไม่สามารถแก้ไขได้นะคะ' },
+  { label: 'สอบถามจัดส่ง', icon: 'fa-solid fa-truck', color: '#0ea5e9', text: '📦 ข้อมูลการจัดส่ง:\n• จัดส่งฟรี (เขต กทม./ปริมณฑล) ออเดอร์ 5,000 บาทขึ้นไป\n• ต่างจังหวัดส่ง Nim Express / Kerry ราคาตามน้ำหนักจริง\n• รับ Tracking Number ผ่านแชทอัตโนมัติ\nกรุณาแจ้งที่อยู่จัดส่งด้วยนะคะ' },
+  { label: 'นัดเข้าพบ', icon: 'fa-solid fa-handshake', color: '#6366f1', text: '🤝 ยินดีเข้าพบเพื่อนำเสนอตัวอย่างงานพิมพ์และหารือรายละเอียดค่ะ\nกรุณาแจ้ง:\n📅 วันที่สะดวก\n🕐 เวลาที่ต้องการ\n📍 สถานที่ (ออฟฟิศ/โรงงาน)\nทีมเซลส์จะติดต่อกลับภายใน 1 ชั่วโมงค่ะ' },
+];
+
+// Revenue grade display
+const REVENUE_GRADES = {
+  '50M':   { label: '50M', color: '#94a3b8', bg: '#f1f5f9' },
+  '100M':  { label: '100M', color: '#0ea5e9', bg: '#e0f2fe' },
+  '200M':  { label: '200M', color: '#8b5cf6', bg: '#ede9fe' },
+  '300M':  { label: '300M', color: '#ec4899', bg: '#fce7f3' },
+  '500M':  { label: '500M', color: '#f59e0b', bg: '#fef3c7' },
+  '1B':    { label: '1B+', color: '#dc2626', bg: '#fee2e2' },
+  '10B':   { label: '10B+', color: '#b91c1c', bg: '#fecaca' },
+};
+
 export default function AdWeb() {
   const [leads, setLeads] = useState([]);
   const [activeLeadId, setActiveLeadId] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const [platformFilter, setPlatformFilter] = useState('all');
   
   // Tagging & Editing State
   const [editingLead, setEditingLead] = useState(false);
   const [aliasName, setAliasName] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [statusTicked, setStatusTicked] = useState('i');
+  
+  // CRM Profile Fields
+  const [editRole, setEditRole] = useState('');
+  const [editIndustry, setEditIndustry] = useState('');
+  const [editSLA, setEditSLA] = useState('');
+  const [editRevenueGrade, setEditRevenueGrade] = useState('');
+  const [editVisitRequired, setEditVisitRequired] = useState(false);
   
   // Image Lightbox
   const [previewImage, setPreviewImage] = useState(null);
@@ -24,7 +60,7 @@ export default function AdWeb() {
   // Polling backend
   useEffect(() => {
     fetchChats();
-    const interval = setInterval(fetchChats, 3000);
+    const interval = setInterval(fetchChats, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -38,6 +74,11 @@ export default function AdWeb() {
   };
 
   const activeLead = leads.find(l => l.id === activeLeadId);
+  
+  // Filtered leads by platform
+  const filteredLeads = platformFilter === 'all' 
+    ? leads 
+    : leads.filter(l => (l.platform || 'line') === platformFilter);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -54,7 +95,6 @@ export default function AdWeb() {
     }
   };
 
-  // Switch status specifically
   const handleToggleStatus = async (newStatus) => {
       if (!activeLead) return;
       try {
@@ -74,7 +114,12 @@ export default function AdWeb() {
         await axios.put(`${API_URL}/leads/${activeLead.id}`, {
             erp_alias_name: aliasName,
             tags: tagsArray,
-            sales_status: statusTicked
+            sales_status: statusTicked,
+            company_role: editRole || null,
+            industry: editIndustry || null,
+            sla_days: editSLA ? parseInt(editSLA) : null,
+            company_revenue_grade: editRevenueGrade || null,
+            visit_required: editVisitRequired
         });
         setEditingLead(false);
         fetchChats();
@@ -83,12 +128,16 @@ export default function AdWeb() {
     }
   };
 
-  const handleAIDraft = (type) => {
-      if (type === 'price') {
-          setInputValue("เพื่อให้คุณลูกค้าได้ราคาที่แม่นยำที่สุด รบกวนแจ้ง:\n1. ขนาด (กว้างxยาว)\n2. จำนวนที่ต้องการ\nเพื่อให้ระบบคำนวณราคาโปรโมชั่นให้นะคะ😊");
-      } else if (type === 'file_prep') {
-          setInputValue("⚠️ ข้อควรระวังในการเตรียมไฟล์งาน:\nรบกวนคุณลูกค้าเช็คระยะตัดตกมาให้ครบถ้วน และก่อนส่งไฟล์รบกวนตรวจสอบ Version V1/V2 ให้แม่นยำเพื่อป้องกันการพิมพ์ผิดพลาดจากระบบเซฟเวอร์ชั่นทับซ้อนนะคะ ขอบคุณมากค่ะ!");
-      }
+  const startEditing = () => {
+    setAliasName(activeLead.erp_alias_name || activeLead.original_name);
+    setTagInput((activeLead.tags || []).join(', '));
+    setStatusTicked(activeLead.sales_status);
+    setEditRole(activeLead.company_role || '');
+    setEditIndustry(activeLead.industry || '');
+    setEditSLA(activeLead.sla_days ? String(activeLead.sla_days) : '');
+    setEditRevenueGrade(activeLead.company_revenue_grade || '');
+    setEditVisitRequired(activeLead.visit_required || false);
+    setEditingLead(true);
   };
 
   const renderTierBadge = (tier) => {
@@ -103,12 +152,8 @@ export default function AdWeb() {
       const conf = tierDetails[tier] || tierDetails['New'];
       return (
           <span style={{
-              background: conf.bg, 
-              color: conf.color, 
-              padding: '0.2rem 0.5rem', 
-              borderRadius: '20px', 
-              fontSize: '0.7rem', 
-              fontWeight: 'bold',
+              background: conf.bg, color: conf.color, padding: '0.2rem 0.5rem', 
+              borderRadius: '20px', fontSize: '0.7rem', fontWeight: 'bold',
               boxShadow: conf.shadow || 'none'
           }}>
               {conf.text}
@@ -116,12 +161,21 @@ export default function AdWeb() {
       );
   };
 
+  const renderPlatformIcon = (platform) => {
+    const conf = PLATFORM_CONFIG[platform] || PLATFORM_CONFIG.line;
+    return (
+      <i className={conf.icon} style={{ color: conf.color, fontSize: '0.9rem' }} title={conf.label}></i>
+    );
+  };
+
+  const pConf = activeLead ? (PLATFORM_CONFIG[activeLead.platform] || PLATFORM_CONFIG.line) : PLATFORM_CONFIG.line;
+
   return (
     <div className="view-section active" style={{ height: 'calc(100vh - var(--topbar-height) - 4rem)'}}>
       {/* Lightbox Modal */}
       {previewImage && (
         <div 
-          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onClick={() => setPreviewImage(null)}
         >
             <img src={previewImage} alt="preview" style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '12px', objectFit: 'contain' }} />
@@ -129,21 +183,57 @@ export default function AdWeb() {
         </div>
       )}
 
+      {/* Header + Platform Filter Tabs */}
       <div className="flex justify-between align-center mb-4">
         <div>
-          <h3 className="text-primary">LINE Official CRM (Sales Optimized)</h3>
-          <p>ระบบแยกเกรด C1-C5 อัตโนมัติ พร้อมสวิตช์ติดตามงาน (i/q)</p>
+          <h3 className="text-primary"><i className="fa-solid fa-headset"></i> Omni-Channel Chat Center</h3>
+          <p>รวมแชท LINE / Facebook / TikTok + CRM ลูกค้าเจ้าใหญ่</p>
         </div>
       </div>
       
       <div className="chat-container shadow" style={{ height: '85%' }}>
         {/* Contact List */}
-        <div className="chat-list" style={{ width: '30%', minWidth: '280px' }}>
-          {leads.length === 0 && <div className="p-4" style={{color:'#888'}}>กำลังโหลดฐานข้อมูลลูกค้า Leads...</div>}
+        <div className="chat-list" style={{ width: '30%', minWidth: '280px', display: 'flex', flexDirection: 'column' }}>
           
-          {leads.map(lead => {
+          {/* Platform Filter Tabs */}
+          <div style={{ display: 'flex', borderBottom: '2px solid #e2e8f0', background: '#f8fafc', padding: '0' }}>
+            {[
+              { key: 'all', label: 'ทั้งหมด', icon: 'fa-solid fa-layer-group', color: '#0f4c81' },
+              { key: 'line', label: 'LINE', icon: 'fa-brands fa-line', color: '#06C755' },
+              { key: 'facebook', label: 'FB', icon: 'fa-brands fa-facebook-messenger', color: '#0084FF' },
+              { key: 'tiktok', label: 'TikTok', icon: 'fa-brands fa-tiktok', color: '#010101' },
+            ].map(tab => (
+              <button 
+                key={tab.key}
+                onClick={() => setPlatformFilter(tab.key)}
+                style={{
+                  flex: 1, padding: '0.6rem 0.3rem', border: 'none', cursor: 'pointer',
+                  background: platformFilter === tab.key ? 'white' : 'transparent',
+                  borderBottom: platformFilter === tab.key ? `3px solid ${tab.color}` : '3px solid transparent',
+                  color: platformFilter === tab.key ? tab.color : '#94a3b8',
+                  fontWeight: platformFilter === tab.key ? 700 : 400,
+                  fontSize: '0.75rem', transition: 'all 0.2s',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem'
+                }}
+              >
+                <i className={tab.icon} style={{ fontSize: '1rem' }}></i>
+                <span>{tab.label}</span>
+                <span style={{ fontSize: '0.65rem', background: platformFilter === tab.key ? tab.color : '#cbd5e1', color: 'white', borderRadius: '10px', padding: '0 0.4rem', minWidth: '18px' }}>
+                  {tab.key === 'all' ? leads.length : leads.filter(l => (l.platform || 'line') === tab.key).length}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Contact Items */}
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+          {filteredLeads.length === 0 && <div className="p-4" style={{color:'#888'}}>ไม่พบลูกค้าในช่องทางนี้...</div>}
+          
+          {filteredLeads.map(lead => {
             const lastMsg = lead.messages.length > 0 ? lead.messages[lead.messages.length - 1] : { type: 'text', text_content: 'ไม่มีบทสนทนา' };
-            let previewText = lastMsg.type === 'image' ? '[รูปภาพจากมือถือ]' : lastMsg.type === 'file' ? '[ไฟล์เอกสาร]' : lastMsg.text_content;
+            let previewText = lastMsg.type === 'image' ? '[📷 รูปภาพ]' : lastMsg.type === 'file' ? '[📎 ไฟล์]' : lastMsg.text_content;
+            const platConf = PLATFORM_CONFIG[lead.platform] || PLATFORM_CONFIG.line;
+            const revGrade = REVENUE_GRADES[lead.company_revenue_grade];
             
             return (
               <div 
@@ -152,95 +242,112 @@ export default function AdWeb() {
                 onClick={() => {
                     setActiveLeadId(lead.id);
                     setEditingLead(false);
-                    setStatusTicked(lead.sales_status);
                 }}
+                style={{ borderLeft: `3px solid ${platConf.color}` }}
               >
                 <div style={{ position: 'relative' }}>
                     {lead.avatar_url ? (
                         <img src={lead.avatar_url} alt="avatar" className="avatar" style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover' }} />
                     ) : (
-                        <div className="avatar" style={{ background: '#e2e8f0', color: '#333', width: '45px', height: '45px' }}>
+                        <div className="avatar" style={{ background: platConf.bg, color: platConf.color, width: '45px', height: '45px', fontWeight: 700 }}>
                             {(lead.erp_alias_name || lead.original_name || '?').charAt(0)}
                         </div>
                     )}
-                    {/* Status Dot */}
+                    {/* Platform Icon Badge */}
                     <div style={{
-                        position: 'absolute', bottom: -2, right: -2, width: '16px', height: '16px', borderRadius: '50%',
-                        background: lead.sales_status === 'q' ? '#10b981' : '#f59e0b',
-                        border: '2px solid white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.6rem', color: 'white', fontWeight: 'bold'
-                    }} title={lead.sales_status === 'q' ? 'Opportunity' : 'Info'}>
-                        {lead.sales_status.toUpperCase()}
+                        position: 'absolute', bottom: -3, right: -3, width: '18px', height: '18px', borderRadius: '50%',
+                        background: 'white', border: `2px solid ${platConf.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
                 </div>
 
                 <div style={{ overflow: 'hidden', width: '100%', marginLeft: '10px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontSize: '0.95rem' }}>{lead.erp_alias_name || lead.original_name}</strong>
-                    {renderTierBadge(lead.analytics.tier)}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.3rem' }}>
+                    <strong style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontSize: '0.9rem' }}>{lead.erp_alias_name || lead.original_name}</strong>
+                    <div style={{ display: 'flex', gap: '0.2rem', alignItems: 'center', flexShrink: 0 }}>
+                      {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
+                      {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontSize: '0.6rem', fontWeight: 700 }}>{revGrade.label}</span>}
+                      {renderTierBadge(lead.analytics.tier)}
+                    </div>
                   </div>
-                  <p style={{ fontSize: '0.8rem', marginTop: '0.2rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : 'inherit' }}>
-                    {previewText}
-                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
+                    <p style={{ fontSize: '0.78rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0 }}>
+                      {previewText}
+                    </p>
+                    {lead.industry && <span style={{ fontSize: '0.6rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>{lead.industry}</span>}
+                  </div>
                 </div>
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* Chat Area */}
         {activeLead && (
         <div className="chat-main" style={{ display: 'flex', flexDirection: 'column', width: '70%' }}>
           {/* Profile Header Block */}
-          <div className="p-4" style={{ borderBottom: '1px solid var(--border-color)', background: '#f8fafc' }}>
+          <div className="p-4" style={{ borderBottom: `3px solid ${pConf.color}`, background: pConf.bg }}>
             <div className="flex justify-between align-center">
                 
                 <div className="flex" style={{gap: '1rem', alignItems: 'center'}}>
                     <div>
                         {editingLead ? (
-                            <input type="text" className="form-control" value={aliasName} onChange={e => setAliasName(e.target.value)} style={{fontSize: '1.2rem', fontWeight: 'bold', width: '250px'}}/>
+                            <input type="text" className="form-control" value={aliasName} onChange={e => setAliasName(e.target.value)} style={{fontSize: '1.1rem', fontWeight: 'bold', width: '220px'}}/>
                         ) : (
-                            <h4 style={{ margin: 0, display: 'inline-block', fontSize: '1.3rem' }}>{activeLead.erp_alias_name || activeLead.original_name}</h4>
+                            <h4 style={{ margin: 0, display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.2rem' }}>
+                              {renderPlatformIcon(activeLead.platform)}
+                              {activeLead.erp_alias_name || activeLead.original_name}
+                              {activeLead.visit_required && <span style={{ background: '#6366f1', color: 'white', padding: '0.1rem 0.4rem', borderRadius: '6px', fontSize: '0.65rem' }}>🏢 นัดเข้าพบ</span>}
+                            </h4>
                         )}
                         <small style={{display: 'block', color: 'var(--text-muted)'}}>
-                            LINE ID: {activeLead.original_name}
+                            {pConf.label}: {activeLead.original_name}
+                            {activeLead.company_role && <> • <strong>{activeLead.company_role}</strong></>}
+                            {activeLead.industry && <> • {activeLead.industry}</>}
                         </small>
                     </div>
 
                     {/* Quick Analytics Summary */}
                     <div style={{background: 'white', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '0.4rem 0.8rem', display: 'flex', gap: '1rem'}}>
                         <div style={{borderRight: '1px solid #e2e8f0', paddingRight: '1rem'}}>
-                            <span style={{fontSize: '0.7rem', color: '#64748b', display: 'block'}}>ยอดซื้อสะสม (CLV)</span>
-                            <span style={{fontWeight: 'bold', color: '#0f172a'}}>
+                            <span style={{fontSize: '0.65rem', color: '#64748b', display: 'block'}}>CLV</span>
+                            <span style={{fontWeight: 'bold', color: '#0f172a', fontSize: '0.9rem'}}>
                                 ฿{activeLead.analytics.totalSpend.toLocaleString()}
                             </span>
                         </div>
+                        <div style={{borderRight: '1px solid #e2e8f0', paddingRight: '1rem'}}>
+                            <span style={{fontSize: '0.65rem', color: '#64748b', display: 'block'}}>ซื้อซ้ำ</span>
+                            <span style={{fontWeight: 'bold', color: '#10b981', fontSize: '0.9rem'}}>
+                                {activeLead.analytics.repeatCount}x
+                            </span>
+                        </div>
                         <div>
-                            <span style={{fontSize: '0.7rem', color: '#64748b', display: 'block'}}>สั่งซื้อซ้ำ</span>
-                            <span style={{fontWeight: 'bold', color: '#10b981'}}>
-                                {activeLead.analytics.repeatCount} ครั้ง
+                            <span style={{fontSize: '0.65rem', color: '#64748b', display: 'block'}}>SLA</span>
+                            <span style={{fontWeight: 'bold', color: activeLead.sla_days && activeLead.sla_days <= 3 ? '#ef4444' : '#0f172a', fontSize: '0.9rem'}}>
+                                {activeLead.sla_days ? `${activeLead.sla_days}d` : '-'}
                             </span>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex" style={{gap: '0.5rem', alignItems: 'center'}}>
-                    {/* Status Toggle buttons */}
                     {!editingLead && (
                         <div style={{background: '#f1f5f9', padding: '3px', borderRadius: '8px', display: 'flex'}}>
                             <button 
                                 className={`btn btn-sm ${activeLead.sales_status === 'i' ? 'btn-primary' : ''}`} 
-                                style={{background: activeLead.sales_status !== 'i' ? 'transparent' : '', color: activeLead.sales_status !== 'i' ? '#64748b' : ''}}
+                                style={{background: activeLead.sales_status !== 'i' ? 'transparent' : '', color: activeLead.sales_status !== 'i' ? '#64748b' : '', fontSize: '0.8rem'}}
                                 onClick={() => handleToggleStatus('i')}
                             >
-                                <i className="fa-solid fa-info-circle mr-1"></i> ถาม (i)
+                                ถาม (i)
                             </button>
                             <button 
                                 className={`btn btn-sm ${activeLead.sales_status === 'q' ? 'btn-success' : ''}`} 
-                                style={{background: activeLead.sales_status !== 'q' ? 'transparent' : '', color: activeLead.sales_status !== 'q' ? '#64748b' : ''}}
+                                style={{background: activeLead.sales_status !== 'q' ? 'transparent' : '', color: activeLead.sales_status !== 'q' ? '#64748b' : '', fontSize: '0.8rem'}}
                                 onClick={() => handleToggleStatus('q')}
                             >
-                                <i className="fa-solid fa-file-invoice-dollar mr-1"></i> เสนอ (q)
+                                เสนอ (q)
                             </button>
                         </div>
                     )}
@@ -248,85 +355,146 @@ export default function AdWeb() {
                     {editingLead ? (
                         <>
                             <button className="btn btn-primary btn-sm" onClick={handleSaveLeadInfo}>บันทึก</button>
-                            <button className="btn btn-outline btn-sm ml-1" onClick={() => setEditingLead(false)}>ยกเลิก</button>
+                            <button className="btn btn-outline btn-sm" onClick={() => setEditingLead(false)}>ยกเลิก</button>
                         </>
                     ) : (
-                        <button className="btn btn-outline ml-2" style={{padding: '0.4rem 0.6rem', fontSize:'0.8rem'}} onClick={() => {
-                            setAliasName(activeLead.erp_alias_name || activeLead.original_name);
-                            setTagInput((activeLead.tags || []).join(', '));
-                            setStatusTicked(activeLead.sales_status);
-                            setEditingLead(true);
-                        }}><i className="fa-solid fa-pen"></i></button>
+                        <button className="btn btn-outline" style={{padding: '0.4rem 0.6rem', fontSize:'0.8rem'}} onClick={startEditing}><i className="fa-solid fa-pen"></i></button>
                     )}
                 </div>
             </div>
 
-            {/* Tag Area */}
-            <div className="mt-2 text-sm">
-                {editingLead ? (
-                   <input 
-                      type="text" 
-                      className="form-control mt-2" 
-                      value={tagInput}
-                      onChange={e => setTagInput(e.target.value)}
-                      placeholder="ใส่แท็ก คั่นด้วยลูกน้ำ เช่น รอตรวจแบบ, โดนเท"
-                   />
-                ) : (
-                   <div style={{display:'flex', gap: '0.4rem', flexWrap: 'wrap'}}>
-                       {activeLead.tags?.map((tag, idx) => (
-                           <span key={idx} style={{background: '#dbeafe', color: '#1e40af', padding: '0.1rem 0.5rem', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 600}}>
-                               #{tag}
-                           </span>
-                       ))}
-                   </div>
+            {/* Editable CRM Profile Form */}
+            {editingLead && (
+              <div style={{ marginTop: '0.8rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.5rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.7rem', color: '#64748b' }}>ตำแหน่ง/Role</label>
+                  <select className="form-control" value={editRole} onChange={e => setEditRole(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                    <option value="">-</option>
+                    <option value="จัดซื้อ">จัดซื้อ</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="เจ้าของกิจการ">เจ้าของกิจการ</option>
+                    <option value="Graphic Designer">Graphic Designer</option>
+                    <option value="ออร์แกไนเซอร์">ออร์แกไนเซอร์</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.7rem', color: '#64748b' }}>อุตสาหกรรม</label>
+                  <select className="form-control" value={editIndustry} onChange={e => setEditIndustry(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                    <option value="">-</option>
+                    <option value="ครีม/สกินแคร์">ครีม/สกินแคร์</option>
+                    <option value="อาหารเสริม">อาหารเสริม</option>
+                    <option value="เครื่องสำอาง">เครื่องสำอาง</option>
+                    <option value="OEM โรงงาน">OEM โรงงาน</option>
+                    <option value="อีเว้นต์/ออกบูธ">อีเว้นต์/ออกบูธ</option>
+                    <option value="ร้านอาหาร/คาเฟ่">ร้านอาหาร/คาเฟ่</option>
+                    <option value="แบรนด์แฟชั่น">แบรนด์แฟชั่น</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.7rem', color: '#64748b' }}>SLA (วัน)</label>
+                  <select className="form-control" value={editSLA} onChange={e => setEditSLA(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                    <option value="">-</option>
+                    <option value="1">1 วัน (เช้า-เย็น)</option>
+                    <option value="3">3 วัน (Rush)</option>
+                    <option value="7">7 วัน</option>
+                    <option value="10">10 วัน (Standard)</option>
+                    <option value="14">14 วัน</option>
+                    <option value="20">20 วัน</option>
+                    <option value="30">30 วัน (Stock)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.7rem', color: '#64748b' }}>เกรดรายได้บริษัท</label>
+                  <select className="form-control" value={editRevenueGrade} onChange={e => setEditRevenueGrade(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                    <option value="">-</option>
+                    <option value="50M">50 ล้าน</option>
+                    <option value="100M">100 ล้าน</option>
+                    <option value="200M">200 ล้าน</option>
+                    <option value="500M">500 ล้าน</option>
+                    <option value="1B">1,000 ล้าน</option>
+                    <option value="10B">10,000 ล้าน+</option>
+                  </select>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'end', gap: '0.5rem' }}>
+                  <label style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={editVisitRequired} onChange={e => setEditVisitRequired(e.target.checked)} />
+                    🏢 ต้องเข้าพบ
+                  </label>
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.7rem', color: '#64748b' }}>แท็ก (คั่นด้วย ,)</label>
+                  <input type="text" className="form-control" value={tagInput} onChange={e => setTagInput(e.target.value)} placeholder="เช่น รอตรวจแบบ, VIP" style={{ fontSize: '0.85rem' }} />
+                </div>
+              </div>
+            )}
+
+            {/* Tag & Info Display */}
+            {!editingLead && (
+            <div style={{display:'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.5rem', alignItems: 'center'}}>
+                {activeLead.tags?.map((tag, idx) => (
+                    <span key={idx} style={{background: '#dbeafe', color: '#1e40af', padding: '0.1rem 0.5rem', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600}}>
+                        #{tag}
+                    </span>
+                ))}
+                {activeLead.company_revenue_grade && REVENUE_GRADES[activeLead.company_revenue_grade] && (
+                  <span style={{ background: REVENUE_GRADES[activeLead.company_revenue_grade].bg, color: REVENUE_GRADES[activeLead.company_revenue_grade].color, padding: '0.1rem 0.5rem', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 700 }}>
+                    💼 Revenue: {REVENUE_GRADES[activeLead.company_revenue_grade].label}
+                  </span>
+                )}
+                {activeLead.sla_days && (
+                  <span style={{ background: activeLead.sla_days <= 3 ? '#fee2e2' : '#f0fdf4', color: activeLead.sla_days <= 3 ? '#dc2626' : '#166534', padding: '0.1rem 0.5rem', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                    ⏱ SLA: {activeLead.sla_days} วัน
+                  </span>
                 )}
             </div>
+            )}
           </div>
           
+          {/* Messages */}
           <div className="chat-messages" style={{ flex: 1, padding: '1.5rem', overflowY: 'auto', background: '#f1f5f9' }}>
             {activeLead.messages.map((msg, idx) => {
               const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : '';
               return (
               <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.sender === 'client' ? 'flex-start' : 'flex-end', marginBottom: '1rem' }}>
                   {msg.sender === 'client' && (
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.2rem', marginLeft: '0.5rem' }}>{activeLead.original_name}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.2rem', marginLeft: '0.5rem' }}>{activeLead.original_name}</div>
                   )}
                   <div style={{ display: 'flex', alignItems: 'flex-end', flexDirection: msg.sender === 'client' ? 'row' : 'row-reverse', gap: '0.5rem' }}>
                       <div className={`message ${msg.sender === 'client' ? 'msg-client' : 'msg-admin'}`} style={{ margin: 0, maxWidth: '300px' }}>
-                        {msg.type === 'text' && <div>{msg.text_content}</div>}
+                        {msg.type === 'text' && <div style={{ whiteSpace: 'pre-wrap' }}>{msg.text_content}</div>}
                         {msg.type === 'image' && msg.media_url && (
                           <div style={{ cursor: 'zoom-in' }} onClick={() => setPreviewImage(msg.media_url)}>
                               <img src={msg.media_url} alt="Media" style={{ maxWidth: '100%', borderRadius: '8px', display: 'block' }} />
                           </div>
                         )}
                       </div>
-                      <div style={{ fontSize: '0.7rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>{timeStr}</div>
+                      <div style={{ fontSize: '0.65rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>{timeStr}</div>
                   </div>
               </div>
             )})}
             <div ref={chatEndRef} />
           </div>
           
-          <div className="chat-input" style={{ padding: '1rem', borderTop: '1px solid var(--border-color)', background: 'white', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          {/* Input Area with Quick Replies */}
+          <div style={{ padding: '0.8rem 1rem', borderTop: '1px solid var(--border-color)', background: 'white', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             
-            {/* AI Assistant Toolbar */}
-            <div style={{display: 'flex', gap: '0.5rem'}}>
-                <button className="btn btn-outline" style={{fontSize: '0.75rem', padding: '0.2rem 0.5rem', borderColor: '#8b5cf6', color: '#8b5cf6'}} onClick={() => handleAIDraft('price')}>
-                    <i className="fa-solid fa-wand-magic-sparkles"></i> AI ร่างคำถามราคา
-                </button>
-                <button className="btn btn-outline" style={{fontSize: '0.75rem', padding: '0.2rem 0.5rem', borderColor: '#ec4899', color: '#ec4899'}} onClick={() => handleAIDraft('file_prep')}>
-                    <i className="fa-solid fa-wand-magic-sparkles"></i> AI สคริปต์ตรวจไฟล์
-                </button>
+            {/* Magic Quick Reply Buttons */}
+            <div style={{display: 'flex', gap: '0.4rem', flexWrap: 'wrap'}}>
+                {QUICK_REPLIES.map((qr, idx) => (
+                  <button key={idx} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid ${qr.color}`, color: qr.color, background: 'transparent', borderRadius: '20px'}} onClick={() => setInputValue(qr.text)}>
+                      <i className={qr.icon}></i> {qr.label}
+                  </button>
+                ))}
             </div>
 
-            <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
                 <input 
                   type="text" 
                   className="form-control" 
-                  placeholder="ตอบกลับลูกค้า (จะถูกส่ง Push เข้าแอป LINE...)" 
+                  placeholder={`ตอบกลับลูกค้าผ่าน ${pConf.label}...`}
                   value={inputValue}
                   onChange={e => setInputValue(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
+                  onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
                 />
                 <button className="btn btn-primary" onClick={handleSendMessage} style={{ padding: '0.8rem 1.2rem' }}>
                   <i className="fa-solid fa-paper-plane"></i>
