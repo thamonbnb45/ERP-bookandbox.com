@@ -5,6 +5,7 @@ import Production from './pages/Production';
 import Accounting from './pages/Accounting';
 import CustomerPortal from './pages/CustomerPortal';
 import Dashboard from './pages/Dashboard';
+import HR from './pages/HR';
 import './index.css';
 
 function Sidebar() {
@@ -30,6 +31,9 @@ function Sidebar() {
           </Link>
           <Link to="/accounting" className={`nav-item ${location.pathname === '/accounting' ? 'active' : ''}`}>
               <i className="fa-solid fa-file-invoice-dollar"></i> บัญชีและเบิกจ่าย
+          </Link>
+          <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`}>
+              <i className="fa-solid fa-users-gear"></i> HR & อัตรากำลัง
           </Link>
       </nav>
     </aside>
@@ -72,6 +76,7 @@ function App() {
                 <Route path="/sales" element={<><Topbar title="เสนอราคา/ขาย" /><div className="view-container"><Sales /></div></>} />
                 <Route path="/production" element={<><Topbar title="ฝ่ายผลิต" /><div className="view-container"><Production /></div></>} />
                 <Route path="/accounting" element={<><Topbar title="บัญชีและเบิกจ่าย" /><div className="view-container"><Accounting /></div></>} />
+                <Route path="/hr" element={<><Topbar title="HR & อัตรากำลังคน" /><div className="view-container"><HR /></div></>} />
                 <Route path="/" element={<><Topbar title="ภาพรวม (Dashboard)" /><div className="view-container"><Dashboard /></div></>} />
               </Routes>
             </main>

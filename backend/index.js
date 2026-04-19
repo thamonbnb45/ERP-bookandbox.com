@@ -642,6 +642,104 @@ app.get('/api/dashboard/insights', async (req, res) => {
     }
 });
 
+// ====== HR MODULE ======
+app.get('/api/hr/employees', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('employee').select('*').order('department').order('id');
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/hr/employees', async (req, res) => {
+    const { name, role, department, salary, cost_type } = req.body;
+    try {
+        const { data, error } = await supabase.from('employee').insert([{
+            name, role, department, salary, cost_type, status: 'active'
+        }]).select('id').single();
+        if (error) throw error;
+        res.json({ success: true, id: data.id });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get('/api/hr/task_logs', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('task_log').select('*').order('started_at', { ascending: false }).limit(500);
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get('/api/hr/seed', async (req, res) => {
+    try {
+        // Check if already seeded
+        const { count } = await supabase.from('employee').select('id', { count: 'exact', head: true });
+        if (count && count > 20) return res.json({ message: 'Already seeded!' });
+        
+        const employees = [
+            // Pre-press (5)
+            { name: 'สมชาย เลย์เก่ง', role: 'คนเลย์งาน (Imposition)', department: 'pre_press', salary: 20000, cost_type: 'cogs' },
+            { name: 'นิดา ตรวจดี', role: 'ตรวจไฟล์ Preflight', department: 'pre_press', salary: 18000, cost_type: 'cogs' },
+            { name: 'วิชัย เช็คงาน', role: 'ตรวจไฟล์ Preflight', department: 'pre_press', salary: 18000, cost_type: 'cogs' },
+            { name: 'ประเสริฐ ทำเพลท', role: 'CTP Plate Maker', department: 'pre_press', salary: 17000, cost_type: 'cogs' },
+            { name: 'ศิลป์ ออกแบบ', role: 'Graphic Designer', department: 'pre_press', salary: 23000, cost_type: 'cogs' },
+            // Print A2 (2)
+            { name: 'อนุชา เครื่อง A2', role: 'ช่างพิมพ์หลัก A2', department: 'print_a2', salary: 27000, cost_type: 'cogs' },
+            { name: 'มานพ ป้อนกระดาษ', role: 'ผู้ช่วยช่างพิมพ์ A2', department: 'print_a2', salary: 19000, cost_type: 'cogs' },
+            // Print A1 (3)
+            { name: 'ธนกฤต เครื่อง A1', role: 'ช่างพิมพ์หลัก A1', department: 'print_a1', salary: 25000, cost_type: 'cogs' },
+            { name: 'สุรเดช ผู้ช่วย A1', role: 'ผู้ช่วยช่างพิมพ์ A1', department: 'print_a1', salary: 18000, cost_type: 'cogs' },
+            { name: 'เกียรติ ผู้ช่วย A1', role: 'ผู้ช่วยช่างพิมพ์ A1', department: 'print_a1', salary: 18000, cost_type: 'cogs' },
+            // Post-press (10)
+            { name: 'วิโรจน์ ตัดหลัก', role: 'ตัดกระดาษ (หลัก)', department: 'post_press', salary: 20000, cost_type: 'cogs' },
+            { name: 'สมศักดิ์ จัดกอง', role: 'ตัดกระดาษ (ผู้ช่วย)', department: 'post_press', salary: 13000, cost_type: 'cogs' },
+            { name: 'อรทัย พับงาน', role: 'พับกระดาษ', department: 'post_press', salary: 19000, cost_type: 'cogs' },
+            { name: 'นภา เย็บมุง', role: 'เย็บเล่ม', department: 'post_press', salary: 18000, cost_type: 'cogs' },
+            { name: 'ชัยวัฒน์ ปั๊มฟอยล์', role: 'ปั๊มไดคัท/ฟอยล์', department: 'post_press', salary: 20000, cost_type: 'cogs' },
+            { name: 'อมรรัตน์ ปะกาว', role: 'ปั๊มปะกาว/ประกอบกล่อง', department: 'post_press', salary: 18000, cost_type: 'cogs' },
+            { name: 'สุดา หลังพิมพ์ 1', role: 'พนักงานหลังพิมพ์ทั่วไป', department: 'post_press', salary: 15000, cost_type: 'cogs' },
+            { name: 'จันทร์ หลังพิมพ์ 2', role: 'พนักงานหลังพิมพ์ทั่วไป', department: 'post_press', salary: 15000, cost_type: 'cogs' },
+            { name: 'แก้ว หลังพิมพ์ 3', role: 'พนักงานหลังพิมพ์ทั่วไป', department: 'post_press', salary: 15000, cost_type: 'cogs' },
+            { name: 'เพ็ญ หลังพิมพ์ 4', role: 'พนักงานหลังพิมพ์ทั่วไป', department: 'post_press', salary: 15000, cost_type: 'cogs' },
+            // Shipping (5)
+            { name: 'สมาน สโตร์', role: 'สโตร์/คลังสินค้า', department: 'shipping', salary: 12000, cost_type: 'cogs' },
+            { name: 'พรพิมล ประสาน', role: 'ประสานงานจัดส่ง', department: 'shipping', salary: 16000, cost_type: 'cogs' },
+            { name: 'อดิศร ขับรถ 1', role: 'ขับรถส่งของ', department: 'shipping', salary: 16000, cost_type: 'cogs' },
+            { name: 'บุญมี ขับรถ 2', role: 'ขับรถส่งของ', department: 'shipping', salary: 16000, cost_type: 'cogs' },
+            { name: 'ดนัย แมสเซ็นเจอร์', role: 'แมสเซ็นเจอร์', department: 'shipping', salary: 16000, cost_type: 'cogs' },
+            // Sales (5)
+            { name: 'ณัฐวุฒิ เซลส์ 1', role: 'พนักงานขาย', department: 'sales', salary: 12000, cost_type: 'sga' },
+            { name: 'ปิยะ เซลส์ 2', role: 'พนักงานขาย', department: 'sales', salary: 12000, cost_type: 'sga' },
+            { name: 'กมล เซลส์ 3', role: 'พนักงานขาย', department: 'sales', salary: 12000, cost_type: 'sga' },
+            { name: 'น้ำฝน เซลส์ 4', role: 'พนักงานขาย', department: 'sales', salary: 12000, cost_type: 'sga' },
+            { name: 'ธีรยุทธ เซลส์ 5', role: 'พนักงานขาย', department: 'sales', salary: 12000, cost_type: 'sga' },
+            // Admin (3)
+            { name: 'จิราภา แอดมิน 1', role: 'แอดมิน', department: 'admin', salary: 12000, cost_type: 'sga' },
+            { name: 'กรกนก แอดมิน 2', role: 'แอดมิน', department: 'admin', salary: 12000, cost_type: 'sga' },
+            { name: 'ธนพล มาร์เก็ตติ้ง', role: 'การตลาด', department: 'admin', salary: 25000, cost_type: 'sga' },
+            // Accounting (2)
+            { name: 'มาลิณี หัวหน้าบัญชี', role: 'หัวหน้าบัญชี', department: 'accounting', salary: 30000, cost_type: 'sga' },
+            { name: 'กนกวรรณ บุคลากร', role: 'HR/บุคลากร', department: 'accounting', salary: 15000, cost_type: 'sga' },
+            // Management (4)
+            { name: 'วิศวะ ผู้จัดการ', role: 'ผู้จัดการโรงพิมพ์', department: 'management', salary: 50000, cost_type: 'sga' },
+            { name: 'อัญชลี ผู้ช่วย ผจก.', role: 'ผู้ช่วยผู้จัดการ', department: 'management', salary: 35000, cost_type: 'sga' },
+            { name: 'ประพันธ์ หัวหน้าผลิต', role: 'หัวหน้าฝ่ายผลิต', department: 'management', salary: 35000, cost_type: 'sga' },
+            { name: 'ลดาวัลย์ ประสานผลิต', role: 'ประสานงานผลิต', department: 'management', salary: 13000, cost_type: 'sga' },
+        ];
+        
+        await supabase.from('employee').insert(employees);
+        res.json({ success: true, count: employees.length, message: 'Seeded 42 employees!' });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // ====== SEASONAL ANALYTICS ======
 app.get('/api/dashboard/seasonal', async (req, res) => {
     try {
