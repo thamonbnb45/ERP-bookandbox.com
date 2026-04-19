@@ -145,9 +145,6 @@ app.post('/api/webhook', async (req, res) => {
                 // Auto-Responder Logic
                 if (msgType === 'text') {
                     // [TEST MODE] Override time condition specifically for user testing
-                    // const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
-                    // const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
-                    // const isAfterHours = timeNum >= 1730 || timeNum < 830;
                     const isAfterHours = true; // เปิดโหมดทดสอบ 24 ชม.
 
                     if (isAfterHours && channelToken !== 'DUMMY_TOKEN') {
@@ -155,9 +152,20 @@ app.post('/api/webhook', async (req, res) => {
                         if (aiResponse) {
                             const autoReplyTxt = `🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\n${aiResponse}\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏`;
                             
-                            // Send auto-reply to LINE
+                            // Send auto-reply to LINE using correct v11 syntax
                             try {
-                                await lineClient.pushMessage(userId, { type: 'text', text: autoReplyTxt });
+                                if (event.replyToken) {
+                                    await lineClient.replyMessage({
+                                        replyToken: event.replyToken,
+                                        messages: [{ type: 'text', text: autoReplyTxt }]
+                                    });
+                                } else {
+                                    await lineClient.pushMessage({
+                                        to: userId,
+                                        messages: [{ type: 'text', text: autoReplyTxt }]
+                                    });
+                                }
+                                
                                 // Save to DB so admin sees it
                                 await supabase.from('chat_message').insert([{
                                     lead_id: leadId,
