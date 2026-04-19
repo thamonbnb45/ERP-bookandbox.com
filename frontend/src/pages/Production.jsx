@@ -35,11 +35,14 @@ const WORKFLOW_STEPS = [
 
 export default function Production() {
   const [jobOrders, setJobOrders] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [trackingModal, setTrackingModal] = useState({ open: false, jobId: null, trackingNum: '' });
+  const [assignModal, setAssignModal] = useState({ open: false, jobId: null, empId: '' });
   const [showWorkflow, setShowWorkflow] = useState(false);
 
   useEffect(() => {
     fetchJobOrders();
+    fetchEmployees();
     const interval = setInterval(fetchJobOrders, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -48,6 +51,26 @@ export default function Production() {
     axios.get(`${API_URL}/job_orders`)
          .then(res => setJobOrders(res.data))
          .catch(err => console.error(err));
+  };
+
+  const fetchEmployees = () => {
+    axios.get(`${API_URL}/hr/employees`)
+         .then(res => setEmployees(res.data || []))
+         .catch(() => {});
+  };
+
+  const assignWorker = async () => {
+    if (!assignModal.empId) return alert('เลือกพนักงาน');
+    try {
+      await axios.post(`${API_URL}/hr/assign`, {
+        job_order_id: parseInt(assignModal.jobId),
+        employee_id: parseInt(assignModal.empId)
+      });
+      setAssignModal({ open: false, jobId: null, empId: '' });
+      fetchJobOrders();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
   };
 
   // Drag & Drop Handlers
@@ -247,6 +270,14 @@ export default function Production() {
                                          <i className="fa-solid fa-truck-fast"></i> {job.tracking_number}
                                      </div>
                                  )}
+
+                                 {/* Assign Worker Button */}
+                                 <button 
+                                   onClick={(e) => { e.stopPropagation(); setAssignModal({ open: true, jobId: job.id, empId: '' }); }}
+                                   style={{ width: '100%', marginTop: '0.4rem', padding: '0.25rem', border: '1px dashed #cbd5e1', borderRadius: '4px', background: 'transparent', cursor: 'pointer', fontSize: '0.7rem', color: '#64748b' }}
+                                 >
+                                   <i className="fa-solid fa-user-plus"></i> มอบหมายงาน
+                                 </button>
                              </div>
                          ))}
                      </div>
@@ -274,6 +305,29 @@ export default function Production() {
                   <div className="flex gap-2 mt-4 justify-end">
                       <button className="btn btn-outline" onClick={() => setTrackingModal({open: false, jobId: null, trackingNum: ''})}>ยกเลิก</button>
                       <button className="btn btn-success" onClick={submitShipping}>บันทึกจัดส่ง</button>
+                  </div>
+              </div>
+          </div>
+      )}
+
+      {/* Assign Worker Modal */}
+      {assignModal.open && (
+          <div style={{
+              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+              background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+          }}>
+              <div style={{background: 'white', padding: '2rem', borderRadius: '12px', width: '420px'}}>
+                  <h4 className="mb-4"><i className="fa-solid fa-user-gear"></i> มอบหมายงาน JOB #{assignModal.jobId}</h4>
+                  <p style={{fontSize: '0.85rem', color: '#64748b'}}>เลือกพนักงานที่รับผิดชอบใบงานนี้ (ระบบจะจับเวลาอัตโนมัติ)</p>
+                  <select className="form-control mt-4" value={assignModal.empId} onChange={e => setAssignModal({...assignModal, empId: e.target.value})} style={{ fontSize: '0.95rem' }}>
+                    <option value="">-- เลือกพนักงาน --</option>
+                    {employees.filter(e => ['pre_press','print_a1','print_a2','post_press','shipping'].includes(e.department)).map(emp => (
+                      <option key={emp.id} value={emp.id}>{emp.name} ({emp.role})</option>
+                    ))}
+                  </select>
+                  <div className="flex gap-2 mt-4 justify-end">
+                      <button className="btn btn-outline" onClick={() => setAssignModal({open: false, jobId: null, empId: ''})}>ยกเลิก</button>
+                      <button className="btn btn-primary" onClick={assignWorker}>มอบหมายงาน</button>
                   </div>
               </div>
           </div>
