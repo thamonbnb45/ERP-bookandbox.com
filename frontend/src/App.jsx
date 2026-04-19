@@ -19,9 +19,9 @@ function Sidebar() {
           <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
              <i className="fa-solid fa-chart-pie"></i> ภาพรวม (CEO)
           </Link>
-          <NavLink to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`}>
+          <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`}>
              <i className="fa-brands fa-line"></i> แชท (Chat)
-          </NavLink>
+          </Link>
           <Link to="/sales" className={`nav-item ${location.pathname === '/sales' ? 'active' : ''}`}>
               <i className="fa-solid fa-cart-shopping"></i> เสนอราคา/ขาย
           </Link>
