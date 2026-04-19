@@ -263,6 +263,12 @@ app.get('/api/chats', async (req, res) => {
         });
 
         const data = await Promise.all(promises);
+        // Sort by latest message timestamp (newest first)
+        data.sort((a, b) => {
+            const aLast = a.messages.length > 0 ? new Date(a.messages[a.messages.length - 1].created_at) : new Date(0);
+            const bLast = b.messages.length > 0 ? new Date(b.messages[b.messages.length - 1].created_at) : new Date(0);
+            return bLast - aLast;
+        });
         res.json(data);
     } catch (e) {
         res.status(500).json({ error: e.message });
