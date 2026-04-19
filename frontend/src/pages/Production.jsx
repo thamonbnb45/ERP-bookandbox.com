@@ -11,9 +11,32 @@ const STAGES = [
   { id: 'shipping', label: '🚚 คลังและจัดส่ง', color: '#bbf7d0', header: '#22c55e' }
 ];
 
+// Machine capacity config
+const MACHINES = [
+  { id: 'a1', name: 'เครื่อง A1 (ออฟเซ็ท)', maxPerDay: 8, icon: 'fa-solid fa-print', color: '#3b82f6' },
+  { id: 'a2', name: 'เครื่อง A2 (ออฟเซ็ท)', maxPerDay: 6, icon: 'fa-solid fa-print', color: '#8b5cf6' },
+  { id: 'diecut', name: 'เครื่องไดคัท', maxPerDay: 10, icon: 'fa-solid fa-scissors', color: '#f59e0b' },
+  { id: 'laminate', name: 'เครื่องเคลือบ PVC', maxPerDay: 12, icon: 'fa-solid fa-layer-group', color: '#10b981' },
+];
+
+// Workflow steps
+const WORKFLOW_STEPS = [
+  { label: 'ลูกค้าทักแชท', icon: 'fa-brands fa-line', color: '#06C755' },
+  { label: 'เซลส์เสนอราคา', icon: 'fa-solid fa-file-invoice-dollar', color: '#3b82f6' },
+  { label: 'โอนมัดจำ', icon: 'fa-solid fa-money-bill-transfer', color: '#f59e0b' },
+  { label: 'บัญชีอนุมัติ', icon: 'fa-solid fa-stamp', color: '#ef4444' },
+  { label: 'วางแผนผลิต', icon: 'fa-solid fa-clipboard-list', color: '#8b5cf6' },
+  { label: 'ตรวจไฟล์', icon: 'fa-solid fa-pen-ruler', color: '#818cf8' },
+  { label: 'พิมพ์ออฟเซ็ท', icon: 'fa-solid fa-print', color: '#eab308' },
+  { label: 'หลังพิมพ์', icon: 'fa-solid fa-scissors', color: '#f97316' },
+  { label: 'QC + แพ็ค', icon: 'fa-solid fa-box-open', color: '#10b981' },
+  { label: 'จัดส่ง', icon: 'fa-solid fa-truck-fast', color: '#22c55e' },
+];
+
 export default function Production() {
   const [jobOrders, setJobOrders] = useState([]);
   const [trackingModal, setTrackingModal] = useState({ open: false, jobId: null, trackingNum: '' });
+  const [showWorkflow, setShowWorkflow] = useState(false);
 
   useEffect(() => {
     fetchJobOrders();
@@ -38,7 +61,7 @@ export default function Production() {
   };
 
   const handleDragOver = (e) => {
-    e.preventDefault(); // allow drop
+    e.preventDefault();
     e.currentTarget.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,0.1)';
   };
 
@@ -52,15 +75,12 @@ export default function Production() {
     const jobId = e.dataTransfer.getData('jobId');
     if(!jobId) return;
 
-    // Check if it's already in this stage
     const job = jobOrders.find(j => j.id.toString() === jobId);
     if(job && job.production_stage === targetStageId) return;
 
     if(targetStageId === 'shipping') {
-        // Require tracking
         setTrackingModal({ open: true, jobId, trackingNum: '' });
     } else {
-        // Direct move (backward or forward)
         try {
             await axios.put(`${API_URL}/job_orders/${jobId}/move`, { production_stage: targetStageId });
             fetchJobOrders();
@@ -82,19 +102,106 @@ export default function Production() {
     }
   };
 
+  // Capacity calculations
+  const activeJobs = jobOrders.filter(j => j.production_stage !== 'shipping' && j.production_stage !== 'awaiting_payment');
+  const printingJobs = jobOrders.filter(j => j.production_stage === 'printing' || j.production_stage === 'pre_press');
+  const postPressJobs = jobOrders.filter(j => j.production_stage === 'post_press');
+  const totalActiveJobs = activeJobs.length;
+
+  const capacityData = MACHINES.map(m => {
+    let load = 0;
+    if (m.id === 'a1') load = Math.min(Math.ceil(printingJobs.length * 0.6), m.maxPerDay);
+    else if (m.id === 'a2') load = Math.min(Math.ceil(printingJobs.length * 0.4), m.maxPerDay);
+    else if (m.id === 'diecut') load = Math.min(postPressJobs.length, m.maxPerDay);
+    else if (m.id === 'laminate') load = Math.min(Math.ceil(activeJobs.length * 0.3), m.maxPerDay);
+    const pct = Math.round((load / m.maxPerDay) * 100);
+    return { ...m, load, pct };
+  });
+
   return (
-    <div className="view-section active" style={{ height: 'calc(100vh - var(--topbar-height) - 4rem)'}}>
-      <div className="flex justify-between align-center mb-4">
+    <div className="view-section active" style={{ padding: '0' }}>
+      
+      {/* Header */}
+      <div style={{ padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h3 className="text-primary">บอร์ดคุมคิวผลิต (Production Board)</h3>
-          <p>ระบบ Kanban 🟢 **อัปเกรด: สามารถคลิกลากการ์ดข้ามแผนก โยนไปมาหน้าหลังได้อย่างอิสระ!**</p>
+          <p style={{ margin: 0, color: '#64748b', fontSize: '0.85rem' }}>ลากการ์ดข้ามแผนก | งานที่ใช้งานอยู่: <strong style={{ color: totalActiveJobs > 20 ? '#ef4444' : '#10b981' }}>{totalActiveJobs}</strong> ใบงาน</p>
         </div>
-        <div className="flex gap-2">
-          <button className="btn btn-outline" onClick={fetchJobOrders}><i className="fa-solid fa-rotate"></i> โหลดข้อมูลใหม่</button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className={`btn ${showWorkflow ? 'btn-primary' : 'btn-outline'}`} onClick={() => setShowWorkflow(!showWorkflow)} style={{ fontSize: '0.85rem' }}>
+            <i className="fa-solid fa-diagram-project"></i> Workflow
+          </button>
+          <button className="btn btn-outline" onClick={fetchJobOrders} style={{ fontSize: '0.85rem' }}>
+            <i className="fa-solid fa-rotate"></i> โหลดใหม่
+          </button>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', height: '100%', overflowX: 'auto', paddingBottom: '1rem' }}>
+      {/* Workflow Diagram (Toggle) */}
+      {showWorkflow && (
+        <div style={{ padding: '0 1.5rem 1rem', animation: 'fadeIn 0.3s' }}>
+          <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', borderRadius: '12px', padding: '1.5rem', color: 'white' }}>
+            <h4 style={{ color: 'white', marginBottom: '1rem' }}><i className="fa-solid fa-diagram-project"></i> 360° Workflow: จากแชทลูกค้าจนถึงจัดส่ง</h4>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0', overflowX: 'auto', paddingBottom: '0.5rem' }}>
+              {WORKFLOW_STEPS.map((step, idx) => (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+                    <div style={{
+                      width: '44px', height: '44px', borderRadius: '50%', background: step.color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '1rem', color: 'white', boxShadow: `0 0 12px ${step.color}50`
+                    }}>
+                      <i className={step.icon}></i>
+                    </div>
+                    <span style={{ fontSize: '0.65rem', color: '#cbd5e1', textAlign: 'center', maxWidth: '70px' }}>{step.label}</span>
+                  </div>
+                  {idx < WORKFLOW_STEPS.length - 1 && (
+                    <div style={{ width: '30px', height: '2px', background: 'rgba(255,255,255,0.2)', margin: '0 2px', marginBottom: '1.2rem' }}>
+                      <div style={{ width: '100%', height: '2px', background: `linear-gradient(90deg, ${step.color}, ${WORKFLOW_STEPS[idx+1].color})` }}></div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Capacity Dashboard */}
+      <div style={{ padding: '0 1.5rem 0.8rem', display: 'flex', gap: '0.8rem', overflowX: 'auto' }}>
+        {capacityData.map(machine => (
+          <div key={machine.id} style={{
+            flex: 1, minWidth: '180px', background: 'white', borderRadius: '10px', padding: '0.8rem',
+            border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#334155' }}>
+                <i className={machine.icon} style={{ color: machine.color, marginRight: '0.3rem' }}></i>
+                {machine.name}
+              </span>
+              <span style={{
+                fontSize: '0.7rem', fontWeight: 700,
+                color: machine.pct >= 80 ? '#ef4444' : machine.pct >= 50 ? '#f59e0b' : '#10b981'
+              }}>
+                {machine.pct}%
+              </span>
+            </div>
+            <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{
+                width: `${machine.pct}%`, height: '100%', borderRadius: '4px', transition: 'width 0.5s',
+                background: machine.pct >= 80 ? '#ef4444' : machine.pct >= 50 ? '#f59e0b' : machine.color
+              }}></div>
+            </div>
+            <div style={{ marginTop: '0.3rem', fontSize: '0.65rem', color: '#94a3b8' }}>
+              {machine.load}/{machine.maxPerDay} งาน/วัน
+              {machine.pct >= 80 && <span style={{ color: '#ef4444', fontWeight: 700 }}> ⚠️ ใกล้เต็ม!</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Kanban Board */}
+      <div style={{ display: 'flex', gap: '0.8rem', padding: '0 1rem 1rem', flex: 1, overflowX: 'auto', height: 'calc(100vh - var(--topbar-height) - 280px)' }}>
           {STAGES.map(stage => {
               const columnJobs = jobOrders.filter(j => j.production_stage === stage.id);
               
@@ -104,46 +211,42 @@ export default function Production() {
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDrop(e, stage.id)}
                       style={{ 
-                          minWidth: '280px', flex: 1, background: stage.color, 
+                          minWidth: '250px', flex: 1, background: stage.color, 
                           borderRadius: '8px', display: 'flex', flexDirection: 'column', 
-                          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                           transition: 'box-shadow 0.2s ease'
                       }}>
                      {/* Column Header */}
-                     <div style={{ background: stage.header, color: 'white', padding: '0.8rem', borderTopLeftRadius: '8px', borderTopRightRadius: '8px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
+                     <div style={{ background: stage.header, color: 'white', padding: '0.6rem 0.8rem', borderTopLeftRadius: '8px', borderTopRightRadius: '8px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                          <span>{stage.label}</span>
-                         <span style={{background: 'rgba(255,255,255,0.3)', padding: '0.1rem 0.6rem', borderRadius: '12px'}}>{columnJobs.length}</span>
+                         <span style={{background: 'rgba(255,255,255,0.3)', padding: '0 0.5rem', borderRadius: '12px', fontSize: '0.8rem'}}>{columnJobs.length}</span>
                      </div>
                      
                      {/* Column Body (Cards) */}
-                     <div style={{ padding: '0.8rem', display: 'flex', flexDirection: 'column', gap: '0.8rem', overflowY: 'auto', flex: 1 }}>
-                         {columnJobs.length === 0 && <div style={{opacity: 0.5, textAlign: 'center', marginTop: '1rem', fontSize: '0.9rem', pointerEvents: 'none'}}>ลากใบงานมาวางที่นี่...</div>}
+                     <div style={{ padding: '0.6rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', overflowY: 'auto', flex: 1 }}>
+                         {columnJobs.length === 0 && <div style={{opacity: 0.5, textAlign: 'center', marginTop: '1rem', fontSize: '0.8rem'}}>ลากมาวางที่นี่...</div>}
                          {columnJobs.map(job => (
                              <div key={job.id} 
                                  draggable="true"
                                  onDragStart={(e) => handleDragStart(e, job.id)}
                                  onDragEnd={handleDragEnd}
                                  style={{
-                                     background: 'white', padding: '1rem', borderRadius: '6px', cursor: 'grab',
-                                     boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)', position: 'relative'
+                                     background: 'white', padding: '0.8rem', borderRadius: '6px', cursor: 'grab',
+                                     boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)'
                                  }}>
                                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                     <strong style={{color: '#334155'}}>#JOB-{job.id}</strong>
-                                     <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{new Date(job.created_at).toLocaleDateString()}</span>
+                                     <strong style={{color: '#334155', fontSize: '0.85rem'}}>#JOB-{job.id}</strong>
+                                     <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{new Date(job.created_at).toLocaleDateString()}</span>
                                  </div>
-                                 <h5 style={{margin: '0.5rem 0 0.2rem 0', color: '#0f172a'}}>{job.customer}</h5>
-                                 <p style={{fontSize: '0.8rem', color: '#64748b', margin: 0}}><i className="fa-solid fa-box"></i> {job.product}</p>
-                                 <p style={{fontSize: '0.8rem', color: '#64748b', margin: '0.2rem 0 0.8rem 0'}}><i className="fa-solid fa-layer-group"></i> จำนวน: {job.quantity.toLocaleString()} ใบ</p>
+                                 <h5 style={{margin: '0.3rem 0 0.1rem 0', color: '#0f172a', fontSize: '0.85rem'}}>{job.customer}</h5>
+                                 <p style={{fontSize: '0.75rem', color: '#64748b', margin: 0}}><i className="fa-solid fa-box"></i> {job.product}</p>
+                                 <p style={{fontSize: '0.75rem', color: '#64748b', margin: '0.1rem 0 0.5rem 0'}}><i className="fa-solid fa-layer-group"></i> {job.quantity.toLocaleString()} ใบ</p>
                                  
                                  {job.tracking_number && (
-                                     <div style={{background: '#dcfce7', color: '#166534', padding: '0.3rem', borderRadius: '4px', fontSize: '0.75rem', marginBottom: '0.4rem', fontWeight: 'bold'}}>
-                                         <i className="fa-solid fa-truck-fast"></i> Tracking: {job.tracking_number}
+                                     <div style={{background: '#dcfce7', color: '#166534', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold'}}>
+                                         <i className="fa-solid fa-truck-fast"></i> {job.tracking_number}
                                      </div>
                                  )}
-
-                                 <div style={{fontSize: '0.7rem', color: '#94a3b8', textAlign: 'center', marginTop: '0.5rem'}}>
-                                     <i className="fa-solid fa-grip-lines"></i> แตะค้างเพื่อลากย้าย (Drag to move)
-                                 </div>
                              </div>
                          ))}
                      </div>
