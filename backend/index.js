@@ -587,6 +587,56 @@ app.get('/api/dashboard/metrics', async (req, res) => {
     }
 });
 
+// One-time migration: reformat existing leads to Bookandbox naming convention
+app.get('/api/migrate-names', async (req, res) => {
+    try {
+        const { data: leads } = await supabase.from('lead_contact').select('*');
+        if (!leads) return res.json({ error: 'No leads found' });
+
+        let updated = 0;
+        for (const lead of leads) {
+            // Skip leads that already have the format (contain at least 2 dashes like I-aem-Name)
+            if (lead.erp_alias_name && lead.erp_alias_name.includes('-') && lead.erp_alias_name.split('-').length >= 3) {
+                continue;
+            }
+            // Skip mock/seeded leads
+            if (lead.line_user_id.startsWith('U_SEED_')) continue;
+
+            // Use the lead's first message date, or created_at, or now
+            let dateSource = lead.created_at ? new Date(lead.created_at) : new Date();
+            
+            // Try to get the first message date for more accuracy
+            const { data: firstMsg } = await supabase.from('chat_message')
+                .select('created_at')
+                .eq('lead_id', lead.id)
+                .order('id', { ascending: true })
+                .limit(1);
+            if (firstMsg && firstMsg.length > 0) {
+                dateSource = new Date(firstMsg[0].created_at);
+            }
+
+            // Convert to Thai time
+            const thDate = new Date(dateSource.toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+            const dd = thDate.getDate();
+            const mm = thDate.getMonth() + 1;
+            const buddhistYear = (thDate.getFullYear() + 543) % 100;
+            const dateTag = `${dd}.${mm}.${buddhistYear}`;
+
+            const name = lead.original_name || 'Unknown';
+            const newAlias = `I--${name}${dateTag}`;
+
+            await supabase.from('lead_contact')
+                .update({ erp_alias_name: newAlias })
+                .eq('id', lead.id);
+            updated++;
+        }
+
+        res.json({ success: true, updated, total: leads.length, message: `Migrated ${updated} leads to Bookandbox naming convention` });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 
 app.get('/api/dashboard/insights', async (req, res) => {
     try {
