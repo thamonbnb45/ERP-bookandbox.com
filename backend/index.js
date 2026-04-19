@@ -740,6 +740,28 @@ app.get('/api/hr/seed', async (req, res) => {
     }
 });
 
+app.post('/api/hr/assign', async (req, res) => {
+    const { job_order_id, employee_id } = req.body;
+    try {
+        // Get job info for stage
+        const { data: job } = await supabase.from('job_order').select('production_stage').eq('id', job_order_id).single();
+        const { data: emp } = await supabase.from('employee').select('name').eq('id', employee_id).single();
+        
+        const { error } = await supabase.from('task_log').insert([{
+            job_order_id,
+            employee_id,
+            task_name: `JOB #${job_order_id} - ${emp?.name || 'Unknown'}`,
+            stage: job?.production_stage || 'planning',
+            started_at: new Date().toISOString(),
+            duration_minutes: Math.floor(Math.random() * 120 + 30) // Simulated for now
+        }]);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // ====== SEASONAL ANALYTICS ======
 app.get('/api/dashboard/seasonal', async (req, res) => {
     try {
