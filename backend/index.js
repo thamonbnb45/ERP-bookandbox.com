@@ -142,10 +142,11 @@ app.post('/api/webhook', async (req, res) => {
                     media_url: mediaUrl
                 }]);
 
-                // Auto-Responder Logic
+                // Auto-Responder Logic (นอกเวลาทำการ 17:30 - 08:30)
                 if (msgType === 'text') {
-                    // [TEST MODE] Override time condition specifically for user testing
-                    const isAfterHours = true; // เปิดโหมดทดสอบ 24 ชม.
+                    const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+                    const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
+                    const isAfterHours = timeNum >= 1730 || timeNum < 830;
 
                     if (isAfterHours && channelToken !== 'DUMMY_TOKEN') {
                         const aiResponse = await getAIBestMatch(textContent);
