@@ -72,7 +72,7 @@ function App() {
                 <Route path="/sales" element={<><Topbar title="เสนอราคา/ขาย" /><div className="view-container"><Sales /></div></>} />
                 <Route path="/production" element={<><Topbar title="ฝ่ายผลิต" /><div className="view-container"><Production /></div></>} />
                 <Route path="/accounting" element={<><Topbar title="บัญชีและเบิกจ่าย" /><div className="view-container"><Accounting /></div></>} />
-                <Route path="/" element={<><Topbar title="ภาพรวม (Dashboard)" /><Dashboard /></>} />
+                <Route path="/" element={<><Topbar title="ภาพรวม (Dashboard)" /><div className="view-container"><Dashboard /></div></>} />
               </Routes>
             </main>
           </div>
