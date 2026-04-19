@@ -111,9 +111,17 @@ export default function AdWeb() {
 
   const handleToggleStatus = async (newStatus) => {
       if (!activeLead) return;
+      // Auto-update alias prefix to match status
+      let newAlias = activeLead.erp_alias_name || activeLead.original_name;
+      const statusMap = { 'i': 'I', 'o': 'O', 'c': 'C' };
+      const parts = newAlias.split('-');
+      if (parts.length >= 2) {
+          parts[0] = statusMap[newStatus] || parts[0];
+          newAlias = parts.join('-');
+      }
       try {
         await axios.put(`${API_URL}/leads/${activeLead.id}`, {
-            erp_alias_name: activeLead.erp_alias_name,
+            erp_alias_name: newAlias,
             tags: activeLead.tags,
             sales_status: newStatus
         });
@@ -322,8 +330,13 @@ export default function AdWeb() {
                 </div>
 
                 <div style={{ overflow: 'hidden', width: '100%', marginLeft: '10px' }}>
-                        <h5 style={{margin: '0 0 0.3rem 0', color: '#0f172a', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
-                            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '120px' }}>{lead.original_name}</span>
+                        <h5 style={{margin: '0 0 0.3rem 0', color: '#0f172a', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
+                            <span style={{
+                              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '160px',
+                              color: lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a'
+                            }}>
+                              {lead.erp_alias_name || lead.original_name}
+                            </span>
                             {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
                         </h5>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
@@ -335,7 +348,6 @@ export default function AdWeb() {
                             </span>
                         </div>
                         <div style={{fontSize: '0.65rem', color: '#94a3b8', display: 'flex', gap: '0.3rem', marginTop: '0.2rem', alignItems: 'center'}}>
-                            {lead.erp_alias_name !== lead.original_name && <span style={{color: '#64748b'}}>({lead.erp_alias_name})</span>}
                             {lead.company_role || lead.industry ? <span>• {lead.company_role || lead.industry}</span> : null}
                             {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontWeight: 700 }}>{revGrade.label}</span>}
                         </div>
@@ -356,16 +368,47 @@ export default function AdWeb() {
                 <div className="flex" style={{gap: '1rem', alignItems: 'center'}}>
                     <div>
                         {editingLead ? (
-                            <input type="text" className="form-control" value={aliasName} onChange={e => setAliasName(e.target.value)} style={{fontSize: '1.1rem', fontWeight: 'bold', width: '220px'}}/>
+                            <div style={{display: 'flex', gap: '0.4rem', alignItems: 'center'}}>
+                                <select className="form-control" value={aliasName.split('-')[0] || 'I'} onChange={e => {
+                                    const parts = aliasName.split('-');
+                                    parts[0] = e.target.value;
+                                    setAliasName(parts.join('-'));
+                                }} style={{width: '70px', fontWeight: 'bold', fontSize: '0.9rem'}}>
+                                    <option value="I">I</option>
+                                    <option value="O">O</option>
+                                    <option value="C">C</option>
+                                    <option value="C2">C2</option>
+                                    <option value="C3">C3</option>
+                                    <option value="C4">C4</option>
+                                    <option value="C5">C5</option>
+                                </select>
+                                <span style={{fontWeight: 'bold', color: '#94a3b8'}}>-</span>
+                                <input type="text" className="form-control" placeholder="เซลส์" value={(aliasName.split('-')[1] || '')} onChange={e => {
+                                    const parts = aliasName.split('-');
+                                    while(parts.length < 3) parts.push('');
+                                    parts[1] = e.target.value;
+                                    setAliasName(parts.join('-'));
+                                }} style={{width: '70px', fontSize: '0.9rem'}}/>
+                                <span style={{fontWeight: 'bold', color: '#94a3b8'}}>-</span>
+                                <input type="text" className="form-control" placeholder="ชื่อ+วันที่" value={(aliasName.split('-').slice(2).join('-') || '')} onChange={e => {
+                                    const parts = aliasName.split('-');
+                                    while(parts.length < 3) parts.push('');
+                                    const newAlias = parts[0] + '-' + parts[1] + '-' + e.target.value;
+                                    setAliasName(newAlias);
+                                }} style={{width: '180px', fontSize: '0.9rem'}}/>
+                            </div>
                         ) : (
-                            <h4 className="m-0" style={{color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                            <h4 className="m-0" style={{
+                              color: activeLead.erp_alias_name?.startsWith('C') ? '#16a34a' : activeLead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
+                              display: 'flex', alignItems: 'center', gap: '0.5rem'
+                            }}>
                               {renderPlatformIcon(activeLead.platform)}
-                              {activeLead.original_name}
+                              {activeLead.erp_alias_name || activeLead.original_name}
                               {activeLead.visit_required && <span style={{ background: '#6366f1', color: 'white', padding: '0.1rem 0.4rem', borderRadius: '6px', fontSize: '0.65rem' }}>🏢 นัดเข้าพบ</span>}
                             </h4>
                         )}
                         <small style={{display: 'block', color: 'var(--text-muted)'}}>
-                            ERP Alias: {activeLead.erp_alias_name !== activeLead.original_name ? activeLead.erp_alias_name : '-'}
+                            LINE: {activeLead.original_name}
                             {activeLead.company_role && <> • <strong>{activeLead.company_role}</strong></>}
                             {activeLead.industry && <> • {activeLead.industry}</>}
                         </small>
@@ -399,17 +442,24 @@ export default function AdWeb() {
                         <div style={{background: '#f1f5f9', padding: '3px', borderRadius: '8px', display: 'flex'}}>
                             <button 
                                 className={`btn btn-sm ${activeLead.sales_status === 'i' ? 'btn-primary' : ''}`} 
-                                style={{background: activeLead.sales_status !== 'i' ? 'transparent' : '', color: activeLead.sales_status !== 'i' ? '#64748b' : '', fontSize: '0.8rem'}}
+                                style={{background: activeLead.sales_status !== 'i' ? 'transparent' : '', color: activeLead.sales_status !== 'i' ? '#64748b' : '', fontSize: '0.75rem'}}
                                 onClick={() => handleToggleStatus('i')}
                             >
-                                ถาม (i)
+                                I สนใจ
                             </button>
                             <button 
-                                className={`btn btn-sm ${activeLead.sales_status === 'q' ? 'btn-success' : ''}`} 
-                                style={{background: activeLead.sales_status !== 'q' ? 'transparent' : '', color: activeLead.sales_status !== 'q' ? '#64748b' : '', fontSize: '0.8rem'}}
-                                onClick={() => handleToggleStatus('q')}
+                                className={`btn btn-sm ${activeLead.sales_status === 'o' ? '' : ''}`} 
+                                style={{background: activeLead.sales_status === 'o' ? '#f59e0b' : 'transparent', color: activeLead.sales_status === 'o' ? 'white' : '#64748b', fontSize: '0.75rem'}}
+                                onClick={() => handleToggleStatus('o')}
                             >
-                                เสนอ (q)
+                                O โอกาส
+                            </button>
+                            <button 
+                                className={`btn btn-sm ${activeLead.sales_status === 'c' ? 'btn-success' : ''}`} 
+                                style={{background: activeLead.sales_status !== 'c' ? 'transparent' : '', color: activeLead.sales_status !== 'c' ? '#64748b' : '', fontSize: '0.75rem'}}
+                                onClick={() => handleToggleStatus('c')}
+                            >
+                                C ซื้อแล้ว
                             </button>
                         </div>
                     )}

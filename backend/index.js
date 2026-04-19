@@ -42,11 +42,19 @@ const ensureLeadExists = async (lineUserId) => {
             } catch (e) {}
         }
 
+        // Auto-generate ERP alias in Bookandbox format: {Status}-{Sales}-{Name}{DD.MM.YY}
+        const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+        const dd = now.getDate();
+        const mm = now.getMonth() + 1;
+        const buddhistYear = (now.getFullYear() + 543) % 100; // 2 digit Buddhist year
+        const dateTag = `${dd}.${mm}.${buddhistYear}`;
+        const erpAlias = `I--${originalName}${dateTag}`;
+
         const { data: newRow, error: insertErr } = await supabase.from('lead_contact')
             .insert([{
                 line_user_id: lineUserId,
                 original_name: originalName,
-                erp_alias_name: originalName,
+                erp_alias_name: erpAlias,
                 tags: [],
                 sales_status: 'i',
                 avatar_url: avatarUrl
