@@ -234,7 +234,9 @@ app.get('/api/chats', async (req, res) => {
         const { data: leads, error } = await supabase.from('lead_contact').select('*');
         if (error) throw error;
         
-        const promises = leads.map(async (lead) => {
+        // Filter out seeded mock leads (keep only real LINE/FB/TikTok customers)
+        const realLeads = leads.filter(l => !l.line_user_id.startsWith('U_SEED_'));
+        const promises = realLeads.map(async (lead) => {
             const analytics = await evaluateCustomerTier(lead.customer_id);
             const { data: msgs } = await supabase.from('chat_message')
                 .select('*')
@@ -585,138 +587,6 @@ app.get('/api/dashboard/metrics', async (req, res) => {
     }
 });
 
-// TEMPORARY ENDPOINT TO SEED MOCK DATA
-app.get('/api/seed', async (req, res) => {
-    try {
-        const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-        const randomDateLast30Days = () => {
-            const prevDate = new Date();
-            prevDate.setDate(prevDate.getDate() - randomInt(0, 30));
-            return prevDate.toISOString();
-        };
-        const STAGES = ['planning', 'design', 'printer', 'diecut', 'gluing', 'shipping'];
-        
-        // Just create 50 job orders randomly
-        const jobsToInsert = [];
-        for(let i=0; i<50; i++) {
-            const qty = randomInt(500, 15000);
-            const stage = STAGES[randomInt(0, STAGES.length - 1)];
-            const isCompleted = Math.random() > 0.6 || stage === 'shipping';
-            jobsToInsert.push({
-                customer_id: 1, // Fallback to first customer
-                product_id: 1, // Fallback to first product
-                quantity: qty,
-                total_price: qty * 2.5 * (1 + (Math.random() * 0.2)),
-                status: isCompleted ? 'completed' : 'progress',
-                production_stage: isCompleted ? 'shipping' : stage,
-                created_at: randomDateLast30Days()
-            });
-        }
-        await supabase.from('job_order').insert(jobsToInsert);
-        
-        // Create random leads with omni-channel platforms
-        const PLATFORMS = ['line', 'line', 'line', 'facebook', 'facebook', 'tiktok'];
-        const ROLES = ['จัดซื้อ', 'Marketing', 'เจ้าของกิจการ', 'Graphic Designer', null];
-        const INDUSTRIES = ['ครีม/สกินแคร์', 'อาหารเสริม', 'เครื่องสำอาง', 'OEM โรงงาน', 'อีเว้นต์/ออกบูธ', 'ร้านอาหาร/คาเฟ่', null];
-        const REVENUE_GRADES = [null, '50M', '100M', '200M', '500M', '1B'];
-        const SLA_OPTIONS = [null, 1, 3, 7, 10, 14, 20, 30];
-        const THAI_NAMES_FB = ['ร้านสวัสดีความงาม', 'แบรนด์ MiracleGlow', 'บจก.โกลเด้นแพค', 'ตลาดนัดครีเอทีฟ', 'ร้านลุงป้อม Printing'];
-        const THAI_NAMES_TK = ['@beautybynam', '@creamcraftTH', '@boxdesign.co', '@cosmepack99', '@eventbox_bkk'];
-        const THAI_NAMES_LINE = ['คุณมิ้ม จัดซื้อ ABC', 'พี่ปุ้ย GoldenPack', 'คุณนัท DesignHub', 'คุณแอน CreamFactory', 'พี่มาร์ค EventPro'];
-        
-        const leads = [];
-        for(let i=0; i<30; i++){
-            const platform = PLATFORMS[randomInt(0, PLATFORMS.length - 1)];
-            let name = `User ${randomInt(100,999)}`;
-            if (platform === 'facebook') name = THAI_NAMES_FB[randomInt(0, THAI_NAMES_FB.length - 1)];
-            else if (platform === 'tiktok') name = THAI_NAMES_TK[randomInt(0, THAI_NAMES_TK.length - 1)];
-            else name = THAI_NAMES_LINE[randomInt(0, THAI_NAMES_LINE.length - 1)];
-            
-            leads.push({
-                line_user_id: `U_SEED_${platform}_${randomInt(10000,99999)}`,
-                original_name: name,
-                erp_alias_name: name,
-                platform: platform,
-                company_role: ROLES[randomInt(0, ROLES.length - 1)],
-                industry: INDUSTRIES[randomInt(0, INDUSTRIES.length - 1)],
-                company_revenue_grade: REVENUE_GRADES[randomInt(0, REVENUE_GRADES.length - 1)],
-                sla_days: SLA_OPTIONS[randomInt(0, SLA_OPTIONS.length - 1)],
-                visit_required: Math.random() > 0.7,
-                created_at: randomDateLast30Days()
-            });
-        }
-        await supabase.from('lead_contact').insert(leads);
-        
-        res.json({ success: true, message: "Seeded 50 jobs and 30 omni-channel leads!" });
-    } catch(e) {
-        res.status(500).json({ error: e.message });
-    }
-});
-
-// ====== DEEP CHAT ANALYTICS ======
-app.get('/api/seed_chats', async (req, res) => {
-    try {
-        const { data: leads } = await supabase.from('lead_contact').select('id, created_at');
-        if (!leads || leads.length === 0) return res.json({ error: 'No leads found to seed.' });
-        
-        const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-        
-        const possibleChats = [
-            { t: 'อยากได้กล่องแพคเกจจิ้งแบบในรูปนี้ค่ะ ทำได้ไหมคะ?', m: 'https://images.unsplash.com/photo-1595079676339-15348bb9bf04?auto=format&fit=crop&q=80&w=400' },
-            { t: 'พิมพ์ใบปลิว 2000 ใบ ส่งด่วนวันศุกร์นี้เรทเท่าไหร่ครับ', m: null },
-            { t: 'ขอราคาพิมพ์กล่องครีม 5,000 ใบค่ะ ไซส์ 5x5x10 cm', m: null },
-            { t: 'แบบนี้ถ้าเจาะหน้าต่างพลาสติกใสด้วยคิดเพิ่มกี่บาท?', m: 'https://images.unsplash.com/photo-1620950341777-66a9d702afc5?auto=format&fit=crop&q=80&w=400' },
-            { t: 'สติ๊กเกอร์ไดคัทวงกลม ขนาด 3cm ดวงละเท่าไหร่', m: null },
-            { t: 'พี่คะ งานที่โอนไปเมื่อวาน จัดส่งรึยังคะ ด่วนมากๆ', m: null },
-            { t: 'สนใจพิมพ์โบรชัวร์ขนาด A4 พับ 3 ครับ ขอใบเสนอราคาด้วยจัดซื้อ', m: null },
-            { t: 'สีที่ได้จากการพิมพ์จะเพี้ยนจากหน้าจอมั้ยคะ มีปรู๊ฟสีฟรีมั้ย?', m: 'https://images.unsplash.com/photo-1596489370830-10901e8ce4cc?auto=format&fit=crop&q=80&w=400' },
-            { t: 'กล่องลูกฟูกห่อของ ส่งไปรษณีย์ มีไซส์มาตรฐานมั้ย หรือต้องสั่งทำ?', m: null },
-            { t: 'ใช้กระดาษอาร์ตการ์ด 300 แกรม เคลือบด้าน สปอตยูวี เฉพาะโลโก้', m: null }
-        ];
-
-        let msgPayloads = [];
-
-        // Distribute around 100 messages total across random leads
-        for(let i=0; i<100; i++) {
-            const lead = leads[randomInt(0, leads.length - 1)];
-            const chatObj = possibleChats[randomInt(0, possibleChats.length - 1)];
-            
-            // Randomize hour of day by taking lead's created_at and adding random hours
-            const baseTime = new Date(lead.created_at);
-            // shift between 8 AM and 10 PM
-            const hourOffset = randomInt(8, 22);
-            baseTime.setUTCHours(hourOffset);
-            baseTime.setUTCMinutes(randomInt(0, 59));
-
-            msgPayloads.push({
-                lead_id: lead.id,
-                sender: 'client',
-                type: chatObj.m ? 'image' : 'text',
-                text_content: chatObj.t,
-                media_url: chatObj.m,
-                created_at: baseTime.toISOString()
-            });
-            
-            // 70% chance Admin replies
-            if (Math.random() > 0.3) {
-                baseTime.setUTCMinutes(baseTime.getUTCMinutes() + randomInt(2, 30)); // 2 to 30 min reply time
-                msgPayloads.push({
-                    lead_id: lead.id,
-                    sender: 'admin',
-                    type: 'text',
-                    text_content: 'แอดมินรับทราบครับ แนะนำส่งแบบหรือขนาดเพื่อให้ตีราคานะครับ',
-                    created_at: baseTime.toISOString()
-                });
-            }
-        }
-
-        await supabase.from('chat_message').insert(msgPayloads);
-        res.json({ success: true, count: msgPayloads.length, message: "Mock Deep chats fully seeded!" });
-
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
-});
 
 app.get('/api/dashboard/insights', async (req, res) => {
     try {
