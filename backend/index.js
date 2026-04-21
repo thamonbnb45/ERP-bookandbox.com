@@ -676,13 +676,16 @@ app.get('/api/production_log/init', async (req, res) => {
                     updated_at TIMESTAMPTZ DEFAULT NOW()
                 );
             `});
-            // Seed default admin if missing
-            const { data: adminData } = await supabase.from('erp_users').select('id').eq('username', 'admin').limit(1);
-            if (!adminData || adminData.length === 0) {
-                await supabase.from('erp_users').insert([{
-                    username: 'admin', full_name: 'ผู้บริหารสูงสุด (CEO)', role: 'CEO', pin_code: '1234'
-                }]);
-            }
+            `});
+            // Force schema reload for PostgREST cache
+            await supabase.rpc('exec_sql', { sql_string: `NOTIFY pgrst, 'reload schema';` });
+            
+            // Seed default admin
+            await supabase.rpc('exec_sql', { sql_string: `
+                INSERT INTO erp_users (username, full_name, role, pin_code) 
+                VALUES ('admin', 'ผู้บริหารสูงสุด (CEO)', 'CEO', '1234') 
+                ON CONFLICT (username) DO NOTHING;
+            `});
         }
         res.json({ status: 'init ok' });
     } catch (e) {
