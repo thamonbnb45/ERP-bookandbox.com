@@ -826,6 +826,29 @@ app.post('/api/logistics/3pl', async (req, res) => {
     } catch (e) { res.status(500).json({error: e.message}); }
 });
 
+// UPLOAD Proof of Delivery Photo (Base64)
+app.post('/api/upload_proof', async (req, res) => {
+    try {
+        const { image_base64 } = req.body;
+        if (!image_base64) return res.status(400).json({error: 'No image provided'});
+        
+        // Ensure directory exists
+        const uploadDir = path.join(__dirname, 'uploads', 'logistics');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        const base64Data = image_base64.replace(/^data:image\/jpeg;base64,/, "");
+        const fileName = `proof_${Date.now()}_${Math.floor(Math.random()*1000)}.jpg`;
+        const filePath = path.join(uploadDir, fileName);
+
+        fs.writeFileSync(filePath, base64Data, 'base64');
+        res.json({ success: true, url: `/uploads/logistics/${fileName}` });
+    } catch (e) {
+        res.status(500).json({error: e.message});
+    }
+});
+
 
 
 // One-time migration: reformat existing leads to Bookandbox naming convention
