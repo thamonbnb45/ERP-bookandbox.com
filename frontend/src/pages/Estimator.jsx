@@ -36,7 +36,16 @@ export default function Estimator() {
   // Admin: Add price
   const [priceForm, setPriceForm] = useState({ category: 'ใบปลิว/แผ่นพับ', product_name: '', paper: '', quantity: '', price_per_unit: '', total_price: '' });
 
-  useEffect(() => { fetchCatalog(); fetchRequests(); }, []);
+  // Tab 4: Supplier Costs
+  const [supplierCosts, setSupplierCosts] = useState([]);
+  const [supSearch, setSupSearch] = useState('');
+  const [supForm, setSupForm] = useState({ category: 'ใบปลิว/แผ่นพับ', supplier_name: '', product_name: '', specs: '', quantity: '', cost_per_unit: '' });
+  const [markupPct, setMarkupPct] = useState(30);
+  const [estProduct, setEstProduct] = useState('');
+  const [estQty, setEstQty] = useState('');
+  const [estResult, setEstResult] = useState(null);
+
+  useEffect(() => { fetchCatalog(); fetchRequests(); fetchSupplierCosts(); }, []);
 
   const fetchCatalog = async () => {
     try {
@@ -60,6 +69,23 @@ export default function Estimator() {
       const res = await axios.get(`${API_URL}/price_messages/${reqId}`);
       setMessages(res.data);
     } catch (e) { console.error(e); }
+  };
+
+  const fetchSupplierCosts = async () => {
+    try {
+      const params = {};
+      if (supSearch) params.search = supSearch;
+      const res = await axios.get(`${API_URL}/supplier_costs`, { params });
+      setSupplierCosts(res.data);
+    } catch (e) { console.error(e); }
+  };
+
+  const estimateSellingPrice = async () => {
+    if (!estProduct || !estQty) { alert('กรอกชื่อสินค้าและจำนวน'); return; }
+    try {
+      const res = await axios.get(`${API_URL}/supplier_costs/estimate`, { params: { product_name: estProduct, quantity: estQty, markup: markupPct } });
+      setEstResult(res.data);
+    } catch (e) { setEstResult({ found: false }); }
   };
 
   // AI Linear Interpolation
@@ -131,6 +157,7 @@ export default function Estimator() {
 
   const TABS = [
     { id: 'search', label: 'ค้นราคา', icon: 'fa-magnifying-glass-dollar' },
+    { id: 'supplier', label: 'ฐานราคาซัพฯ', icon: 'fa-warehouse' },
     { id: 'request', label: 'ขอราคา', icon: 'fa-paper-plane' },
     { id: 'desk', label: 'Pricing Desk', icon: 'fa-headset' },
   ];
@@ -226,6 +253,125 @@ export default function Estimator() {
                 <input className="form-control" type="number" style={{ width: '80px' }} placeholder="฿/ชิ้น" value={priceForm.price_per_unit} onChange={e => setPriceForm({...priceForm, price_per_unit: e.target.value})} />
                 <button className="btn btn-primary btn-sm" onClick={addPriceToCatalog}>💾 บันทึก</button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB: SUPPLIER COST DATABASE */}
+      {activeTab === 'supplier' && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          {/* Left: AI Estimator */}
+          <div className="table-container shadow" style={{ flex: '1 1 400px', padding: '1.5rem', borderTop: '4px solid #f59e0b' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}><i className="fa-solid fa-calculator"></i> คำนวณราคาขายอัตโนมัติ</h4>
+            <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '1rem' }}>กรอกชื่อสินค้าและจำนวน → ระบบดึงต้นทุนจาก Supplier + บวก Markup ให้ทันที (ไม่ต้องถาม Supplier ซ้ำ!)</p>
+            
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.8rem' }}>
+              <input className="form-control" style={{ flex: 2, minWidth: '150px' }} placeholder="🔍 ชื่อสินค้า เช่น ใบปลิว, กล่อง..." value={estProduct} onChange={e => setEstProduct(e.target.value)} />
+              <input className="form-control" type="number" style={{ width: '100px' }} placeholder="จำนวน" value={estQty} onChange={e => setEstQty(e.target.value)} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: '#fef3c7', padding: '0.3rem 0.6rem', borderRadius: '6px' }}>
+                <span style={{ fontSize: '0.7rem', color: '#92400e', whiteSpace: 'nowrap' }}>Markup</span>
+                <input type="number" style={{ width: '50px', padding: '0.2rem', border: '1px solid #fde68a', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 'bold', textAlign: 'center' }} value={markupPct} onChange={e => setMarkupPct(e.target.value)} />
+                <span style={{ fontSize: '0.75rem', color: '#92400e' }}>%</span>
+              </div>
+              <button className="btn btn-primary btn-sm" style={{ background: '#f59e0b', border: 'none' }} onClick={estimateSellingPrice}>🤖 คำนวณ</button>
+            </div>
+
+            {estResult && (
+              <div style={{ background: estResult.found ? '#f0fdf4' : '#fef2f2', border: `1px solid ${estResult.found ? '#bbf7d0' : '#fecaca'}`, padding: '1rem', borderRadius: '8px' }}>
+                {estResult.found ? (
+                  <>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                      <span style={{ fontSize: '0.8rem', color: '#475569' }}>ต้นทุน Supplier:</span>
+                      <span style={{ fontWeight: 'bold', color: '#dc2626' }}>{estResult.cost_per_unit} ฿/ชิ้น</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                      <span style={{ fontSize: '0.8rem', color: '#475569' }}>Markup {estResult.markup_pct}%:</span>
+                      <span style={{ color: '#f59e0b' }}>+{(estResult.selling_price - estResult.cost_per_unit).toFixed(2)} ฿</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #bbf7d0', paddingTop: '0.5rem', marginTop: '0.3rem' }}>
+                      <span style={{ fontWeight: 'bold', fontSize: '1rem', color: '#15803d' }}>💰 ราคาขาย:</span>
+                      <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#15803d' }}>{estResult.selling_price} ฿/ชิ้น</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.3rem' }}>
+                      <span style={{ fontSize: '0.8rem', color: '#475569' }}>ราคารวม ({Number(estQty).toLocaleString()} ชิ้น):</span>
+                      <span style={{ fontWeight: 'bold', color: '#1e293b' }}>{(estResult.selling_price * Number(estQty)).toLocaleString()} ฿</span>
+                    </div>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '0.5rem' }}>
+                      🤖 วิธี: {estResult.method === 'exact' ? 'ตรงจากฐานข้อมูล' : estResult.method === 'interpolation' ? `AI คำนวณระหว่าง ${estResult.lower_qty?.toLocaleString()} - ${estResult.upper_qty?.toLocaleString()} ชิ้น` : 'ใช้ราคาใกล้เคียงที่สุด'}
+                      {estResult.supplier && ` • จาก: ${estResult.supplier}`}
+                    </div>
+                  </>
+                ) : (
+                  <p style={{ textAlign: 'center', color: '#dc2626', margin: 0 }}>❌ ไม่พบราคาต้นทุนในฐานข้อมูล กรุณาเพิ่มข้อมูลจาก Supplier ด้านล่าง</p>
+                )}
+              </div>
+            )}
+
+            {/* Add Supplier Cost Form */}
+            <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px' }}>
+              <h5 style={{ fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '0.8rem' }}>➕ บันทึกราคาจาก Supplier</h5>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <select className="form-control" style={{ flex: 1, minWidth: '130px' }} value={supForm.category} onChange={e => setSupForm({...supForm, category: e.target.value})}>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                  <input className="form-control" style={{ flex: 1, minWidth: '130px' }} placeholder="ชื่อ Supplier" value={supForm.supplier_name} onChange={e => setSupForm({...supForm, supplier_name: e.target.value})} />
+                </div>
+                <input className="form-control" placeholder="ชื่อสินค้า เช่น ใบปลิว A4 สี 2 ด้าน อาร์ตมัน 130g" value={supForm.product_name} onChange={e => setSupForm({...supForm, product_name: e.target.value})} />
+                <input className="form-control" placeholder="สเปค เช่น อาร์ตมัน 130g 4/4 สี เคลือบ UV" value={supForm.specs} onChange={e => setSupForm({...supForm, specs: e.target.value})} />
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input className="form-control" type="number" style={{ flex: 1 }} placeholder="จำนวน (ชิ้น)" value={supForm.quantity} onChange={e => setSupForm({...supForm, quantity: e.target.value})} />
+                  <input className="form-control" type="number" style={{ flex: 1 }} placeholder="ต้นทุน ฿/ชิ้น" value={supForm.cost_per_unit} onChange={e => setSupForm({...supForm, cost_per_unit: e.target.value})} />
+                  <button className="btn btn-primary btn-sm" style={{ whiteSpace: 'nowrap' }} onClick={async () => {
+                    if (!supForm.product_name || !supForm.quantity || !supForm.cost_per_unit) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
+                    try {
+                      await axios.post(`${API_URL}/supplier_costs`, { ...supForm, quantity: Number(supForm.quantity), cost_per_unit: Number(supForm.cost_per_unit), total_cost: Number(supForm.quantity) * Number(supForm.cost_per_unit) });
+                      alert('✅ บันทึกราคาต้นทุนเรียบร้อย');
+                      setSupForm({ ...supForm, product_name: '', specs: '', quantity: '', cost_per_unit: '' });
+                      fetchSupplierCosts();
+                    } catch (e) { alert('บันทึกไม่สำเร็จ'); }
+                  }}>💾 บันทึก</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Supplier Cost History */}
+          <div className="table-container shadow" style={{ flex: '1 1 400px', padding: '1.5rem' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>📋 ประวัติราคา Supplier</h4>
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+              <input className="form-control" placeholder="🔍 ค้นหาสินค้า / Supplier..." value={supSearch} onChange={e => setSupSearch(e.target.value)} onKeyDown={e => e.key === 'Enter' && fetchSupplierCosts()} style={{ flex: 1 }} />
+              <button className="btn btn-primary btn-sm" onClick={fetchSupplierCosts}>ค้นหา</button>
+            </div>
+            <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+              <table style={{ width: '100%', fontSize: '0.8rem', borderCollapse: 'collapse' }}>
+                <thead><tr style={{ background: '#f8fafc', position: 'sticky', top: 0 }}>
+                  <th style={{ padding: '0.5rem', textAlign: 'left' }}>สินค้า</th>
+                  <th style={{ padding: '0.5rem' }}>Supplier</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'right' }}>จำนวน</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'right' }}>ต้นทุน</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'right' }}>ขาย ({markupPct}%)</th>
+                  <th style={{ padding: '0.5rem' }}>วันที่</th>
+                </tr></thead>
+                <tbody>
+                  {supplierCosts.map(s => (
+                    <tr key={s.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>
+                        <div style={{ fontWeight: 'bold', color: '#1e293b' }}>{s.product_name}</div>
+                        {s.specs && <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{s.specs}</div>}
+                        <span style={{ fontSize: '0.6rem', background: '#e2e8f0', padding: '0.1rem 0.3rem', borderRadius: '3px' }}>{s.category}</span>
+                      </td>
+                      <td style={{ padding: '0.4rem 0.5rem', fontSize: '0.75rem', color: '#64748b', textAlign: 'center' }}>{s.supplier_name || '-'}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right' }}>{s.quantity?.toLocaleString()}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 'bold', color: '#dc2626' }}>{s.cost_per_unit} ฿</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 'bold', color: '#15803d' }}>{(s.cost_per_unit * (1 + markupPct / 100)).toFixed(1)} ฿</td>
+                      <td style={{ padding: '0.4rem 0.5rem', fontSize: '0.65rem', color: '#94a3b8' }}>{new Date(s.created_at).toLocaleDateString('th-TH')}</td>
+                    </tr>
+                  ))}
+                  {supplierCosts.length === 0 && <tr><td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: '#94a3b8' }}>ยังไม่มีข้อมูล กรุณาบันทึกราคาจาก Supplier ด้านซ้าย</td></tr>}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
