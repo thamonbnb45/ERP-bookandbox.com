@@ -270,32 +270,51 @@ export default function AdWeb() {
         </div>
         <div style={{display: 'flex', gap: '0.8rem'}}>
           {(() => {
-            const today = new Date().toDateString();
-            const todayLeads = leads.filter(l => l.messages.length > 0 && new Date(l.messages[0].created_at).toDateString() === today);
-            const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === today).length, 0);
-            const ntCount = leads.filter(l => l.sales_status === 'nt').length;
-            const naCount = leads.filter(l => l.sales_status === 'na').length;
-            const alCount = leads.filter(l => l.sales_status === 'al').length;
+            const today = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'}));
+            const todayStr = today.toDateString();
+            
+            // New leads = leads created today (first message is today)
+            const newLeadsToday = leads.filter(l => {
+              if (l.messages.length === 0) return false;
+              const firstMsgDate = new Date(l.messages[0].created_at).toDateString();
+              return firstMsgDate === todayStr;
+            }).length;
+            
+            const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === todayStr).length, 0);
+            
+            // Unread total
+            const totalUnread = leads.reduce((sum, l) => {
+              const lastAdminIdx = [...l.messages].reverse().findIndex(m => m.sender === 'admin');
+              const unread = lastAdminIdx === -1 
+                ? l.messages.filter(m => m.sender === 'client').length 
+                : l.messages.slice(l.messages.length - lastAdminIdx).filter(m => m.sender === 'client').length;
+              return sum + unread;
+            }, 0);
+            
             const iCount = leads.filter(l => l.sales_status === 'i').length;
+            const oCount = leads.filter(l => l.sales_status === 'o').length;
             const cCount = leads.filter(l => l.sales_status === 'c').length;
-            const badCount = ntCount + naCount + alCount;
             return (
               <>
-                <div style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{todayLeads.length}</div>
-                  <div style={{fontSize: '0.6rem', color: '#0369a1'}}>แชทวันนี้</div>
+                <div style={{background: '#ede9fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#7c3aed'}}>{newLeadsToday}</div>
+                  <div style={{fontSize: '0.6rem', color: '#5b21b6'}}>ลูกค้าใหม่</div>
+                </div>
+                <div style={{background: totalUnread > 0 ? '#fef2f2' : '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', animation: totalUnread > 0 ? 'pulse 2s infinite' : 'none'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: totalUnread > 0 ? '#dc2626' : '#0284c7'}}>{totalUnread}</div>
+                  <div style={{fontSize: '0.6rem', color: totalUnread > 0 ? '#991b1b' : '#0369a1'}}>ยังไม่อ่าน</div>
+                </div>
+                <div style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{todayMsgs}</div>
+                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>ข้อความ</div>
                 </div>
                 <div style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{cCount}</div>
-                  <div style={{fontSize: '0.6rem', color: '#166534'}}>ซื้อแล้ว</div>
+                  <div style={{fontSize: '0.6rem', color: '#166534'}}>ปิดขาย</div>
                 </div>
-                <div style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{iCount}</div>
-                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>สนใจ</div>
-                </div>
-                <div style={{background: '#fef2f2', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#dc2626'}}>{badCount}</div>
-                  <div style={{fontSize: '0.6rem', color: '#991b1b'}}>หลุด/ผี/ช้า</div>
+                <div style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{iCount + oCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#0369a1'}}>สนใจ/เสนอ</div>
                 </div>
               </>
             );
@@ -347,6 +366,12 @@ export default function AdWeb() {
             const platConf = PLATFORM_CONFIG[lead.platform] || PLATFORM_CONFIG.line;
             const revGrade = REVENUE_GRADES[lead.company_revenue_grade];
             
+            // Unread count: client messages after last admin message
+            const lastAdminIdx = [...lead.messages].reverse().findIndex(m => m.sender === 'admin');
+            const unreadCount = lastAdminIdx === -1 
+              ? lead.messages.filter(m => m.sender === 'client').length 
+              : lead.messages.slice(lead.messages.length - lastAdminIdx).filter(m => m.sender === 'client').length;
+            
             return (
               <div 
                 key={lead.id} 
@@ -372,6 +397,16 @@ export default function AdWeb() {
                     }}>
                         <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
+                    {/* Unread Badge */}
+                    {unreadCount > 0 && (
+                      <div style={{
+                        position: 'absolute', top: -5, left: -5, minWidth: '20px', height: '20px', borderRadius: '50%',
+                        background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.6rem', fontWeight: 'bold', border: '2px solid white', padding: '0 3px'
+                      }}>
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </div>
+                    )}
                 </div>
 
                 <div style={{ overflow: 'hidden', width: '100%', marginLeft: '10px' }}>
@@ -380,15 +415,16 @@ export default function AdWeb() {
                               whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '160px',
                               color: ['nt','na','al'].includes(lead.sales_status) ? '#dc2626' : lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
                               textDecoration: ['nt','na','al'].includes(lead.sales_status) ? 'line-through' : 'none',
-                              opacity: ['nt','na','al'].includes(lead.sales_status) ? 0.6 : 1
+                              opacity: ['nt','na','al'].includes(lead.sales_status) ? 0.6 : 1,
+                              fontWeight: unreadCount > 0 ? 800 : 600
                             }}>
                               {lead.erp_alias_name || lead.original_name}
                             </span>
                             {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
                         </h5>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
-                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px' }}>
-                                {previewText}
+                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: unreadCount > 0 ? 700 : 400 }}>
+                                {unreadCount > 0 && lastMsg.sender === 'client' ? '🔴 ' : ''}{previewText}
                             </p>
                             <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
                                 {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
@@ -646,7 +682,20 @@ export default function AdWeb() {
                         {msg.type === 'text' && <div style={{ whiteSpace: 'pre-wrap' }}>{msg.text_content}</div>}
                         {msg.type === 'image' && msg.media_url && (
                           <div style={{ cursor: 'zoom-in' }} onClick={() => setPreviewImage(msg.media_url)}>
-                              <img src={msg.media_url} alt="Media" style={{ maxWidth: '100%', borderRadius: '8px', display: 'block' }} />
+                              <img 
+                                src={msg.media_url.startsWith('http://localhost') ? msg.media_url.replace('http://localhost:3001', '') : msg.media_url} 
+                                alt="Media" 
+                                style={{ maxWidth: '100%', borderRadius: '8px', display: 'block' }}
+                                onError={(e) => {
+                                  e.target.style.display = 'none';
+                                  e.target.parentElement.innerHTML = '<div style="padding:0.5rem;background:#f1f5f9;border-radius:8px;color:#64748b;font-size:0.75rem;text-align:center">📷 รูปภาพ (ไม่สามารถโหลดได้)</div>';
+                                }}
+                              />
+                          </div>
+                        )}
+                        {msg.type === 'image' && !msg.media_url && (
+                          <div style={{ padding: '0.5rem', background: '#f1f5f9', borderRadius: '8px', color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>
+                            📷 รูปภาพ (ยังไม่มีลิงก์)
                           </div>
                         )}
                       </div>
