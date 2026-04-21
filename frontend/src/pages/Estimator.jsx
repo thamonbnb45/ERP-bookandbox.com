@@ -367,6 +367,78 @@ export default function Estimator() {
                   ))}
                 </div>
 
+                {/* Quick Price Reply */}
+                {(() => {
+                  // Extract quantities from specs (e.g. "500/1,000/2,000/3,000" or "จำนวน: 500 / 1,000")
+                  const specsText = selectedReq.specs || '';
+                  const qtyMatches = specsText.match(/[\d,]+(?=\s*[ชิ้นใบเล่มดวงแผ่นซอง]|\s*\/|\s*$)/g) || [];
+                  const quantities = [...new Set(qtyMatches.map(q => Number(q.replace(/,/g, ''))).filter(n => n >= 10 && n <= 1000000))].sort((a,b) => a - b);
+                  
+                  return quantities.length > 0 && (
+                    <div style={{ background: '#fffbeb', padding: '0.6rem 0.8rem', borderRadius: '8px', marginBottom: '0.6rem', border: '1px solid #fde68a' }}>
+                      <div style={{ fontSize: '0.7rem', color: '#92400e', fontWeight: 'bold', marginBottom: '0.4rem' }}>⚡ ตอบราคาด่วน (กรอกราคาแล้วกดส่งทีเดียว)</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.4rem' }}>
+                        {quantities.map(qty => (
+                          <div key={qty} style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', background: 'white', padding: '0.3rem 0.5rem', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#1e293b', minWidth: '50px' }}>{qty.toLocaleString()}</span>
+                            <span style={{ color: '#94a3b8', fontSize: '0.8rem' }}>@</span>
+                            <input type="number" step="0.01" id={`qp-${qty}`} placeholder="฿" style={{ width: '65px', padding: '0.25rem 0.3rem', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 'bold', textAlign: 'right' }} />
+                            <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>.-</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.4rem' }}>
+                        <button className="btn btn-sm" style={{ background: '#f59e0b', color: 'white', border: 'none', fontSize: '0.75rem', padding: '0.35rem 0.8rem' }} onClick={async () => {
+                          const lines = quantities.map(qty => {
+                            const price = document.getElementById(`qp-${qty}`)?.value;
+                            return price ? `${qty.toLocaleString()} @ ${price}.-` : null;
+                          }).filter(Boolean);
+                          if (lines.length === 0) { alert('กรุณากรอกราคาอย่างน้อย 1 ช่อง'); return; }
+                          const replyText = lines.join('\n');
+                          setMsgText(replyText);
+                        }}>
+                          📋 ใส่ในช่องพิมพ์
+                        </button>
+                        <button className="btn btn-sm" style={{ background: '#10b981', color: 'white', border: 'none', fontSize: '0.75rem', padding: '0.35rem 0.8rem' }} onClick={async () => {
+                          const lines = quantities.map(qty => {
+                            const price = document.getElementById(`qp-${qty}`)?.value;
+                            return price ? { qty, price: Number(price) } : null;
+                          }).filter(Boolean);
+                          if (lines.length === 0) { alert('กรุณากรอกราคาอย่างน้อย 1 ช่อง'); return; }
+                          
+                          const replyText = lines.map(l => `${l.qty.toLocaleString()} @ ${l.price}.-`).join('\n');
+                          try {
+                            await axios.post(`${API_URL}/price_messages`, { request_id: selectedReq.id, sender: user?.full_name || user?.username, message: replyText });
+                            await axios.post(`${API_URL}/price_requests`, { id: selectedReq.id, status: 'answered' });
+                            
+                            // Also save to price catalog
+                            for (const l of lines) {
+                              try {
+                                await axios.post(`${API_URL}/price_catalog`, {
+                                  category: selectedReq.category,
+                                  product_name: selectedReq.category,
+                                  paper: '-',
+                                  quantity: l.qty,
+                                  price_per_unit: l.price,
+                                  total_price: l.qty * l.price
+                                });
+                              } catch (e) {}
+                            }
+                            
+                            alert('✅ ส่งราคา + บันทึกเข้าคลังเรียบร้อย!');
+                            setMsgText('');
+                            fetchMessages(selectedReq.id);
+                            fetchRequests();
+                            setSelectedReq({ ...selectedReq, status: 'answered' });
+                          } catch (e) { alert('ส่งไม่สำเร็จ: ' + e.message); }
+                        }}>
+                          🚀 ส่งราคา + บันทึกคลัง
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })()}
+
                 {/* Message Input */}
                 <div style={{ display: 'flex', gap: '0.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '0.8rem' }}>
                   <textarea className="form-control" rows="2" placeholder="พิมพ์ข้อความหรือตอบราคา..." value={msgText} onChange={e => setMsgText(e.target.value)} style={{ flex: 1, resize: 'none' }} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }}}></textarea>
