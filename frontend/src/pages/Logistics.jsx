@@ -25,6 +25,19 @@ export default function Logistics() {
   const [fuelForm, setFuelForm] = useState({ fleet: FLEETS[0], odometer: '', amount_thb: '', liters: '' });
   const [plForm, setPlForm] = useState({ job_ref: '', provider: PROVIDERS[0], tracking_number: '', shipping_cost: '' });
 
+  // Cost Constants
+  const DRIVER_SALARY_HR = 75; // อิงจาก 15,000/เดือน
+  const DEPRECIATION_HR = 60;  // ค่าเสื่อมรถ 800k / 5 ปี
+  const FUEL_RATE_KM = 3.5;    // ค่าน้ำมันและซ่อมบำรุงต่อ กม.
+
+  const calculateTripCost = (trip) => {
+    if (!trip.end_km || !trip.start_km || !trip.return_time || !trip.depart_time) return 0;
+    const distance = Math.max(0, trip.end_km - trip.start_km);
+    const durationMs = new Date(trip.return_time) - new Date(trip.depart_time);
+    const hours = Math.max(0.5, durationMs / (1000 * 60 * 60)); // คิดขั้นต่ำครึ่งชม.
+    return Math.round((distance * FUEL_RATE_KM) + (hours * (DRIVER_SALARY_HR + DEPRECIATION_HR)));
+  };
+
   useEffect(() => {
     fetchTrips();
     fetchFuels();
@@ -155,12 +168,26 @@ export default function Logistics() {
                 </div>
               ))}
               
-              <h5 className="font-bold text-sm text-gray-400 mt-4">✓ ทริปที่จบแล้ว</h5>
-              {trips.filter(t => t.status === 'completed').slice(0, 5).map(t => (
-                <div key={t.id} className="p-2 border rounded-lg bg-gray-50 opacity-80 text-xs">
-                  <strong>{t.fleet}</strong> • ระยะทาง: {t.end_km - t.start_km} กม.
-                </div>
-              ))}
+              <h5 className="font-bold text-sm text-gray-400 mt-4">✓ ทริปที่จบแล้ว วันนี้</h5>
+              {trips.filter(t => t.status === 'completed').slice(0, 5).map(t => {
+                const cost = calculateTripCost(t);
+                const distance = t.end_km - t.start_km;
+                const hours = t.return_time && t.depart_time ? ((new Date(t.return_time) - new Date(t.depart_time)) / 3600000).toFixed(1) : '?';
+                return (
+                  <div key={t.id} className="p-3 border rounded-lg bg-gray-50 opacity-90 text-xs">
+                    <div className="flex justify-between font-bold mb-1">
+                      <span className="text-gray-700">{t.fleet}</span>
+                      <span className="text-red-500">{cost > 0 ? `~${cost.toLocaleString()} ฿` : ''}</span>
+                    </div>
+                    <div className="text-gray-500">
+                      ระยะทาง: <strong>{distance} กม.</strong> • เวลาวิ่ง: <strong>{hours} ชม.</strong>
+                    </div>
+                    <div className="mt-1 text-[10px] text-gray-400">
+                      (รวมค่าแรงคนขับ {DRIVER_SALARY_HR}฿/ชม, ค่าเสื่อม {DEPRECIATION_HR}฿/ชม, น้ำมัน+สึกหรอ {FUEL_RATE_KM}฿/กม)
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -245,7 +272,7 @@ export default function Logistics() {
       {activeTab === 'dashboard' && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white p-4 rounded-xl shadow border border-slate-100">
-            <p className="text-gray-500 text-xs">สรุปค่าน้ำมันรวม (เดือนนี้)</p>
+            <p className="text-gray-500 text-xs">สรุปค่าน้ำมันรวมกระดาษ/เบิกสด (เดือนนี้)</p>
             <h3 className="text-2xl font-black text-rose-600">{fuels.reduce((s,f) => s+Number(f.amount_thb||0),0).toLocaleString()} ฿</h3>
           </div>
           <div className="bg-white p-4 rounded-xl shadow border border-slate-100">
@@ -253,15 +280,23 @@ export default function Logistics() {
             <h3 className="text-2xl font-black text-emerald-600">{thirdParty.reduce((s,f) => s+Number(f.shipping_cost||0),0).toLocaleString()} ฿</h3>
           </div>
           <div className="bg-white p-4 rounded-xl shadow border border-slate-100">
-            <p className="text-gray-500 text-xs">จำนวนทริปวิ่งงาน Outsource (รถบริษัท)</p>
-            <h3 className="text-2xl font-black text-blue-600">{trips.filter(t => t.type === 'outsource_wip').length} รอบ</h3>
+            <p className="text-gray-500 text-xs">ต้นทุนวิ่งงานบริษัท (ประเมินคร่าวๆ)</p>
+            <h3 className="text-2xl font-black text-indigo-600">
+              {trips.filter(t => t.status === 'completed').reduce((s,t) => s + calculateTripCost(t), 0).toLocaleString()} ฿
+            </h3>
           </div>
           <div className="bg-white p-4 rounded-xl shadow border border-slate-100 text-center flex flex-col justify-center">
-            <span className="text-sm text-gray-400">ระบบประเมินประสิทธิภาพ</span>
-            <span className="text-sm font-bold text-emerald-500">✓ ปกติ (Normal)</span>
+            <span className="text-sm font-bold text-gray-600 mb-1">จำนวนวิ่ง {trips.filter(t => t.status === 'completed').length} ทริป</span>
+            <span className="text-[10px] text-gray-400">เฉลี่ยต่อทริป ต้นทุน <strong>{
+              trips.filter(t => t.status === 'completed').length > 0 
+                ? Math.round(trips.filter(t => t.status === 'completed').reduce((s,t) => s + calculateTripCost(t), 0) / trips.filter(t => t.status === 'completed').length).toLocaleString()
+                : 0
+            } ฿</strong>
+            </span>
           </div>
-          <div className="col-span-2 md:col-span-4 mt-4 bg-slate-50 p-6 rounded-lg text-center text-slate-400">
-            กราฟวิเคราะห์ Cost per Drop และ Fuel Economy รายคัน (มีข้อมูลพอจะเปิดแสดงผลเร็วๆนี้)
+          <div className="col-span-2 md:col-span-4 mt-4 bg-slate-50 p-6 rounded-lg text-center text-slate-400 text-sm">
+            💡 ระบบจำลองต้นทุน (Activity-Based Costing) : ค่าแรงขับ {DRIVER_SALARY_HR} ฿/ชม + ค่าเสื่อมรถ {DEPRECIATION_HR} ฿/ชม + ค่าน้ำมัน/สึกหรอ {FUEL_RATE_KM} ฿/กม. <br/>
+            กราฟวิเคราะห์ Cost per Drop เชิงลึกจะแสดงผลเมื่อข้อมูลทริปมาบรรจบกันกับการเบิกบิลน้ำมัน
           </div>
         </div>
       )}
