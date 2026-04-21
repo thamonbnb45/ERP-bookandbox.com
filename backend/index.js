@@ -1151,6 +1151,76 @@ app.post('/api/price_messages', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ====== SUPPLIER COST DATABASE ======
+app.get('/api/supplier_costs', async (req, res) => {
+    try {
+        let query = supabase.from('supplier_costs').select('*').order('created_at', { ascending: false });
+        if (req.query.search) query = query.ilike('product_name', `%${req.query.search}%`);
+        if (req.query.category) query = query.eq('category', req.query.category);
+        if (req.query.supplier) query = query.ilike('supplier_name', `%${req.query.supplier}%`);
+        const { data, error } = await query.limit(200);
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/supplier_costs', async (req, res) => {
+    try {
+        if (req.body.id) {
+            const { error } = await supabase.from('supplier_costs').update(req.body).eq('id', req.body.id);
+            if (error) throw error;
+        } else {
+            const { error } = await supabase.from('supplier_costs').insert([req.body]);
+            if (error) throw error;
+        }
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// AI: Calculate selling price from supplier costs with markup
+app.get('/api/supplier_costs/estimate', async (req, res) => {
+    try {
+        const { product_name, quantity, markup } = req.query;
+        if (!product_name || !quantity) return res.status(400).json({ error: 'product_name and quantity required' });
+        const qty = Number(quantity);
+        const markupPct = Number(markup) || 30; // Default 30% markup
+
+        const { data: items } = await supabase.from('supplier_costs')
+            .select('*')
+            .ilike('product_name', `%${product_name}%`)
+            .order('quantity', { ascending: true });
+
+        if (!items || items.length === 0) return res.json({ found: false });
+
+        // Exact match
+        const exact = items.find(i => i.quantity === qty);
+        if (exact) {
+            const sellingPrice = exact.cost_per_unit * (1 + markupPct / 100);
+            return res.json({ found: true, method: 'exact', cost_per_unit: exact.cost_per_unit, selling_price: Math.round(sellingPrice * 100) / 100, markup_pct: markupPct, supplier: exact.supplier_name, quantity: qty });
+        }
+
+        // Linear interpolation
+        let lower = null, upper = null;
+        for (const item of items) {
+            if (item.quantity <= qty) lower = item;
+            if (item.quantity >= qty && !upper) upper = item;
+        }
+
+        if (lower && upper && lower.id !== upper.id) {
+            const ratio = (qty - lower.quantity) / (upper.quantity - lower.quantity);
+            const interpolatedCost = lower.cost_per_unit + ratio * (upper.cost_per_unit - lower.cost_per_unit);
+            const cost = Math.round(interpolatedCost * 100) / 100;
+            const sellingPrice = Math.round(cost * (1 + markupPct / 100) * 100) / 100;
+            return res.json({ found: true, method: 'interpolation', cost_per_unit: cost, selling_price: sellingPrice, markup_pct: markupPct, lower_qty: lower.quantity, upper_qty: upper.quantity, quantity: qty });
+        } else if (lower) {
+            const sellingPrice = Math.round(lower.cost_per_unit * (1 + markupPct / 100) * 100) / 100;
+            return res.json({ found: true, method: 'nearest', cost_per_unit: lower.cost_per_unit, selling_price: sellingPrice, markup_pct: markupPct, supplier: lower.supplier_name, quantity: qty });
+        }
+
+        res.json({ found: false });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // One-time migration: reformat existing leads to Bookandbox naming convention
 app.get('/api/migrate-names', async (req, res) => {
     try {
