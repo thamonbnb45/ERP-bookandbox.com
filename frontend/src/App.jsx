@@ -25,7 +25,7 @@ function Sidebar({ isOpen, closeSidebar }) {
           <i className="fa-solid fa-xmark menu-toggle mobile-close-btn" onClick={closeSidebar} style={{ cursor: 'pointer' }}></i>
       </div>
       <nav className="nav-links">
-          {canAccess('dashboard_module', ['CEO', 'Sales']) && (
+          {canAccess('dashboard_module', ['CEO']) && (
               <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`} onClick={closeSidebar}>
                  <i className="fa-solid fa-chart-pie"></i> Executive Dashboard
               </Link>
@@ -37,17 +37,19 @@ function Sidebar({ isOpen, closeSidebar }) {
               </Link>
           )}
 
-          <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
-             <i className="fa-brands fa-line"></i> Omni-Channel Chat
-          </Link>
+          {canAccess('chat_module', ['CEO', 'Sales']) && (
+              <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
+                 <i className="fa-brands fa-line"></i> Omni-Channel Chat
+              </Link>
+          )}
 
-          {canAccess('pricing_module', ['CEO', 'Sales', 'Accountant']) && (
+          {canAccess('pricing_module', ['CEO', 'Sales', 'Pricing', 'Accountant']) && (
               <Link to="/estimator" className={`nav-item ${location.pathname === '/estimator' ? 'active' : ''}`} onClick={closeSidebar}>
                   <i className="fa-solid fa-coins"></i> ศูนย์ราคา
               </Link>
           )}
 
-          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator']) && (
+          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse']) && (
               <Link to="/production" className={`nav-item ${location.pathname === '/production' ? 'active' : ''}`} onClick={closeSidebar}>
                   <i className="fa-solid fa-industry"></i> Production Control
               </Link>
@@ -59,15 +61,17 @@ function Sidebar({ isOpen, closeSidebar }) {
               </Link>
           )}
 
-          {canAccess('hr_module', ['CEO', 'Production Manager', 'Sales']) && (
+          {canAccess('hr_module', ['CEO', 'HR', 'Production Manager']) && (
               <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`} onClick={closeSidebar}>
                   <i className="fa-solid fa-users-gear"></i> HR Workforce
               </Link>
           )}
 
-          <Link to="/logistics" className={`nav-item ${location.pathname === '/logistics' ? 'active' : ''}`} onClick={closeSidebar}>
-              <i className="fa-solid fa-truck-fast"></i> ขนส่ง Logistics
-          </Link>
+          {canAccess('logistics_module', ['CEO', 'Driver', 'Warehouse', 'Production Manager']) && (
+              <Link to="/logistics" className={`nav-item ${location.pathname === '/logistics' ? 'active' : ''}`} onClick={closeSidebar}>
+                  <i className="fa-solid fa-truck-fast"></i> ขนส่ง Logistics
+              </Link>
+          )}
 
           {user?.role === 'CEO' && (
               <Link to="/settings" className={`nav-item ${location.pathname === '/settings' ? 'active' : ''}`} onClick={closeSidebar} style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0' }}>
