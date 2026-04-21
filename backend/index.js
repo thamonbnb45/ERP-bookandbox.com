@@ -775,9 +775,14 @@ app.get('/api/logistics/trips', async (req, res) => {
 app.post('/api/logistics/trips', async (req, res) => {
     try {
         if(req.body.id) {
+            // Check if marking as completed to inject return_time
+            if(req.body.status === 'completed' && !req.body.return_time) {
+                req.body.return_time = new Date().toISOString();
+            }
             const { error } = await supabase.from('logistics_trips').update(req.body).eq('id', req.body.id);
             if (error) throw error;
         } else {
+            req.body.depart_time = new Date().toISOString();
             const { error } = await supabase.from('logistics_trips').insert([req.body]);
             if (error) throw error;
         }
