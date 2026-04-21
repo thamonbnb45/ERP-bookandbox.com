@@ -7,6 +7,7 @@ import Accounting from './pages/Accounting';
 import CustomerPortal from './pages/CustomerPortal';
 import Dashboard from './pages/Dashboard';
 import HR from './pages/HR';
+import Logistics from './pages/Logistics';
 import './index.css';
 
 function Sidebar({ isOpen, closeSidebar }) {
@@ -36,6 +37,9 @@ function Sidebar({ isOpen, closeSidebar }) {
           </Link>
           <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`} onClick={closeSidebar}>
               <i className="fa-solid fa-users-gear"></i> HR Workforce
+          </Link>
+          <Link to="/logistics" className={`nav-item ${location.pathname === '/logistics' ? 'active' : ''}`} onClick={closeSidebar}>
+              <i className="fa-solid fa-truck-fast"></i> ขนส่ง Logistics
           </Link>
       </nav>
     </aside>
@@ -85,6 +89,7 @@ function App() {
                 <Route path="/production" element={<><Topbar title="Production Control" toggleSidebar={toggleSidebar} /><div className="view-container"><Production /></div></>} />
                 <Route path="/accounting" element={<><Topbar title="Finance & Billing" toggleSidebar={toggleSidebar} /><div className="view-container"><Accounting /></div></>} />
                 <Route path="/hr" element={<><Topbar title="HR Workforce" toggleSidebar={toggleSidebar} /><div className="view-container"><HR /></div></>} />
+                <Route path="/logistics" element={<><Topbar title="Logistics & Transport" toggleSidebar={toggleSidebar} /><div className="view-container"><Logistics /></div></>} />
                 <Route path="/" element={<><Topbar title="Executive Dashboard" toggleSidebar={toggleSidebar} /><div className="view-container"><Dashboard /></div></>} />
               </Routes>
             </main>

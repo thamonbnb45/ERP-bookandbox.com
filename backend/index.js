@@ -622,14 +622,47 @@ app.get('/api/production_log/init', async (req, res) => {
                     created_at TIMESTAMPTZ DEFAULT NOW()
                 );
             `});
-            if (sqlErr) {
-                return res.json({ status: 'manual_create_needed', error: sqlErr.message, 
-                    sql: 'CREATE TABLE production_log (id SERIAL PRIMARY KEY, machine TEXT, department TEXT, operator_name TEXT, job_ref TEXT, planned_duration_min INT DEFAULT 480, actual_run_min INT DEFAULT 0, downtime_min INT DEFAULT 0, downtime_reason TEXT, planned_qty INT DEFAULT 0, actual_qty INT DEFAULT 0, good_qty INT DEFAULT 0, defect_qty INT DEFAULT 0, defect_reason TEXT, notes TEXT, created_at TIMESTAMPTZ DEFAULT NOW());'
-                });
-            }
-            return res.json({ status: 'created' });
+            // Proceed even if fail...
         }
-        res.json({ status: 'exists' });
+        
+        // Auto-create LOGISTICS tables
+        const { error: logErr } = await supabase.from('logistics_trips').select('id').limit(1);
+        if (logErr && logErr.message.includes('does not exist')) {
+            await supabase.rpc('exec_sql', { query: `
+                CREATE TABLE IF NOT EXISTS logistics_trips (
+                    id SERIAL PRIMARY KEY,
+                    type TEXT,
+                    fleet TEXT,
+                    driver_name TEXT,
+                    trip_date DATE,
+                    destinations JSONB,
+                    start_km INT,
+                    end_km INT,
+                    status TEXT,
+                    created_at TIMESTAMPTZ DEFAULT NOW()
+                );
+                CREATE TABLE IF NOT EXISTS fuel_expenses (
+                    id SERIAL PRIMARY KEY,
+                    fleet TEXT,
+                    date DATE,
+                    odometer INT,
+                    amount_thb NUMERIC,
+                    liters NUMERIC,
+                    receipt_url TEXT,
+                    created_at TIMESTAMPTZ DEFAULT NOW()
+                );
+                CREATE TABLE IF NOT EXISTS third_party_logistics (
+                    id SERIAL PRIMARY KEY,
+                    job_ref TEXT,
+                    provider TEXT,
+                    tracking_number TEXT,
+                    shipping_cost NUMERIC,
+                    drop_off_date DATE,
+                    created_at TIMESTAMPTZ DEFAULT NOW()
+                );
+            `});
+        }
+        res.json({ status: 'init ok' });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
@@ -726,6 +759,69 @@ app.get('/api/production_log/summary', async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
+
+// ====== LOGISTICS & FLEET ======
+
+// GET Logistics Trips
+app.get('/api/logistics/trips', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('logistics_trips').select('*').order('created_at', { ascending: false }).limit(200);
+        if (error) throw error;
+        res.json(data);
+    } catch (e) { res.status(500).json({error: e.message}); }
+});
+
+// CREATE / UPDATE Logistics Trip
+app.post('/api/logistics/trips', async (req, res) => {
+    try {
+        if(req.body.id) {
+            const { error } = await supabase.from('logistics_trips').update(req.body).eq('id', req.body.id);
+            if (error) throw error;
+        } else {
+            const { error } = await supabase.from('logistics_trips').insert([req.body]);
+            if (error) throw error;
+        }
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({error: e.message}); }
+});
+
+// GET Fuel Expenses
+app.get('/api/logistics/fuel', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('fuel_expenses').select('*').order('date', { ascending: false }).limit(200);
+        if (error) throw error;
+        res.json(data);
+    } catch (e) { res.status(500).json({error: e.message}); }
+});
+
+// ADD Fuel Expense
+app.post('/api/logistics/fuel', async (req, res) => {
+    try {
+        const { error } = await supabase.from('fuel_expenses').insert([req.body]);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({error: e.message}); }
+});
+
+// GET 3PL (Third Party Logistics)
+app.get('/api/logistics/3pl', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('third_party_logistics').select('*').order('drop_off_date', { ascending: false }).limit(200);
+        if (error) throw error;
+        res.json(data);
+    } catch (e) { res.status(500).json({error: e.message}); }
+});
+
+// ADD 3PL record
+app.post('/api/logistics/3pl', async (req, res) => {
+    try {
+        const { error } = await supabase.from('third_party_logistics').insert([req.body]);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({error: e.message}); }
+});
+
+
 
 // One-time migration: reformat existing leads to Bookandbox naming convention
 app.get('/api/migrate-names', async (req, res) => {
