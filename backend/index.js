@@ -676,7 +676,6 @@ app.get('/api/production_log/init', async (req, res) => {
                     updated_at TIMESTAMPTZ DEFAULT NOW()
                 );
             `});
-            `});
             // Force schema reload for PostgREST cache
             await supabase.rpc('exec_sql', { sql_string: `NOTIFY pgrst, 'reload schema';` });
             
