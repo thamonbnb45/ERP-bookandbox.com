@@ -26,6 +26,11 @@ const { messagingApi } = line;
 const lineClient = new messagingApi.MessagingApiClient({ channelAccessToken: channelToken });
 const blobClient = new messagingApi.MessagingApiBlobClient({ channelAccessToken: channelToken });
 
+// Facebook Messenger Config
+const FB_PAGE_TOKEN = process.env.FB_PAGE_ACCESS_TOKEN || '';
+const FB_VERIFY_TOKEN = process.env.FB_VERIFY_TOKEN || 'bookandbox_fb_verify_2025';
+const FB_API_URL = 'https://graph.facebook.com/v21.0/me/messages';
+
 // 1. Webhook Handlers
 const ensureLeadExists = async (lineUserId) => {
     try {
@@ -65,6 +70,52 @@ const ensureLeadExists = async (lineUserId) => {
         return newRow.id;
     } catch (e) {
         console.error(e);
+        return null;
+    }
+};
+
+// Ensure lead exists for Facebook Messenger
+const ensureFbLeadExists = async (fbUserId) => {
+    try {
+        const { data: row } = await supabase.from('lead_contact').select('id').eq('fb_user_id', fbUserId).single();
+        if (row) return row.id;
+
+        let originalName = 'Facebook User';
+        let avatarUrl = null;
+        if (FB_PAGE_TOKEN) {
+            try {
+                const axios = require('axios');
+                const profileRes = await axios.get(`https://graph.facebook.com/${fbUserId}?fields=first_name,last_name,profile_pic&access_token=${FB_PAGE_TOKEN}`);
+                if (profileRes.data) {
+                    originalName = `${profileRes.data.first_name || ''} ${profileRes.data.last_name || ''}`.trim();
+                    avatarUrl = profileRes.data.profile_pic || null;
+                }
+            } catch (e) { console.error('FB profile fetch error:', e.message); }
+        }
+
+        const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+        const dd = now.getDate();
+        const mm = now.getMonth() + 1;
+        const buddhistYear = (now.getFullYear() + 543) % 100;
+        const dateTag = `${dd}.${mm}.${buddhistYear}`;
+        const erpAlias = `I--${originalName}${dateTag}`;
+
+        const { data: newRow, error: insertErr } = await supabase.from('lead_contact')
+            .insert([{
+                fb_user_id: fbUserId,
+                original_name: originalName,
+                erp_alias_name: erpAlias,
+                tags: [],
+                sales_status: 'i',
+                avatar_url: avatarUrl,
+                platform: 'facebook'
+            }])
+            .select('id').single();
+
+        if (insertErr) throw insertErr;
+        return newRow.id;
+    } catch (e) {
+        console.error('ensureFbLeadExists error:', e);
         return null;
     }
 };
@@ -207,6 +258,79 @@ app.post('/api/webhook', async (req, res) => {
     res.status(200).send('OK');
 });
 
+// ====== FACEBOOK MESSENGER WEBHOOK ======
+
+// Webhook Verification (Facebook sends GET to verify)
+app.get('/api/fb-webhook', (req, res) => {
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+    if (mode === 'subscribe' && token === FB_VERIFY_TOKEN) {
+        console.log('✅ Facebook webhook verified!');
+        res.status(200).send(challenge);
+    } else {
+        res.sendStatus(403);
+    }
+});
+
+// Receive Facebook Messages
+app.post('/api/fb-webhook', async (req, res) => {
+    const body = req.body;
+    if (body.object === 'page') {
+        for (const entry of body.entry) {
+            if (!entry.messaging) continue;
+            for (const event of entry.messaging) {
+                const senderId = event.sender.id;
+                const leadId = await ensureFbLeadExists(senderId);
+                if (!leadId) continue;
+
+                let msgType = 'text';
+                let textContent = '';
+                let mediaUrl = null;
+
+                if (event.message) {
+                    if (event.message.text) {
+                        textContent = event.message.text;
+                    }
+                    if (event.message.attachments) {
+                        const att = event.message.attachments[0];
+                        if (att.type === 'image' || att.type === 'video' || att.type === 'file') {
+                            msgType = att.type === 'video' ? 'video' : 'image';
+                            mediaUrl = att.payload?.url || null;
+                        }
+                        if (!textContent && att.type === 'image') textContent = '[รูปภาพ]';
+                    }
+                }
+
+                await supabase.from('chat_message').insert([{
+                    lead_id: leadId,
+                    sender: 'client',
+                    type: msgType,
+                    text_content: textContent,
+                    media_url: mediaUrl
+                }]);
+            }
+        }
+        res.status(200).send('EVENT_RECEIVED');
+    } else {
+        res.sendStatus(404);
+    }
+});
+
+// Helper: Send Facebook Message
+const sendFbMessage = async (recipientId, text) => {
+    if (!FB_PAGE_TOKEN) return;
+    try {
+        const axios = require('axios');
+        await axios.post(`${FB_API_URL}?access_token=${FB_PAGE_TOKEN}`, {
+            recipient: { id: recipientId },
+            message: { text: text }
+        });
+    } catch (e) {
+        console.error('FB send error:', e.response?.data || e.message);
+    }
+};
+
 // ANALYTICS TIERING (C1-C5) HELPER
 const evaluateCustomerTier = async (customerId) => {
     if (!customerId) return { tier: 'New', totalSpend: 0, repeatCount: 0 };
@@ -280,7 +404,7 @@ app.post('/api/chats/:id/reply', async (req, res) => {
     const { text } = req.body;
 
     try {
-        const { data: row, error } = await supabase.from('lead_contact').select('line_user_id').eq('id', leadId).single();
+        const { data: row, error } = await supabase.from('lead_contact').select('line_user_id, fb_user_id, platform').eq('id', leadId).single();
         if (error || !row) return res.status(404).send('Lead not found');
 
         await supabase.from('chat_message').insert([{
@@ -290,7 +414,10 @@ app.post('/api/chats/:id/reply', async (req, res) => {
             text_content: text
         }]);
 
-        if (channelToken !== 'DUMMY_TOKEN') {
+        // Route reply to correct platform
+        if (row.fb_user_id) {
+            await sendFbMessage(row.fb_user_id, text);
+        } else if (row.line_user_id && channelToken !== 'DUMMY_TOKEN') {
             await lineClient.pushMessage({
                 to: row.line_user_id,
                 messages: [{ type: 'text', text: text }]
