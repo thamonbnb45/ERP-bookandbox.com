@@ -282,37 +282,35 @@ export default function AdWeb() {
             
             const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === todayStr).length, 0);
             
-            // Unread total
-            const totalUnread = leads.reduce((sum, l) => {
-              const lastAdminIdx = [...l.messages].reverse().findIndex(m => m.sender === 'admin');
-              const unread = lastAdminIdx === -1 
-                ? l.messages.filter(m => m.sender === 'client').length 
-                : l.messages.slice(l.messages.length - lastAdminIdx).filter(m => m.sender === 'client').length;
-              return sum + unread;
-            }, 0);
+            // ★ Unread = count as PEOPLE (not messages!)
+            const unreadPeople = leads.filter(l => {
+              if (l.messages.length === 0) return false;
+              const lastMsg = l.messages[l.messages.length - 1];
+              return lastMsg.sender === 'client';
+            }).length;
             
             const iCount = leads.filter(l => l.sales_status === 'i').length;
             const oCount = leads.filter(l => l.sales_status === 'o').length;
             const cCount = leads.filter(l => l.sales_status === 'c').length;
             return (
               <>
-                <div style={{background: '#ede9fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                <div title="ลูกค้าที่ทักเข้ามาวันนี้เป็นครั้งแรก (นับจากข้อความแรกของลูกค้า)" style={{background: '#ede9fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#7c3aed'}}>{newLeadsToday}</div>
                   <div style={{fontSize: '0.6rem', color: '#5b21b6'}}>ลูกค้าใหม่</div>
                 </div>
-                <div style={{background: totalUnread > 0 ? '#fef2f2' : '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', animation: totalUnread > 0 ? 'pulse 2s infinite' : 'none'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: totalUnread > 0 ? '#dc2626' : '#0284c7'}}>{totalUnread}</div>
-                  <div style={{fontSize: '0.6rem', color: totalUnread > 0 ? '#991b1b' : '#0369a1'}}>ยังไม่อ่าน</div>
+                <div title={`ลูกค้าที่ทักมาแล้วเซลล์ยังไม่ได้ตอบ (${unreadPeople} คน) — กดเข้าไปตอบเพื่อลดจำนวน`} style={{background: unreadPeople > 0 ? '#fef2f2' : '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help', animation: unreadPeople > 0 ? 'pulse 2s infinite' : 'none'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: unreadPeople > 0 ? '#dc2626' : '#0284c7'}}>{unreadPeople}</div>
+                  <div style={{fontSize: '0.6rem', color: unreadPeople > 0 ? '#991b1b' : '#0369a1'}}>รอตอบ (คน)</div>
                 </div>
-                <div style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                <div title="จำนวนข้อความทั้งหมดในวันนี้ (รวมทุกช่องทาง LINE/FB)" style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{todayMsgs}</div>
-                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>ข้อความ</div>
+                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>ข้อความวันนี้</div>
                 </div>
-                <div style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                <div title="ลูกค้าที่ปิดขายได้แล้ว (สถานะ C = Closed)" style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{cCount}</div>
                   <div style={{fontSize: '0.6rem', color: '#166534'}}>ปิดขาย</div>
                 </div>
-                <div style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px'}}>
+                <div title={`ลูกค้าที่สนใจ (I) ${iCount} คน + เสนอราคาแล้ว (O) ${oCount} คน`} style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{iCount + oCount}</div>
                   <div style={{fontSize: '0.6rem', color: '#0369a1'}}>สนใจ/เสนอ</div>
                 </div>
@@ -671,9 +669,32 @@ export default function AdWeb() {
           {/* Messages */}
           <div className="chat-messages" style={{ flex: 1, padding: '1.5rem', overflowY: 'auto', background: '#f1f5f9' }}>
             {activeLead.messages.map((msg, idx) => {
-              const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : '';
+              const msgDate = msg.created_at ? new Date(msg.created_at) : null;
+              const timeStr = msgDate ? msgDate.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : '';
+              const dateStr = msgDate ? msgDate.toLocaleDateString('th-TH', {day: 'numeric', month: 'short', year: '2-digit'}) : '';
+              
+              // Show date separator when date changes
+              const prevMsg = idx > 0 ? activeLead.messages[idx - 1] : null;
+              const prevDate = prevMsg?.created_at ? new Date(prevMsg.created_at).toDateString() : null;
+              const currentDate = msgDate ? msgDate.toDateString() : null;
+              const showDateSep = idx === 0 || currentDate !== prevDate;
+              
+              // Check if message is today
+              const isToday = currentDate === new Date().toDateString();
+              const isYesterday = currentDate === new Date(Date.now() - 86400000).toDateString();
+              const dateSepLabel = isToday ? '📅 วันนี้' : isYesterday ? '📅 เมื่อวาน' : `📅 ${dateStr}`;
+              
               return (
-              <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.sender === 'client' ? 'flex-start' : 'flex-end', marginBottom: '1rem' }}>
+              <div key={idx}>
+                  {showDateSep && (
+                    <div style={{ textAlign: 'center', margin: '0.8rem 0', position: 'relative' }}>
+                      <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', background: '#cbd5e1' }}></div>
+                      <span style={{ position: 'relative', background: '#f1f5f9', padding: '0.2rem 0.8rem', fontSize: '0.7rem', color: '#64748b', fontWeight: 'bold', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        {dateSepLabel}
+                      </span>
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: msg.sender === 'client' ? 'flex-start' : 'flex-end', marginBottom: '1rem' }}>
                   {msg.sender === 'client' && (
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.2rem', marginLeft: '0.5rem' }}>{activeLead.original_name}</div>
                   )}
@@ -699,8 +720,9 @@ export default function AdWeb() {
                           </div>
                         )}
                       </div>
-                      <div style={{ fontSize: '0.65rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>{timeStr}</div>
+                      <div style={{ fontSize: '0.65rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>{!isToday && !isYesterday ? `${dateStr} ` : ''}{timeStr}</div>
                   </div>
+              </div>
               </div>
             )})}
             <div ref={chatEndRef} />
