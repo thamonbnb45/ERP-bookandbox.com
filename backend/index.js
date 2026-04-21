@@ -1656,9 +1656,16 @@ async function aiBackgroundCheck() {
   } catch (e) { console.error('[AI Worker] Error:', e.message); }
 }
 
-// Run every 30 minutes
-setInterval(aiBackgroundCheck, 30 * 60 * 1000);
-// Run once on startup after 10 seconds
+// Run at 08:30 and 12:30 Bangkok time (check every hour, fire at right times)
+setInterval(() => {
+  const bkkHour = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' })).getHours();
+  const bkkMin = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' })).getMinutes();
+  // Fire at 08:30 and 12:30 (within 30-min window)
+  if ((bkkHour === 8 && bkkMin >= 25 && bkkMin <= 35) || (bkkHour === 12 && bkkMin >= 25 && bkkMin <= 35)) {
+    aiBackgroundCheck();
+  }
+}, 10 * 60 * 1000); // Check every 10 min
+// Also run once on startup
 setTimeout(aiBackgroundCheck, 10000);
 
 // Daily stats API — for report page to get historical data by date
