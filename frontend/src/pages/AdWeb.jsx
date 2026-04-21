@@ -746,51 +746,171 @@ export default function AdWeb() {
         </div>
       )}
 
-      {/* Price Request Modal */}
-      {showPriceModal && activeLead && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1rem' }}>
-            <div style={{ background: 'white', padding: '1.5rem', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
-                <h4 style={{marginTop: 0, color: '#7c3aed'}}><i className="fa-solid fa-coins"></i> สรุปสเปค & ขอราคา</h4>
-                <p style={{fontSize: '0.8rem', color: '#64748b'}}>สรุปสเปคจากการคุยกับลูกค้า แล้วส่งไปทีมคิดราคาทันที</p>
-
-                <div style={{ background: '#eff6ff', padding: '0.6rem 0.8rem', borderRadius: '8px', marginBottom: '1rem', borderLeft: '4px solid #3b82f6' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#1e40af' }}>ลูกค้า:</span>
-                  <strong style={{ marginLeft: '0.3rem', color: '#1e293b' }}>{activeLead.alias_name || activeLead.original_name}</strong>
+      {/* Price Request Modal — Structured Form */}
+      {showPriceModal && activeLead && (() => {
+        const fieldStyle = { marginBottom: '0.6rem' };
+        const labelStyle = { fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', display: 'block', marginBottom: '0.2rem' };
+        const inputStyle = { width: '100%', padding: '0.4rem 0.6rem', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '0.8rem' };
+        const rowStyle = { display: 'flex', gap: '0.5rem' };
+        const halfStyle = { flex: 1 };
+        
+        return (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0.5rem' }}>
+            <div style={{ background: 'white', padding: '1.2rem', borderRadius: '16px', width: '100%', maxWidth: '500px', maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+                <h4 style={{marginTop: 0, color: '#7c3aed', marginBottom: '0.3rem'}}><i className="fa-solid fa-coins"></i> สรุปสเปค & ขอราคา</h4>
+                
+                <div style={{ background: '#eff6ff', padding: '0.5rem 0.8rem', borderRadius: '8px', marginBottom: '0.8rem', borderLeft: '4px solid #3b82f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div><span style={{ fontSize: '0.7rem', color: '#1e40af' }}>ลูกค้า:</span> <strong style={{ color: '#1e293b', fontSize: '0.85rem' }}>{activeLead.alias_name || activeLead.original_name}</strong></div>
                 </div>
 
-                <div style={{ marginBottom: '0.8rem' }}>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#475569' }}>หมวดสินค้า</label>
-                  <select className="form-control" value={priceReqCategory} onChange={e => setPriceReqCategory(e.target.value)}>
+                {/* Category */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>หมวดสินค้า</label>
+                  <select style={inputStyle} value={priceReqCategory} onChange={e => setPriceReqCategory(e.target.value)}>
                     {PRICE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
 
-                <div style={{ marginBottom: '0.8rem' }}>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#475569' }}>สรุปสเปคงานที่ลูกค้าต้องการ</label>
-                  <textarea className="form-control" rows="5" placeholder="เช่น: กล่องครีม ขนาด 10x10x8cm อาร์ตการ์ด 350g
-เคลือบด้าน + ปั๊มฟอยล์สีทอง จำนวน 500 / 1,000 / 3,000 ใบ" value={priceReqSpecs} onChange={e => setPriceReqSpecs(e.target.value)} style={{ resize: 'vertical' }}></textarea>
+                {/* Size */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>📐 ขนาดสำเร็จรูป</label>
+                  <div style={rowStyle}>
+                    <input style={inputStyle} placeholder="กว้าง (cm)" id="pq-w" />
+                    <span style={{ alignSelf: 'center', color: '#94a3b8' }}>×</span>
+                    <input style={inputStyle} placeholder="ยาว (cm)" id="pq-h" />
+                    <span style={{ alignSelf: 'center', color: '#94a3b8' }}>×</span>
+                    <input style={inputStyle} placeholder="สูง (ถ้ามี)" id="pq-d" />
+                  </div>
                 </div>
 
-                <div style={{ marginBottom: '1rem' }}>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#475569' }}>ระดับความเร่งด่วน</label>
-                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                {/* Paper */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>📄 กระดาษ</label>
+                  <div style={rowStyle}>
+                    <select style={{...inputStyle, flex: 2}} id="pq-paper">
+                      <option>อาร์ตการ์ด</option>
+                      <option>อาร์ตมัน</option>
+                      <option>อาร์ตด้าน</option>
+                      <option>ปอนด์</option>
+                      <option>คราฟท์</option>
+                      <option>กระดาษลูกฟูก</option>
+                      <option>จั่วปัง</option>
+                      <option>กระดาษปก C-Card</option>
+                      <option>กระดาษ NCR (ก็อปปี้)</option>
+                      <option>PVC</option>
+                      <option>PP</option>
+                      <option>สติกเกอร์</option>
+                      <option>อื่นๆ</option>
+                    </select>
+                    <input style={{...inputStyle, flex: 1}} placeholder="แกรม" id="pq-gsm" />
+                    <span style={{ alignSelf: 'center', color: '#94a3b8', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>แกรม</span>
+                  </div>
+                </div>
+
+                {/* Print */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>🖨️ พิมพ์</label>
+                  <div style={rowStyle}>
+                    <select style={inputStyle} id="pq-color">
+                      <option>4 สี (CMYK)</option>
+                      <option>1 สี</option>
+                      <option>2 สี</option>
+                      <option>Pantone</option>
+                      <option>ขาวดำ</option>
+                    </select>
+                    <select style={inputStyle} id="pq-sides">
+                      <option>1 หน้า (1/S)</option>
+                      <option>2 หน้า (2/S)</option>
+                      <option>4/4 สี 2 ด้าน</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Book-specific (only show for books) */}
+                {priceReqCategory === 'หนังสือ' && (
+                  <div style={fieldStyle}>
+                    <label style={labelStyle}>📖 ข้อมูลหนังสือ</label>
+                    <div style={rowStyle}>
+                      <input style={inputStyle} placeholder="จำนวนหน้า" id="pq-pages" />
+                      <select style={inputStyle} id="pq-binding">
+                        <option>ไสกาว (Perfect Binding)</option>
+                        <option>สเทปเปิ้ล (Staple)</option>
+                        <option>สันห่วง (Wire-O)</option>
+                        <option>เย็บกี่ (Sewing)</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {/* Finishing */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>✨ งานหลังพิมพ์ (Finishing)</label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                    {['เคลือบ PVC ด้าน', 'เคลือบ PVC เงา', 'เคลือบ UV', 'ปั๊มฟอยล์', 'ปั๊มนูน', 'ไดคัท', 'ปะกาว', 'พับ', 'ปรุฉีก', 'เข้าเล่ม', 'เคลือบลามิเนต'].map(f => (
+                      <label key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.7rem', padding: '0.25rem 0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', cursor: 'pointer', background: '#fafafa' }}>
+                        <input type="checkbox" className={`pq-finish`} value={f} style={{ width: '12px', height: '12px' }} /> {f}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quantities */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>📦 จำนวนที่ต้องการ (ใส่ได้หลายจำนวน)</label>
+                  <input style={inputStyle} placeholder="เช่น 500 / 1,000 / 3,000" id="pq-qty" />
+                </div>
+
+                {/* Notes */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>📝 หมายเหตุเพิ่มเติม</label>
+                  <textarea style={{...inputStyle, resize: 'vertical'}} rows="2" placeholder="รายละเอียดเพิ่มเติม เช่น ขนาดถุงหิ้ว, สีฟอยล์, จำนวนหน้า ฯลฯ" id="pq-notes"></textarea>
+                </div>
+
+                {/* Urgency */}
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>⏰ ความเร่งด่วน</label>
+                  <div style={{ display: 'flex', gap: '0.3rem' }}>
                     {[['normal', '🟢 ปกติ'], ['urgent', '🟡 ด่วน'], ['critical', '🔴 ด่วนมาก']].map(([k, v]) => (
-                      <button key={k} onClick={() => setPriceReqUrgency(k)} style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: priceReqUrgency === k ? '2px solid #7c3aed' : '1px solid #e2e8f0', background: priceReqUrgency === k ? '#f5f3ff' : 'white', cursor: 'pointer', fontSize: '0.75rem' }}>
+                      <button key={k} onClick={() => setPriceReqUrgency(k)} style={{ padding: '0.35rem 0.7rem', borderRadius: '6px', border: priceReqUrgency === k ? '2px solid #7c3aed' : '1px solid #e2e8f0', background: priceReqUrgency === k ? '#f5f3ff' : 'white', cursor: 'pointer', fontSize: '0.7rem' }}>
                         {v}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex" style={{gap: '0.8rem', marginTop: '1.5rem'}}>
-                    <button className="btn btn-outline" style={{flex: 1, padding: '0.7rem'}} onClick={() => setShowPriceModal(false)}>ยกเลิก</button>
-                    <button className="btn btn-primary" style={{flex: 2, padding: '0.7rem', background: '#7c3aed', border: 'none'}} onClick={async () => {
-                      if (!priceReqSpecs.trim()) { alert('กรุณากรอกสเปคงาน'); return; }
+                <div className="flex" style={{gap: '0.6rem', marginTop: '1rem'}}>
+                    <button className="btn btn-outline" style={{flex: 1, padding: '0.6rem', fontSize: '0.8rem'}} onClick={() => setShowPriceModal(false)}>ยกเลิก</button>
+                    <button className="btn btn-primary" style={{flex: 2, padding: '0.6rem', background: '#7c3aed', border: 'none', fontSize: '0.8rem'}} onClick={async () => {
+                      // Build structured spec string
+                      const w = document.getElementById('pq-w')?.value;
+                      const h = document.getElementById('pq-h')?.value;
+                      const d = document.getElementById('pq-d')?.value;
+                      const paper = document.getElementById('pq-paper')?.value;
+                      const gsm = document.getElementById('pq-gsm')?.value;
+                      const color = document.getElementById('pq-color')?.value;
+                      const sides = document.getElementById('pq-sides')?.value;
+                      const qty = document.getElementById('pq-qty')?.value;
+                      const notes = document.getElementById('pq-notes')?.value;
+                      const pages = document.getElementById('pq-pages')?.value;
+                      const binding = document.getElementById('pq-binding')?.value;
+                      const finishes = [...document.querySelectorAll('.pq-finish:checked')].map(cb => cb.value);
+
+                      if (!qty) { alert('กรุณากรอกจำนวนที่ต้องการ'); return; }
+
+                      let specs = `ขอราคา${priceReqCategory}\n`;
+                      if (w || h) specs += `ขนาด: ${w || '-'}×${h || '-'}${d ? '×' + d : ''} cm\n`;
+                      if (paper) specs += `กระดาษ: ${paper} ${gsm || ''} แกรม\n`;
+                      specs += `พิมพ์: ${color} ${sides}\n`;
+                      if (pages) specs += `จำนวนหน้า: ${pages} หน้า เข้าเล่ม: ${binding}\n`;
+                      if (finishes.length) specs += `+ ${finishes.join('\n+ ')}\n`;
+                      specs += `จำนวน: ${qty}\n`;
+                      if (notes) specs += `หมายเหตุ: ${notes}`;
+
                       try {
                         await axios.post(`${API_URL}/price_requests`, {
                           category: priceReqCategory,
                           customer_name: activeLead.alias_name || activeLead.original_name,
-                          specs: priceReqSpecs,
+                          specs: specs.trim(),
                           urgency: priceReqUrgency,
                           requested_by: 'Sales (จากแชท)',
                           status: 'pending'
@@ -803,14 +923,15 @@ export default function AdWeb() {
                     </button>
                 </div>
 
-                <div style={{ marginTop: '0.8rem', textAlign: 'center' }}>
-                  <button style={{ background: 'none', border: 'none', color: '#3b82f6', cursor: 'pointer', fontSize: '0.75rem', textDecoration: 'underline' }} onClick={() => { setShowPriceModal(false); navigate('/estimator'); }}>
+                <div style={{ marginTop: '0.6rem', textAlign: 'center' }}>
+                  <button style={{ background: 'none', border: 'none', color: '#3b82f6', cursor: 'pointer', fontSize: '0.7rem', textDecoration: 'underline' }} onClick={() => { setShowPriceModal(false); navigate('/estimator'); }}>
                     หรือไปค้นหาราคาเองที่ ศูนย์ราคา →
                   </button>
                 </div>
             </div>
         </div>
-      )}
+        );
+      })()}
 
     </div>
   );
