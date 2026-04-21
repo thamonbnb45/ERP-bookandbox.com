@@ -86,6 +86,84 @@ export default function Logistics() {
     } catch(e) { alert('Error!'); }
   };
 
+  // Proof of delivery (Camera + GPS Watermark)
+  const [uploadingDest, setUploadingDest] = useState(null); // tracking loading state
+  
+  const handlePhotoProof = (e, tripId, destIndex) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!navigator.geolocation) {
+      alert("อุปกรณ์นี้ไม่รองรับ GPS");
+      return;
+    }
+
+    setUploadingDest(`${tripId}-${destIndex}`);
+
+    // Get location
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        stampAndUploadImage(file, lat, lng, tripId, destIndex);
+      },
+      (err) => {
+        alert("ไม่สามารถดึง GPS ได้ แจ้งให้เบราว์เซอร์อนุญาต Location หรือเปิด GPS ของเครื่อง");
+        setUploadingDest(null);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
+
+  const stampAndUploadImage = (file, lat, lng, tripId, destIndex) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        // scale down to reasonable size to save bandwidth (max 1200px width)
+        const scale = img.width > 1200 ? 1200 / img.width : 1;
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Watermark Box
+        const barHeight = Math.max(120, canvas.height * 0.15);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.fillRect(0, canvas.height - barHeight, canvas.width, barHeight);
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 36px sans-serif';
+        const timestamp = new Date().toLocaleString('th-TH');
+        ctx.fillText(`เวลา: ${timestamp}`, 30, canvas.height - (barHeight * 0.5));
+        ctx.fillText(`พิกัด: ${lat.toFixed(6)}, ${lng.toFixed(6)}`, 30, canvas.height - (barHeight * 0.15));
+
+        const base64Data = canvas.toDataURL('image/jpeg', 0.8);
+
+        try {
+           // Upload to server
+           const res = await axios.post(`${API_URL}/upload_proof`, { image_base64: base64Data });
+           const proofUrl = res.data.url;
+           
+           // Update trip destinations array
+           const trip = trips.find(t => t.id === tripId);
+           const newDest = [...trip.destinations];
+           newDest[destIndex] = { ...newDest[destIndex], proof_url: proofUrl, lat, lng, completed: true, timestamp };
+           
+           await axios.post(`${API_URL}/logistics/trips`, { id: tripId, destinations: newDest });
+           fetchTrips();
+           alert('✅ ประทับเวลา พิกัด และบันทึกรูปสำเร็จ!');
+        } catch (err) {
+           alert("เกิดข้อผิดพลาดในการอัปโหลด หรือเซิฟเวอร์ขัดข้อง");
+        } finally {
+           setUploadingDest(null);
+        }
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="view-section active p-4">
       <div className="flex justify-between aligns-center mb-6">
@@ -159,7 +237,38 @@ export default function Logistics() {
                   </div>
                   <div className="mt-2 pl-2 border-l-2 border-orange-300">
                     {(t.destinations || []).map((d, i) => (
-                      <div key={i} className="text-xs">📍 {d.type === 'pickup' ? 'รับของจาก:' : d.type === 'dropoff'? 'ส่งของที่:' : 'ไปซื้อ:'} <strong>{d.name}</strong></div>
+                      <div key={i} className="text-xs mb-3 border-b border-orange-100 pb-2">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            📍 <strong>{d.type === 'pickup' ? 'ไปรับ: ' : d.type === 'dropoff'? 'ไปส่ง: ' : 'ซื้อของ: '}</strong> {d.name}
+                          </div>
+                          {d.completed && <span className="text-green-600 font-bold bg-green-100 px-1 rounded">✓ เช็คอินแล้ว</span>}
+                        </div>
+                        
+                        {!d.completed ? (
+                          <div className="mt-2 text-right">
+                            {uploadingDest === `${t.id}-${i}` ? (
+                              <div className="text-blue-500 animate-pulse text-xs"><i className="fa-solid fa-spinner fa-spin"></i> กำลังอัปโหลดและปักหมุด...</div>
+                            ) : (
+                              <>
+                                <label htmlFor={`camera_input_${t.id}_${i}`} className="inline-block bg-blue-600 outline-none text-white px-3 py-1 rounded cursor-pointer shadow hover:bg-blue-700">
+                                  <i className="fa-solid fa-camera"></i> ถ่ายรูปยืนยันหน้างาน
+                                </label>
+                                <input type="file" id={`camera_input_${t.id}_${i}`} accept="image/*" capture="environment" className="hidden" onChange={(e) => handlePhotoProof(e, t.id, i)} />
+                              </>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="mt-1 flex gap-2">
+                            <a href={API_URL.replace('/api', '') + d.proof_url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+                              <i className="fa-solid fa-image"></i> ดูรูปงาน
+                            </a>
+                            <a href={`https://www.google.com/maps?q=${d.lat},${d.lng}`} target="_blank" rel="noreferrer" className="text-green-600 hover:underline">
+                              <i className="fa-solid fa-location-dot"></i> ดูแผนที่ (พิกัดจร)
+                            </a>
+                          </div>
+                        )}
+                      </div>
                     ))}
                   </div>
                   <button onClick={() => closeTrip(t.id)} className="w-full mt-3 btn btn-sm btn-outline text-xs border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white">
@@ -174,7 +283,7 @@ export default function Logistics() {
                 const distance = t.end_km - t.start_km;
                 const hours = t.return_time && t.depart_time ? ((new Date(t.return_time) - new Date(t.depart_time)) / 3600000).toFixed(1) : '?';
                 return (
-                  <div key={t.id} className="p-3 border rounded-lg bg-gray-50 opacity-90 text-xs">
+                  <div key={t.id} className="p-3 border rounded-lg bg-gray-50 opacity-90 text-xs mt-2">
                     <div className="flex justify-between font-bold mb-1">
                       <span className="text-gray-700">{t.fleet}</span>
                       <span className="text-red-500">{cost > 0 ? `~${cost.toLocaleString()} ฿` : ''}</span>
@@ -182,7 +291,18 @@ export default function Logistics() {
                     <div className="text-gray-500">
                       ระยะทาง: <strong>{distance} กม.</strong> • เวลาวิ่ง: <strong>{hours} ชม.</strong>
                     </div>
-                    <div className="mt-1 text-[10px] text-gray-400">
+                    
+                    {/* Photos Preview */}
+                    <div className="flex gap-1 mt-2 overflow-x-auto">
+                      {(t.destinations || []).map((d, i) => d.completed && d.proof_url ? (
+                        <a key={i} href={API_URL.replace('/api', '') + d.proof_url} target="_blank" rel="noreferrer" className="w-[60px] h-[60px] relative inline-block bg-slate-200 border rounded cursor-pointer shrink-0">
+                          <img src={API_URL.replace('/api', '') + d.proof_url} className="w-full h-full object-cover rounded" alt="proof"/>
+                          <div className="absolute font-bold text-white bg-black/50 text-[8px] bottom-0 w-full text-center p-0.5"><i className="fa-solid fa-location-dot"></i></div>
+                        </a>
+                      ) : null)}
+                    </div>
+
+                    <div className="mt-2 text-[10px] text-gray-400">
                       (รวมค่าแรงคนขับ {DRIVER_SALARY_HR}฿/ชม, ค่าเสื่อม {DEPRECIATION_HR}฿/ชม, น้ำมัน+สึกหรอ {FUEL_RATE_KM}฿/กม)
                     </div>
                   </div>
