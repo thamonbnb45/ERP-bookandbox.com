@@ -1592,6 +1592,117 @@ app.get('/api/portal/track/:phone', async (req, res) => {
     }
 });
 
+// ====== AI BACKGROUND WORKER (runs on Railway 24/7 — no computer needed!) ======
+const PIPELINE_SLA = {
+  'new_lead': 1, 'qualifying': 4, 'wait_price': 24,
+  'quoted': 48, 'wait_file': 72, 'proofing': 48, 'wait_payment': 72
+};
+
+const TAG_TO_STAGE = {
+  'รอราคา': 'wait_price', 'รอยืนยัน': 'quoted', 'รอไฟล์': 'wait_file',
+  'รอตรวจแบบ': 'proofing', 'รอโอน': 'wait_payment', 'เข้าผลิต': 'production'
+};
+
+function detectStage(lead) {
+  const tags = lead.tags || [];
+  const status = lead.sales_status || 'i';
+  if (status === 'c') return 'won';
+  if (['nt', 'na', 'al'].includes(status)) return 'lost';
+  for (const [tag, stage] of Object.entries(TAG_TO_STAGE)) {
+    if (tags.includes(tag)) return stage;
+  }
+  if (status === 'o') return 'quoted';
+  return 'new_lead';
+}
+
+// Auto-tag overdue leads (runs every 30 min)
+async function aiBackgroundCheck() {
+  console.log('[AI Worker] Running background pipeline check...');
+  try {
+    const { data: leads } = await supabase.from('lead_contact').select('*');
+    if (!leads) return;
+    
+    const { data: msgs } = await supabase.from('lead_messages').select('*').order('created_at', { ascending: true });
+    if (!msgs) return;
+    
+    const leadMap = {};
+    leads.forEach(l => { leadMap[l.id] = { ...l, messages: [] }; });
+    msgs.forEach(m => { if (leadMap[m.lead_id]) leadMap[m.lead_id].messages.push(m); });
+
+    let overdueCount = 0;
+    let autoTagged = 0;
+    
+    for (const lead of Object.values(leadMap)) {
+      if (!lead.messages.length) continue;
+      const stage = detectStage(lead);
+      const sla = PIPELINE_SLA[stage];
+      if (!sla) continue;
+      
+      const lastMsg = lead.messages[lead.messages.length - 1];
+      const hoursStuck = (Date.now() - new Date(lastMsg.created_at).getTime()) / 3600000;
+      
+      if (hoursStuck > sla) {
+        overdueCount++;
+        const currentTags = lead.tags || [];
+        // Auto-add 'Follow Up' tag if not already tagged
+        if (!currentTags.includes('Follow Up') && !currentTags.includes('เข้าผลิต')) {
+          const newTags = [...currentTags, 'Follow Up'];
+          await supabase.from('lead_contact').update({ tags: newTags }).eq('id', lead.id);
+          autoTagged++;
+        }
+      }
+    }
+    console.log(`[AI Worker] Done: ${overdueCount} overdue, ${autoTagged} auto-tagged for follow-up`);
+  } catch (e) { console.error('[AI Worker] Error:', e.message); }
+}
+
+// Run every 30 minutes
+setInterval(aiBackgroundCheck, 30 * 60 * 1000);
+// Run once on startup after 10 seconds
+setTimeout(aiBackgroundCheck, 10000);
+
+// Daily stats API — for report page to get historical data by date
+app.get('/api/daily-stats', async (req, res) => {
+  try {
+    const { date } = req.query; // YYYY-MM-DD
+    if (!date) return res.status(400).json({ error: 'date param required' });
+    
+    const dayStart = new Date(date + 'T00:00:00+07:00').toISOString();
+    const dayEnd = new Date(date + 'T23:59:59+07:00').toISOString();
+    
+    // Messages on this date
+    const { data: msgs } = await supabase.from('lead_messages')
+      .select('lead_id, sender, type, created_at')
+      .gte('created_at', dayStart)
+      .lte('created_at', dayEnd)
+      .order('created_at', { ascending: true });
+    
+    // New leads (first ever message on this date)
+    const leadIds = [...new Set((msgs || []).map(m => m.lead_id))];
+    let newLeadCount = 0;
+    for (const lid of leadIds) {
+      const { data: first } = await supabase.from('lead_messages')
+        .select('created_at')
+        .eq('lead_id', lid)
+        .order('created_at', { ascending: true })
+        .limit(1);
+      if (first?.[0] && first[0].created_at >= dayStart && first[0].created_at <= dayEnd) {
+        newLeadCount++;
+      }
+    }
+    
+    res.json({
+      date,
+      totalMessages: (msgs || []).length,
+      clientMessages: (msgs || []).filter(m => m.sender === 'client').length,
+      adminMessages: (msgs || []).filter(m => m.sender === 'admin').length,
+      activeLeads: leadIds.length,
+      newLeads: newLeadCount,
+      imageMessages: (msgs || []).filter(m => m.type === 'image').length,
+    });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -1600,4 +1711,5 @@ app.get(/.*/, (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Enterprise Supabase Backend API running on http://localhost:${PORT}`);
+    console.log(`[AI Worker] Background pipeline monitor active (every 30min)`);
 });
