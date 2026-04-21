@@ -26,15 +26,15 @@ function Sidebar({ isOpen, closeSidebar }) {
           <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
              <i className="fa-brands fa-line"></i> Omni-Channel Chat
           </Link>
-          <Link to="/sales" className={`nav-item ${location.pathname === '/sales' ? 'active' : ''}`} onClick={closeSidebar}>
+          {/* <Link to="/sales" className={`nav-item ${location.pathname === '/sales' ? 'active' : ''}`} onClick={closeSidebar}>
               <i className="fa-solid fa-cart-shopping"></i> Sales & Quotations
-          </Link>
+          </Link> */}
           <Link to="/production" className={`nav-item ${location.pathname === '/production' ? 'active' : ''}`} onClick={closeSidebar}>
               <i className="fa-solid fa-industry"></i> Production Control
           </Link>
-          <Link to="/accounting" className={`nav-item ${location.pathname === '/accounting' ? 'active' : ''}`} onClick={closeSidebar}>
+          {/* <Link to="/accounting" className={`nav-item ${location.pathname === '/accounting' ? 'active' : ''}`} onClick={closeSidebar}>
               <i className="fa-solid fa-file-invoice-dollar"></i> Finance & Billing
-          </Link>
+          </Link> */}
           <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`} onClick={closeSidebar}>
               <i className="fa-solid fa-users-gear"></i> HR Workforce
           </Link>
