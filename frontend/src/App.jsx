@@ -10,6 +10,7 @@ import HR from './pages/HR';
 import Logistics from './pages/Logistics';
 import Estimator from './pages/Estimator';
 import SalesReport from './pages/SalesReport';
+import SalesPipeline from './pages/SalesPipeline';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -47,6 +48,12 @@ function Sidebar({ isOpen, closeSidebar }) {
           {canAccess('chat_module', ['CEO', 'Sales']) && (
               <Link to="/sales-report" className={`nav-item ${location.pathname === '/sales-report' ? 'active' : ''}`} onClick={closeSidebar}>
                  <i className="fa-solid fa-chart-line"></i> Sales Daily Report
+              </Link>
+          )}
+
+          {canAccess('chat_module', ['CEO', 'Sales']) && (
+              <Link to="/pipeline" className={`nav-item ${location.pathname === '/pipeline' ? 'active' : ''}`} onClick={closeSidebar}>
+                 <i className="fa-solid fa-diagram-project"></i> Sales Pipeline
               </Link>
           )}
 
@@ -139,6 +146,7 @@ function MainLayout() {
           <Route path="/settings" element={<><Topbar title="System Settings" toggleSidebar={toggleSidebar} /><div className="view-container"><Settings /></div></>} />
           <Route path="/estimator" element={<><Topbar title="Smart Price Hub" toggleSidebar={toggleSidebar} /><div className="view-container"><Estimator /></div></>} />
           <Route path="/sales-report" element={<><Topbar title="Sales Daily Report" toggleSidebar={toggleSidebar} /><div className="view-container"><SalesReport /></div></>} />
+          <Route path="/pipeline" element={<><Topbar title="Sales Pipeline" toggleSidebar={toggleSidebar} /><div className="view-container"><SalesPipeline /></div></>} />
           
           {/* Default Route based on Role */}
           <Route path="/" element={
