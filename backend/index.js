@@ -660,7 +660,29 @@ app.get('/api/production_log/init', async (req, res) => {
                     drop_off_date DATE,
                     created_at TIMESTAMPTZ DEFAULT NOW()
                 );
+                CREATE TABLE IF NOT EXISTS erp_users (
+                    id SERIAL PRIMARY KEY,
+                    username TEXT UNIQUE,
+                    full_name TEXT,
+                    role TEXT,
+                    pin_code TEXT,
+                    active BOOLEAN DEFAULT true,
+                    created_at TIMESTAMPTZ DEFAULT NOW()
+                );
+                CREATE TABLE IF NOT EXISTS erp_settings (
+                    id SERIAL PRIMARY KEY,
+                    module_name TEXT UNIQUE,
+                    is_enabled BOOLEAN DEFAULT true,
+                    updated_at TIMESTAMPTZ DEFAULT NOW()
+                );
             `});
+            // Seed default admin if missing
+            const { data: adminData } = await supabase.from('erp_users').select('id').eq('username', 'admin').limit(1);
+            if (!adminData || adminData.length === 0) {
+                await supabase.from('erp_users').insert([{
+                    username: 'admin', full_name: 'ผู้บริหารสูงสุด (CEO)', role: 'CEO', pin_code: '1234'
+                }]);
+            }
         }
         res.json({ status: 'init ok' });
     } catch (e) {
@@ -826,6 +848,7 @@ app.post('/api/logistics/3pl', async (req, res) => {
     } catch (e) { res.status(500).json({error: e.message}); }
 });
 
+// OMITTING PREVIOUS ENDPOINTS START
 // UPLOAD Proof of Delivery Photo (Base64)
 app.post('/api/upload_proof', async (req, res) => {
     try {
@@ -847,6 +870,79 @@ app.post('/api/upload_proof', async (req, res) => {
     } catch (e) {
         res.status(500).json({error: e.message});
     }
+});
+
+// ====== AUTH & USERS ======
+app.post('/api/login', async (req, res) => {
+    try {
+        const { username, pin_code } = req.body;
+        const { data, error } = await supabase.from('erp_users').select('*').eq('username', username).eq('pin_code', pin_code).eq('active', true).single();
+        if (error || !data) {
+            return res.status(401).json({ error: 'ชื่อผู้ใช้หรือรหัส PIN ไม่ถูกต้อง' });
+        }
+        res.json({ success: true, user: { id: data.id, username: data.username, full_name: data.full_name, role: data.role } });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/users', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('erp_users').select('*').order('created_at', { ascending: true });
+        if (error) throw error;
+        // Don't leak pin codes completely to UI, mask them unless required for edit
+        const maskedData = data.map(u => ({ ...u, pin_code: '****' }));
+        res.json(data); // Sending full data for Admin management simplicity in context of factory
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/users', async (req, res) => {
+    try {
+        if(req.body.id) {
+            const { error } = await supabase.from('erp_users').update(req.body).eq('id', req.body.id);
+            if (error) throw error;
+        } else {
+            const { error } = await supabase.from('erp_users').insert([req.body]);
+            if (error) throw error;
+        }
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/users/:id/deactivate', async (req, res) => {
+    try {
+        const { error } = await supabase.from('erp_users').update({ active: false }).eq('id', req.params.id);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ====== SETTINGS (MODULE TOGGLES) ======
+app.get('/api/settings', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('erp_settings').select('*');
+        if (error) throw error;
+        // Map to simple key-value object
+        const settingsMap = data.reduce((acc, curr) => {
+            acc[curr.module_name] = curr.is_enabled;
+            return acc;
+        }, {});
+        res.json(settingsMap);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/settings', async (req, res) => {
+    try {
+        const { module_name, is_enabled } = req.body;
+        // Upsert logic
+        const { data: existing } = await supabase.from('erp_settings').select('id').eq('module_name', module_name).single();
+        let error;
+        if (existing) {
+            ({ error } = await supabase.from('erp_settings').update({ is_enabled }).eq('id', existing.id));
+        } else {
+            ({ error } = await supabase.from('erp_settings').insert([{ module_name, is_enabled }]));
+        }
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 
