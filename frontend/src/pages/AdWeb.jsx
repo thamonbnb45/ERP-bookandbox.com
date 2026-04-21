@@ -63,9 +63,21 @@ export default function AdWeb() {
   
   // AI Feature
   const [isAIGenerating, setIsAIGenerating] = useState(false);
+
+  // Price Request Modal
+  const [showPriceModal, setShowPriceModal] = useState(false);
+  const [priceReqCategory, setPriceReqCategory] = useState('ใบปลิว/แผ่นพับ');
+  const [priceReqSpecs, setPriceReqSpecs] = useState('');
+  const [priceReqUrgency, setPriceReqUrgency] = useState('normal');
   
   const chatEndRef = useRef(null);
   const navigate = useNavigate();
+
+  const PRICE_CATEGORIES = [
+    'หนังสือ', 'ใบปลิว/แผ่นพับ', 'ถุงกระดาษ/ถุงหิ้ว', 'สายคาด/ป้ายไฟ/ป้ายแท็ก',
+    'บิล/ใบเสร็จ', 'ด้วย/แก้ว/บรรจุภัณฑ์อาหาร', 'บัตรพลาสติก', 'คูปอง/บัตร',
+    'อินดี้/งานพิเศษ', 'กล่อง/แพคเกจจิ้ง', 'ปฏิทิน', 'นามบัตร', 'สติกเกอร์', 'อื่นๆ'
+  ];
 
   // Polling backend
   useEffect(() => {
@@ -673,8 +685,11 @@ export default function AdWeb() {
                 <button className="btn btn-primary" onClick={handleSendMessage} style={{ padding: '0.8rem 1.2rem' }}>
                   <i className="fa-solid fa-paper-plane"></i>
                 </button>
-                <button className="btn btn-success" onClick={() => navigate('/sales')} style={{ padding: '0.8rem 1.2rem', whiteSpace: 'nowrap' }}>
-                  <i className="fa-solid fa-file-invoice"></i> เสนอราคา
+                <button className="btn btn-success" onClick={() => {
+                  setPriceReqSpecs('');
+                  setShowPriceModal(true);
+                }} style={{ padding: '0.8rem 1.2rem', whiteSpace: 'nowrap' }}>
+                  <i className="fa-solid fa-file-invoice"></i> ขอราคา
                 </button>
             </div>
           </div>
@@ -726,6 +741,72 @@ export default function AdWeb() {
                     <button className="btn btn-primary" style={{flex: 1, padding: '0.8rem', background: '#10b981', boxShadow: '0 4px 6px rgba(16, 185, 129, 0.3)'}} onClick={handleConvertToOrder} disabled={!selectedProductId || isSubmittingOrder}>
                         {isSubmittingOrder ? 'กำลังสร้าง...' : '✅ ยืนยันสร้างบิล'}
                     </button>
+                </div>
+            </div>
+        </div>
+      )}
+
+      {/* Price Request Modal */}
+      {showPriceModal && activeLead && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1rem' }}>
+            <div style={{ background: 'white', padding: '1.5rem', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+                <h4 style={{marginTop: 0, color: '#7c3aed'}}><i className="fa-solid fa-coins"></i> สรุปสเปค & ขอราคา</h4>
+                <p style={{fontSize: '0.8rem', color: '#64748b'}}>สรุปสเปคจากการคุยกับลูกค้า แล้วส่งไปทีมคิดราคาทันที</p>
+
+                <div style={{ background: '#eff6ff', padding: '0.6rem 0.8rem', borderRadius: '8px', marginBottom: '1rem', borderLeft: '4px solid #3b82f6' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#1e40af' }}>ลูกค้า:</span>
+                  <strong style={{ marginLeft: '0.3rem', color: '#1e293b' }}>{activeLead.alias_name || activeLead.original_name}</strong>
+                </div>
+
+                <div style={{ marginBottom: '0.8rem' }}>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#475569' }}>หมวดสินค้า</label>
+                  <select className="form-control" value={priceReqCategory} onChange={e => setPriceReqCategory(e.target.value)}>
+                    {PRICE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+
+                <div style={{ marginBottom: '0.8rem' }}>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#475569' }}>สรุปสเปคงานที่ลูกค้าต้องการ</label>
+                  <textarea className="form-control" rows="5" placeholder="เช่น: กล่องครีม ขนาด 10x10x8cm อาร์ตการ์ด 350g
+เคลือบด้าน + ปั๊มฟอยล์สีทอง จำนวน 500 / 1,000 / 3,000 ใบ" value={priceReqSpecs} onChange={e => setPriceReqSpecs(e.target.value)} style={{ resize: 'vertical' }}></textarea>
+                </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#475569' }}>ระดับความเร่งด่วน</label>
+                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                    {[['normal', '🟢 ปกติ'], ['urgent', '🟡 ด่วน'], ['critical', '🔴 ด่วนมาก']].map(([k, v]) => (
+                      <button key={k} onClick={() => setPriceReqUrgency(k)} style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: priceReqUrgency === k ? '2px solid #7c3aed' : '1px solid #e2e8f0', background: priceReqUrgency === k ? '#f5f3ff' : 'white', cursor: 'pointer', fontSize: '0.75rem' }}>
+                        {v}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex" style={{gap: '0.8rem', marginTop: '1.5rem'}}>
+                    <button className="btn btn-outline" style={{flex: 1, padding: '0.7rem'}} onClick={() => setShowPriceModal(false)}>ยกเลิก</button>
+                    <button className="btn btn-primary" style={{flex: 2, padding: '0.7rem', background: '#7c3aed', border: 'none'}} onClick={async () => {
+                      if (!priceReqSpecs.trim()) { alert('กรุณากรอกสเปคงาน'); return; }
+                      try {
+                        await axios.post(`${API_URL}/price_requests`, {
+                          category: priceReqCategory,
+                          customer_name: activeLead.alias_name || activeLead.original_name,
+                          specs: priceReqSpecs,
+                          urgency: priceReqUrgency,
+                          requested_by: 'Sales (จากแชท)',
+                          status: 'pending'
+                        });
+                        alert('✅ ส่งขอราคาไปยัง Pricing Desk เรียบร้อย!');
+                        setShowPriceModal(false);
+                      } catch (e) { alert('ส่งไม่สำเร็จ: ' + e.message); }
+                    }}>
+                        <i className="fa-solid fa-paper-plane"></i> ส่งขอราคาไป Pricing Desk
+                    </button>
+                </div>
+
+                <div style={{ marginTop: '0.8rem', textAlign: 'center' }}>
+                  <button style={{ background: 'none', border: 'none', color: '#3b82f6', cursor: 'pointer', fontSize: '0.75rem', textDecoration: 'underline' }} onClick={() => { setShowPriceModal(false); navigate('/estimator'); }}>
+                    หรือไปค้นหาราคาเองที่ ศูนย์ราคา →
+                  </button>
                 </div>
             </div>
         </div>
