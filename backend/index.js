@@ -878,31 +878,51 @@ app.post('/api/upload_proof', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         const { username, pin_code } = req.body;
-        const { data, error } = await supabase.from('erp_users').select('*').eq('username', username).eq('pin_code', pin_code).eq('active', true).single();
-        if (error || !data) {
+        // Use RPC exec_sql to bypass PostgREST cache entirely since table was just created
+        const { data, error } = await supabase.rpc('exec_sql', { 
+            sql_string: `SELECT id, username, full_name, role FROM erp_users WHERE username = '${username}' AND pin_code = '${pin_code}' AND active = true LIMIT 1;` 
+        });
+        
+        if (error) {
             return res.status(401).json({ error: 'ชื่อผู้ใช้หรือรหัส PIN ไม่ถูกต้อง' });
         }
-        res.json({ success: true, user: { id: data.id, username: data.username, full_name: data.full_name, role: data.role } });
-    } catch (e) { res.status(500).json({ error: e.message }); }
+        
+        // exec_sql returns array of objects, or empty array if not found
+        if (!data || data.length === 0) {
+            return res.status(401).json({ error: 'ชื่อผู้ใช้หรือรหัส PIN ไม่ถูกต้อง' });
+        }
+        
+        const user = data[0];
+        res.json({ success: true, user });
+    } catch (e) { 
+        res.status(500).json({ error: e.message }); 
+    }
 });
 
 app.get('/api/users', async (req, res) => {
     try {
-        const { data, error } = await supabase.from('erp_users').select('*').order('created_at', { ascending: true });
+        const { data, error } = await supabase.rpc('exec_sql', { 
+            sql_string: `SELECT id, username, full_name, role, '****' as pin_code, active, created_at FROM erp_users ORDER BY created_at ASC;` 
+        });
         if (error) throw error;
-        // Don't leak pin codes completely to UI, mask them unless required for edit
-        const maskedData = data.map(u => ({ ...u, pin_code: '****' }));
-        res.json(data); // Sending full data for Admin management simplicity in context of factory
+        res.json(data);
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.post('/api/users', async (req, res) => {
     try {
-        if(req.body.id) {
-            const { error } = await supabase.from('erp_users').update(req.body).eq('id', req.body.id);
+        const { id, username, full_name, role, pin_code } = req.body;
+        if(id) {
+            // Update
+            const { error } = await supabase.rpc('exec_sql', {
+                sql_string: `UPDATE erp_users SET full_name = '${full_name}', role = '${role}', pin_code = '${pin_code}' WHERE id = ${id};`
+            });
             if (error) throw error;
         } else {
-            const { error } = await supabase.from('erp_users').insert([req.body]);
+            // Insert
+            const { error } = await supabase.rpc('exec_sql', {
+                sql_string: `INSERT INTO erp_users (username, full_name, role, pin_code) VALUES ('${username}', '${full_name}', '${role}', '${pin_code}');`
+            });
             if (error) throw error;
         }
         res.json({ success: true });
@@ -911,7 +931,9 @@ app.post('/api/users', async (req, res) => {
 
 app.post('/api/users/:id/deactivate', async (req, res) => {
     try {
-        const { error } = await supabase.from('erp_users').update({ active: false }).eq('id', req.params.id);
+        const { error } = await supabase.rpc('exec_sql', {
+            sql_string: `UPDATE erp_users SET active = false WHERE id = ${req.params.id};`
+        });
         if (error) throw error;
         res.json({ success: true });
     } catch (e) { res.status(500).json({ error: e.message }); }
@@ -920,10 +942,12 @@ app.post('/api/users/:id/deactivate', async (req, res) => {
 // ====== SETTINGS (MODULE TOGGLES) ======
 app.get('/api/settings', async (req, res) => {
     try {
-        const { data, error } = await supabase.from('erp_settings').select('*');
+        const { data, error } = await supabase.rpc('exec_sql', {
+            sql_string: `SELECT * FROM erp_settings;`
+        });
         if (error) throw error;
         // Map to simple key-value object
-        const settingsMap = data.reduce((acc, curr) => {
+        const settingsMap = (data || []).reduce((acc, curr) => {
             acc[curr.module_name] = curr.is_enabled;
             return acc;
         }, {});
@@ -934,14 +958,14 @@ app.get('/api/settings', async (req, res) => {
 app.post('/api/settings', async (req, res) => {
     try {
         const { module_name, is_enabled } = req.body;
-        // Upsert logic
-        const { data: existing } = await supabase.from('erp_settings').select('id').eq('module_name', module_name).single();
-        let error;
-        if (existing) {
-            ({ error } = await supabase.from('erp_settings').update({ is_enabled }).eq('id', existing.id));
-        } else {
-            ({ error } = await supabase.from('erp_settings').insert([{ module_name, is_enabled }]));
-        }
+        // Postgres Upsert
+        const { error } = await supabase.rpc('exec_sql', {
+            sql_string: `
+                INSERT INTO erp_settings (module_name, is_enabled) 
+                VALUES ('${module_name}', ${is_enabled}) 
+                ON CONFLICT (module_name) DO UPDATE SET is_enabled = EXCLUDED.is_enabled;
+            `
+        });
         if (error) throw error;
         res.json({ success: true });
     } catch (e) { res.status(500).json({ error: e.message }); }
