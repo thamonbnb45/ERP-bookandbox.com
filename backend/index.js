@@ -948,7 +948,81 @@ app.post('/api/settings', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ====== SMART PRICE HUB ======
 
+// Price Catalog - search with AI interpolation
+app.get('/api/price_catalog', async (req, res) => {
+    try {
+        const { search, category } = req.query;
+        let query = supabase.from('price_catalog').select('*').order('category').order('product_name').order('quantity', { ascending: true });
+        if (category) query = query.eq('category', category);
+        if (search) query = query.ilike('product_name', `%${search}%`);
+        const { data, error } = await query;
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Price Catalog - add/update item
+app.post('/api/price_catalog', async (req, res) => {
+    try {
+        if (req.body.id) {
+            const { error } = await supabase.from('price_catalog').update(req.body).eq('id', req.body.id);
+            if (error) throw error;
+        } else {
+            const { error } = await supabase.from('price_catalog').insert([req.body]);
+            if (error) throw error;
+        }
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/price_catalog/:id', async (req, res) => {
+    try {
+        const { error } = await supabase.from('price_catalog').delete().eq('id', req.params.id);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Price Requests (Tickets)
+app.get('/api/price_requests', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('price_requests').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/price_requests', async (req, res) => {
+    try {
+        if (req.body.id) {
+            const { error } = await supabase.from('price_requests').update(req.body).eq('id', req.body.id);
+            if (error) throw error;
+        } else {
+            const { error } = await supabase.from('price_requests').insert([req.body]);
+            if (error) throw error;
+        }
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Price Messages (Thread Chat inside each Ticket)
+app.get('/api/price_messages/:request_id', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('price_messages').select('*').eq('request_id', req.params.request_id).order('created_at', { ascending: true });
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/price_messages', async (req, res) => {
+    try {
+        const { error } = await supabase.from('price_messages').insert([req.body]);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
 
 // One-time migration: reformat existing leads to Bookandbox naming convention
 app.get('/api/migrate-names', async (req, res) => {
