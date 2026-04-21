@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import HR from './pages/HR';
 import Logistics from './pages/Logistics';
 import Estimator from './pages/Estimator';
+import SalesReport from './pages/SalesReport';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -40,6 +41,12 @@ function Sidebar({ isOpen, closeSidebar }) {
           {canAccess('chat_module', ['CEO', 'Sales']) && (
               <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
                  <i className="fa-brands fa-line"></i> Omni-Channel Chat
+              </Link>
+          )}
+
+          {canAccess('chat_module', ['CEO', 'Sales']) && (
+              <Link to="/sales-report" className={`nav-item ${location.pathname === '/sales-report' ? 'active' : ''}`} onClick={closeSidebar}>
+                 <i className="fa-solid fa-chart-line"></i> Sales Daily Report
               </Link>
           )}
 
@@ -131,6 +138,7 @@ function MainLayout() {
           <Route path="/logistics" element={<><Topbar title="Logistics & Transport" toggleSidebar={toggleSidebar} /><div className="view-container"><Logistics /></div></>} />
           <Route path="/settings" element={<><Topbar title="System Settings" toggleSidebar={toggleSidebar} /><div className="view-container"><Settings /></div></>} />
           <Route path="/estimator" element={<><Topbar title="Smart Price Hub" toggleSidebar={toggleSidebar} /><div className="view-container"><Estimator /></div></>} />
+          <Route path="/sales-report" element={<><Topbar title="Sales Daily Report" toggleSidebar={toggleSidebar} /><div className="view-container"><SalesReport /></div></>} />
           
           {/* Default Route based on Role */}
           <Route path="/" element={
