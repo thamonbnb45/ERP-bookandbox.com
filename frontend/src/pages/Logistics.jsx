@@ -165,13 +165,13 @@ export default function Logistics() {
   };
 
   return (
-    <div className="view-section active p-4">
-      <div className="flex justify-between aligns-center mb-6">
+    <div className="view-section active" style={{ padding: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
-          <h2 className="text-2xl font-bold text-gray-800"><i className="fa-solid fa-truck-fast text-blue-600"></i> Logistics & Fleet</h2>
-          <p className="text-sm text-gray-500">ระบบจัดการลอจิสติกส์, รับส่งสินค้า (WIP/ลูกค้า) และเบิกน้ำมัน</p>
+          <h2 style={{ margin: 0, color: 'var(--primary)' }}><i className="fa-solid fa-truck-fast text-primary"></i> Logistics & Fleet</h2>
+          <p style={{ margin: '0.2rem 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>ระบบจัดการลอจิสติกส์, รับส่งสินค้า (WIP/ลูกค้า) และเบิกน้ำมัน</p>
         </div>
-        <div className="flex gap-2">
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {TABS.map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)} className={`btn btn-sm ${activeTab === t.id ? 'btn-primary' : 'btn-outline'}`}>
               <i className={t.icon}></i> {t.label}
@@ -181,10 +181,10 @@ export default function Logistics() {
       </div>
 
       {activeTab === 'dispatch' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="table-container p-4 shadow border-t-4 border-blue-500">
-            <h4 className="font-bold mb-4">📇 เปิดทริปวิ่งงาน (Dispatch)</h4>
-            <div className="flex flex-col gap-3">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          <div className="table-container shadow" style={{ flex: '1 1 400px', padding: '1rem', borderTop: '4px solid #3b82f6' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '1rem' }}>📇 เปิดทริปวิ่งงาน (Dispatch)</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <select className="form-control" value={tripForm.fleet} onChange={e => setTripForm({...tripForm, fleet: e.target.value})}>
                 {FLEETS.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
@@ -194,115 +194,119 @@ export default function Logistics() {
                 <option value="customer_delivery">ส่งลูกค้าโดยตรง (รถบริษัท)</option>
               </select>
               
-              <div className="p-3 bg-slate-50 rounded border">
-                <p className="text-xs text-gray-500 mb-2">จุดหมาย (Destinations)</p>
+              <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.5rem' }}>จุดหมาย (Destinations)</p>
                 {tripForm.destinations.map((d, i) => (
-                  <div key={i} className="flex gap-2 mb-2">
-                    <select className="form-control flex-1 text-sm" value={d.type} onChange={e => {
+                  <div key={i} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <select className="form-control" style={{ flex: 1, fontSize: '0.8rem' }} value={d.type} onChange={e => {
                       const newD = [...tripForm.destinations]; newD[i].type = e.target.value; setTripForm({...tripForm, destinations: newD});
                     }}>
                       <option value="dropoff">ไปส่งของ</option>
                       <option value="pickup">ไปรับของ</option>
                       <option value="purchase">ไปซื้อของ</option>
                     </select>
-                    <input className="form-control flex-2 text-sm" placeholder="ชื่อร้าน / บริษัท" value={d.name} onChange={e => {
+                    <input className="form-control" style={{ flex: 2, fontSize: '0.8rem' }} placeholder="ชื่อร้าน / บริษัท" value={d.name} onChange={e => {
                       const newD = [...tripForm.destinations]; newD[i].name = e.target.value; setTripForm({...tripForm, destinations: newD});
                     }}/>
                   </div>
                 ))}
-                <button onClick={() => setTripForm({...tripForm, destinations: [...tripForm.destinations, {name:'', type:'dropoff'}]})} className="text-xs text-blue-600 font-bold">+ เพิ่มจุดหมาย</button>
+                <button onClick={() => setTripForm({...tripForm, destinations: [...tripForm.destinations, {name:'', type:'dropoff'}]})} 
+                        style={{ background: 'none', border: 'none', fontSize: '0.75rem', color: '#2563eb', fontWeight: 'bold', cursor: 'pointer', padding: 0 }}>
+                  + เพิ่มจุดหมาย
+                </button>
               </div>
 
               <input className="form-control" type="number" placeholder="เลขไมล์รถ ตอนออก (Start KM)" value={tripForm.start_km} onChange={e => setTripForm({...tripForm, start_km: e.target.value})} />
               
-              <button className="btn btn-primary" onClick={openTrip}>ออกรถ 💨</button>
+              <button className="btn btn-primary" onClick={openTrip} style={{ width: '100%', padding: '0.8rem' }}>ออกรถ 💨</button>
             </div>
           </div>
 
-          <div className="table-container p-4 shadow border-t-4 border-amber-500">
-            <div className="flex justify-between items-center mb-4">
-              <h4 className="font-bold">📡 สถานะรถบริษัทวันนี้</h4>
+          <div className="table-container shadow" style={{ flex: '1 1 400px', padding: '1rem', borderTop: '4px solid #f59e0b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h4 style={{ fontWeight: 'bold' }}>📡 สถานะรถบริษัทวันนี้</h4>
             </div>
-            <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto">
-              {trips.filter(t => t.status === 'pending').length === 0 && <p className="text-sm text-gray-500 text-center py-4">ไม่มีรถกำลังวิ่งงานตอนนี้</p>}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', maxHeight: '60vh', overflowY: 'auto' }}>
+              {trips.filter(t => t.status === 'pending').length === 0 && <p style={{ fontSize: '0.85rem', color: '#94a3b8', textAlign: 'center', padding: '1rem 0' }}>ไม่มีรถกำลังวิ่งงานตอนนี้</p>}
               {trips.filter(t => t.status === 'pending').map(t => (
-                <div key={t.id} className="p-3 border rounded-lg bg-orange-50 border-orange-200">
-                  <div className="flex justify-between">
-                    <span className="font-bold text-orange-700">{t.fleet}</span>
-                    <span className="text-xs bg-orange-200 text-orange-800 px-2 rounded-full flex items-center shadow-sm animate-pulse">กำลังวิ่งในเส้นทาง</span>
+                <div key={t.id} style={{ padding: '0.8rem', border: '1px solid #fed7aa', borderRadius: '8px', background: '#fff7ed' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ fontWeight: 'bold', color: '#c2410c' }}>{t.fleet}</span>
+                    <span style={{ fontSize: '0.7rem', background: '#fed7aa', color: '#9a3412', padding: '0.2rem 0.5rem', borderRadius: '12px' }}>กำลังวิ่งในเส้นทาง</span>
                   </div>
-                  <div className="text-xs text-gray-600 mt-2">
+                  <div style={{ fontSize: '0.75rem', color: '#475569', marginTop: '0.5rem' }}>
                     <strong>ประเภท:</strong> {t.type} <br/>
                     <strong>ไมล์ล่าสุด:</strong> {t.start_km} กม.
                   </div>
-                  <div className="mt-2 pl-2 border-l-2 border-orange-300">
+                  <div style={{ marginTop: '0.5rem', paddingLeft: '0.5rem', borderLeft: '2px solid #fdba74' }}>
                     {(t.destinations || []).map((d, i) => (
-                      <div key={i} className="text-xs mb-3 border-b border-orange-100 pb-2">
-                        <div className="flex justify-between items-start">
+                      <div key={i} style={{ fontSize: '0.75rem', marginBottom: '0.8rem', borderBottom: '1px solid #ffedd5', paddingBottom: '0.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                           <div>
                             📍 <strong>{d.type === 'pickup' ? 'ไปรับ: ' : d.type === 'dropoff'? 'ไปส่ง: ' : 'ซื้อของ: '}</strong> {d.name}
                           </div>
-                          {d.completed && <span className="text-green-600 font-bold bg-green-100 px-1 rounded">✓ เช็คอินแล้ว</span>}
+                          {d.completed && <span style={{ color: '#16a34a', fontWeight: 'bold', background: '#dcfce7', padding: '0.1rem 0.3rem', borderRadius: '4px', fontSize: '0.65rem' }}>✓ เช็คอินแล้ว</span>}
                         </div>
                         
                         {!d.completed ? (
-                          <div className="mt-2 text-right">
+                          <div style={{ marginTop: '0.5rem', textAlign: 'right' }}>
                             {uploadingDest === `${t.id}-${i}` ? (
-                              <div className="text-blue-500 animate-pulse text-xs"><i className="fa-solid fa-spinner fa-spin"></i> กำลังอัปโหลดและปักหมุด...</div>
+                              <div style={{ color: '#3b82f6', fontSize: '0.75rem' }}><i className="fa-solid fa-spinner fa-spin"></i> กำลังอัปโหลด...</div>
                             ) : (
                               <>
-                                <label htmlFor={`camera_input_${t.id}_${i}`} className="inline-block bg-blue-600 outline-none text-white px-3 py-1 rounded cursor-pointer shadow hover:bg-blue-700">
+                                <label htmlFor={`camera_input_${t.id}_${i}`} style={{ display: 'inline-block', background: '#2563eb', color: 'white', padding: '0.3rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.75rem' }}>
                                   <i className="fa-solid fa-camera"></i> ถ่ายรูปยืนยันหน้างาน
                                 </label>
-                                <input type="file" id={`camera_input_${t.id}_${i}`} accept="image/*" capture="environment" className="hidden" onChange={(e) => handlePhotoProof(e, t.id, i)} />
+                                <input type="file" id={`camera_input_${t.id}_${i}`} accept="image/*" capture="environment" style={{ display: 'none' }} onChange={(e) => handlePhotoProof(e, t.id, i)} />
                               </>
                             )}
                           </div>
                         ) : (
-                          <div className="mt-1 flex gap-2">
-                            <a href={API_URL.replace('/api', '') + d.proof_url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+                          <div style={{ marginTop: '0.3rem', display: 'flex', gap: '0.5rem' }}>
+                            <a href={API_URL.replace('/api', '') + d.proof_url} target="_blank" rel="noreferrer" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.75rem' }}>
                               <i className="fa-solid fa-image"></i> ดูรูปงาน
                             </a>
-                            <a href={`https://www.google.com/maps?q=${d.lat},${d.lng}`} target="_blank" rel="noreferrer" className="text-green-600 hover:underline">
-                              <i className="fa-solid fa-location-dot"></i> ดูแผนที่ (พิกัดจร)
+                            <a href={`https://www.google.com/maps?q=${d.lat},${d.lng}`} target="_blank" rel="noreferrer" style={{ color: '#16a34a', textDecoration: 'none', fontSize: '0.75rem' }}>
+                              <i className="fa-solid fa-location-dot"></i> ดูแผนที่
                             </a>
                           </div>
                         )}
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => closeTrip(t.id)} className="w-full mt-3 btn btn-sm btn-outline text-xs border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white">
+                  <button onClick={() => closeTrip(t.id)} style={{ width: '100%', marginTop: '0.8rem', padding: '0.5rem', border: '1px solid #f97316', background: 'white', color: '#ea580c', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}>
                     ปิดทริป (กลับถึงโรงงาน)
                   </button>
                 </div>
               ))}
               
-              <h5 className="font-bold text-sm text-gray-400 mt-4">✓ ทริปที่จบแล้ว วันนี้</h5>
+              
+              <h5 style={{ fontWeight: 'bold', fontSize: '0.85rem', color: '#94a3b8', marginTop: '1rem' }}>✓ ทริปที่จบแล้ว วันนี้</h5>
               {trips.filter(t => t.status === 'completed').slice(0, 5).map(t => {
                 const cost = calculateTripCost(t);
                 const distance = t.end_km - t.start_km;
                 const hours = t.return_time && t.depart_time ? ((new Date(t.return_time) - new Date(t.depart_time)) / 3600000).toFixed(1) : '?';
                 return (
-                  <div key={t.id} className="p-3 border rounded-lg bg-gray-50 opacity-90 text-xs mt-2">
-                    <div className="flex justify-between font-bold mb-1">
-                      <span className="text-gray-700">{t.fleet}</span>
-                      <span className="text-red-500">{cost > 0 ? `~${cost.toLocaleString()} ฿` : ''}</span>
+                  <div key={t.id} style={{ padding: '0.8rem', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc', marginTop: '0.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginBottom: '0.3rem' }}>
+                      <span style={{ color: '#334155' }}>{t.fleet}</span>
+                      <span style={{ color: '#ef4444', fontSize: '0.85rem' }}>{cost > 0 ? `~${cost.toLocaleString()} ฿` : ''}</span>
                     </div>
-                    <div className="text-gray-500">
+                    <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
                       ระยะทาง: <strong>{distance} กม.</strong> • เวลาวิ่ง: <strong>{hours} ชม.</strong>
                     </div>
                     
                     {/* Photos Preview */}
-                    <div className="flex gap-1 mt-2 overflow-x-auto">
+                    <div style={{ display: 'flex', gap: '0.3rem', marginTop: '0.5rem', overflowX: 'auto' }}>
                       {(t.destinations || []).map((d, i) => d.completed && d.proof_url ? (
-                        <a key={i} href={API_URL.replace('/api', '') + d.proof_url} target="_blank" rel="noreferrer" className="w-[60px] h-[60px] relative inline-block bg-slate-200 border rounded cursor-pointer shrink-0">
-                          <img src={API_URL.replace('/api', '') + d.proof_url} className="w-full h-full object-cover rounded" alt="proof"/>
-                          <div className="absolute font-bold text-white bg-black/50 text-[8px] bottom-0 w-full text-center p-0.5"><i className="fa-solid fa-location-dot"></i></div>
+                        <a key={i} href={API_URL.replace('/api', '') + d.proof_url} target="_blank" rel="noreferrer" style={{ width: '60px', height: '60px', position: 'relative', display: 'inline-block', border: '1px solid #cbd5e1', borderRadius: '4px', overflow: 'hidden', flexShrink: 0 }}>
+                          <img src={API_URL.replace('/api', '') + d.proof_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="proof"/>
+                          <div style={{ position: 'absolute', color: 'white', background: 'rgba(0,0,0,0.5)', fontSize: '8px', bottom: 0, width: '100%', textAlign: 'center', padding: '2px 0' }}><i className="fa-solid fa-location-dot"></i></div>
                         </a>
                       ) : null)}
                     </div>
 
-                    <div className="mt-2 text-[10px] text-gray-400">
+                    <div style={{ marginTop: '0.5rem', fontSize: '10px', color: '#94a3b8' }}>
                       (รวมค่าแรงคนขับ {DRIVER_SALARY_HR}฿/ชม, ค่าเสื่อม {DEPRECIATION_HR}฿/ชม, น้ำมัน+สึกหรอ {FUEL_RATE_KM}฿/กม)
                     </div>
                   </div>
@@ -314,47 +318,55 @@ export default function Logistics() {
       )}
 
       {activeTab === 'fuel' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="col-span-1 table-container p-4 shadow border-t-4 border-red-500">
-            <h4 className="font-bold mb-4">⛽ ฟอร์มเบิกค่าน้ำมัน</h4>
-            <div className="flex flex-col gap-3">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          <div className="table-container shadow" style={{ flex: '1 1 300px', padding: '1rem', borderTop: '4px solid #ef4444' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '1rem' }}>⛽ ฟอร์มเบิกค่าน้ำมัน</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <select className="form-control" value={fuelForm.fleet} onChange={e => setFuelForm({...fuelForm, fleet: e.target.value})}>
                 {FLEETS.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
               <input className="form-control" type="number" placeholder="เลขไมล์หน้าปัด (Odometer)" value={fuelForm.odometer} onChange={e => setFuelForm({...fuelForm, odometer: e.target.value})} />
               <input className="form-control" type="number" placeholder="จำนวนเงินสดที่เบิก (บาท)" value={fuelForm.amount_thb} onChange={e => setFuelForm({...fuelForm, amount_thb: e.target.value})} />
               <input className="form-control" type="number" placeholder="จำนวนน้ำมันที่ได้ (ลิตร)" value={fuelForm.liters} onChange={e => setFuelForm({...fuelForm, liters: e.target.value})} />
-              <button className="btn btn-primary" onClick={addFuel}>บันทึกเบิกเงินงวดนี้</button>
-              <p className="text-xs text-center text-gray-400 mt-2">* ระบบจะนำเลขไมล์ไปลบกับรอบที่แล้วเพื่อคำนวณอัตราสิ้นเปลือง</p>
+              <button className="btn btn-primary" onClick={addFuel} style={{ padding: '0.8rem' }}>บันทึกเบิกเงินงวดนี้</button>
+              <p style={{ fontSize: '0.75rem', textAlign: 'center', color: '#94a3b8', marginTop: '0.5rem' }}>* ระบบจะนำเลขไมล์ไปลบกับรอบที่แล้วเพื่อคำนวณอัตราสิ้นเปลือง</p>
             </div>
           </div>
-          <div className="col-span-2 table-container p-4 shadow">
-            <h4 className="font-bold mb-4">📋 ประวัติการเบิกน้ำมัน</h4>
-            <table className="w-full text-sm text-left">
-              <thead className="bg-slate-100 text-slate-700">
-                <tr><th className="p-2">วันที่</th><th className="p-2">รถ</th><th className="p-2">เลขไมล์</th><th className="p-2">ลิตร</th><th className="p-2 text-right">ยอดเบิก(฿)</th></tr>
-              </thead>
-              <tbody>
-                {fuels.map(f => (
-                  <tr key={f.id} className="border-b">
-                    <td className="p-2">{new Date(f.date).toLocaleDateString('th-TH')}</td>
-                    <td className="p-2">{f.fleet}</td>
-                    <td className="p-2">{f.odometer?.toLocaleString()}</td>
-                    <td className="p-2">{f.liters}</td>
-                    <td className="p-2 text-right font-bold text-red-600">{f.amount_thb?.toLocaleString()} ฿</td>
+          <div className="table-container shadow" style={{ flex: '2 1 500px', padding: '1rem' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '1rem' }}>📋 ประวัติการเบิกน้ำมัน</h4>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', fontSize: '0.85rem', textAlign: 'left', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ background: '#f1f5f9', color: '#334155' }}>
+                    <th style={{ padding: '0.8rem' }}>วันที่</th>
+                    <th style={{ padding: '0.8rem' }}>รถ</th>
+                    <th style={{ padding: '0.8rem' }}>เลขไมล์</th>
+                    <th style={{ padding: '0.8rem' }}>ลิตร</th>
+                    <th style={{ padding: '0.8rem', textAlign: 'right' }}>ยอดเบิก(฿)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {fuels.map(f => (
+                    <tr key={f.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                      <td style={{ padding: '0.8rem' }}>{new Date(f.date).toLocaleDateString('th-TH')}</td>
+                      <td style={{ padding: '0.8rem' }}>{f.fleet}</td>
+                      <td style={{ padding: '0.8rem' }}>{f.odometer?.toLocaleString()}</td>
+                      <td style={{ padding: '0.8rem' }}>{f.liters}</td>
+                      <td style={{ padding: '0.8rem', textAlign: 'right', fontWeight: 'bold', color: '#e11d48' }}>{f.amount_thb?.toLocaleString()} ฿</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
 
       {activeTab === '3pl' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="col-span-1 table-container p-4 shadow border-t-4 border-green-500">
-            <h4 className="font-bold mb-4">📦 บันทึกขนส่งนอก / ขนส่งด่วน</h4>
-            <div className="flex flex-col gap-3">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          <div className="table-container shadow" style={{ flex: '1 1 300px', padding: '1rem', borderTop: '4px solid #22c55e' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '1rem' }}>📦 บันทึกขนส่งนอก / ขนส่งด่วน</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <select className="form-control" value={plForm.job_ref} onChange={e => setPlForm({...plForm, job_ref: e.target.value})}>
                 <option value="">-- เลือก Job Order ที่ต้องการส่ง --</option>
                 {jobOrders.map(j => <option key={j.id} value={`JOB-${j.id}`}>JOB-{j.id} ({j.customer})</option>)}
@@ -364,57 +376,65 @@ export default function Logistics() {
               </select>
               <input className="form-control" type="text" placeholder="Tracking Number (ถ้ามี)" value={plForm.tracking_number} onChange={e => setPlForm({...plForm, tracking_number: e.target.value})} />
               <input className="form-control font-bold text-red-600" type="number" placeholder="ค่าจัดส่งรอบนี้ (บาท)" value={plForm.shipping_cost} onChange={e => setPlForm({...plForm, shipping_cost: e.target.value})} />
-              <button className="btn btn-primary bg-green-600 border-none hover:bg-green-700" onClick={add3PL}>บันทึกเข้าระบบ</button>
+              <button className="btn btn-primary" onClick={add3PL} style={{ background: '#16a34a', border: 'none', padding: '0.8rem' }}>บันทึกเข้าระบบ</button>
             </div>
           </div>
-          <div className="col-span-2 table-container p-4 shadow">
-            <h4 className="font-bold mb-4">🚚 ประวัติการส่งลูกค้า (3PL)</h4>
-            <table className="w-full text-sm text-left">
-              <thead className="bg-slate-100 text-slate-700">
-                <tr><th className="p-2">วันที่</th><th className="p-2">Job No.</th><th className="p-2">ขนส่ง</th><th className="p-2">Tracking</th><th className="p-2 text-right">ค่าขนส่ง</th></tr>
-              </thead>
-              <tbody>
-                {thirdParty.map(p => (
-                  <tr key={p.id} className="border-b">
-                    <td className="p-2">{new Date(p.drop_off_date).toLocaleDateString('th-TH')}</td>
-                    <td className="p-2 font-bold text-blue-600">{p.job_ref}</td>
-                    <td className="p-2"><span className="bg-gray-200 px-2 py-1 rounded text-xs">{p.provider}</span></td>
-                    <td className="p-2">{p.tracking_number || '-'}</td>
-                    <td className="p-2 text-right font-bold text-red-600">{p.shipping_cost?.toLocaleString()} ฿</td>
+          <div className="table-container shadow" style={{ flex: '2 1 500px', padding: '1rem' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '1rem' }}>🚚 ประวัติการส่งลูกค้า (3PL)</h4>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', fontSize: '0.85rem', textAlign: 'left', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ background: '#f1f5f9', color: '#334155' }}>
+                    <th style={{ padding: '0.8rem' }}>วันที่</th>
+                    <th style={{ padding: '0.8rem' }}>Job No.</th>
+                    <th style={{ padding: '0.8rem' }}>ขนส่ง</th>
+                    <th style={{ padding: '0.8rem' }}>Tracking</th>
+                    <th style={{ padding: '0.8rem', textAlign: 'right' }}>ค่าขนส่ง</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {thirdParty.map(p => (
+                    <tr key={p.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                      <td style={{ padding: '0.8rem' }}>{new Date(p.drop_off_date).toLocaleDateString('th-TH')}</td>
+                      <td style={{ padding: '0.8rem', fontWeight: 'bold', color: '#2563eb' }}>{p.job_ref}</td>
+                      <td style={{ padding: '0.8rem' }}><span style={{ background: '#e2e8f0', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem' }}>{p.provider}</span></td>
+                      <td style={{ padding: '0.8rem' }}>{p.tracking_number || '-'}</td>
+                      <td style={{ padding: '0.8rem', textAlign: 'right', fontWeight: 'bold', color: '#e11d48' }}>{p.shipping_cost?.toLocaleString()} ฿</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
 
       {activeTab === 'dashboard' && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white p-4 rounded-xl shadow border border-slate-100">
-            <p className="text-gray-500 text-xs">สรุปค่าน้ำมันรวมกระดาษ/เบิกสด (เดือนนี้)</p>
-            <h3 className="text-2xl font-black text-rose-600">{fuels.reduce((s,f) => s+Number(f.amount_thb||0),0).toLocaleString()} ฿</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9' }}>
+            <p style={{ color: '#64748b', fontSize: '0.75rem', margin: 0 }}>สรุปค่าน้ำมันรวมกระดาษ/เบิกสด (เดือนนี้)</p>
+            <h3 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#e11d48', margin: '0.5rem 0' }}>{fuels.reduce((s,f) => s+Number(f.amount_thb||0),0).toLocaleString()} ฿</h3>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow border border-slate-100">
-            <p className="text-gray-500 text-xs">สรุปค่าส่งลูกค้านอก (3PL)</p>
-            <h3 className="text-2xl font-black text-emerald-600">{thirdParty.reduce((s,f) => s+Number(f.shipping_cost||0),0).toLocaleString()} ฿</h3>
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9' }}>
+            <p style={{ color: '#64748b', fontSize: '0.75rem', margin: 0 }}>สรุปค่าส่งลูกค้านอก (3PL)</p>
+            <h3 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#059669', margin: '0.5rem 0' }}>{thirdParty.reduce((s,f) => s+Number(f.shipping_cost||0),0).toLocaleString()} ฿</h3>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow border border-slate-100">
-            <p className="text-gray-500 text-xs">ต้นทุนวิ่งงานบริษัท (ประเมินคร่าวๆ)</p>
-            <h3 className="text-2xl font-black text-indigo-600">
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9' }}>
+            <p style={{ color: '#64748b', fontSize: '0.75rem', margin: 0 }}>ต้นทุนวิ่งงานบริษัท (ประเมินคร่าวๆ)</p>
+            <h3 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#4f46e5', margin: '0.5rem 0' }}>
               {trips.filter(t => t.status === 'completed').reduce((s,t) => s + calculateTripCost(t), 0).toLocaleString()} ฿
             </h3>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow border border-slate-100 text-center flex flex-col justify-center">
-            <span className="text-sm font-bold text-gray-600 mb-1">จำนวนวิ่ง {trips.filter(t => t.status === 'completed').length} ทริป</span>
-            <span className="text-[10px] text-gray-400">เฉลี่ยต่อทริป ต้นทุน <strong>{
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#475569', marginBottom: '0.3rem' }}>จำนวนวิ่ง {trips.filter(t => t.status === 'completed').length} ทริป</span>
+            <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>เฉลี่ยต่อทริป ต้นทุน <strong style={{ fontSize: '1rem', color: '#334155' }}>{
               trips.filter(t => t.status === 'completed').length > 0 
                 ? Math.round(trips.filter(t => t.status === 'completed').reduce((s,t) => s + calculateTripCost(t), 0) / trips.filter(t => t.status === 'completed').length).toLocaleString()
                 : 0
             } ฿</strong>
             </span>
           </div>
-          <div className="col-span-2 md:col-span-4 mt-4 bg-slate-50 p-6 rounded-lg text-center text-slate-400 text-sm">
+          <div style={{ gridColumn: '1 / -1', marginTop: '1rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
             💡 ระบบจำลองต้นทุน (Activity-Based Costing) : ค่าแรงขับ {DRIVER_SALARY_HR} ฿/ชม + ค่าเสื่อมรถ {DEPRECIATION_HR} ฿/ชม + ค่าน้ำมัน/สึกหรอ {FUEL_RATE_KM} ฿/กม. <br/>
             กราฟวิเคราะห์ Cost per Drop เชิงลึกจะแสดงผลเมื่อข้อมูลทริปมาบรรจบกันกับการเบิกบิลน้ำมัน
           </div>
