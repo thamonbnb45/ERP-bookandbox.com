@@ -1,0 +1,35 @@
+{
+  "name": "Department",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "\u0e0a\u0e37\u0e48\u0e2d\u0e41\u0e1c\u0e19\u0e01 \u0e40\u0e0a\u0e48\u0e19 Prepress, Printing, Postpress"
+    },
+    "mapped_statuses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u0e2a\u0e16\u0e32\u0e19\u0e30\u0e07\u0e32\u0e19\u0e17\u0e35\u0e48\u0e41\u0e1c\u0e19\u0e01\u0e19\u0e35\u0e49\u0e23\u0e31\u0e1a\u0e1c\u0e34\u0e14\u0e0a\u0e2d\u0e1a \u0e40\u0e0a\u0e48\u0e19 ['prepress','printing']"
+    },
+    "mapped_processes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u0e1b\u0e23\u0e30\u0e40\u0e20\u0e17 process \u0e17\u0e35\u0e48\u0e41\u0e1c\u0e19\u0e01\u0e19\u0e35\u0e49\u0e23\u0e31\u0e1a\u0e1c\u0e34\u0e14\u0e0a\u0e2d\u0e1a \u0e40\u0e0a\u0e48\u0e19 ['printing','lamination']"
+    },
+    "color": {
+      "type": "string",
+      "description": "\u0e2a\u0e35 hex \u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e41\u0e2a\u0e14\u0e07 UI \u0e40\u0e0a\u0e48\u0e19 #3B82F6"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

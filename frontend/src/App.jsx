@@ -11,6 +11,7 @@ import Logistics from './pages/Logistics';
 import Estimator from './pages/Estimator';
 import SalesReport from './pages/SalesReport';
 import SalesPipeline from './pages/SalesPipeline';
+import PrintFlow from './pages/PrintFlow';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -66,6 +67,12 @@ function Sidebar({ isOpen, closeSidebar }) {
           {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse']) && (
               <Link to="/production" className={`nav-item ${location.pathname === '/production' ? 'active' : ''}`} onClick={closeSidebar}>
                   <i className="fa-solid fa-industry"></i> Production Control
+              </Link>
+          )}
+
+          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse']) && (
+              <Link to="/print-flow" className={`nav-item ${location.pathname === '/print-flow' ? 'active' : ''}`} onClick={closeSidebar}>
+                  <i className="fa-solid fa-print"></i> Print Flow Plan
               </Link>
           )}
 
@@ -140,6 +147,7 @@ function MainLayout() {
           <Route path="/adweb" element={<><Topbar title="Omni-Channel Chat" toggleSidebar={toggleSidebar} /><div className="view-container"><AdWeb /></div></>} />
           <Route path="/sales" element={<><Topbar title="Sales & Quotations" toggleSidebar={toggleSidebar} /><div className="view-container"><Sales /></div></>} />
           <Route path="/production" element={<><Topbar title="Production Control" toggleSidebar={toggleSidebar} /><div className="view-container"><Production /></div></>} />
+          <Route path="/print-flow" element={<><Topbar title="Print Flow Plan" toggleSidebar={toggleSidebar} /><div className="view-container"><PrintFlow /></div></>} />
           <Route path="/accounting" element={<><Topbar title="Finance & Billing" toggleSidebar={toggleSidebar} /><div className="view-container"><Accounting /></div></>} />
           <Route path="/hr" element={<><Topbar title="HR Workforce" toggleSidebar={toggleSidebar} /><div className="view-container"><HR /></div></>} />
           <Route path="/logistics" element={<><Topbar title="Logistics & Transport" toggleSidebar={toggleSidebar} /><div className="view-container"><Logistics /></div></>} />

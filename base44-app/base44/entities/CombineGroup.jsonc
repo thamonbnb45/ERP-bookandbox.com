@@ -1,0 +1,119 @@
+{
+  "name": "CombineGroup",
+  "type": "object",
+  "properties": {
+    "group_code": {
+      "type": "string",
+      "description": "\u0e23\u0e2b\u0e31\u0e2a\u0e01\u0e25\u0e38\u0e48\u0e21\u0e40\u0e25\u0e22\u0e4c\u0e23\u0e27\u0e21 auto-generated"
+    },
+    "group_name": {
+      "type": "string",
+      "description": "\u0e0a\u0e37\u0e48\u0e2d\u0e01\u0e25\u0e38\u0e48\u0e21\u0e40\u0e25\u0e22\u0e4c\u0e23\u0e27\u0e21"
+    },
+    "paper_type": {
+      "type": "string",
+      "description": "\u0e1b\u0e23\u0e30\u0e40\u0e20\u0e17\u0e01\u0e23\u0e30\u0e14\u0e32\u0e29"
+    },
+    "gsm": {
+      "type": "number",
+      "description": "\u0e41\u0e01\u0e23\u0e21\u0e01\u0e23\u0e30\u0e14\u0e32\u0e29"
+    },
+    "paper_size": {
+      "type": "string",
+      "description": "\u0e02\u0e19\u0e32\u0e14\u0e01\u0e23\u0e30\u0e14\u0e32\u0e29 \u0e40\u0e0a\u0e48\u0e19 65x92, 79x109"
+    },
+    "machine_id": {
+      "type": "string",
+      "description": "\u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e17\u0e35\u0e48\u0e01\u0e33\u0e2b\u0e19\u0e14"
+    },
+    "machine_name": {
+      "type": "string"
+    },
+    "planned_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "print_method": {
+      "type": "string",
+      "enum": [
+        "single_side",
+        "work_and_turn",
+        "work_and_tumble",
+        "sheet_wise",
+        "perfecting"
+      ],
+      "default": "single_side",
+      "description": "\u0e27\u0e34\u0e18\u0e35\u0e01\u0e32\u0e23\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e02\u0e2d\u0e07\u0e01\u0e25\u0e38\u0e48\u0e21\u0e07\u0e32\u0e19"
+    },
+    "plate_sets_required": {
+      "type": "number",
+      "default": 1,
+      "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e0a\u0e38\u0e14\u0e41\u0e21\u0e48\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e17\u0e35\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e01\u0e32\u0e23"
+    },
+    "cutting_instruction": {
+      "type": "string",
+      "description": "\u0e04\u0e33\u0e2a\u0e31\u0e48\u0e07\u0e15\u0e31\u0e14\u0e41\u0e1a\u0e48\u0e07\u0e2b\u0e25\u0e31\u0e07\u0e1e\u0e34\u0e21\u0e1e\u0e4c"
+    },
+    "cost_share_method": {
+      "type": "string",
+      "enum": [
+        "area",
+        "quantity"
+      ],
+      "default": "area",
+      "description": "\u0e27\u0e34\u0e18\u0e35\u0e41\u0e0a\u0e23\u0e4c\u0e15\u0e49\u0e19\u0e17\u0e38\u0e19: area=\u0e1e\u0e37\u0e49\u0e19\u0e17\u0e35\u0e48, quantity=\u0e08\u0e33\u0e19\u0e27\u0e19\u0e0a\u0e34\u0e49\u0e19"
+    },
+    "total_sheet_count": {
+      "type": "number"
+    },
+    "area_usage_percent": {
+      "type": "number"
+    },
+    "total_paper_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "total_plate_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "total_print_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "total_postpress_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "total_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "locked",
+        "released",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "note": {
+      "type": "string"
+    },
+    "history_log": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "History log \u0e02\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e41\u0e1b\u0e25\u0e07"
+    }
+  },
+  "required": [
+    "group_code",
+    "paper_type",
+    "paper_size",
+    "machine_id"
+  ]
+}

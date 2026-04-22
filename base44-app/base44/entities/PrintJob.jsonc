@@ -1,0 +1,113 @@
+{
+  "name": "PrintJob",
+  "type": "object",
+  "properties": {
+    "job_number": {
+      "type": "string",
+      "description": "Job number"
+    },
+    "product_type": {
+      "type": "string",
+      "description": "Product type e.g. brochure, box, poster"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Print quantity"
+    },
+    "colors": {
+      "type": "number",
+      "description": "Number of colors"
+    },
+    "plates": {
+      "type": "number",
+      "description": "Number of plates"
+    },
+    "sheets": {
+      "type": "number",
+      "description": "Number of print sheets"
+    },
+    "paper": {
+      "type": "string",
+      "description": "Paper type"
+    },
+    "final_size_w": {
+      "type": "number",
+      "description": "Final width in mm"
+    },
+    "final_size_h": {
+      "type": "number",
+      "description": "Final height in mm"
+    },
+    "printing_machine_id": {
+      "type": "string",
+      "description": "Assigned printing machine ID"
+    },
+    "postpress_steps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "lamination",
+          "diecut",
+          "folding",
+          "binding",
+          "cutting"
+        ]
+      },
+      "description": "Required postpress steps"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "urgent",
+        "rush"
+      ],
+      "default": "normal"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "prepress",
+        "printing",
+        "postpress",
+        "completed",
+        "delivered"
+      ],
+      "default": "pending"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Customer due date"
+    },
+    "estimated_completion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "System calculated completion date"
+    },
+    "estimated_delivery": {
+      "type": "string",
+      "format": "date-time",
+      "description": "System calculated delivery date"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Uploaded image URLs for this job"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "job_number",
+    "product_type",
+    "quantity",
+    "sheets",
+    "printing_machine_id"
+  ]
+}
