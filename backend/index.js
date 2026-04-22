@@ -1590,6 +1590,8 @@ app.get('/api/portal/track/:phone', async (req, res) => {
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
+});
+
 // ====== PRINT FLOW PLAN APIs ======
 
 // --- Machines ---
