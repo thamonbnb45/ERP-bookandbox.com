@@ -1590,6 +1590,90 @@ app.get('/api/portal/track/:phone', async (req, res) => {
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
+// ====== PRINT FLOW PLAN APIs ======
+
+// --- Machines ---
+app.get('/api/pf/machines', async (req, res) => {
+  const { data, error } = await supabase.from('pf_machines').select('*').order('type').order('name');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.post('/api/pf/machines', async (req, res) => {
+  const { data, error } = await supabase.from('pf_machines').insert(req.body).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+app.put('/api/pf/machines/:id', async (req, res) => {
+  const { data, error } = await supabase.from('pf_machines').update(req.body).eq('id', req.params.id).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+app.delete('/api/pf/machines/:id', async (req, res) => {
+  await supabase.from('pf_machines').delete().eq('id', req.params.id);
+  res.json({ ok: true });
+});
+
+// --- Print Jobs ---
+app.get('/api/pf/jobs', async (req, res) => {
+  const { data, error } = await supabase.from('pf_print_jobs').select('*').order('created_at', { ascending: false }).limit(100);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.post('/api/pf/jobs', async (req, res) => {
+  const { data, error } = await supabase.from('pf_print_jobs').insert(req.body).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+app.put('/api/pf/jobs/:id', async (req, res) => {
+  const { data, error } = await supabase.from('pf_print_jobs').update(req.body).eq('id', req.params.id).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+app.delete('/api/pf/jobs/:id', async (req, res) => {
+  await supabase.from('pf_queue_entries').delete().eq('job_id', req.params.id);
+  await supabase.from('pf_print_jobs').delete().eq('id', req.params.id);
+  res.json({ ok: true });
+});
+
+// --- Queue Entries ---
+app.get('/api/pf/queue', async (req, res) => {
+  const { data, error } = await supabase.from('pf_queue_entries').select('*').order('created_at', { ascending: false }).limit(500);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.post('/api/pf/queue', async (req, res) => {
+  const { data, error } = await supabase.from('pf_queue_entries').insert(req.body).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+app.put('/api/pf/queue/:id', async (req, res) => {
+  const { data, error } = await supabase.from('pf_queue_entries').update(req.body).eq('id', req.params.id).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+
+// --- Materials ---
+app.get('/api/pf/materials', async (req, res) => {
+  const { data, error } = await supabase.from('pf_materials').select('*').order('name');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.post('/api/pf/materials', async (req, res) => {
+  const { data, error } = await supabase.from('pf_materials').insert(req.body).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+app.put('/api/pf/materials/:id', async (req, res) => {
+  const { data, error } = await supabase.from('pf_materials').update({ ...req.body, updated_at: new Date().toISOString() }).eq('id', req.params.id).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data[0]);
+});
+
+// --- Departments ---
+app.get('/api/pf/departments', async (req, res) => {
+  const { data, error } = await supabase.from('pf_departments').select('*').order('name');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
 });
 
 // ====== AI BACKGROUND WORKER (runs on Railway 24/7 — no computer needed!) ======
