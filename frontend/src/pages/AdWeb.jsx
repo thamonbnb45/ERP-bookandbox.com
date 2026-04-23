@@ -37,7 +37,10 @@ export default function AdWeb() {
   const [activeLeadId, setActiveLeadId] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
-  // Track which leads have been "read" (persisted in localStorage)
+  // ★ Smart 3-State Chat Status System
+  // 🔴 new = ยังไม่เปิดอ่าน (ข้อความใหม่จากลูกค้า)
+  // 🟡 read = อ่านแล้วแต่ยังไม่ตอบ  
+  // ✅ replied = ตอบแล้ว / ลูกค้าพูดจบ (ไม่ต้อง action)
   const [readTimestamps, setReadTimestamps] = useState(() => {
     try { return JSON.parse(localStorage.getItem('readTimestamps') || '{}'); } catch { return {}; }
   });
@@ -54,14 +57,54 @@ export default function AdWeb() {
     setReadTimestamps(updated);
     localStorage.setItem('readTimestamps', JSON.stringify(updated));
   };
-  const isUnread = (lead) => {
-    if (!lead.messages || lead.messages.length === 0) return false;
-    const lastMsg = lead.messages[lead.messages.length - 1];
-    if (lastMsg.sender !== 'client') return false;
-    const readAt = readTimestamps[lead.id];
-    if (!readAt) return true;
-    return new Date(lastMsg.created_at) > new Date(readAt);
+
+  // Auto-detect "conversation finished" — client said closing words, no reply needed
+  const CLOSING_WORDS = ['ขอบคุณ','ขอบคุณครับ','ขอบคุณค่ะ','ได้เลย','โอเค','ok','oke','ได้ครับ','ได้ค่ะ','รับทราบ','ครับผม','ค่ะ','👍','🙏','ขอบคุณมากครับ','ขอบคุณมากค่ะ','โอเคครับ','โอเคค่ะ'];
+  const isClosingMessage = (msg) => {
+    if (msg.type === 'sticker') return true;
+    if (msg.type !== 'text' || !msg.text_content) return false;
+    const txt = msg.text_content.trim().toLowerCase();
+    return txt.length <= 30 && CLOSING_WORDS.some(w => txt === w || txt === w + ' ');
   };
+
+  // Get chat status: 'new' | 'read' | 'replied' | 'done'
+  const getChatStatus = (lead) => {
+    if (!lead.messages || lead.messages.length === 0) return 'done';
+    const lastMsg = lead.messages[lead.messages.length - 1];
+    
+    // Last message from admin → we already replied
+    if (lastMsg.sender === 'admin') return 'replied';
+    
+    // Last message from client
+    const readAt = readTimestamps[lead.id];
+    const isNew = !readAt || new Date(lastMsg.created_at) > new Date(readAt);
+    
+    // Check if client's last message is a closing phrase
+    if (isClosingMessage(lastMsg)) return 'done';
+    
+    // Count unread client messages after our last read
+    const unreadClientMsgs = lead.messages.filter(m => {
+      if (m.sender !== 'client') return false;
+      if (!readAt) return true;
+      return new Date(m.created_at) > new Date(readAt);
+    }).length;
+    
+    if (isNew) return 'new';      // 🔴 ยังไม่เปิดอ่าน
+    return 'read';                 // 🟡 อ่านแล้วยังไม่ตอบ
+  };
+  
+  const getUnreadCount = (lead) => {
+    if (!lead.messages || lead.messages.length === 0) return 0;
+    const readAt = readTimestamps[lead.id];
+    return lead.messages.filter(m => {
+      if (m.sender !== 'client') return false;
+      if (!readAt) return true;
+      return new Date(m.created_at) > new Date(readAt);
+    }).length;
+  };
+
+  // Legacy compat
+  const isUnread = (lead) => getChatStatus(lead) === 'new';
   
   // Tagging & Editing State
   const [editingLead, setEditingLead] = useState(false);
@@ -307,32 +350,36 @@ export default function AdWeb() {
             
             const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === todayStr).length, 0);
             
-            // ★ Unread = count as PEOPLE who have NEW unread messages
-            const unreadPeople = leads.filter(l => isUnread(l)).length;
+            // ★ 3-State Smart Status Counts
+            const statusCounts = { new: 0, read: 0, replied: 0, done: 0 };
+            leads.forEach(l => { statusCounts[getChatStatus(l)]++; });
             
             const iCount = leads.filter(l => l.sales_status === 'i').length;
             const oCount = leads.filter(l => l.sales_status === 'o').length;
             const cCount = leads.filter(l => l.sales_status === 'c').length;
             return (
               <>
-                <div title="ลูกค้าที่ทักเข้ามาวันนี้เป็นครั้งแรก (นับจากข้อความแรกของลูกค้า)" style={{background: '#ede9fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
+                <div title="ลูกค้าที่ทักเข้ามาวันนี้เป็นครั้งแรก" style={{background: '#ede9fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#7c3aed'}}>{newLeadsToday}</div>
                   <div style={{fontSize: '0.6rem', color: '#5b21b6'}}>ลูกค้าใหม่</div>
                 </div>
-                <div title={`ลูกค้าที่ทักมาแล้วเซลล์ยังไม่ได้เปิดอ่าน (${unreadPeople} คน) — กดเข้าไปอ่านเพื่อลดจำนวน`} style={{background: unreadPeople > 0 ? '#fef2f2' : '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'pointer', animation: unreadPeople > 0 ? 'pulse 2s infinite' : 'none'}} onClick={markAllRead}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: unreadPeople > 0 ? '#dc2626' : '#0284c7'}}>{unreadPeople}</div>
-                  <div style={{fontSize: '0.6rem', color: unreadPeople > 0 ? '#991b1b' : '#0369a1'}}>รอตอบ (คน)</div>
-                  {unreadPeople > 0 && <div style={{fontSize: '0.5rem', color: '#94a3b8'}}>กดเพื่ออ่านทั้งหมด</div>}
+                <div title={`ข้อความใหม่ที่ยังไม่ได้เปิดอ่าน (${statusCounts.new} คน) — กดเพื่ออ่านทั้งหมด`} onClick={markAllRead} style={{background: statusCounts.new > 0 ? '#fef2f2' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'pointer', animation: statusCounts.new > 0 ? 'pulse 2s infinite' : 'none'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: statusCounts.new > 0 ? '#dc2626' : '#10b981'}}>{statusCounts.new}</div>
+                  <div style={{fontSize: '0.6rem', color: statusCounts.new > 0 ? '#991b1b' : '#166534'}}>🔴 ยังไม่อ่าน</div>
                 </div>
-                <div title="จำนวนข้อความทั้งหมดในวันนี้ (รวมทุกช่องทาง LINE/FB)" style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
+                <div title={`อ่านแล้วแต่ยังไม่ได้ตอบกลับ (${statusCounts.read} คน)`} style={{background: statusCounts.read > 0 ? '#fffbeb' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: statusCounts.read > 0 ? '#d97706' : '#10b981'}}>{statusCounts.read}</div>
+                  <div style={{fontSize: '0.6rem', color: statusCounts.read > 0 ? '#92400e' : '#166534'}}>🟡 รอตอบ</div>
+                </div>
+                <div title={`ตอบแล้ว + ลูกค้าพูดจบ (${statusCounts.replied + statusCounts.done} คน)`} style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{statusCounts.replied + statusCounts.done}</div>
+                  <div style={{fontSize: '0.6rem', color: '#166534'}}>✅ ตอบแล้ว</div>
+                </div>
+                <div title="ข้อความทั้งหมดวันนี้" style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{todayMsgs}</div>
-                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>ข้อความวันนี้</div>
+                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>💬 วันนี้</div>
                 </div>
-                <div title="ลูกค้าที่ปิดขายได้แล้ว (สถานะ C = Closed)" style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{cCount}</div>
-                  <div style={{fontSize: '0.6rem', color: '#166534'}}>ปิดขาย</div>
-                </div>
-                <div title={`ลูกค้าที่สนใจ (I) ${iCount} คน + เสนอราคาแล้ว (O) ${oCount} คน`} style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
+                <div title={`ปิดขาย ${cCount} • สนใจ ${iCount} • เสนอ ${oCount}`} style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{iCount + oCount}</div>
                   <div style={{fontSize: '0.6rem', color: '#0369a1'}}>สนใจ/เสนอ</div>
                 </div>
@@ -386,8 +433,16 @@ export default function AdWeb() {
             const platConf = PLATFORM_CONFIG[lead.platform] || PLATFORM_CONFIG.line;
             const revGrade = REVENUE_GRADES[lead.company_revenue_grade];
             
-            // Unread: only show badge if lead has NEW messages since last read
-            const leadIsUnread = isUnread(lead);
+            // Smart 3-state status
+            const chatStatus = getChatStatus(lead);
+            const unreadCount = getUnreadCount(lead);
+            const STATUS_BADGE = {
+              new:  { bg: '#ef4444', emoji: '', show: true },
+              read: { bg: '#f59e0b', emoji: '', show: true },
+              replied: { bg: null, emoji: '', show: false },
+              done: { bg: null, emoji: '', show: false },
+            };
+            const badge = STATUS_BADGE[chatStatus];
             
             return (
               <div 
@@ -415,14 +470,15 @@ export default function AdWeb() {
                     }}>
                         <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
-                    {/* Unread Badge */}
-                    {leadIsUnread && (
+                    {/* Status Badge: 🔴 new / 🟡 read / nothing for replied */}
+                    {badge.show && (
                       <div style={{
                         position: 'absolute', top: -5, left: -5, minWidth: '20px', height: '20px', borderRadius: '50%',
-                        background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.6rem', fontWeight: 'bold', border: '2px solid white', padding: '0 3px'
+                        background: badge.bg, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.55rem', fontWeight: 'bold', border: '2px solid white', padding: '0 3px',
+                        animation: chatStatus === 'new' ? 'pulse 1.5s infinite' : 'none'
                       }}>
-                        🔴
+                        {unreadCount > 0 ? (unreadCount > 9 ? '9+' : unreadCount) : '!'}
                       </div>
                     )}
                 </div>
@@ -434,15 +490,15 @@ export default function AdWeb() {
                               color: ['nt','na','al'].includes(lead.sales_status) ? '#dc2626' : lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
                               textDecoration: ['nt','na','al'].includes(lead.sales_status) ? 'line-through' : 'none',
                               opacity: ['nt','na','al'].includes(lead.sales_status) ? 0.6 : 1,
-                              fontWeight: leadIsUnread ? 800 : 600
+                              fontWeight: chatStatus === 'new' ? 800 : chatStatus === 'read' ? 700 : 600
                             }}>
                               {lead.erp_alias_name || lead.original_name}
                             </span>
                             {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
                         </h5>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
-                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: leadIsUnread ? 700 : 400 }}>
-                                {leadIsUnread && lastMsg.sender === 'client' ? '🔴 ' : ''}{previewText}
+                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: chatStatus === 'new' ? '#dc2626' : chatStatus === 'read' ? '#d97706' : lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: chatStatus === 'new' || chatStatus === 'read' ? 600 : 400 }}>
+                                {chatStatus === 'new' ? '🔴 ' : chatStatus === 'read' ? '🟡 ' : ''}{previewText}
                             </p>
                             <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
                                 {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
