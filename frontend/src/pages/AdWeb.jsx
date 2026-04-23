@@ -367,9 +367,9 @@ export default function AdWeb() {
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#7c3aed'}}>{newLeadsToday}</div>
                   <div style={{fontSize: '0.6rem', color: '#5b21b6'}}>ลูกค้าใหม่</div>
                 </div>
-                <div title={`ข้อความใหม่ที่ยังไม่ได้เปิดอ่าน (${statusCounts.new} คน) — กดเพื่ออ่านทั้งหมด`} onClick={markAllRead} style={{background: statusCounts.new > 0 ? '#fef2f2' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'pointer', animation: statusCounts.new > 0 ? 'pulse 2s infinite' : 'none'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: statusCounts.new > 0 ? '#dc2626' : '#10b981'}}>{statusCounts.new}</div>
-                  <div style={{fontSize: '0.6rem', color: statusCounts.new > 0 ? '#991b1b' : '#166534'}}>🔴 ยังไม่อ่าน</div>
+                <div title={`ข้อความใหม่ที่ยังไม่ได้เปิดอ่าน (${statusCounts.new} คน) — กดเพื่ออ่านทั้งหมด`} onClick={markAllRead} style={{background: statusCounts.new > 0 ? '#e6f9ee' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'pointer', animation: statusCounts.new > 0 ? 'pulse 2s infinite' : 'none'}}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#06c755'}}>{statusCounts.new}</div>
+                  <div style={{fontSize: '0.6rem', color: '#059669'}}>ยังไม่อ่าน</div>
                 </div>
                 <div title={`อ่านแล้วแต่ยังไม่ได้ตอบกลับ (${statusCounts.read} คน)`} style={{background: statusCounts.read > 0 ? '#fffbeb' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: statusCounts.read > 0 ? '#d97706' : '#10b981'}}>{statusCounts.read}</div>
@@ -506,8 +506,8 @@ export default function AdWeb() {
                     </span>
                     {unreadCount > 0 ? (
                       <div style={{
-                        minWidth: '20px', height: '20px', borderRadius: '50%',
-                        background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        minWidth: '20px', height: '20px', borderRadius: '10px',
+                        background: '#06c755', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '0.65rem', fontWeight: 'bold', padding: '0 5px'
                       }}>{unreadCount > 99 ? '99+' : unreadCount}</div>
                     ) : chatStatus === 'read' ? (
