@@ -37,27 +37,33 @@ export default function AdWeb() {
   const [activeLeadId, setActiveLeadId] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
-  // ★ Smart 3-State Chat Status System
-  // 🔴 red+count = ข้อความใหม่ที่ยังไม่เปิดอ่าน
-  // 🟡 yellow = ลูกค้าพูดล่าสุด อาจค้างตอบ  
-  // ✅ green = เซลตอบแล้ว / กดจบสนทนา
+  // ★ LINE-Style Read Tracking (v2 — force reset old data)
+  const READ_VERSION = 'chatReadV2';
   const [readTimestamps, setReadTimestamps] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('readTimestamps') || '{}'); } catch { return {}; }
+    try {
+      const ver = localStorage.getItem('chatReadVersion');
+      if (ver === READ_VERSION) return JSON.parse(localStorage.getItem('readTimestamps') || '{}');
+      // First time or version upgrade → start fresh (will auto-init below)
+      localStorage.removeItem('readTimestamps');
+      localStorage.removeItem('endedChats');
+      return {};
+    } catch { return {}; }
   });
   const [endedChats, setEndedChats] = useState(() => {
     try { return JSON.parse(localStorage.getItem('endedChats') || '{}'); } catch { return {}; }
   });
-
-  // Auto-init: first time ever → mark ALL existing as read so nothing shows red
   const [autoInitDone, setAutoInitDone] = useState(false);
 
+  const saveReadTimestamps = (ts) => {
+    setReadTimestamps(ts);
+    localStorage.setItem('readTimestamps', JSON.stringify(ts));
+    localStorage.setItem('chatReadVersion', READ_VERSION);
+  };
   const markAsRead = (leadId, msgs) => {
     if (!msgs || msgs.length === 0) return;
     const lastMsgTime = msgs[msgs.length - 1].created_at;
     const updated = { ...readTimestamps, [leadId]: lastMsgTime };
-    setReadTimestamps(updated);
-    localStorage.setItem('readTimestamps', JSON.stringify(updated));
-    // Remove from ended if we re-open
+    saveReadTimestamps(updated);
     if (endedChats[leadId]) {
       const ec = { ...endedChats };
       delete ec[leadId];
@@ -68,49 +74,34 @@ export default function AdWeb() {
   const markAllRead = () => {
     const updated = { ...readTimestamps };
     leads.forEach(l => { if (l.messages?.length) updated[l.id] = l.messages[l.messages.length - 1].created_at; });
-    setReadTimestamps(updated);
-    localStorage.setItem('readTimestamps', JSON.stringify(updated));
+    saveReadTimestamps(updated);
   };
   const markEnded = (leadId) => {
     const updated = { ...endedChats, [leadId]: true };
     setEndedChats(updated);
     localStorage.setItem('endedChats', JSON.stringify(updated));
-    // Also mark as read
     const lead = leads.find(l => l.id === leadId);
     if (lead?.messages?.length) markAsRead(leadId, lead.messages);
   };
 
-  // Get chat status: 'new' | 'read' | 'replied' | 'done'
-  const getChatStatus = (lead) => {
-    if (!lead.messages || lead.messages.length === 0) return 'done';
-    const lastMsg = lead.messages[lead.messages.length - 1];
-    
-    // Last message from admin → we already replied ✅
-    if (lastMsg.sender === 'admin') return 'replied';
-    
-    // Manually ended by user → ✅
-    if (endedChats[lead.id]) return 'done';
-    
-    // Last message from client
-    const readAt = readTimestamps[lead.id];
-    const isNew = !readAt || new Date(lastMsg.created_at) > new Date(readAt);
-    
-    if (isNew) return 'new';       // 🔴 ยังไม่เปิดอ่าน
-    return 'read';                  // 🟡 อ่านแล้ว ลูกค้าพูดล่าสุด
-  };
-  
+  // Get unread count: messages from client AFTER our last read timestamp
   const getUnreadCount = (lead) => {
     if (!lead.messages || lead.messages.length === 0) return 0;
     const readAt = readTimestamps[lead.id];
-    return lead.messages.filter(m => {
-      if (m.sender !== 'client') return false;
-      if (!readAt) return true;
-      return new Date(m.created_at) > new Date(readAt);
-    }).length;
+    if (!readAt) return lead.messages.filter(m => m.sender === 'client').length;
+    return lead.messages.filter(m => m.sender === 'client' && new Date(m.created_at) > new Date(readAt)).length;
   };
 
-  // Legacy compat
-  const isUnread = (lead) => getChatStatus(lead) === 'new';
+  // Simple status: has unread? / admin replied? / ended?
+  const getChatStatus = (lead) => {
+    if (!lead.messages || lead.messages.length === 0) return 'done';
+    const lastMsg = lead.messages[lead.messages.length - 1];
+    if (lastMsg.sender === 'admin') return 'replied';
+    if (endedChats[lead.id]) return 'done';
+    const unread = getUnreadCount(lead);
+    if (unread > 0) return 'new';
+    return 'read';
+  };
   
   // Tagging & Editing State
   const [editingLead, setEditingLead] = useState(false);
@@ -164,12 +155,11 @@ export default function AdWeb() {
   const fetchChats = () => {
     axios.get(`${API_URL}/chats`).then(res => {
         setLeads(res.data);
-        // Auto-init: first time → mark all as read so nothing shows red
+        // Auto-init: first time with v2 → mark all existing as read
         if (!autoInitDone && Object.keys(readTimestamps).length === 0 && res.data.length > 0) {
           const initTs = {};
           res.data.forEach(l => { if (l.messages?.length) initTs[l.id] = l.messages[l.messages.length - 1].created_at; });
-          setReadTimestamps(initTs);
-          localStorage.setItem('readTimestamps', JSON.stringify(initTs));
+          saveReadTimestamps(initTs);
           setAutoInitDone(true);
         }
         setActiveLeadId(prevId => {
@@ -467,75 +457,64 @@ export default function AdWeb() {
                     setEditingLead(false);
                     markAsRead(lead.id, lead.messages);
                 }}
-                style={{ borderLeft: `3px solid ${platConf.color}` }}
+                style={{ borderLeft: `3px solid ${platConf.color}`, display: 'flex', alignItems: 'center', gap: '10px' }}
               >
-                <div style={{ position: 'relative' }}>
+                {/* Avatar */}
+                <div style={{ position: 'relative', flexShrink: 0 }}>
                     {lead.avatar_url ? (
-                        <img src={lead.avatar_url} alt="avatar" className="avatar" style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover' }} />
+                        <img src={lead.avatar_url} alt="" className="avatar" style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover' }} />
                     ) : (
                         <div className="avatar" style={{ background: platConf.bg, color: platConf.color, width: '45px', height: '45px', fontWeight: 700 }}>
                             {(lead.erp_alias_name || lead.original_name || '?').charAt(0)}
                         </div>
                     )}
-                    {/* Platform Icon Badge */}
                     <div style={{
                         position: 'absolute', bottom: -3, right: -3, width: '18px', height: '18px', borderRadius: '50%',
                         background: 'white', border: `2px solid ${platConf.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
                         <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
-                    {/* Status: 🔴 red+count / 🟡 yellow dot / ✅ green check */}
-                    {chatStatus === 'new' && (
-                      <div style={{
-                        position: 'absolute', top: -5, left: -5, minWidth: '18px', height: '18px', borderRadius: '50%',
-                        background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.6rem', fontWeight: 'bold', border: '2px solid white',
-                        animation: 'pulse 1.5s infinite', boxShadow: '0 0 6px rgba(239,68,68,0.5)'
-                      }}>{unreadCount > 99 ? '99' : unreadCount}</div>
-                    )}
-                    {chatStatus === 'read' && (
-                      <div style={{
-                        position: 'absolute', top: -2, left: -2, width: '12px', height: '12px', borderRadius: '50%',
-                        background: '#f59e0b', border: '2px solid white', boxShadow: '0 0 4px rgba(245,158,11,0.5)'
-                      }}></div>
-                    )}
-                    {(chatStatus === 'replied' || chatStatus === 'done') && (
-                      <div style={{
-                        position: 'absolute', top: -4, left: -4, width: '16px', height: '16px', borderRadius: '50%',
-                        background: '#10b981', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.5rem', border: '2px solid white'
-                      }}>✓</div>
-                    )}
                 </div>
 
-                <div style={{ overflow: 'hidden', width: '100%', marginLeft: '10px' }}>
-                        <h5 style={{margin: '0 0 0.3rem 0', color: '#0f172a', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
-                            <span style={{
-                              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '160px',
-                              color: ['nt','na','al'].includes(lead.sales_status) ? '#dc2626' : lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
-                              textDecoration: ['nt','na','al'].includes(lead.sales_status) ? 'line-through' : 'none',
-                              opacity: ['nt','na','al'].includes(lead.sales_status) ? 0.6 : 1,
-                              fontWeight: chatStatus === 'new' ? 800 : chatStatus === 'read' ? 700 : 600
-                            }}>
-                              {lead.erp_alias_name || lead.original_name}
-                            </span>
-                            {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
-                        </h5>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
-                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: chatStatus === 'new' ? '#dc2626' : chatStatus === 'read' ? '#d97706' : (chatStatus === 'replied' || chatStatus === 'done') ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: chatStatus === 'new' || chatStatus === 'read' ? 600 : 400 }}>
-                                {chatStatus === 'new' ? '🔴 ' : chatStatus === 'read' ? '🟡 ' : (chatStatus === 'replied' || chatStatus === 'done') ? '✅ ' : ''}{previewText}
-                            </p>
-                            <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
-                                {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
-                            </span>
-                        </div>
-                        <div style={{fontSize: '0.65rem', color: '#94a3b8', display: 'flex', gap: '0.3rem', marginTop: '0.2rem', alignItems: 'center'}}>
-                            {lead.company_role || lead.industry ? <span>• {lead.company_role || lead.industry}</span> : null}
-                            {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontWeight: 700 }}>{revGrade.label}</span>}
-                            {chatStatus === 'read' && (
-                              <button onClick={(e) => { e.stopPropagation(); markEnded(lead.id); }} title="จบการสนทนานี้" style={{ marginLeft:'auto', background:'#10b981', color:'white', border:'none', borderRadius:'10px', padding:'0.1rem 0.4rem', fontSize:'0.55rem', cursor:'pointer', fontWeight:'bold', whiteSpace:'nowrap' }}>✓ จบ</button>
-                            )}
-                        </div>
+                {/* Name + Preview */}
+                <div style={{ overflow: 'hidden', flex: 1, minWidth: 0 }}>
+                    <h5 style={{margin: '0 0 0.2rem 0', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
+                        <span style={{
+                          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px',
+                          color: ['nt','na','al'].includes(lead.sales_status) ? '#dc2626' : lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
+                          textDecoration: ['nt','na','al'].includes(lead.sales_status) ? 'line-through' : 'none',
+                          opacity: ['nt','na','al'].includes(lead.sales_status) ? 0.6 : 1,
+                          fontWeight: unreadCount > 0 ? 800 : 600
+                        }}>
+                          {lead.erp_alias_name || lead.original_name}
+                        </span>
+                        {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
+                    </h5>
+                    <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: unreadCount > 0 ? '#0f172a' : '#94a3b8', margin: 0, fontWeight: unreadCount > 0 ? 600 : 400 }}>
+                        {previewText}
+                    </p>
+                    <div style={{fontSize: '0.6rem', color: '#94a3b8', display: 'flex', gap: '0.3rem', marginTop: '0.15rem', alignItems: 'center'}}>
+                        {lead.company_role || lead.industry ? <span>• {lead.company_role || lead.industry}</span> : null}
+                        {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontWeight: 700 }}>{revGrade.label}</span>}
+                    </div>
+                </div>
+
+                {/* Right: Time + Unread Badge (LINE-style) */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0, gap: '4px', minWidth: '40px' }}>
+                    <span style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
+                        {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
+                    </span>
+                    {unreadCount > 0 ? (
+                      <div style={{
+                        minWidth: '20px', height: '20px', borderRadius: '50%',
+                        background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.65rem', fontWeight: 'bold', padding: '0 5px'
+                      }}>{unreadCount > 99 ? '99+' : unreadCount}</div>
+                    ) : chatStatus === 'read' ? (
+                      <button onClick={(e) => { e.stopPropagation(); markEnded(lead.id); }} title="จบการสนทนานี้" style={{ background:'#10b981', color:'white', border:'none', borderRadius:'10px', padding:'0.15rem 0.35rem', fontSize:'0.55rem', cursor:'pointer', fontWeight:'bold' }}>✓ จบ</button>
+                    ) : (chatStatus === 'replied' || chatStatus === 'done') ? (
+                      <span style={{ fontSize: '0.6rem', color: '#10b981' }}>✓</span>
+                    ) : null}
                 </div>
               </div>
             );
