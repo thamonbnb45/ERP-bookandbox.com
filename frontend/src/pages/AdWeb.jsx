@@ -478,7 +478,7 @@ export default function AdWeb() {
                         fontSize: '0.55rem', fontWeight: 'bold', border: '2px solid white', padding: '0 3px',
                         animation: chatStatus === 'new' ? 'pulse 1.5s infinite' : 'none'
                       }}>
-                        {unreadCount > 0 ? (unreadCount > 9 ? '9+' : unreadCount) : '!'}
+                        {chatStatus === 'new' ? '!' : '•'}
                       </div>
                     )}
                 </div>
