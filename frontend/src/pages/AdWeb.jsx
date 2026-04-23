@@ -37,6 +37,31 @@ export default function AdWeb() {
   const [activeLeadId, setActiveLeadId] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
+  // Track which leads have been "read" (persisted in localStorage)
+  const [readTimestamps, setReadTimestamps] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('readTimestamps') || '{}'); } catch { return {}; }
+  });
+  const markAsRead = (leadId, msgs) => {
+    if (!msgs || msgs.length === 0) return;
+    const lastMsgTime = msgs[msgs.length - 1].created_at;
+    const updated = { ...readTimestamps, [leadId]: lastMsgTime };
+    setReadTimestamps(updated);
+    localStorage.setItem('readTimestamps', JSON.stringify(updated));
+  };
+  const markAllRead = () => {
+    const updated = { ...readTimestamps };
+    leads.forEach(l => { if (l.messages?.length) updated[l.id] = l.messages[l.messages.length - 1].created_at; });
+    setReadTimestamps(updated);
+    localStorage.setItem('readTimestamps', JSON.stringify(updated));
+  };
+  const isUnread = (lead) => {
+    if (!lead.messages || lead.messages.length === 0) return false;
+    const lastMsg = lead.messages[lead.messages.length - 1];
+    if (lastMsg.sender !== 'client') return false;
+    const readAt = readTimestamps[lead.id];
+    if (!readAt) return true;
+    return new Date(lastMsg.created_at) > new Date(readAt);
+  };
   
   // Tagging & Editing State
   const [editingLead, setEditingLead] = useState(false);
@@ -282,12 +307,8 @@ export default function AdWeb() {
             
             const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === todayStr).length, 0);
             
-            // ★ Unread = count as PEOPLE (not messages!)
-            const unreadPeople = leads.filter(l => {
-              if (l.messages.length === 0) return false;
-              const lastMsg = l.messages[l.messages.length - 1];
-              return lastMsg.sender === 'client';
-            }).length;
+            // ★ Unread = count as PEOPLE who have NEW unread messages
+            const unreadPeople = leads.filter(l => isUnread(l)).length;
             
             const iCount = leads.filter(l => l.sales_status === 'i').length;
             const oCount = leads.filter(l => l.sales_status === 'o').length;
@@ -298,9 +319,10 @@ export default function AdWeb() {
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#7c3aed'}}>{newLeadsToday}</div>
                   <div style={{fontSize: '0.6rem', color: '#5b21b6'}}>ลูกค้าใหม่</div>
                 </div>
-                <div title={`ลูกค้าที่ทักมาแล้วเซลล์ยังไม่ได้ตอบ (${unreadPeople} คน) — กดเข้าไปตอบเพื่อลดจำนวน`} style={{background: unreadPeople > 0 ? '#fef2f2' : '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help', animation: unreadPeople > 0 ? 'pulse 2s infinite' : 'none'}}>
+                <div title={`ลูกค้าที่ทักมาแล้วเซลล์ยังไม่ได้เปิดอ่าน (${unreadPeople} คน) — กดเข้าไปอ่านเพื่อลดจำนวน`} style={{background: unreadPeople > 0 ? '#fef2f2' : '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'pointer', animation: unreadPeople > 0 ? 'pulse 2s infinite' : 'none'}} onClick={markAllRead}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: unreadPeople > 0 ? '#dc2626' : '#0284c7'}}>{unreadPeople}</div>
                   <div style={{fontSize: '0.6rem', color: unreadPeople > 0 ? '#991b1b' : '#0369a1'}}>รอตอบ (คน)</div>
+                  {unreadPeople > 0 && <div style={{fontSize: '0.5rem', color: '#94a3b8'}}>กดเพื่ออ่านทั้งหมด</div>}
                 </div>
                 <div title="จำนวนข้อความทั้งหมดในวันนี้ (รวมทุกช่องทาง LINE/FB)" style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{todayMsgs}</div>
@@ -364,11 +386,8 @@ export default function AdWeb() {
             const platConf = PLATFORM_CONFIG[lead.platform] || PLATFORM_CONFIG.line;
             const revGrade = REVENUE_GRADES[lead.company_revenue_grade];
             
-            // Unread count: client messages after last admin message
-            const lastAdminIdx = [...lead.messages].reverse().findIndex(m => m.sender === 'admin');
-            const unreadCount = lastAdminIdx === -1 
-              ? lead.messages.filter(m => m.sender === 'client').length 
-              : lead.messages.slice(lead.messages.length - lastAdminIdx).filter(m => m.sender === 'client').length;
+            // Unread: only show badge if lead has NEW messages since last read
+            const leadIsUnread = isUnread(lead);
             
             return (
               <div 
@@ -377,6 +396,7 @@ export default function AdWeb() {
                 onClick={() => {
                     setActiveLeadId(lead.id);
                     setEditingLead(false);
+                    markAsRead(lead.id, lead.messages);
                 }}
                 style={{ borderLeft: `3px solid ${platConf.color}` }}
               >
@@ -396,13 +416,13 @@ export default function AdWeb() {
                         <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
                     {/* Unread Badge */}
-                    {unreadCount > 0 && (
+                    {leadIsUnread && (
                       <div style={{
                         position: 'absolute', top: -5, left: -5, minWidth: '20px', height: '20px', borderRadius: '50%',
                         background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '0.6rem', fontWeight: 'bold', border: '2px solid white', padding: '0 3px'
                       }}>
-                        {unreadCount > 9 ? '9+' : unreadCount}
+                        🔴
                       </div>
                     )}
                 </div>
@@ -414,15 +434,15 @@ export default function AdWeb() {
                               color: ['nt','na','al'].includes(lead.sales_status) ? '#dc2626' : lead.erp_alias_name?.startsWith('C') ? '#16a34a' : lead.erp_alias_name?.startsWith('O') ? '#f59e0b' : '#0f172a',
                               textDecoration: ['nt','na','al'].includes(lead.sales_status) ? 'line-through' : 'none',
                               opacity: ['nt','na','al'].includes(lead.sales_status) ? 0.6 : 1,
-                              fontWeight: unreadCount > 0 ? 800 : 600
+                              fontWeight: leadIsUnread ? 800 : 600
                             }}>
                               {lead.erp_alias_name || lead.original_name}
                             </span>
                             {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
                         </h5>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
-                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: unreadCount > 0 ? 700 : 400 }}>
-                                {unreadCount > 0 && lastMsg.sender === 'client' ? '🔴 ' : ''}{previewText}
+                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: leadIsUnread ? 700 : 400 }}>
+                                {leadIsUnread && lastMsg.sender === 'client' ? '🔴 ' : ''}{previewText}
                             </p>
                             <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
                                 {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
