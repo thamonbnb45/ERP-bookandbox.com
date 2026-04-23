@@ -38,18 +38,32 @@ export default function AdWeb() {
   const [inputValue, setInputValue] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
   // ★ Smart 3-State Chat Status System
-  // 🔴 new = ยังไม่เปิดอ่าน (ข้อความใหม่จากลูกค้า)
-  // 🟡 read = อ่านแล้วแต่ยังไม่ตอบ  
-  // ✅ replied = ตอบแล้ว / ลูกค้าพูดจบ (ไม่ต้อง action)
+  // 🔴 red+count = ข้อความใหม่ที่ยังไม่เปิดอ่าน
+  // 🟡 yellow = ลูกค้าพูดล่าสุด อาจค้างตอบ  
+  // ✅ green = เซลตอบแล้ว / กดจบสนทนา
   const [readTimestamps, setReadTimestamps] = useState(() => {
     try { return JSON.parse(localStorage.getItem('readTimestamps') || '{}'); } catch { return {}; }
   });
+  const [endedChats, setEndedChats] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('endedChats') || '{}'); } catch { return {}; }
+  });
+
+  // Auto-init: first time ever → mark ALL existing as read so nothing shows red
+  const [autoInitDone, setAutoInitDone] = useState(false);
+
   const markAsRead = (leadId, msgs) => {
     if (!msgs || msgs.length === 0) return;
     const lastMsgTime = msgs[msgs.length - 1].created_at;
     const updated = { ...readTimestamps, [leadId]: lastMsgTime };
     setReadTimestamps(updated);
     localStorage.setItem('readTimestamps', JSON.stringify(updated));
+    // Remove from ended if we re-open
+    if (endedChats[leadId]) {
+      const ec = { ...endedChats };
+      delete ec[leadId];
+      setEndedChats(ec);
+      localStorage.setItem('endedChats', JSON.stringify(ec));
+    }
   };
   const markAllRead = () => {
     const updated = { ...readTimestamps };
@@ -57,14 +71,13 @@ export default function AdWeb() {
     setReadTimestamps(updated);
     localStorage.setItem('readTimestamps', JSON.stringify(updated));
   };
-
-  // Auto-detect "conversation finished" — client said closing words, no reply needed
-  const CLOSING_WORDS = ['ขอบคุณ','ขอบคุณครับ','ขอบคุณค่ะ','ได้เลย','โอเค','ok','oke','ได้ครับ','ได้ค่ะ','รับทราบ','ครับผม','ค่ะ','👍','🙏','ขอบคุณมากครับ','ขอบคุณมากค่ะ','โอเคครับ','โอเคค่ะ'];
-  const isClosingMessage = (msg) => {
-    if (msg.type === 'sticker') return true;
-    if (msg.type !== 'text' || !msg.text_content) return false;
-    const txt = msg.text_content.trim().toLowerCase();
-    return txt.length <= 30 && CLOSING_WORDS.some(w => txt === w || txt === w + ' ');
+  const markEnded = (leadId) => {
+    const updated = { ...endedChats, [leadId]: true };
+    setEndedChats(updated);
+    localStorage.setItem('endedChats', JSON.stringify(updated));
+    // Also mark as read
+    const lead = leads.find(l => l.id === leadId);
+    if (lead?.messages?.length) markAsRead(leadId, lead.messages);
   };
 
   // Get chat status: 'new' | 'read' | 'replied' | 'done'
@@ -72,25 +85,18 @@ export default function AdWeb() {
     if (!lead.messages || lead.messages.length === 0) return 'done';
     const lastMsg = lead.messages[lead.messages.length - 1];
     
-    // Last message from admin → we already replied
+    // Last message from admin → we already replied ✅
     if (lastMsg.sender === 'admin') return 'replied';
+    
+    // Manually ended by user → ✅
+    if (endedChats[lead.id]) return 'done';
     
     // Last message from client
     const readAt = readTimestamps[lead.id];
     const isNew = !readAt || new Date(lastMsg.created_at) > new Date(readAt);
     
-    // Check if client's last message is a closing phrase
-    if (isClosingMessage(lastMsg)) return 'done';
-    
-    // Count unread client messages after our last read
-    const unreadClientMsgs = lead.messages.filter(m => {
-      if (m.sender !== 'client') return false;
-      if (!readAt) return true;
-      return new Date(m.created_at) > new Date(readAt);
-    }).length;
-    
-    if (isNew) return 'new';      // 🔴 ยังไม่เปิดอ่าน
-    return 'read';                 // 🟡 อ่านแล้วยังไม่ตอบ
+    if (isNew) return 'new';       // 🔴 ยังไม่เปิดอ่าน
+    return 'read';                  // 🟡 อ่านแล้ว ลูกค้าพูดล่าสุด
   };
   
   const getUnreadCount = (lead) => {
@@ -158,6 +164,14 @@ export default function AdWeb() {
   const fetchChats = () => {
     axios.get(`${API_URL}/chats`).then(res => {
         setLeads(res.data);
+        // Auto-init: first time → mark all as read so nothing shows red
+        if (!autoInitDone && Object.keys(readTimestamps).length === 0 && res.data.length > 0) {
+          const initTs = {};
+          res.data.forEach(l => { if (l.messages?.length) initTs[l.id] = l.messages[l.messages.length - 1].created_at; });
+          setReadTimestamps(initTs);
+          localStorage.setItem('readTimestamps', JSON.stringify(initTs));
+          setAutoInitDone(true);
+        }
         setActiveLeadId(prevId => {
             if (prevId === null && res.data.length > 0) {
                 return res.data[0].id;
@@ -518,6 +532,9 @@ export default function AdWeb() {
                         <div style={{fontSize: '0.65rem', color: '#94a3b8', display: 'flex', gap: '0.3rem', marginTop: '0.2rem', alignItems: 'center'}}>
                             {lead.company_role || lead.industry ? <span>• {lead.company_role || lead.industry}</span> : null}
                             {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontWeight: 700 }}>{revGrade.label}</span>}
+                            {chatStatus === 'read' && (
+                              <button onClick={(e) => { e.stopPropagation(); markEnded(lead.id); }} title="จบการสนทนานี้" style={{ marginLeft:'auto', background:'#10b981', color:'white', border:'none', borderRadius:'10px', padding:'0.1rem 0.4rem', fontSize:'0.55rem', cursor:'pointer', fontWeight:'bold', whiteSpace:'nowrap' }}>✓ จบ</button>
+                            )}
                         </div>
                 </div>
               </div>
