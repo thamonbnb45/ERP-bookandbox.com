@@ -470,16 +470,14 @@ export default function AdWeb() {
                     }}>
                         <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
-                    {/* Status Badge: 🔴 new / 🟡 read / nothing for replied */}
+                    {/* Status Dot: 🔴 new / 🟡 read-not-replied / nothing = done */}
                     {badge.show && (
                       <div style={{
-                        position: 'absolute', top: -5, left: -5, minWidth: '20px', height: '20px', borderRadius: '50%',
-                        background: badge.bg, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.55rem', fontWeight: 'bold', border: '2px solid white', padding: '0 3px',
-                        animation: chatStatus === 'new' ? 'pulse 1.5s infinite' : 'none'
-                      }}>
-                        {chatStatus === 'new' ? '!' : '•'}
-                      </div>
+                        position: 'absolute', top: -2, left: -2, width: '12px', height: '12px', borderRadius: '50%',
+                        background: badge.bg, border: '2px solid white',
+                        animation: chatStatus === 'new' ? 'pulse 1.5s infinite' : 'none',
+                        boxShadow: `0 0 4px ${badge.bg}`
+                      }}></div>
                     )}
                 </div>
 
