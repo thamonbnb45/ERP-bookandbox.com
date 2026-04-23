@@ -470,14 +470,27 @@ export default function AdWeb() {
                     }}>
                         <i className={platConf.icon} style={{ fontSize: '0.55rem', color: platConf.color }}></i>
                     </div>
-                    {/* Status Dot: 🔴 new / 🟡 read-not-replied / nothing = done */}
-                    {badge.show && (
+                    {/* Status: 🔴 red+count / 🟡 yellow dot / ✅ green check */}
+                    {chatStatus === 'new' && (
+                      <div style={{
+                        position: 'absolute', top: -5, left: -5, minWidth: '18px', height: '18px', borderRadius: '50%',
+                        background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.6rem', fontWeight: 'bold', border: '2px solid white',
+                        animation: 'pulse 1.5s infinite', boxShadow: '0 0 6px rgba(239,68,68,0.5)'
+                      }}>{unreadCount > 99 ? '99' : unreadCount}</div>
+                    )}
+                    {chatStatus === 'read' && (
                       <div style={{
                         position: 'absolute', top: -2, left: -2, width: '12px', height: '12px', borderRadius: '50%',
-                        background: badge.bg, border: '2px solid white',
-                        animation: chatStatus === 'new' ? 'pulse 1.5s infinite' : 'none',
-                        boxShadow: `0 0 4px ${badge.bg}`
+                        background: '#f59e0b', border: '2px solid white', boxShadow: '0 0 4px rgba(245,158,11,0.5)'
                       }}></div>
+                    )}
+                    {(chatStatus === 'replied' || chatStatus === 'done') && (
+                      <div style={{
+                        position: 'absolute', top: -4, left: -4, width: '16px', height: '16px', borderRadius: '50%',
+                        background: '#10b981', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.5rem', border: '2px solid white'
+                      }}>✓</div>
                     )}
                 </div>
 
@@ -495,8 +508,8 @@ export default function AdWeb() {
                             {lead.visit_required && <i className="fa-solid fa-building" style={{ color: '#6366f1', fontSize: '0.7rem' }} title="ต้องเข้าพบ"></i>}
                         </h5>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.15rem' }}>
-                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: chatStatus === 'new' ? '#dc2626' : chatStatus === 'read' ? '#d97706' : lastMsg.type !== 'text' ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: chatStatus === 'new' || chatStatus === 'read' ? 600 : 400 }}>
-                                {chatStatus === 'new' ? '🔴 ' : chatStatus === 'read' ? '🟡 ' : ''}{previewText}
+                            <p style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: chatStatus === 'new' ? '#dc2626' : chatStatus === 'read' ? '#d97706' : (chatStatus === 'replied' || chatStatus === 'done') ? '#10b981' : '#64748b', margin: 0, maxWidth: '150px', fontWeight: chatStatus === 'new' || chatStatus === 'read' ? 600 : 400 }}>
+                                {chatStatus === 'new' ? '🔴 ' : chatStatus === 'read' ? '🟡 ' : (chatStatus === 'replied' || chatStatus === 'done') ? '✅ ' : ''}{previewText}
                             </p>
                             <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
                                 {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
