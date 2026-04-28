@@ -53,7 +53,7 @@ const ensureLeadExists = async (lineUserId) => {
         const mm = now.getMonth() + 1;
         const buddhistYear = (now.getFullYear() + 543) % 100; // 2 digit Buddhist year
         const dateTag = `${dd}.${mm}.${buddhistYear}`;
-        const erpAlias = `I--${originalName}${dateTag}`;
+        const erpAlias = `${originalName}${dateTag}`;
 
         const { data: newRow, error: insertErr } = await supabase.from('lead_contact')
             .insert([{
@@ -98,7 +98,7 @@ const ensureFbLeadExists = async (fbUserId) => {
         const mm = now.getMonth() + 1;
         const buddhistYear = (now.getFullYear() + 543) % 100;
         const dateTag = `${dd}.${mm}.${buddhistYear}`;
-        const erpAlias = `I--${originalName}${dateTag}`;
+        const erpAlias = `${originalName}${dateTag}`;
 
         const { data: newRow, error: insertErr } = await supabase.from('lead_contact')
             .insert([{

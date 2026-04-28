@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { supabase } from '@/api/supabaseClient';
 import { useAuth } from '@/lib/AuthContext';
+import { useQASession } from '@/lib/QASessionContext';
 import { loadSettings } from '@/lib/settingsManager';
 import { loadPdf, renderAllPages } from '@/lib/pdfRenderer';
 import { loadImageAsCanvas } from '@/lib/imageLoader';
@@ -15,44 +16,60 @@ import QAReport from '@/components/prepress/QAReport';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Upload, FileCheck, Loader2, RotateCcw } from 'lucide-react';
+import { Upload, FileCheck, Loader2, RotateCcw, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ACCEPTED = '.pdf,.png,.jpg,.jpeg';
 
 export default function Home() {
   const { user } = useAuth();
+  const { session, saveSession, clearSession, hasActiveSession } = useQASession();
+
+  // ถ้ามี session เดิม — แสดงผลลัพธ์เดิม
   const [masterFile, setMasterFile] = useState(null);
   const [printFile, setPrintFile] = useState(null);
   const [checking, setChecking] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState('');
-  const [report, setReport] = useState(null);
-  const [pageResults, setPageResults] = useState([]);
-  const [masterPages, setMasterPages] = useState([]);
-  const [printPagesData, setPrintPagesData] = useState([]);
-  const [masterInfo, setMasterInfo] = useState(null);
-  const [printInfo, setPrintInfo] = useState(null);
-  const [sizeInfo, setSizeInfo] = useState(null);
-  const [bleedInfo, setBleedInfo] = useState(null);
+  const [report, setReport] = useState(hasActiveSession ? session.report : null);
+  const [pageResults, setPageResults] = useState(hasActiveSession ? session.pageResults : []);
+  const [masterPages, setMasterPages] = useState(hasActiveSession ? session.masterPages : []);
+  const [printPagesData, setPrintPagesData] = useState(hasActiveSession ? session.printPagesData : []);
+  const [masterInfo, setMasterInfo] = useState(hasActiveSession ? session.masterInfo : null);
+  const [printInfo, setPrintInfo] = useState(hasActiveSession ? session.printInfo : null);
+  const [sizeInfo, setSizeInfo] = useState(hasActiveSession ? session.sizeInfo : null);
+  const [bleedInfo, setBleedInfo] = useState(hasActiveSession ? session.bleedInfo : null);
   const [settings, setSettings] = useState(null);
-  const [checkDuration, setCheckDuration] = useState(null);
-  const [totalFileSize, setTotalFileSize] = useState(null);
+  const [checkDuration, setCheckDuration] = useState(hasActiveSession ? session.checkDuration : null);
+  const [totalFileSize, setTotalFileSize] = useState(hasActiveSession ? session.totalFileSize : null);
+  const [masterFileName, setMasterFileName] = useState(hasActiveSession ? session.masterFileName : '');
+  const [printFileName, setPrintFileName] = useState(hasActiveSession ? session.printFileName : '');
 
   useEffect(() => { loadSettings().then(setSettings); }, []);
 
   const isPdf = (f) => f?.type === 'application/pdf' || f?.name?.endsWith('.pdf');
-  const onFile = (setter) => (e) => {
+  const onFile = (setter, nameSetter) => (e) => {
     e.preventDefault();
     const f = e.dataTransfer?.files?.[0] || e.target?.files?.[0];
-    if (f) setter(f);
+    if (f) { setter(f); nameSetter(f.name); }
   };
 
-  const reset = () => {
+  // ปุ่ม "เสร็จสิ้น" — ล้างทุกอย่างกลับสู่หน้าอัปโหลด
+  const handleFinish = () => {
+    clearSession();
     setMasterFile(null); setPrintFile(null); setReport(null);
     setPageResults([]); setMasterPages([]); setPrintPagesData([]);
     setMasterInfo(null); setPrintInfo(null); setSizeInfo(null); setBleedInfo(null);
-    setProgress(0);
+    setProgress(0); setCheckDuration(null); setTotalFileSize(null);
+    setMasterFileName(''); setPrintFileName('');
+  };
+
+  // ปุ่ม "ตรวจใหม่" — ล้างผลลัพธ์ แต่เก็บชื่อไฟล์ไว้
+  const handleRecheck = () => {
+    setReport(null); setPageResults([]); setMasterPages([]); setPrintPagesData([]);
+    setMasterInfo(null); setPrintInfo(null); setSizeInfo(null); setBleedInfo(null);
+    setProgress(0); setCheckDuration(null); setTotalFileSize(null);
+    clearSession();
   };
 
   const runCheck = async () => {
@@ -108,11 +125,11 @@ export default function Home() {
       const si = detectDocumentType(mWmm, mHmm, mPages.length, docRules, stdSizes);
       setSizeInfo(si);
 
-      // Pixel diff
+      // Pixel diff — shift_tolerance ปิดเพื่อจับทุกจุด
       setProgressText('กำลังเปรียบเทียบ pixel...');
       const results = [];
       const cnt = Math.min(mPages.length, pPages.length);
-      const shiftPx = Math.round(((settings.shift_tolerance_mm || 2) / 25.4) * 300 * (settings.render_scale || 2));
+      const shiftPx = Math.round(((settings.shift_tolerance_mm || 0) / 25.4) * 300 * (settings.render_scale || 2));
 
       for (let i = 0; i < cnt; i++) {
         let mc = mPages[i].canvas, pc = pPages[i].canvas;
@@ -120,7 +137,7 @@ export default function Home() {
           mc = cropBleed(mc, bl.bleedPixels);
           pc = cropBleed(pc, bl.bleedPixels);
         }
-        const r = compareCanvases(mc, pc, { threshold: settings.diff_threshold || 30, shiftTolerance: shiftPx });
+        const r = compareCanvases(mc, pc, { threshold: settings.diff_threshold || 5, shiftTolerance: shiftPx });
         results.push({ ...r, pageNum: i + 1 });
         setProgress(50 + Math.round((i + 1) / cnt * 35));
         setProgressText(`เปรียบเทียบหน้า ${i + 1}/${cnt}...`);
@@ -137,7 +154,15 @@ export default function Home() {
       setCheckDuration(durationSec);
       setProgressText(`เสร็จสิ้น — ใช้เวลา ${durationSec >= 60 ? Math.floor(durationSec/60) + ' นาที ' + (durationSec%60) + ' วินาที' : durationSec + ' วินาที'}`);
 
-      // Save
+      // บันทึก session ไว้เพื่อกันข้อมูลหายเมื่อเปลี่ยนหน้า
+      saveSession({
+        report: rpt, pageResults: results, masterPages: mPages, printPagesData: pPages,
+        masterInfo: mi, printInfo: pi, sizeInfo: si, bleedInfo: bl,
+        checkDuration: durationSec, totalFileSize: fileSizeBytes,
+        masterFileName: masterFile.name, printFileName: printFile.name,
+      });
+
+      // Save to Supabase
       const code = parseJobCode(masterFile?.name || '', settings?.job_code_regex);
       const today = new Date().toISOString().split('T')[0];
       await supabase.from('qa_records').insert({
@@ -164,20 +189,50 @@ export default function Home() {
     } finally { setChecking(false); }
   };
 
+  // ถ้ามี session (ผลลัพธ์เดิม) แสดงผลลัพธ์เลย
+  const showResults = report !== null;
+  const displayMasterName = masterFileName || masterFile?.name || '';
+  const displayPrintName = printFileName || printFile?.name || '';
+
   return (
     <div className="space-y-6">
-      {/* Upload */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <DropZone label="ไฟล์ต้นฉบับ (Master)" file={masterFile} onDrop={onFile(setMasterFile)} color="blue" />
-        <DropZone label="ไฟล์พร้อมพิมพ์ (Print Ready)" file={printFile} onDrop={onFile(setPrintFile)} color="purple" />
-      </div>
+      {/* แสดงชื่อไฟล์ที่กำลังตรวจ (ถ้ามี session) */}
+      {showResults && (
+        <Card className="bg-blue-50/50 border-blue-200">
+          <CardContent className="py-3 px-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-4 text-sm">
+                <span className="font-medium">📄 Master: <span className="text-blue-600">{displayMasterName}</span></span>
+                <span className="font-medium">📄 Print: <span className="text-purple-600">{displayPrintName}</span></span>
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline" onClick={handleRecheck}>
+                  <RotateCcw className="mr-1 h-3.5 w-3.5" />ตรวจใหม่
+                </Button>
+                <Button size="sm" className="gradient-success border-0 text-white" onClick={handleFinish}>
+                  <CheckCircle2 className="mr-1 h-3.5 w-3.5" />เสร็จสิ้น
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-      <div className="flex gap-3 justify-center">
-        <Button size="lg" className="gradient-primary border-0 text-white px-8" onClick={runCheck} disabled={!masterFile || !printFile || checking}>
-          {checking ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />กำลังตรวจสอบ...</> : <><FileCheck className="mr-2 h-5 w-5" />เริ่มตรวจสอบ</>}
-        </Button>
-        {report && <Button size="lg" variant="outline" onClick={reset}><RotateCcw className="mr-2 h-4 w-4" />ตรวจใหม่</Button>}
-      </div>
+      {/* Upload — แสดงเฉพาะเมื่อยังไม่มีผลลัพธ์ */}
+      {!showResults && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <DropZone label="ไฟล์ต้นฉบับ (Master)" file={masterFile} onDrop={onFile(setMasterFile, setMasterFileName)} color="blue" />
+            <DropZone label="ไฟล์พร้อมพิมพ์ (Print Ready)" file={printFile} onDrop={onFile(setPrintFile, setPrintFileName)} color="purple" />
+          </div>
+
+          <div className="flex gap-3 justify-center">
+            <Button size="lg" className="gradient-primary border-0 text-white px-8" onClick={runCheck} disabled={!masterFile || !printFile || checking}>
+              {checking ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />กำลังตรวจสอบ...</> : <><FileCheck className="mr-2 h-5 w-5" />เริ่มตรวจสอบ</>}
+            </Button>
+          </div>
+        </>
+      )}
 
       {/* Progress */}
       {checking && (
@@ -191,17 +246,12 @@ export default function Home() {
 
       {/* Results */}
       <AnimatePresence>
-        {report && (
+        {showResults && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-            {/* Size Bar */}
             <DocumentSizeBar masterInfo={masterInfo} printInfo={printInfo} sizeInfo={sizeInfo} bleedInfo={bleedInfo} />
-
-            {/* Visual Diff Viewer */}
             {pageResults.length > 0 && (
               <DiffViewer pageResults={pageResults} masterPages={masterPages} printPages={printPagesData} />
             )}
-
-            {/* QA Report */}
             <QAReport report={report} checkDuration={checkDuration} totalFileSize={totalFileSize} />
           </motion.div>
         )}

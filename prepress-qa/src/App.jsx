@@ -2,6 +2,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClientInstance } from '@/lib/query-client';
 import { BrowserRouter, Route, Routes, Navigate, NavLink, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import { QASessionProvider } from '@/lib/QASessionContext';
 import Home from '@/pages/Home';
 import Reports from '@/pages/Reports';
 import AdminSettings from '@/pages/AdminSettings';
@@ -43,7 +44,7 @@ function AppLayout({ children }) {
             <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
               <FileCheck className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-lg hidden sm:block">Prepress QA</span>
+            <span className="font-bold text-lg hidden sm:block">BNBINSPECTION</span>
           </div>
 
           {/* Desktop Nav */}
@@ -95,17 +96,19 @@ function AppLayout({ children }) {
 function App() {
   return (
     <AuthProvider>
-      <QueryClientProvider client={queryClientInstance}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<ProtectedRoute><AppLayout><Home /></AppLayout></ProtectedRoute>} />
-            <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><AppLayout><AdminSettings /></AppLayout></ProtectedRoute>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
+      <QASessionProvider>
+        <QueryClientProvider client={queryClientInstance}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<ProtectedRoute><AppLayout><Home /></AppLayout></ProtectedRoute>} />
+              <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><AppLayout><AdminSettings /></AppLayout></ProtectedRoute>} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </QASessionProvider>
     </AuthProvider>
   );
 }

@@ -3,9 +3,9 @@ import { supabase } from '@/api/supabaseClient';
 // Default settings — ค่าเริ่มต้นที่ใช้เมื่อยังไม่มีใน Database
 const DEFAULTS = {
   // Comparison settings
-  diff_threshold: 10,
+  diff_threshold: 5,
   render_scale: 2,
-  shift_tolerance_mm: 1,
+  shift_tolerance_mm: 0,
 
   // Bleed settings
   bleed_mm: 3,
