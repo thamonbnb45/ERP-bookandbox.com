@@ -37,6 +37,8 @@ export default function AdWeb() {
   const [activeLeadId, setActiveLeadId] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [salesFilter, setSalesFilter] = useState('all');
   // ★ LINE-Style Read Tracking (v3 — force reset ALL old data)
   const READ_VERSION = 'chatReadV3';
   const [readTimestamps, setReadTimestamps] = useState(() => {
@@ -188,10 +190,27 @@ export default function AdWeb() {
 
   const activeLead = leads.find(l => l.id === activeLeadId);
   
-  // Filtered leads by platform
-  const filteredLeads = platformFilter === 'all' 
-    ? leads 
-    : leads.filter(l => (l.platform || 'line') === platformFilter);
+  // Filtered leads by platform + search + sales
+  const getSalesName = (lead) => {
+    const alias = lead.erp_alias_name || '';
+    const parts = alias.split('-');
+    return parts.length >= 3 ? parts[1].trim() : '';
+  };
+  const allSalesNames = [...new Set(leads.map(getSalesName).filter(Boolean))].sort();
+  
+  const filteredLeads = leads.filter(l => {
+    if (platformFilter !== 'all' && (l.platform || 'line') !== platformFilter) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const name = (l.erp_alias_name || l.original_name || '').toLowerCase();
+      if (!name.includes(q)) return false;
+    }
+    if (salesFilter !== 'all') {
+      const sales = getSalesName(l);
+      if (sales !== salesFilter) return false;
+    }
+    return true;
+  });
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -440,6 +459,24 @@ export default function AdWeb() {
                 </span>
               </button>
             ))}
+          </div>
+
+          {/* Search + Sales Filter */}
+          <div style={{ padding: '0.4rem 0.5rem', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', gap: '4px' }}>
+            <div style={{ flex: 1, position: 'relative' }}>
+              <i className="fa-solid fa-search" style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '0.7rem' }}></i>
+              <input 
+                placeholder="ค้นหาชื่อ..." 
+                value={searchQuery} 
+                onChange={e => setSearchQuery(e.target.value)} 
+                style={{ width: '100%', padding: '0.35rem 0.3rem 0.35rem 1.6rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.75rem', outline: 'none' }} 
+              />
+              {searchQuery && <button onClick={() => setSearchQuery('')} style={{ position:'absolute', right:'6px', top:'50%', transform:'translateY(-50%)', background:'none', border:'none', cursor:'pointer', color:'#94a3b8', fontSize:'0.7rem' }}>✕</button>}
+            </div>
+            <select value={salesFilter} onChange={e => setSalesFilter(e.target.value)} style={{ padding: '0.35rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.7rem', minWidth: '70px', color: salesFilter === 'all' ? '#94a3b8' : '#0f172a' }}>
+              <option value="all">เซลทั้งหมด</option>
+              {allSalesNames.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
           </div>
 
           {/* Contact Items */}
