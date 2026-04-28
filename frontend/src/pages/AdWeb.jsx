@@ -513,10 +513,7 @@ export default function AdWeb() {
                         fontSize: '0.65rem', fontWeight: 'bold', padding: '0 5px'
                       }}>{unreadCount > 99 ? '99+' : unreadCount}</div>
                     ) : chatStatus === 'read' ? (
-                      <div style={{ display:'flex', alignItems:'center', gap:'4px' }}>
-                        <div style={{ width:'10px', height:'10px', borderRadius:'50%', background:'#f59e0b' }} title="อ่านแล้ว ยังไม่ตอบ"></div>
-                        <button onClick={(e) => { e.stopPropagation(); markEnded(lead.id); }} title="จบการสนทนานี้" style={{ background:'#10b981', color:'white', border:'none', borderRadius:'10px', padding:'0.15rem 0.35rem', fontSize:'0.55rem', cursor:'pointer', fontWeight:'bold' }}>✓ จบ</button>
-                      </div>
+                      <div style={{ width:'10px', height:'10px', borderRadius:'50%', background:'#f59e0b' }} title="อ่านแล้ว ยังไม่ตอบ"></div>
                     ) : null}
                 </div>
               </div>
