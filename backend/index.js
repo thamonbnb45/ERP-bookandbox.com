@@ -1796,6 +1796,60 @@ app.get('/api/daily-stats', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ═══════════════════════════════════════════════════════════════
+// Customer Quotes — ประวัติราคาที่เสนอลูกค้า (per lead)
+// ═══════════════════════════════════════════════════════════════
+app.get('/api/customer_quotes/:leadId', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('customer_quotes')
+      .select('*')
+      .eq('lead_id', req.params.leadId)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    res.json(data || []);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/customer_quotes', async (req, res) => {
+  try {
+    const { lead_id, product_name, category, specs, quantity, price_per_unit, total_price, quoted_by, notes, pdf_url } = req.body;
+    const { data, error } = await supabase.from('customer_quotes')
+      .insert([{ lead_id, product_name, category, specs, quantity, price_per_unit, total_price, quoted_by, notes, pdf_url, status: 'quoted' }])
+      .select().single();
+    if (error) throw error;
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/customer_quotes/:id', async (req, res) => {
+  try {
+    const { status, notes, price_per_unit, total_price, product_name, specs, quantity, pdf_url } = req.body;
+    const updatePayload = { updated_at: new Date().toISOString() };
+    if (status) updatePayload.status = status;
+    if (notes !== undefined) updatePayload.notes = notes;
+    if (price_per_unit !== undefined) updatePayload.price_per_unit = price_per_unit;
+    if (total_price !== undefined) updatePayload.total_price = total_price;
+    if (product_name !== undefined) updatePayload.product_name = product_name;
+    if (specs !== undefined) updatePayload.specs = specs;
+    if (quantity !== undefined) updatePayload.quantity = quantity;
+    if (pdf_url !== undefined) updatePayload.pdf_url = pdf_url;
+    const { data, error } = await supabase.from('customer_quotes')
+      .update(updatePayload)
+      .eq('id', req.params.id)
+      .select().single();
+    if (error) throw error;
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/customer_quotes/:id', async (req, res) => {
+  try {
+    const { error } = await supabase.from('customer_quotes').delete().eq('id', req.params.id);
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
