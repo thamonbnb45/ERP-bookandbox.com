@@ -39,25 +39,26 @@ export default function AdWeb() {
   const [platformFilter, setPlatformFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [salesFilter, setSalesFilter] = useState('all');
-  // ★ LINE-Style Read Tracking (v3 — force reset ALL old data)
-  const READ_VERSION = 'chatReadV3';
+  // ★ LINE-Style Read Tracking (v4 — fix stale closure)
+  const READ_VERSION = 'chatReadV4';
   const [readTimestamps, setReadTimestamps] = useState(() => {
     try {
       const ver = localStorage.getItem('chatReadVersion');
       if (ver === READ_VERSION) return JSON.parse(localStorage.getItem('readTimestamps') || '{}');
-      // Version mismatch → wipe everything and start fresh
       localStorage.removeItem('readTimestamps');
       localStorage.removeItem('endedChats');
       localStorage.removeItem('chatInitDone');
       return {};
     } catch { return {}; }
   });
+  const readTsRef = useRef(readTimestamps);
   const [endedChats, setEndedChats] = useState(() => {
     try { return JSON.parse(localStorage.getItem('endedChats') || '{}'); } catch { return {}; }
   });
   const [autoInitDone, setAutoInitDone] = useState(() => localStorage.getItem('chatInitDone') === 'true');
 
   const saveReadTimestamps = (ts) => {
+    readTsRef.current = ts;
     setReadTimestamps(ts);
     localStorage.setItem('readTimestamps', JSON.stringify(ts));
     localStorage.setItem('chatReadVersion', READ_VERSION);
@@ -65,7 +66,7 @@ export default function AdWeb() {
   const markAsRead = (leadId, msgs) => {
     if (!msgs || msgs.length === 0) return;
     const lastMsgTime = msgs[msgs.length - 1].created_at;
-    const updated = { ...readTimestamps, [leadId]: lastMsgTime };
+    const updated = { ...readTsRef.current, [leadId]: lastMsgTime };
     saveReadTimestamps(updated);
     if (endedChats[leadId]) {
       const ec = { ...endedChats };
@@ -75,7 +76,7 @@ export default function AdWeb() {
     }
   };
   const markAllRead = () => {
-    const updated = { ...readTimestamps };
+    const updated = { ...readTsRef.current };
     leads.forEach(l => { if (l.messages?.length) updated[l.id] = l.messages[l.messages.length - 1].created_at; });
     saveReadTimestamps(updated);
   };
