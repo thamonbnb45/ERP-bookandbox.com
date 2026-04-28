@@ -37,22 +37,23 @@ export default function AdWeb() {
   const [activeLeadId, setActiveLeadId] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
-  // ★ LINE-Style Read Tracking (v2 — force reset old data)
-  const READ_VERSION = 'chatReadV2';
+  // ★ LINE-Style Read Tracking (v3 — force reset ALL old data)
+  const READ_VERSION = 'chatReadV3';
   const [readTimestamps, setReadTimestamps] = useState(() => {
     try {
       const ver = localStorage.getItem('chatReadVersion');
       if (ver === READ_VERSION) return JSON.parse(localStorage.getItem('readTimestamps') || '{}');
-      // First time or version upgrade → start fresh (will auto-init below)
+      // Version mismatch → wipe everything and start fresh
       localStorage.removeItem('readTimestamps');
       localStorage.removeItem('endedChats');
+      localStorage.removeItem('chatInitDone');
       return {};
     } catch { return {}; }
   });
   const [endedChats, setEndedChats] = useState(() => {
     try { return JSON.parse(localStorage.getItem('endedChats') || '{}'); } catch { return {}; }
   });
-  const [autoInitDone, setAutoInitDone] = useState(false);
+  const [autoInitDone, setAutoInitDone] = useState(() => localStorage.getItem('chatInitDone') === 'true');
 
   const saveReadTimestamps = (ts) => {
     setReadTimestamps(ts);
@@ -155,12 +156,13 @@ export default function AdWeb() {
   const fetchChats = () => {
     axios.get(`${API_URL}/chats`).then(res => {
         setLeads(res.data);
-        // Auto-init: first time with v2 → mark all existing as read
-        if (!autoInitDone && Object.keys(readTimestamps).length === 0 && res.data.length > 0) {
+        // Auto-init: first load after version upgrade → mark all as read
+        if (!autoInitDone && res.data.length > 0) {
           const initTs = {};
           res.data.forEach(l => { if (l.messages?.length) initTs[l.id] = l.messages[l.messages.length - 1].created_at; });
           saveReadTimestamps(initTs);
           setAutoInitDone(true);
+          localStorage.setItem('chatInitDone', 'true');
         }
         setActiveLeadId(prevId => {
             if (prevId === null && res.data.length > 0) {

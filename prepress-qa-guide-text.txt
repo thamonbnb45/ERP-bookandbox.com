@@ -1,0 +1,5757 @@
+=== PAGE 1 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+PREPRESS
+ 
+QA
+ 
+Migration
+ 
+Guide
+ 
+Base44
+  
+→
+  
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+ 
+แ อ
+ป
+พ ล ิ
+เ ค ช ั น
+ 
+chubby-print-pixel-pro
+ 
+ร ะ บ บ
+ป ั จ จ ุ บ ั น
+ 
+Base44
+ 
+BaaS
+ 
+ร ะ บ บ
+เ ป ้ า ห ม า ย
+ 
+Google
+ 
+Antigravity
+ 
+IDE
+ 
++
+ 
+Supabase
+ 
+ว ั น
+ท ี่
+จ ั ด
+ท ํ า
+ 
+24
+ 
+เ ม ษ า ย น
+ 
+2569
+ 
+จ ั ด
+ท ํ า
+โ ด ย
+ 
+Claude
+ 
+(Anthropic)
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+1
+ 
+
+=== PAGE 2 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+1.
+ 
+ภาพ
+รวม
+แอ
+ป
+พล ิ
+เคช ั น
+ 
+(App
+ 
+Overview)
+ 
+Prepress
+ 
+QA
+ 
+ค ื อ
+ร ะ บ บ
+ต ร ว จ
+ส อ บ
+ไ ฟ ล ์ พ ิ ม พ ์
+ส ํ า ห ร ั บ
+โ ร ง
+พ ิ ม พ ์
+ 
+ท ํ า
+ห น ้ า ท ี่
+เ ป ร ี ย บ เ ท ี ย บ
+ไ ฟ ล ์ ต ้ น ฉ บ ั บ
+ 
+(Master)
+ 
+ก ั บ
+ไ ฟ ล ์ พ ร ้ อ ม
+พ ิ ม พ ์
+ 
+(Print
+ 
+Ready)
+ 
+แ บ บ
+ 
+Pixel-level
+ 
+เ พ ื่ อ
+ต ร ว จ
+ห า ค ว า ม
+แ ต ก
+ต ่ า ง
+ 
+ข น า ด
+ไ ม ่
+ต ร ง
+ 
+ต ั ว
+อ ั ก ษ ร
+ผ ิ ด
+ 
+แ ล ะ
+ 
+Bleed
+ 
+ท ี่
+ข า ด
+ห า ย
+ก ่ อ น
+ส ่ ง
+โ ร ง
+พ ิ ม พ ์
+ 
+1.1
+ 
+ฟ ี เ จ อ
+ร ์ ห ล ั ก
+ข อ ง
+ร ะ บ บ
+ 
+•
+ 
+อ ั ป โ ห ล ด ไ ฟ ล ์
+ 
+PDF/PNG/JPG/AI
+ 
+ท ั ้ ง
+ฝ ั่ ง
+ 
+Master
+ 
+แ ล ะ
+ 
+Print
+ 
+Ready
+ 
+•
+ 
+เ ป ร ี ย บ เ ท ี ย บ
+ภ า พ
+แ บ บ
+ 
+Pixel-level
+ 
+พ ร ้ อ ม
+ 
+Shift
+ 
+Tolerance
+ 
+(
+ย ื ด ห ย ุ่ น
+ไ ด ้
+ 
+±2mm)
+ 
+•
+ 
+ต ร ว จ
+จ ั บ
+ 
+Bleed
+ 
+อ ั ต โ น ม ั ต ิ
+ 
+แ ล ะ
+ต ั ด
+พ ื้ น ท ี่
+ 
+Bleed
+ 
+ก ่ อ น
+เ ป ร ี ย บ เ ท ี ย บ
+ 
+•
+ 
+ต ร ว จ
+ข น า ด
+เ อ ก ส า ร
+ 
+เ ช ่ น
+ 
+A4,
+ 
+A5,
+ 
+A3
+ 
+—
+ 
+แ จ ้ ง
+เ ต ื อ น
+ถ ้ า
+ไ ม ่
+ต ร ง
+ม า ต ร ฐ า น
+ 
+•
+ 
+Spell
+ 
+Check
+ 
+บ น
+ 
+Canvas
+ 
+(OCR-based)
+ 
+•
+ 
+บ ั น ท ึ ก
+ 
+QA
+ 
+Record
+ 
+อ ั ต โ น ม ั ต ิ
+ล ง
+ฐ า น
+ข ้ อ ม ู ล
+ 
+ห ล ั ง
+ต ร ว จ
+เ ส ร ็ จ
+ 
+•
+ 
+ห น ้ า
+ 
+Reports
+ 
+—
+ 
+ด ู
+ป ร ะ ว ั ต ิ ก า ร
+ต ร ว จ
+ 
+ก ร อ ง
+ต า ม
+ 
+ว ั น
+/
+ส ั ป ด า ห ์
+/
+เ ด ื อ น
+/
+ป ี
+ 
+•
+ 
+ห น ้ า
+ 
+Admin
+ 
+Settings
+ 
+—
+ 
+ต ั ้ ง
+ค ่ า
+ 
+Threshold,
+ 
+Bleed,
+ 
+ข น า ด
+,
+ 
+Regex
+ 
+Job
+ 
+Code
+ 
+•
+ 
+ร ะ บ บ
+ 
+Role
+ 
+—
+ 
+admin
+ 
+เ ห ็ น
+ข ้ อ ม ู ล
+ท ุ ก
+ค น
+,
+ 
+user
+ 
+เ ห ็ น
+เ ฉ พ า ะ
+ง า น
+ต ั ว
+เ อ ง
+ 
+ 
+1.2
+ 
+Tech
+ 
+Stack
+ 
+ป ั จ จ ุ บ ั น
+ 
+ส ่ ว น ป ร ะ ก อ บ
+ 
+ท ี่
+ใ ช ้
+อ ย ู ่
+ใ น
+ 
+Base44
+ 
+Frontend
+ 
+Framework
+ 
+React
+ 
+18
+ 
++
+ 
+Vite
+ 
+UI
+ 
+Components
+ 
+shadcn/ui
+ 
++
+ 
+TailwindCSS
+ 
++
+ 
+Radix
+ 
+Animation
+ 
+Framer
+ 
+Motion
+ 
+State
+ 
+/
+ 
+Fetching
+ 
+React
+ 
+Query
+ 
+(@tanstack/react-query)
+ 
+Authentication
+ 
+base44.auth
+ 
+(SDK
+ 
+ข อ ง
+ 
+Base44)
+ 
+Database
+ 
+/
+ 
+ORM
+ 
+base44.entities.QARecord
+ 
+/
+ 
+AdminSettings
+ 
+PDF
+ 
+Rendering
+ 
+pdfjs-dist
+ 
+Routing
+ 
+react-router-dom
+ 
+v6
+ 
+Date
+ 
+utils
+ 
+date-fns
+ 
+Hosting
+ 
+/
+ 
+Backend
+ 
+Base44
+ 
+Cloud
+ 
+(Serverless)
+ 
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+2
+ 
+
+=== PAGE 3 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+2.
+ 
+ส ิ่ ง
+ท ี่
+ต ้ อง
+เปล ี่ ยน
+ใน
+การ
+ 
+Migrate
+ 
+ก า ร
+ 
+migrate
+ 
+ไ ม ่
+ไ ด ้
+เ ข ี ย น
+แ อ
+ป
+ใ ห ม ่
+ท ั ้ ง ห ม ด
+ 
+—
+ 
+Logic
+ 
+ก า ร
+ต ร ว จ
+ส อ บ ไ ฟ ล ์
+ 
+(pixelDiff,
+ 
+bleedCropper,
+ 
+reportGenerator
+ 
+ฯ ล ฯ
+)
+ 
+ย ั ง
+ค ง
+เ ด ิ ม
+ 
+100%
+ 
+ส ิ่ ง
+ท ี่
+ต ้ อ ง
+เ ป ล ี่ ย น
+ม ี
+เ พ ี ย ง
+ 
+3
+ 
+ส ่ ว น
+:
+ 
+ 
+  
+✅
+ 
+ส ่ ว น
+ท ี่
+ไ ม ่
+ต ้ อ ง
+เ ป ล ี่ ย น
+เ ล ย
+ 
+(Keep
+ 
+As-Is)
+ 
+src/lib/pixelDif f.js
+ 
+—
+ 
+อ ั ลกอร ิ
+ท ึ ม
+ 
+pixel
+ 
+comparison
+ 
+src/lib/bleedCropper .js
+ 
+—
+ 
+การ
+ตรวจ
+จ ั บ
+และ
+ต ั ด
+ 
+Bleed
+ 
+src/lib/reportGenerator .js
+ 
+—
+ 
+การ
+สร ้ าง
+รายงาน
+ 
+QA
+ 
+src/lib/pdfRenderer .js
+ 
+—
+ 
+render
+ 
+PDF
+ 
+เป ็ น
+ 
+Canvas
+ 
+src/lib/imageLoader .js
+ 
+—
+ 
+โหล
+ด
+ไฟล ์ ร ู ปภาพ
+ 
+src/lib/jobCodeParser .js
+ 
+—
+ 
+parse
+ 
+รห ั ส
+งาน
+ 
+src/lib/spellChecker .js
+ 
+—
+ 
+ตรวจ
+ค ํ า
+ 
+src/components/prepress/*
+ 
+—
+ 
+UI
+ 
+ท ั ้ งหมด
+ของ
+ 
+Prepress
+ 
+src/components/reports/*
+ 
+—
+ 
+UI
+ 
+ท ั ้ งหมด
+ของ
+ 
+Reports
+ 
+src/components/ui/*
+ 
+—
+ 
+shadcn/ui
+ 
+components
+ 
+tailwind.config.js,
+ 
+package.json
+ 
+(
+ยกเว ้ น
+ 
+remove
+ 
+@base44/sdk)
+ 
+ 
+  
+🔄
+ 
+ส ่ ว น
+ท ี่
+ต ้ อ ง
+แ ก ้ ไ ข
+ 
+(Replace)
+ 
+src/api/base44Client.js
+ 
+→
+ 
+src/api/supabaseClient.js
+ 
+(
+เปล ี่ ยน
+ 
+SDK)
+ 
+src/lib/AuthContext.jsx
+ 
+→
+ 
+ใช ้
+ 
+Supabase
+ 
+Auth
+ 
+แทน
+ 
+base44.auth
+ 
+src/lib/app-params.js
+ 
+→
+ 
+ลบ
+ท ิ้ ง
+ 
+(
+ไม ่
+จ ํ าเป ็ น
+)
+ 
+src/lib/settingsManager .js
+ 
+→
+ 
+เปล ี่ ยน
+ 
+API
+ 
+calls
+ 
+ให ้
+ใช ้
+ 
+Supabase
+ 
+src/pages/Home.jsx
+ 
+→
+ 
+เปล ี่ ยน
+เฉพาะ
+ส ่ วน
+ 
+saveQARecord
+ 
++
+ 
+auth.me()
+ 
+src/pages/Reports.jsx
+ 
+→
+ 
+เปล ี่ ยน
+ 
+query
+ 
+ให ้
+ใช ้
+ 
+Supabase
+ 
+src/pages/AdminSettings.jsx
+ 
+→
+ 
+เปล ี่ ยน
+ 
+CRUD
+ 
+ให ้
+ใช ้
+ 
+Supabase
+ 
+.env
+ 
+→
+ 
+ใส ่
+ 
+VITE_SUP ABASE_URL
+ 
+และ
+ 
+VITE_SUP ABASE_ANON_KEY
+ 
+ 
+  
+🆕
+ 
+ส ิ่ ง
+ท ี่
+ต ้ อ ง
+ส ร ้ า ง
+ใ ห ม ่
+ใ น
+ 
+Supabase
+ 
+สร ้ าง
+ตาราง
+ 
+qa_records
+ 
+(
+แทน
+ 
+entity
+ 
+QARecord)
+ 
+สร ้ าง
+ตาราง
+ 
+admin_settings
+ 
+(
+แทน
+ 
+entity
+ 
+AdminSettings)
+ 
+ต ั ้ ง
+ค ่ า
+ 
+Row
+ 
+Level
+ 
+Security
+ 
+(RLS)
+ 
+—
+ 
+user
+ 
+เห ็ น
+แค ่
+งาน
+ต ั ว
+เอง
+ 
+ต ั ้ ง
+ค ่ า
+ 
+Auth
+ 
+Providers
+ 
+(Email/Google
+ 
+OAuth)
+ 
+สร ้ าง
+หน ้ า
+ 
+Login
+ 
+ใหม ่
+ 
+(src/pages/Login.jsx)
+ 
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+3
+ 
+
+=== PAGE 4 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+3.
+ 
+Database
+ 
+Schema
+ 
+ส ํ าหร ั บ
+ 
+Supabase
+ 
+ร ั น
+ค ํ า ส ั่ ง
+ 
+SQL
+ 
+ต ่ อ
+ไ ป
+น ี้
+ใ น
+ 
+Supabase
+ 
+SQL
+ 
+Editor
+ 
+(Dashboard
+ 
+→
+ 
+SQL
+ 
+Editor
+ 
+→
+ 
+New
+ 
+query)
+ 
+3.1
+ 
+ต า ร า ง
+ 
+qa_records
+ 
+--
+ 
+ต า ร า ง
+ 
+QA
+ 
+Record
+ 
+(
+แ ท น
+ 
+base44.entities.QARecord)
+ 
+CREATE
+ 
+TABLE
+ 
+public.qa_records
+ 
+(
+ 
+  
+id
+            
+UUID
+ 
+DEFAULT
+ 
+gen_random_uuid()
+ 
+PRIMARY
+ 
+KEY,
+ 
+  
+job_code
+      
+TEXT
+ 
+NOT
+ 
+NULL,
+ 
+  
+job_year
+      
+TEXT,
+ 
+  
+job_month
+     
+TEXT,
+ 
+  
+job_sequence
+  
+TEXT,
+ 
+  
+checker_email
+ 
+TEXT
+ 
+NOT
+ 
+NULL,
+ 
+  
+checker_name
+  
+TEXT,
+ 
+  
+master_filename
+  
+TEXT,
+ 
+  
+print_filename
+   
+TEXT,
+ 
+  
+master_pages
+     
+INTEGER,
+ 
+  
+print_pages
+      
+INTEGER,
+ 
+  
+matched_pages
+    
+INTEGER,
+ 
+  
+mismatched_pages
+ 
+INTEGER,
+ 
+  
+is_ready
+      
+BOOLEAN
+ 
+NOT
+ 
+NULL
+ 
+DEFAULT
+ 
+false,
+ 
+  
+has_errors
+    
+BOOLEAN
+ 
+DEFAULT
+ 
+true,
+ 
+  
+error_details
+ 
+TEXT
+ 
+DEFAULT
+ 
+'',
+ 
+  
+detected_size
+ 
+TEXT,
+ 
+  
+document_type
+ 
+TEXT
+ 
+DEFAULT
+ 
+'flyer',
+ 
+  
+bleed_detected
+ 
+BOOLEAN
+ 
+DEFAULT
+ 
+false,
+ 
+  
+bleed_mm
+      
+NUMERIC
+ 
+DEFAULT
+ 
+0,
+ 
+  
+check_date
+    
+DATE
+ 
+NOT
+ 
+NULL
+ 
+DEFAULT
+ 
+CURRENT_DATE,
+ 
+  
+created_at
+    
+TIMESTAMPTZ
+ 
+DEFAULT
+ 
+now()
+ 
+);
+ 
+ 
+--
+ 
+Index
+ 
+ส ํา ห ร ับ
+ 
+filter
+ 
+ต า ม
+ว ัน
+ท ี่
+แ ล ะ
+ 
+email
+ 
+CREATE
+ 
+INDEX
+ 
+idx_qa_records_date
+ 
+ON
+ 
+public.qa_records(check_date
+ 
+DESC);
+ 
+CREATE
+ 
+INDEX
+ 
+idx_qa_records_email
+ 
+ON
+ 
+public.qa_records(checker_email);
+ 
+ 
+3.2
+ 
+ต า ร า ง
+ 
+admin_settings
+ 
+--
+ 
+ต า ร า ง
+ 
+Admin
+ 
+Settings
+ 
+(
+แ ท น
+ 
+base44.entities.AdminSettings)
+ 
+CREATE
+ 
+TABLE
+ 
+public.admin_settings
+ 
+(
+ 
+  
+id
+            
+UUID
+ 
+DEFAULT
+ 
+gen_random_uuid()
+ 
+PRIMARY
+ 
+KEY,
+ 
+  
+setting_key
+   
+TEXT
+ 
+NOT
+ 
+NULL
+ 
+UNIQUE,
+ 
+  
+setting_value
+ 
+TEXT
+ 
+NOT
+ 
+NULL,
+ 
+  
+setting_group
+ 
+TEXT
+ 
+NOT
+ 
+NULL
+ 
+CHECK
+ 
+(setting_group
+ 
+IN
+ 
+                  
+('bleed','sizes','folds','comparison','general')),
+ 
+  
+description
+   
+TEXT,
+ 
+  
+updated_at
+    
+TIMESTAMPTZ
+ 
+DEFAULT
+ 
+now()
+ 
+);
+ 
+ 
+3.3
+ 
+Row
+ 
+Level
+ 
+Security
+ 
+(RLS)
+ 
+ต ั ้ ง
+ค ่ า
+ 
+RLS
+ 
+เ พ ื่ อ ใ ห ้
+ 
+user
+ 
+เ ห ็ น
+เ ฉ พ า ะ
+ง า น
+ต ั ว
+เ อ ง
+ 
+แ ล ะ
+ 
+admin
+ 
+เ ห ็ น
+ท ั ้ ง ห ม ด
+:
+ 
+--
+ 
+เ ป ด
+ 
+RLS
+ 
+ALTER
+ 
+TABLE
+ 
+public.qa_records
+ 
+ENABLE
+ 
+ROW
+ 
+LEVEL
+ 
+SECURITY;
+ 
+ALTER
+ 
+TABLE
+ 
+public.admin_settings
+ 
+ENABLE
+ 
+ROW
+ 
+LEVEL
+ 
+SECURITY;
+ 
+ 
+--
+ 
+qa_records:
+ 
+user
+ 
+เ ห ็น
+แ ค 
+ง า น
+ต ัว
+เ อ ง
+ 
+CREATE
+ 
+POLICY
+ 
+"Users
+ 
+see
+ 
+own
+ 
+records"
+ 
+ON
+ 
+public.qa_records
+ 
+  
+FOR
+ 
+SELECT
+ 
+USING
+ 
+(checker_email
+ 
+=
+ 
+auth.jwt()->>'email');
+ 
+ 
+--
+ 
+qa_records:
+ 
+admin
+ 
+เ ห ็น
+ท ั้ง ห ม ด
+ 
+CREATE
+ 
+POLICY
+ 
+"Admins
+ 
+see
+ 
+all
+ 
+records"
+ 
+ON
+ 
+public.qa_records
+ 
+  
+FOR
+ 
+SELECT
+ 
+USING
+ 
+(
+ 
+    
+auth.jwt()->'user_metadata'->>'role'
+ 
+=
+ 
+'admin'
+ 
+  
+);
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+4
+ 
+
+=== PAGE 5 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+--
+ 
+qa_records:
+ 
+insert
+ 
+ไ ด 
+เ ส ม อ
+ 
+(
+ห ล ัง
+ 
+login)
+ 
+CREATE
+ 
+POLICY
+ 
+"Auth
+ 
+users
+ 
+can
+ 
+insert"
+ 
+ON
+ 
+public.qa_records
+ 
+  
+FOR
+ 
+INSERT
+ 
+WITH
+ 
+CHECK
+ 
+(auth.uid()
+ 
+IS
+ 
+NOT
+ 
+NULL);
+ 
+ 
+--
+ 
+admin_settings:
+ 
+อ า น
+ไ ด 
+ท ุก
+ค น
+,
+ 
+แ ก 
+ไ ด 
+เ ฉ พ า ะ
+ 
+admin
+ 
+CREATE
+ 
+POLICY
+ 
+"Anyone
+ 
+can
+ 
+read
+ 
+settings"
+ 
+ON
+ 
+public.admin_settings
+ 
+  
+FOR
+ 
+SELECT
+ 
+USING
+ 
+(true);
+ 
+CREATE
+ 
+POLICY
+ 
+"Only
+ 
+admin
+ 
+can
+ 
+modify
+ 
+settings"
+ 
+ON
+ 
+public.admin_settings
+ 
+  
+FOR
+ 
+ALL
+ 
+USING
+ 
+(
+ 
+    
+auth.jwt()->'user_metadata'->>'role'
+ 
+=
+ 
+'admin'
+ 
+  
+);
+ 
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+5
+ 
+
+=== PAGE 6 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+4.
+ 
+การ
+เปล ี่ ยนโค ้ ด
+ 
+(Code
+ 
+Migration)
+ 
+4.1
+ 
+ต ิ ด
+ต ั้ ง
+ 
+Supabase
+ 
+SDK
+ 
+#
+ 
+ล บ
+ 
+Base44
+ 
+SDK
+ 
+อ อ ก
+ 
+npm
+ 
+uninstall
+ 
+@base44/sdk
+ 
+ 
+#
+ 
+ต ิด
+ต ั้ง
+ 
+Supabase
+ 
+SDK
+ 
+npm
+ 
+install
+ 
+@supabase/supabase-js
+ 
+ 
+4.2
+ 
+ไ ฟ ล ์
+ 
+.env
+ 
+#
+ 
+.env
+ 
+(
+ส ร า ง
+ใ ห ม 
+)
+ 
+VITE_SUPABASE_URL=https://xxxxxxxxx.supabase.co
+ 
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...
+ 
+ 
+#
+ 
+ห า
+ 
+URL
+ 
+แ ล ะ
+ 
+Key
+ 
+ไ ด ท ี่
+:
+ 
+Supabase
+ 
+Dashboard
+ 
+→
+ 
+Project
+ 
+Settings
+ 
+→
+ 
+API
+ 
+ 
+4.3
+ 
+src/api/supabaseClient.js
+  
+(
+แ ท น
+ 
+base44Client.js)
+ 
+import
+ 
+{
+ 
+createClient
+ 
+}
+ 
+from
+ 
+'@supabase/supabase-js';
+ 
+ 
+export
+ 
+const
+ 
+supabase
+ 
+=
+ 
+createClient(
+ 
+  
+import.meta.env.VITE_SUPABASE_URL,
+ 
+  
+import.meta.env.VITE_SUPABASE_ANON_KEY
+ 
+);
+ 
+ 
+4.4
+ 
+src/lib/AuthContext.jsx
+  
+(
+เ ป ล ี่ ย น
+ 
+Auth)
+ 
+เ ป ล ี่ ย น
+จ า ก
+ใ ช ้
+ 
+base44.auth
+ 
+เ ป ็ น
+ 
+supabase.auth.getUser()
+ 
+/
+ 
+onAuthStateChange()
+ 
+import
+ 
+{
+ 
+supabase
+ 
+}
+ 
+from
+ 
+'@/api/supabaseClient';
+ 
+ 
+export
+ 
+const
+ 
+AuthProvider
+ 
+=
+ 
+({
+ 
+children
+ 
+})
+ 
+=>
+ 
+{
+ 
+  
+const
+ 
+[user,
+ 
+setUser]
+ 
+=
+ 
+useState(null);
+ 
+  
+const
+ 
+[isLoading,
+ 
+setIsLoading]
+ 
+=
+ 
+useState(true);
+ 
+ 
+  
+useEffect(()
+ 
+=>
+ 
+{
+ 
+    
+//
+ 
+โ ห ล
+ด
+ 
+session
+ 
+ค ร ั้ง
+แ ร ก
+ 
+    
+supabase.auth.getSession().then(({
+ 
+data:
+ 
+{
+ 
+session
+ 
+}
+ 
+})
+ 
+=>
+ 
+{
+ 
+      
+setUser(session?.user
+ 
+??
+ 
+null);
+ 
+      
+setIsLoading(false);
+ 
+    
+});
+ 
+    
+//
+ 
+ฟ ง
+ก า ร
+เ ป ล ี่ย น แ ป ล ง
+ 
+auth
+ 
+state
+ 
+    
+const
+ 
+{
+ 
+data:
+ 
+listener
+ 
+}
+ 
+=
+ 
+supabase.auth.onAuthStateChange(
+ 
+      
+(_event,
+ 
+session)
+ 
+=>
+ 
+setUser(session?.user
+ 
+??
+ 
+null)
+ 
+    
+);
+ 
+    
+return
+ 
+()
+ 
+=>
+ 
+listener.subscription.unsubscribe();
+ 
+  
+},
+ 
+[]);
+ 
+ 
+  
+const
+ 
+logout
+ 
+=
+ 
+()
+ 
+=>
+ 
+supabase.auth.signOut();
+ 
+  
+const
+ 
+isAdmin
+ 
+=
+ 
+user?.user_metadata?.role
+ 
+===
+ 
+'admin';
+ 
+ 
+  
+return
+ 
+(
+ 
+    
+<AuthContext.Provider
+ 
+value={{
+ 
+user,
+ 
+isLoading,
+ 
+logout,
+ 
+isAdmin
+ 
+}}>
+ 
+      
+{isLoading
+ 
+?
+ 
+<LoadingSpinner
+ 
+/>
+ 
+:
+ 
+children}
+ 
+    
+</AuthContext.Provider>
+ 
+  
+);
+ 
+};
+ 
+ 
+4.5
+ 
+ต า ร า ง
+ 
+Mapping:
+ 
+Base44
+ 
+API
+ 
+→
+ 
+Supabase
+ 
+API
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+6
+ 
+
+=== PAGE 7 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+Base44
+ 
+(
+เ ด ิ ม
+)
+ 
+Supabase
+ 
+(
+ใ ห ม ่
+)
+ 
+base44.auth.me()
+ 
+supabase.auth.getUser()
+ 
+base44.auth.logout()
+ 
+supabase.auth.signOut()
+ 
+base44.auth.redirectToLogin()
+ 
+navigate('/login')
+ 
+—
+ 
+ส ร ้ า ง
+ห น ้ า
+ 
+Login
+ 
+เ อ ง
+ 
+base44.entities.QARecord.create({...})
+ 
+supabase.from('qa_records').insert({..
+.})
+ 
+QARecord.list('-created_date',
+ 
+500)
+ 
+supabase.from('qa_records')
+  
+.select('*')
+  
+.order('created_at',{ascending:false})
+  
+.limit(500)
+ 
+AdminSettings.list()
+ 
+supabase.from('admin_settings').select
+('*')
+ 
+AdminSettings.filter({setting_key:k})
+ 
+supabase.from('admin_settings')
+  
+.select('*').eq('setting_key',k)
+ 
+AdminSettings.update(id,
+ 
+{...})
+ 
+supabase.from('admin_settings')
+  
+.update({...}).eq('id',id)
+ 
+AdminSettings.create({...})
+ 
+supabase.from('admin_settings').insert
+({...})
+ 
+ 
+4.6
+ 
+src/lib/settingsManager.js
+  
+(
+เ ป ล ี่ ย น
+ 
+API)
+ 
+เ ป ล ี่ ย น
+เ ฉ พ า ะ
+ส ่ ว น
+ 
+loadSettings,
+ 
+saveSetting
+ 
+—
+ 
+Logic
+ 
+DEFAULTS
+ 
+แ ล ะ
+ 
+Cache
+ 
+ค ง
+เ ด ิ ม
+ 
+import
+ 
+{
+ 
+supabase
+ 
+}
+ 
+from
+ 
+'@/api/supabaseClient';
+ 
+ 
+export
+ 
+async
+ 
+function
+ 
+loadSettings()
+ 
+{
+ 
+  
+const
+ 
+{
+ 
+data:
+ 
+rows
+ 
+}
+ 
+=
+ 
+await
+ 
+supabase
+ 
+    
+.from('admin_settings').select('*');
+ 
+  
+const
+ 
+merged
+ 
+=
+ 
+{
+ 
+...DEFAULTS
+ 
+};
+ 
+  
+for
+ 
+(const
+ 
+row
+ 
+of
+ 
+rows
+ 
+??
+ 
+[])
+ 
+{
+ 
+    
+try
+ 
+{
+ 
+merged[row.setting_key]
+ 
+=
+ 
+JSON.parse(row.setting_value);
+ 
+}
+ 
+    
+catch
+ 
+{
+ 
+merged[row.setting_key]
+ 
+=
+ 
+row.setting_value;
+ 
+}
+ 
+  
+}
+ 
+  
+return
+ 
+merged;
+ 
+}
+ 
+ 
+export
+ 
+async
+ 
+function
+ 
+saveSetting(key,
+ 
+value,
+ 
+group,
+ 
+description)
+ 
+{
+ 
+  
+const
+ 
+valueStr
+ 
+=
+ 
+typeof
+ 
+value==='string'
+ 
+?
+ 
+value
+ 
+:
+ 
+JSON.stringify(value);
+ 
+  
+await
+ 
+supabase.from('admin_settings')
+ 
+    
+.upsert({
+ 
+setting_key:
+ 
+key,
+ 
+setting_value:
+ 
+valueStr,
+ 
+              
+setting_group:
+ 
+group,
+ 
+description,
+ 
+              
+updated_at:
+ 
+new
+ 
+Date().toISOString()
+ 
+},
+ 
+            
+{
+ 
+onConflict:
+ 
+'setting_key'
+ 
+});
+ 
+  
+invalidateSettingsCache();
+ 
+}
+ 
+ 
+4.7
+ 
+src/pages/Home.jsx
+  
+(
+เ ป ล ี่ ย น
+เ ฉ พ า ะ
+ 
+saveQARecord)
+ 
+เ ป ล ี่ ย น
+เ ฉ พ า ะ
+ฟ ั ง ก ์ ช ั น
+ 
+saveQARecord
+ 
+แ ล ะ
+ 
+auth.me()
+ 
+—
+ 
+UI/Logic
+ 
+ค ง
+เ ด ิ ม
+ท ั ้ ง ห ม ด
+ 
+import
+ 
+{
+ 
+supabase
+ 
+}
+ 
+from
+ 
+'@/api/supabaseClient';
+ 
+import
+ 
+{
+ 
+useAuth
+ 
+}
+ 
+from
+ 
+'@/lib/AuthContext';
+ 
+ 
+//
+ 
+ใ น
+ 
+component
+ 
+Home:
+ 
+const
+ 
+{
+ 
+user
+ 
+}
+ 
+=
+ 
+useAuth();
+  
+//
+ 
+แ ท น
+ 
+base44.auth.me()
+ 
+ 
+const
+ 
+saveQARecord
+ 
+=
+ 
+async
+ 
+(rpt)
+ 
+=>
+ 
+{
+ 
+  
+setSavingRecord(true);
+ 
+  
+const
+ 
+code
+ 
+=
+ 
+jobCode
+ 
+||
+ 
+parseJobCode(masterFile?.name||'')
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+7
+ 
+
+=== PAGE 8 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+              
+||
+ 
+parseJobCode(printFile?.name||'?');
+ 
+  
+const
+ 
+today
+ 
+=
+ 
+new
+ 
+Date().toISOString().split('T')[0];
+ 
+  
+await
+ 
+supabase.from('qa_records').insert({
+ 
+    
+job_code:
+        
+code?.code
+ 
+||
+ 
+masterFile?.name
+ 
+||
+ 
+'UNKNOWN',
+ 
+    
+job_year:
+        
+code?.year
+ 
+||
+ 
+'',
+ 
+    
+job_month:
+       
+code?.month
+ 
+||
+ 
+'',
+ 
+    
+job_sequence:
+    
+code?.sequence
+ 
+||
+ 
+'',
+ 
+    
+checker_email:
+   
+user?.email
+ 
+||
+ 
+'',
+ 
+    
+checker_name:
+    
+user?.user_metadata?.full_name
+ 
+||
+ 
+user?.email
+ 
+||
+ 
+'',
+ 
+    
+master_filename:
+ 
+masterFile?.name
+ 
+||
+ 
+'',
+ 
+    
+print_filename:
+  
+printFile?.name
+ 
+||
+ 
+'',
+ 
+    
+master_pages:
+    
+rpt.summary.masterPages,
+ 
+    
+print_pages:
+     
+rpt.summary.printPages,
+ 
+    
+matched_pages:
+   
+rpt.summary.masterPages-(rpt.summary.pagesWithDiffs||0),
+ 
+    
+mismatched_pages:rpt.summary.pagesWithDiffs
+ 
+||
+ 
+0,
+ 
+    
+is_ready:
+        
+rpt.isReady,
+ 
+    
+has_errors:
+      
+!rpt.isReady,
+ 
+    
+error_details:
+   
+rpt.issues.map(d=>d.issue).join(';
+ 
+')
+ 
+||
+ 
+'',
+ 
+    
+detected_size:
+   
+rpt.summary.detectedSize
+ 
+||
+ 
+'
+ไ ม 
+ท ร า บ
+',
+ 
+    
+document_type:
+   
+'flyer',
+ 
+    
+bleed_detected:
+  
+rpt.summary.hasBleed
+ 
+||
+ 
+false,
+ 
+    
+bleed_mm:
+        
+rpt.summary.bleedMm
+ 
+||
+ 
+0,
+ 
+    
+check_date:
+      
+today,
+ 
+  
+});
+ 
+  
+setSavingRecord(false);
+ 
+};
+ 
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+8
+ 
+
+=== PAGE 9 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+5.
+ 
+Prompt
+ 
+ส ํ าหร ั บ
+ 
+Google
+ 
+Antigravity
+ 
+น ํ า
+ 
+Prompt
+ 
+ต ่ อ
+ไ ป
+น ี้
+ไ ป
+ว า ง
+ใ น
+ 
+Antigravity
+ 
+IDE
+ 
+(
+ใ ช ้
+ 
+Planning
+ 
+Mode
+ 
+เ พ ื่ อ ใ ห ้
+ 
+AI
+ 
+ส ร ้ า ง
+ 
+task
+ 
+list
+ 
+ก ่ อ น
+)
+ 
+ 
+5.1
+ 
+MASTER
+ 
+PROMPT
+ 
+—
+ 
+ส ํ า ห ร ั บ
+ส ร ้ า ง
+แ อ
+ป
+ใ ห ม ่
+ท ั้ ง ห ม ด
+ 
+ว า ง
+ 
+Prompt
+ 
+น ี้
+ค ร ั ้ ง
+เ ด ี ย ว
+ใ น
+ 
+Antigravity
+ 
+Planning
+ 
+Mode:
+ 
+ 
+I
+ 
+have
+ 
+a
+ 
+Prepress
+ 
+QA
+ 
+web
+ 
+application
+ 
+(React
+ 
++
+ 
+Vite
+ 
++
+ 
+TailwindCSS
+ 
++
+ 
+shadcn/ui)
+ 
+that
+ 
+currently
+ 
+uses
+ 
+Base44
+ 
+as
+ 
+its
+ 
+backend.
+ 
+I
+ 
+want
+ 
+to
+ 
+migrate
+ 
+it
+ 
+to
+ 
+use
+ 
+Supabase.
+ 
+ 
+The
+ 
+app
+ 
+is
+ 
+a
+ 
+print-shop
+ 
+quality
+ 
+control
+ 
+tool
+ 
+that:
+ 
+-
+ 
+Compares
+ 
+two
+ 
+files
+ 
+(Master
+ 
+vs
+ 
+Print
+ 
+Ready)
+ 
+at
+ 
+the
+ 
+pixel
+ 
+level
+ 
+-
+ 
+Detects
+ 
+bleed,
+ 
+size
+ 
+mismatches,
+ 
+spelling
+ 
+errors
+ 
+-
+ 
+Auto-saves
+ 
+QA
+ 
+records
+ 
+to
+ 
+a
+ 
+database
+ 
+after
+ 
+each
+ 
+check
+ 
+-
+ 
+Has
+ 
+a
+ 
+Reports
+ 
+page
+ 
+(filter
+ 
+by
+ 
+daily/weekly/monthly/yearly)
+ 
+-
+ 
+Has
+ 
+an
+ 
+Admin
+ 
+Settings
+ 
+page
+ 
+(bleed_mm,
+ 
+diff_threshold,
+ 
+render_scale,
+ 
+etc.)
+ 
+-
+ 
+Has
+ 
+role-based
+ 
+access:
+ 
+admin
+ 
+sees
+ 
+all
+ 
+records,
+ 
+user
+ 
+sees
+ 
+only
+ 
+their
+ 
+own
+ 
+ 
+IMPORTANT:
+ 
+Do
+ 
+NOT
+ 
+rewrite
+ 
+the
+ 
+core
+ 
+comparison
+ 
+logic.
+ 
+These
+ 
+files
+ 
+are
+ 
+correct
+ 
+and
+ 
+should
+ 
+remain
+ 
+unchanged:
+ 
+-
+ 
+src/lib/pixelDiff.js
+ 
+-
+ 
+src/lib/bleedCropper.js
+ 
+-
+ 
+src/lib/reportGenerator.js
+ 
+-
+ 
+src/lib/pdfRenderer.js
+ 
+-
+ 
+src/lib/spellChecker.js
+ 
+-
+ 
+src/components/prepress/*
+ 
+-
+ 
+src/components/reports/*
+ 
+ 
+TASKS:
+ 
+1.
+ 
+Replace
+ 
+@base44/sdk
+ 
+with
+ 
+@supabase/supabase-js
+ 
+2.
+ 
+Create
+ 
+src/api/supabaseClient.js
+ 
+using
+ 
+VITE_SUPABASE_URL
+ 
+&
+ 
+VITE_SUPABASE_ANON_KEY
+ 
+3.
+ 
+Rewrite
+ 
+src/lib/AuthContext.jsx
+ 
+using
+ 
+supabase.auth.onAuthStateChange
+ 
+4.
+ 
+Create
+ 
+src/pages/Login.jsx
+ 
+with
+ 
+email/password
+ 
++
+ 
+Google
+ 
+OAuth
+ 
+login
+ 
+5.
+ 
+Rewrite
+ 
+settingsManager.js
+ 
+to
+ 
+use
+ 
+supabase
+ 
+CRUD
+ 
+for
+ 
+admin_settings
+ 
+table
+ 
+6.
+ 
+Update
+ 
+Home.jsx
+ 
+saveQARecord()
+ 
+to
+ 
+insert
+ 
+into
+ 
+qa_records
+ 
+table
+ 
+7.
+ 
+Update
+ 
+Reports.jsx
+ 
+to
+ 
+query
+ 
+qa_records
+ 
+using
+ 
+supabase-js
+ 
+8.
+ 
+Update
+ 
+AdminSettings.jsx
+ 
+to
+ 
+upsert
+ 
+into
+ 
+admin_settings
+ 
+using
+ 
+supabase-js
+ 
+9.
+ 
+Add
+ 
+protected
+ 
+route:
+ 
+redirect
+ 
+to
+ 
+/login
+ 
+if
+ 
+not
+ 
+authenticated
+ 
+ 
+The
+ 
+Supabase
+ 
+tables
+ 
+already
+ 
+exist:
+ 
+  
+qa_records
+     
+(id,
+ 
+job_code,
+ 
+checker_email,
+ 
+is_ready,
+ 
+check_date,
+ 
+...)
+ 
+  
+admin_settings
+ 
+(id,
+ 
+setting_key,
+ 
+setting_value,
+ 
+setting_group,
+ 
+...)
+ 
+ 
+user
+ 
+role
+ 
+is
+ 
+stored
+ 
+in
+ 
+user.user_metadata.role
+ 
+===
+ 
+"admin"
+ 
+checker_name
+ 
+comes
+ 
+from
+ 
+user.user_metadata.full_name
+ 
+ 
+5.2
+ 
+Prompt
+ 
+เ ฉ พ า ะ ห น ้ า
+ 
+Login
+ 
+Create
+ 
+src/pages/Login.jsx
+ 
+—
+ 
+a
+ 
+login
+ 
+page
+ 
+for
+ 
+the
+ 
+Prepress
+ 
+QA
+ 
+app.
+ 
+ 
+Requirements:
+ 
+-
+ 
+Use
+ 
+@supabase/supabase-js
+ 
+(already
+ 
+installed)
+ 
+-
+ 
+Support
+ 
+Email
+ 
++
+ 
+Password
+ 
+login
+ 
+(supabase.auth.signInWithPassword)
+ 
+-
+ 
+Support
+ 
+Google
+ 
+OAuth
+ 
+login
+ 
+(supabase.auth.signInWithOAuth)
+ 
+-
+ 
+After
+ 
+login,
+ 
+redirect
+ 
+to
+ 
+"/"
+ 
+(home)
+ 
+-
+ 
+Use
+ 
+TailwindCSS
+ 
++
+ 
+shadcn/ui
+ 
+Card,
+ 
+Input,
+ 
+Button
+ 
+components
+ 
+-
+ 
+Show
+ 
+Thai
+ 
+text:
+ 
+"
+เ ข า
+ส ู
+ร ะ บ บ
+ 
+Prepress
+ 
+QA",
+ 
+"
+อ ีเ ม ล
+",
+ 
+"
+ร ห ัส
+ผ า น
+"
+ 
+-
+ 
+Show
+ 
+loading
+ 
+state
+ 
+while
+ 
+logging
+ 
+in
+ 
+-
+ 
+Show
+ 
+error
+ 
+message
+ 
+in
+ 
+Thai
+ 
+if
+ 
+login
+ 
+fails
+ 
+-
+ 
+If
+ 
+user
+ 
+is
+ 
+already
+ 
+logged
+ 
+in,
+ 
+redirect
+ 
+to
+ 
+"/"
+ 
+ 
+Import
+ 
+supabase
+ 
+from
+ 
+"@/api/supabaseClient"
+ 
+Import
+ 
+useAuth
+ 
+from
+ 
+"@/lib/AuthContext"
+ 
+to
+ 
+check
+ 
+if
+ 
+already
+ 
+logged
+ 
+in
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+9
+ 
+
+=== PAGE 10 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+ 
+5.3
+ 
+Prompt
+ 
+ส ํ า ห ร ั บ
+ 
+RLS
+ 
+Admin
+ 
+Role
+ 
+In
+ 
+Supabase
+ 
+Dashboard,
+ 
+I
+ 
+need
+ 
+to
+ 
+set
+ 
+up
+ 
+user
+ 
+roles.
+ 
+ 
+For
+ 
+each
+ 
+admin
+ 
+user,
+ 
+run
+ 
+this
+ 
+SQL
+ 
+to
+ 
+set
+ 
+their
+ 
+role:
+ 
+ 
+UPDATE
+ 
+auth.users
+ 
+SET
+ 
+raw_user_meta_data
+ 
+=
+ 
+raw_user_meta_data
+ 
+||
+ 
+'{"role":"admin"}'
+ 
+WHERE
+ 
+email
+ 
+=
+ 
+'admin@yourcompany.com';
+ 
+ 
+For
+ 
+regular
+ 
+users,
+ 
+role
+ 
+will
+ 
+be
+ 
+absent
+ 
+or
+ 
+"user".
+ 
+ 
+In
+ 
+the
+ 
+React
+ 
+app,
+ 
+check
+ 
+admin
+ 
+role
+ 
+with:
+ 
+  
+user?.user_metadata?.role
+ 
+===
+ 
+"admin"
+ 
+ 
+5.4
+ 
+Prompt
+ 
+ส ํ า ห ร ั บ
+ 
+Reports
+ 
+Page
+ 
+Rewrite
+ 
+src/pages/Reports.jsx
+ 
+to
+ 
+use
+ 
+Supabase
+ 
+instead
+ 
+of
+ 
+Base44.
+ 
+ 
+Current
+ 
+logic
+ 
+to
+ 
+preserve:
+ 
+-
+ 
+Filter
+ 
+by
+ 
+period:
+ 
+daily/weekly/monthly/yearly
+ 
+(using
+ 
+date-fns)
+ 
+-
+ 
+Filter
+ 
+by
+ 
+checker
+ 
+email
+ 
+(admin
+ 
+only
+ 
+sees
+ 
+all
+ 
+users)
+ 
+-
+ 
+Show
+ 
+stats
+ 
+cards:
+ 
+total
+ 
+checks,
+ 
+ready
+ 
+count,
+ 
+error
+ 
+count,
+ 
+pass
+ 
+rate
+ 
+-
+ 
+Show
+ 
+checker
+ 
+summary
+ 
+table
+ 
+(admin
+ 
+only)
+ 
+-
+ 
+Show
+ 
+records
+ 
+table
+ 
+with
+ 
+job_code,
+ 
+checker,
+ 
+status,
+ 
+date
+ 
+ 
+Replace:
+ 
+  
+base44.entities.QARecord.list('-created_date',
+ 
+500)
+ 
+With:
+ 
+  
+supabase.from('qa_records')
+ 
+    
+.select('*')
+ 
+    
+.order('created_at',
+ 
+{
+ 
+ascending:
+ 
+false
+ 
+})
+ 
+    
+.limit(500)
+ 
+ 
+Replace:
+ 
+  
+base44.auth.me()
+ 
+With:
+ 
+  
+useAuth()
+ 
+hook
+ 
+from
+ 
+AuthContext
+ 
+—
+ 
+get
+ 
+user.email
+ 
+and
+ 
+isAdmin
+ 
+ 
+Keep
+ 
+all
+ 
+filter
+ 
+logic
+ 
+and
+ 
+UI
+ 
+exactly
+ 
+as
+ 
+it
+ 
+is.
+ 
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+10
+ 
+
+=== PAGE 11 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+6.
+ 
+ข ั้ น
+ตอน
+ 
+Migration
+ 
+Step-by-Step
+ 
+ 
+Phase
+ 
+1
+ 
+—
+ 
+ต ั้ ง
+ค ่ า
+ 
+Supabase
+ 
+(15
+ 
+น า ท ี
+)
+ 
+1.
+ 
+ไ ป
+ท ี่
+ 
+supabase.com
+ 
+→
+ 
+ส ร ้ า ง
+ 
+Project
+ 
+ใ ห ม ่
+ 
+2.
+ 
+ไ ป
+ 
+SQL
+ 
+Editor
+ 
+→
+ 
+ว า ง
+ 
+SQL
+ 
+จ า ก
+ 
+Section
+ 
+3
+ 
+(
+ส ร ้ า ง
+ต า ร า ง
+ 
+qa_records,
+ 
+admin_settings)
+ 
+3.
+ 
+ต ั ้ ง
+ค ่ า
+ 
+RLS
+ 
+จ า ก
+ 
+Section
+ 
+3.3
+ 
+4.
+ 
+ไ ป
+ 
+Authentication
+ 
+→
+ 
+Providers
+ 
+→
+ 
+เ ป ิ ด
+ 
+Email
+ 
+แ ล ะ
+ 
+Google
+ 
+OAuth
+ 
+5.
+ 
+ไ ป
+ 
+Project
+ 
+Settings
+ 
+→
+ 
+API
+ 
+→
+ 
+copy
+ 
+URL
+ 
+แ ล ะ
+ 
+anon
+ 
+key
+ 
+ 
+Phase
+ 
+2
+ 
+—
+ 
+แ ก ้ โ ค ้ ด
+ 
+React
+ 
+(30
+ 
+น า ท ี
+)
+ 
+6.
+ 
+ส ร ้ า ง ไ ฟ ล ์
+ 
+.env
+ 
+ใ ส ่
+ 
+VITE_SUPABASE_URL
+ 
+แ ล ะ
+ 
+VITE_SUPABASE_ANON_KEY
+ 
+7.
+ 
+ร ั น
+:
+ 
+npm
+ 
+uninstall
+ 
+@base44/sdk
+ 
+&&
+ 
+npm
+ 
+install
+ 
+@supabase/supabase-js
+ 
+8.
+ 
+ส ร ้ า ง
+ 
+src/api/supabaseClient.js
+ 
+(Section
+ 
+4.2)
+ 
+9.
+ 
+เ ข ี ย น
+ 
+AuthContext.jsx
+ 
+ใ ห ม ่
+ 
+(Section
+ 
+4.4)
+ 
+10.
+ 
+เ ข ี ย น
+ 
+settingsManager.js
+ 
+ใ ห ม ่
+ 
+(Section
+ 
+4.6)
+ 
+11.
+ 
+แ ก ้
+ 
+Home.jsx
+ 
+เ ฉ พ า ะ
+ 
+saveQARecord
+ 
+(Section
+ 
+4.7)
+ 
+12.
+ 
+แ ก ้
+ 
+Reports.jsx
+ 
+เ ป ล ี่ ย น
+ 
+query
+ 
+13.
+ 
+แ ก ้
+ 
+AdminSettings.jsx
+ 
+เ ป ล ี่ ย น
+ 
+CRUD
+ 
+calls
+ 
+14.
+ 
+ส ร ้ า ง
+ 
+src/pages/Login.jsx
+ 
+15.
+ 
+เ พ ิ่ ม
+ 
+Route
+ 
+/login
+ 
+แ ล ะ
+ 
+ProtectedRoute
+ 
+ใ น
+ 
+App.jsx
+ 
+ 
+Phase
+ 
+3
+ 
+—
+ 
+ท ด ส อ บ
+ 
+(15
+ 
+น า ท ี
+)
+ 
+16.
+ 
+ร ั น
+ 
+npm
+ 
+run
+ 
+dev
+ 
+→
+ 
+ท ด ส อ บ
+ 
+login/logout
+ 
+17.
+ 
+ท ด ส อ บ
+อ ั ป โ ห ล ด ไ ฟ ล ์
+ 
++
+ 
+เ ป ร ี ย บ เ ท ี ย บ
+ 
+→
+ 
+ต ร ว จ
+ว ่ า
+ 
+QA
+ 
+Record
+ 
+บ ั น ท ึ ก
+ล ง
+ 
+Supabase
+ 
+18.
+ 
+ท ด ส อ บ
+ 
+Reports
+ 
+page
+ 
+—
+ 
+ก ร อ ง
+ต า ม
+ว ั น
+ท ี่
+ 
+19.
+ 
+ท ด ส อ บ
+ 
+Admin
+ 
+Settings
+ 
+—
+ 
+บ ั น ท ึ ก
+ค ่ า
+แ ล ้ ว
+ร ี
+โ ห ล
+ด
+ 
+20.
+ 
+ท ด ส อ บ
+ 
+Role:
+ 
+user
+ 
+เ ห ็ น
+แ ค ่
+ง า น
+ต ั ว
+เ อ ง
+,
+ 
+admin
+ 
+เ ห ็ น
+ท ั ้ ง ห ม ด
+ 
+ 
+Phase
+ 
+4
+ 
+—
+ 
+Deploy
+ 
+แ น ะ น ํ า
+ 
+Deploy
+ 
+บ น
+ 
+Vercel
+ 
+เ พ ร า ะ
+ง ่ า ย
+แ ล ะ
+ฟ ร ี
+:
+ 
+#
+ 
+ต ิด
+ต ั้ง
+ 
+Vercel
+ 
+CLI
+ 
+npm
+ 
+install
+ 
+-g
+ 
+vercel
+ 
+ 
+#
+ 
+Deploy
+ 
+vercel
+ 
+--prod
+ 
+ 
+#
+ 
+ใ ส 
+ 
+Environment
+ 
+Variables
+ 
+ใ น
+ 
+Vercel
+ 
+Dashboard:
+ 
+#
+ 
+VITE_SUPABASE_URL=...
+ 
+#
+ 
+VITE_SUPABASE_ANON_KEY=...
+ 
+ 
+ห ร ื อ
+ก ด
+ 
+Deploy
+ 
+ผ ่ า น
+ 
+Vercel
+ 
+Dashboard
+ 
+โ ด ย
+ 
+connect
+ 
+GitHub
+ 
+repo
+ 
+แ ล ้ ว
+ใ ส ่
+ 
+VITE_*
+ 
+variables
+ 
+ใ น
+ 
+Settings
+ 
+→
+ 
+Environment
+ 
+Variables
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+11
+ 
+
+=== PAGE 12 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+12
+ 
+
+=== PAGE 13 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+7.
+ 
+จ ุ ด
+ท ี่
+แนะน ํ า
+ให ้
+เพ ิ่ มเต ิ ม
+ 
+(Enhancements)
+ 
+น อ ก จ า ก
+ก า ร
+ 
+migrate
+ 
+แ ล ้ ว
+ 
+ร ะ บ บ
+ย ั ง
+ม ี
+จ ุ ด
+ท ี่
+ส า ม า ร ถ
+พ ั ฒ น า
+เ พ ิ่ ม
+ไ ด ้
+ด ั ง น ี้
+:
+ 
+ 
+7.1
+ 
+เ ก ็ บ
+ไ ฟ ล ์ ใ น
+ 
+Supabase
+ 
+Storage
+ 
+(High
+ 
+Value)
+ 
+ป ั จ จ ุ บ ั น
+ร ะ บ บ
+เ ป ร ี ย บ เ ท ี ย บ
+ไ ฟ ล ์ ใ น
+ 
+Browser
+ 
+Memory
+ 
+แ ต ่
+ไ ม ่
+ไ ด ้
+เ ก ็ บ
+ไ ฟ ล ์ ไ ว ้
+ 
+ก า ร
+เ พ ิ่ ม
+ 
+Storage
+ 
+จ ะ
+ช ่ ว ย
+ใ ห ้
+:
+ 
+•
+ 
+ต ร ว จ
+ส อ บ
+ย ้ อ น
+ห ล ั ง
+ไ ด ้
+ 
+—
+ 
+เ ป ิ ด
+ไ ฟ ล ์ เ ก ่ า
+ก ล ั บ
+ม า
+ด ู
+ไ ด ้
+ 
+•
+ 
+ห ั ว ห น ้ า
+ต ร ว จ
+ส อ บ
+ง า น
+ข อ ง
+ท ี ม
+ไ ด ้
+ 
+•
+ 
+Export
+ 
+ร า ย ง า น
+ 
+PDF
+ 
+พ ร ้ อ ม
+ร ู ป ภ า พ
+ 
+Diff
+ 
+//
+ 
+อ ัป โ ห ล ด
+ไ ฟ ล ห ล ัง
+ต ร ว จ
+เ ส ร ็จ
+ 
+await
+ 
+supabase.storage
+ 
+  
+.from('qa-files')
+ 
+  
+.upload(`${today}/${jobCode}/${masterFile.name}`,
+ 
+masterFile);
+ 
+ 
+7.2
+ 
+Export
+ 
+ร า ย ง า น
+ 
+PDF
+ 
+เ พ ิ่ ม
+ป ุ ่ ม
+ 
+"Export
+ 
+PDF"
+ 
+ใ น
+ 
+ReportDashboard
+ 
+ท ี่
+ส ร ้ า ง
+ 
+PDF
+ 
+พ ร ้ อ ม
+ 
+Diff
+ 
+Canvas
+ 
+โ ด ย
+ใ ช ้
+ 
+jsPDF
+ 
++
+ 
+html2canvas:
+ 
+npm
+ 
+install
+ 
+jspdf
+ 
+html2canvas
+ 
+ 
+//
+ 
+ใ น
+ 
+ReportDashboard.jsx
+ 
+import
+ 
+jsPDF
+ 
+from
+ 
+'jspdf';
+ 
+import
+ 
+html2canvas
+ 
+from
+ 
+'html2canvas';
+ 
+ 
+const
+ 
+exportPDF
+ 
+=
+ 
+async
+ 
+()
+ 
+=>
+ 
+{
+ 
+  
+const
+ 
+canvas
+ 
+=
+ 
+await
+ 
+html2canvas(reportRef.current);
+ 
+  
+const
+ 
+pdf
+ 
+=
+ 
+new
+ 
+jsPDF();
+ 
+  
+pdf.addImage(canvas,
+ 
+'PNG',
+ 
+10,
+ 
+10,
+ 
+190,
+ 
+0);
+ 
+  
+pdf.save(`QA-${jobCode}-${today}.pdf`);
+ 
+};
+ 
+ 
+7.3
+ 
+แ จ ้ ง
+เ ต ื อ น
+ผ ่ า น
+ 
+LINE
+ 
+Notify
+ 
+เ ม ื่ อ
+ 
+QA
+ 
+ไ ม ่
+ผ ่ า น
+ 
+(is_ready=false)
+ 
+ใ ห ้
+ส ่ ง
+ข ้ อ ค ว า ม
+แ จ ้ ง
+เ ต ื อ น
+ห ั ว ห น ้ า
+ผ ่ า น
+ 
+LINE:
+ 
+//
+ 
+ส ร า ง
+ 
+Supabase
+ 
+Edge
+ 
+Function:
+ 
+notify-line
+ 
+export
+ 
+default
+ 
+async
+ 
+(req)
+ 
+=>
+ 
+{
+ 
+  
+const
+ 
+{
+ 
+record
+ 
+}
+ 
+=
+ 
+await
+ 
+req.json();
+ 
+  
+if
+ 
+(!record.is_ready)
+ 
+{
+ 
+    
+await
+ 
+fetch('https://notify-api.line.me/api/notify',
+ 
+{
+ 
+      
+method:
+ 
+'POST',
+ 
+      
+headers:
+ 
+{
+ 
+Authorization:
+ 
+`Bearer
+ 
+${LINE_TOKEN}`
+ 
+},
+ 
+      
+body:
+ 
+new
+ 
+URLSearchParams({
+ 
+        
+message:
+ 
+`
+⚠
+ 
+QA
+ 
+ไ ม 
+ผ า น
+:
+ 
+${record.
+job_code}
+\n
+ผ ู
+ต ร ว จ
+:
+ 
+${record.
+checker_name}
+\n
+ข อ
+ผ ิด
+พ ล า ด
+:
+ 
+${record.error_details.slice(0,100)}`
+ 
+      
+})
+ 
+    
+});
+ 
+  
+}
+ 
+}
+ 
+ 
+7.4
+ 
+Dashboard
+ 
+Analytics
+ 
+(Realtime)
+ 
+ใ ช ้
+ 
+Supabase
+ 
+Realtime
+ 
+เ พ ื่ อ ใ ห ้
+ห น ้ า
+ 
+Reports
+ 
+อ ั ป เ ด ต
+ท ั น ท ี
+เ ม ื่ อ
+ม ี
+ง า น
+ใ ห ม ่
+:
+ 
+useEffect(()
+ 
+=>
+ 
+{
+ 
+  
+const
+ 
+channel
+ 
+=
+ 
+supabase
+ 
+    
+.channel('qa_records')
+ 
+    
+.on('postgres_changes',
+ 
+      
+{
+ 
+event:
+ 
+'INSERT',
+ 
+schema:
+ 
+'public',
+ 
+table:
+ 
+'qa_records'
+ 
+},
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+13
+ 
+
+=== PAGE 14 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+      
+()
+ 
+=>
+ 
+queryClient.invalidateQueries(['qa-records'])
+ 
+    
+).subscribe();
+ 
+  
+return
+ 
+()
+ 
+=>
+ 
+supabase.removeChannel(channel);
+ 
+},
+ 
+[]);
+ 
+ 
+7.5
+ 
+ก า ร
+ต ร ว จ
+จ ั บ
+ป ร ะ เ ภ ท
+ง า น
+ 
+(Document
+ 
+Type
+ 
+Auto-detect)
+ 
+ป ั จ จ ุ บ ั น
+ 
+document_type
+ 
+ถ ู ก
+ 
+hardcode
+ 
+เ ป ็ น
+ 
+"flyer"
+ 
+เ ส ม อ
+ 
+ค ว ร
+เ พ ิ่ ม
+ก า ร
+ต ร ว จ
+จ ั บ
+อ ั ต โ น ม ั ต ิ
+จ า ก
+ข น า ด
+เ อ ก ส า ร
+:
+ 
+ข น า ด
+ 
+document_type
+ 
+A4
+ 
+(21×29.7
+ 
+cm)
+ 
+—
+ 
+1
+ 
+ห น ้ า
+ 
+flyer
+ 
+A4
+ 
+—
+ 
+3
+ 
+ห น ้ า
+ 
+(
+ม ี
+ 
+3
+ 
+Panel)
+ 
+brochure_2fold
+ 
+A4
+ 
+—
+ 
+3
+ 
+ห น ้ า
+เ ท ่ า
+ก ั น
+ 
+brochure_spring3
+ 
+A3
+ 
+(29.7×42
+ 
+cm)
+ 
+poster
+ 
+อ ื่ น ๆ
+ 
+other
+ 
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+14
+ 
+
+=== PAGE 15 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+8.
+ 
+App.jsx
+ 
+ใหม ่
+ 
+(
+โครงสร ้ าง
+หล ั ง
+ย ้ าย
+)
+ 
+App.jsx
+ 
+จ ะ
+เ ป ล ี่ ย น
+เ พ ี ย ง
+เ ล ็ ก น ้ อ ย
+ 
+—
+ 
+เ พ ิ่ ม
+ 
+Route
+ 
+/login
+ 
+แ ล ะ
+ 
+ProtectedRoute:
+ 
+import
+ 
+{
+ 
+Toaster
+ 
+}
+ 
+from
+ 
+"@/components/ui/toaster"
+ 
+import
+ 
+{
+ 
+QueryClientProvider
+ 
+}
+ 
+from
+ 
+'@tanstack/react-query'
+ 
+import
+ 
+{
+ 
+queryClientInstance
+ 
+}
+ 
+from
+ 
+'@/lib/query-client'
+ 
+import
+ 
+{
+ 
+BrowserRouter,
+ 
+Route,
+ 
+Routes,
+ 
+Navigate
+ 
+}
+ 
+from
+ 
+'react-router-dom';
+ 
+import
+ 
+{
+ 
+AuthProvider,
+ 
+useAuth
+ 
+}
+ 
+from
+ 
+'@/lib/AuthContext';
+ 
+import
+ 
+Home
+ 
+from
+ 
+'@/pages/Home';
+ 
+import
+ 
+Reports
+ 
+from
+ 
+'@/pages/Reports';
+ 
+import
+ 
+AdminSettings
+ 
+from
+ 
+'@/pages/AdminSettings';
+ 
+import
+ 
+Login
+ 
+from
+ 
+'@/pages/Login';
+ 
+ 
+const
+ 
+ProtectedRoute
+ 
+=
+ 
+({
+ 
+children
+ 
+})
+ 
+=>
+ 
+{
+ 
+  
+const
+ 
+{
+ 
+user,
+ 
+isLoading
+ 
+}
+ 
+=
+ 
+useAuth();
+ 
+  
+if
+ 
+(isLoading)
+ 
+return
+ 
+<LoadingSpinner
+ 
+/>;
+ 
+  
+if
+ 
+(!user)
+ 
+return
+ 
+<Navigate
+ 
+to="/login"
+ 
+replace
+ 
+/>;
+ 
+  
+return
+ 
+children;
+ 
+};
+ 
+ 
+function
+ 
+App()
+ 
+{
+ 
+  
+return
+ 
+(
+ 
+    
+<AuthProvider>
+ 
+      
+<QueryClientProvider
+ 
+client={queryClientInstance}>
+ 
+        
+<BrowserRouter>
+ 
+          
+<Routes>
+ 
+            
+<Route
+ 
+path="/login"
+ 
+element={<Login
+ 
+/>}
+ 
+/>
+ 
+            
+<Route
+ 
+path="/"
+ 
+element={
+ 
+              
+<ProtectedRoute><Home
+ 
+/></ProtectedRoute>}
+ 
+/>
+ 
+            
+<Route
+ 
+path="/reports"
+ 
+element={
+ 
+              
+<ProtectedRoute><Reports
+ 
+/></ProtectedRoute>}
+ 
+/>
+ 
+            
+<Route
+ 
+path="/settings"
+ 
+element={
+ 
+              
+<ProtectedRoute><AdminSettings
+ 
+/></ProtectedRoute>}
+ 
+/>
+ 
+          
+</Routes>
+ 
+        
+</BrowserRouter>
+ 
+        
+<Toaster
+ 
+/>
+ 
+      
+</QueryClientProvider>
+ 
+    
+</AuthProvider>
+ 
+  
+);
+ 
+}
+ 
+ 
+export
+ 
+default
+ 
+App;
+ 
+ 
+ 
+ 
+9.
+ 
+สร ุ ป
+ 
+ห ั ว ข ้ อ
+ 
+ส ถ า น ะ
+ 
+/
+ 
+ห ม า ย เ ห ต ุ
+ 
+Logic
+ 
+ต ร ว จ
+ส อ บ ไ ฟ ล ์
+ 
+(Pixel
+ 
+Diff,
+ 
+Bleed)
+ 
+ไ ม ่
+ต ้ อ ง
+แ ก ้
+ 
+—
+ 
+ค ง
+เ ด ิ ม
+ 
+100%
+ 
+Frontend
+ 
+UI
+ 
+(shadcn/ui,
+ 
+TailwindCSS)
+ 
+ไ ม ่
+ต ้ อ ง
+แ ก ้
+ 
+—
+ 
+ค ง
+เ ด ิ ม
+ 
+100%
+ 
+Authentication
+ 
+แ ก ้ ไ ข
+ 
+—
+ 
+เ ป ล ี่ ย น
+ 
+base44.auth
+ 
+→
+ 
+Supabase
+ 
+Auth
+ 
+Database
+ 
+API
+ 
+แ ก ้ ไ ข
+ 
+—
+ 
+เ ป ล ี่ ย น
+ 
+base44.entities
+ 
+→
+ 
+Supabase
+ 
+Login
+ 
+Page
+ 
+ส ร ้ า ง
+ใ ห ม ่
+ 
+—
+ 
+src/pages/Login.jsx
+ 
+Hosting
+ 
+ใ ช ้
+ 
+Vercel
+ 
+ห ร ื อ
+ 
+Netlify
+ 
+(
+ฟ ร ี
+)
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+15
+ 
+
+=== PAGE 16 ===
+Prepress
+ 
+QA
+ 
+—
+ 
+Migration
+ 
+Guide:
+ 
+Base44
+ 
+→
+ 
+Google
+ 
+Antigravity
+ 
++
+ 
+Supabase
+24
+ 
+April
+ 
+2026
+ 
+ป ร ะ ม า ณ
+เ ว ล า
+ 
+migrate
+ 
+~1
+ 
+ช ั ่ ว โ ม ง
+ 
+ค ่ า
+ใ ช ้
+จ ่ า ย
+ 
+Supabase
+ 
+Free
+ 
+tier
+ 
+—
+ 
+50,000
+ 
+rows/month
+ 
+ฟ ร ี
+ 
+ 
+ห า ก
+ใ ช ้
+ 
+Google
+ 
+Antigravity
+ 
+IDE
+ 
+ใ ห ้
+น ํ า
+ 
+Prompt
+ 
+จ า ก
+ 
+Section
+ 
+5.1
+ 
+ไ ป
+ว า ง
+ใ น
+ 
+Planning
+ 
+Mode
+ 
+แ ล ้ ว
+ใ ห ้
+ 
+AI
+ 
+ส ร ้ า ง
+ 
+Task
+ 
+List
+ 
+แ ล ะ
+ด ํ า เ น ิ น
+ก า ร
+ 
+—
+ 
+AI
+ 
+จ ะ
+ต ร ว จ
+ส อ บ
+โ ค ้ ด ท ี่
+ม ี
+อ ย ู่
+แ ล ้ ว
+แ ก ้ ไ ข
+เ ฉ พ า ะ
+ส ่ ว น
+ท ี่
+เ ก ี่ ย ว ข ้ อ ง
+ก ั บ
+ 
+Base44
+ 
+โ ด ย
+ไ ม ่
+แ ต ะ
+ 
+Logic
+ 
+ห ล ั ก
+ 
+ 
+ 
+chubby-print-pixel-pro
+  
+|
+  
+bookandbox24@gmail.comPage
+ 
+16
+ 
+
