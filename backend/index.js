@@ -361,13 +361,20 @@ app.get('/api/chats', async (req, res) => {
         // Filter out seeded mock leads (keep only real LINE/FB/TikTok customers)
         const realLeads = leads.filter(l => !(l.line_user_id && l.line_user_id.startsWith('U_SEED_')));
         
-        // --- BULK FETCH (OPTIMIZED FOR LOW LOAD) ---
-        // 1. Fetch messages only from the last 30 days to prevent payload too large/OOM
-        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-        const { data: allMsgs } = await supabase.from('chat_message')
-            .select('*')
-            .gte('created_at', thirtyDaysAgo)
-            .limit(50000);
+        // --- BULK FETCH (OPTIMIZED FOR LOW LOAD + BYPASS 1000 LIMIT) ---
+        // 1. Fetch messages with pagination to bypass Supabase's 1,000 max_rows server limit
+        const { count } = await supabase.from('chat_message').select('*', { count: 'exact', head: true });
+        const limit = 1000;
+        const pages = Math.ceil((count || 0) / limit);
+        const fetchPromises = [];
+        for (let i = 0; i < pages; i++) {
+            fetchPromises.push(
+                supabase.from('chat_message').select('*').range(i * limit, (i + 1) * limit - 1)
+            );
+        }
+        const results = await Promise.all(fetchPromises);
+        let allMsgs = [];
+        results.forEach(res => { if (res.data) allMsgs = allMsgs.concat(res.data); });
         
         // 2. Skip fetching job_order for all 700+ leads (User requested low load)
         // Analytics will be dummy data for now in the list view
