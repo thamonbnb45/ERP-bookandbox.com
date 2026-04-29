@@ -361,17 +361,15 @@ app.get('/api/chats', async (req, res) => {
         // Filter out seeded mock leads (keep only real LINE/FB/TikTok customers)
         const realLeads = leads.filter(l => !(l.line_user_id && l.line_user_id.startsWith('U_SEED_')));
         
-        // --- BULK FETCH TO PREVENT N+1 QUERY TIMEOUTS ---
-        const leadIds = realLeads.map(l => l.id);
-        const customerIds = [...new Set(realLeads.map(l => l.customer_id).filter(Boolean))];
+        // --- BULK FETCH (OPTIMIZED FOR LOW LOAD) ---
+        // 1. Fetch messages only from the last 30 days to prevent payload too large/OOM
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { data: allMsgs } = await supabase.from('chat_message')
+            .select('*')
+            .gte('created_at', thirtyDaysAgo);
         
-        // 1. Fetch all messages in chunks (Supabase max is typically large enough, but safe to just query all)
-        const { data: allMsgs } = await supabase.from('chat_message').select('*');
-        
-        // 2. Fetch all job orders for analytics
-        const { data: allOrders } = customerIds.length > 0 
-            ? await supabase.from('job_order').select('customer_id, total_price').in('customer_id', customerIds) 
-            : { data: [] };
+        // 2. Skip fetching job_order for all 700+ leads (User requested low load)
+        // Analytics will be dummy data for now in the list view
 
         // Group messages by lead
         const msgsByLead = {};
@@ -383,29 +381,6 @@ app.get('/api/chats', async (req, res) => {
         }
         // Sort each array
         Object.values(msgsByLead).forEach(arr => arr.sort((a,b) => a.id - b.id));
-
-        // Group orders by customer
-        const ordersByCust = {};
-        if (allOrders) {
-            allOrders.forEach(o => {
-                if (!ordersByCust[o.customer_id]) ordersByCust[o.customer_id] = [];
-                ordersByCust[o.customer_id].push(o);
-            });
-        }
-
-        const getTier = (cId) => {
-            if (!cId || !ordersByCust[cId]) return { tier: 'New', totalSpend: 0, repeatCount: 0 };
-            const orders = ordersByCust[cId];
-            const totalSpend = orders.reduce((sum, order) => sum + (order.total_price || 0), 0);
-            let tier = 'C1';
-            if (totalSpend === 0) tier = 'New';
-            else if (totalSpend < 5000) tier = 'C1';
-            else if (totalSpend <= 15000) tier = 'C2';
-            else if (totalSpend <= 50000) tier = 'C3';
-            else if (totalSpend <= 100000) tier = 'C4';
-            else tier = 'C5';
-            return { tier, totalSpend, repeatCount: orders.length };
-        };
 
         const data = realLeads.map((lead) => {
             return {
@@ -422,7 +397,7 @@ app.get('/api/chats', async (req, res) => {
                 industry: lead.industry || null,
                 company_revenue_grade: lead.company_revenue_grade || null,
                 visit_required: lead.visit_required || false,
-                analytics: getTier(lead.customer_id),
+                analytics: { tier: 'กดเพื่อดู', totalSpend: 0, repeatCount: 0 },
                 messages: msgsByLead[lead.id] || []
             };
         });
