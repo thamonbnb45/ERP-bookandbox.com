@@ -363,13 +363,18 @@ app.get('/api/chats', async (req, res) => {
         
         // --- BULK FETCH (OPTIMIZED FOR LOW LOAD + BYPASS 1000 LIMIT) ---
         // 1. Fetch messages with pagination to bypass Supabase's 1,000 max_rows server limit
-        const { count } = await supabase.from('chat_message').select('*', { count: 'exact', head: true });
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { count } = await supabase.from('chat_message').select('*', { count: 'exact', head: true }).gte('created_at', thirtyDaysAgo);
         const limit = 1000;
         const pages = Math.ceil((count || 0) / limit);
         const fetchPromises = [];
         for (let i = 0; i < pages; i++) {
             fetchPromises.push(
-                supabase.from('chat_message').select('*').range(i * limit, (i + 1) * limit - 1)
+                supabase.from('chat_message')
+                    .select('*')
+                    .gte('created_at', thirtyDaysAgo)
+                    .order('id', { ascending: true })
+                    .range(i * limit, (i + 1) * limit - 1)
             );
         }
         const results = await Promise.all(fetchPromises);

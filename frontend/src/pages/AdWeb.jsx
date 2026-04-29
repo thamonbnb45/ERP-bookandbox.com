@@ -563,7 +563,15 @@ export default function AdWeb() {
                 {/* Right: Time + Unread Badge (LINE-style) */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0, gap: '4px', minWidth: '40px' }}>
                     <span style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
-                        {lastMsg.created_at ? new Date(lastMsg.created_at).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) : ''}
+                        {lastMsg.created_at ? (() => {
+                            const d = new Date(lastMsg.created_at);
+                            const now = new Date();
+                            const isToday = d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                            const isYesterday = new Date(now.setDate(now.getDate() - 1)).getDate() === d.getDate() && now.getMonth() === d.getMonth() && now.getFullYear() === d.getFullYear();
+                            if (isToday) return d.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
+                            if (isYesterday) return 'เมื่อวาน';
+                            return d.toLocaleDateString('th-TH', {day:'2-digit', month:'short'});
+                        })() : ''}
                     </span>
                     {unreadCount > 0 ? (
                       <div style={{
