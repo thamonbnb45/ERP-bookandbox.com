@@ -366,7 +366,8 @@ app.get('/api/chats', async (req, res) => {
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
         const { data: allMsgs } = await supabase.from('chat_message')
             .select('*')
-            .gte('created_at', thirtyDaysAgo);
+            .gte('created_at', thirtyDaysAgo)
+            .limit(50000);
         
         // 2. Skip fetching job_order for all 700+ leads (User requested low load)
         // Analytics will be dummy data for now in the list view
