@@ -39,6 +39,7 @@ export default function AdWeb() {
   const [platformFilter, setPlatformFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [salesFilter, setSalesFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all'); // all, unread
   // ★ LINE-Style Read Tracking (v4 — fix stale closure)
   const READ_VERSION = 'chatReadV4';
   const [readTimestamps, setReadTimestamps] = useState(() => {
@@ -201,6 +202,7 @@ export default function AdWeb() {
   
   const filteredLeads = leads.filter(l => {
     if (platformFilter !== 'all' && (l.platform || 'line') !== platformFilter) return false;
+    if (statusFilter === 'unread' && getChatStatus(l) !== 'new') return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       const name = (l.erp_alias_name || l.original_name || '').toLowerCase();
@@ -474,10 +476,15 @@ export default function AdWeb() {
               />
               {searchQuery && <button onClick={() => setSearchQuery('')} style={{ position:'absolute', right:'6px', top:'50%', transform:'translateY(-50%)', background:'none', border:'none', cursor:'pointer', color:'#94a3b8', fontSize:'0.7rem' }}>✕</button>}
             </div>
-            <select value={salesFilter} onChange={e => setSalesFilter(e.target.value)} style={{ padding: '0.35rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.7rem', minWidth: '70px', color: salesFilter === 'all' ? '#94a3b8' : '#0f172a' }}>
-              <option value="all">เซลทั้งหมด</option>
+            <select value={salesFilter} onChange={e => setSalesFilter(e.target.value)} style={{ padding: '0.35rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.7rem', maxWidth: '80px', color: salesFilter === 'all' ? '#94a3b8' : '#0f172a' }}>
+              <option value="all">ทุกเซล</option>
               {allSalesNames.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
+            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ padding: '0.35rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.7rem', color: statusFilter === 'all' ? '#94a3b8' : '#0f172a', background: statusFilter === 'unread' ? '#dcfce7' : 'white' }}>
+              <option value="all">ล่าสุด</option>
+              <option value="unread">🟢 ไม่อ่าน</option>
+            </select>
+            <button onClick={() => { if(confirm('อ่านข้อความทั้งหมด?')) markAllRead(); }} style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', border: '1px solid #e2e8f0', background: 'white', cursor: 'pointer', fontSize: '0.7rem' }} title="อ่านทั้งหมด">✓✓</button>
           </div>
 
           {/* Contact Items */}

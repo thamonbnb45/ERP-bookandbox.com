@@ -398,13 +398,14 @@ app.get('/api/chats', async (req, res) => {
                 company_revenue_grade: lead.company_revenue_grade || null,
                 visit_required: lead.visit_required || false,
                 analytics: { tier: 'กดเพื่อดู', totalSpend: 0, repeatCount: 0 },
-                messages: msgsByLead[lead.id] || []
+                messages: msgsByLead[lead.id] || [],
+                created_at: lead.created_at
             };
         });
-        // Sort by latest message timestamp (newest first)
+        // Sort by latest message timestamp (newest first), fallback to lead.created_at
         data.sort((a, b) => {
-            const aLast = a.messages.length > 0 ? new Date(a.messages[a.messages.length - 1].created_at) : new Date(0);
-            const bLast = b.messages.length > 0 ? new Date(b.messages[b.messages.length - 1].created_at) : new Date(0);
+            const aLast = a.messages.length > 0 ? new Date(a.messages[a.messages.length - 1].created_at) : new Date(a.created_at || 0);
+            const bLast = b.messages.length > 0 ? new Date(b.messages[b.messages.length - 1].created_at) : new Date(b.created_at || 0);
             return bLast - aLast;
         });
         res.json(data);
