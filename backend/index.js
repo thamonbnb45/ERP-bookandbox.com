@@ -360,13 +360,54 @@ app.get('/api/chats', async (req, res) => {
         
         // Filter out seeded mock leads (keep only real LINE/FB/TikTok customers)
         const realLeads = leads.filter(l => !(l.line_user_id && l.line_user_id.startsWith('U_SEED_')));
-        const promises = realLeads.map(async (lead) => {
-            const analytics = await evaluateCustomerTier(lead.customer_id);
-            const { data: msgs } = await supabase.from('chat_message')
-                .select('*')
-                .eq('lead_id', lead.id)
-                .order('id', { ascending: true });
+        
+        // --- BULK FETCH TO PREVENT N+1 QUERY TIMEOUTS ---
+        const leadIds = realLeads.map(l => l.id);
+        const customerIds = [...new Set(realLeads.map(l => l.customer_id).filter(Boolean))];
+        
+        // 1. Fetch all messages in chunks (Supabase max is typically large enough, but safe to just query all)
+        const { data: allMsgs } = await supabase.from('chat_message').select('*');
+        
+        // 2. Fetch all job orders for analytics
+        const { data: allOrders } = customerIds.length > 0 
+            ? await supabase.from('job_order').select('customer_id, total_price').in('customer_id', customerIds) 
+            : { data: [] };
 
+        // Group messages by lead
+        const msgsByLead = {};
+        if (allMsgs) {
+            allMsgs.forEach(m => {
+                if (!msgsByLead[m.lead_id]) msgsByLead[m.lead_id] = [];
+                msgsByLead[m.lead_id].push(m);
+            });
+        }
+        // Sort each array
+        Object.values(msgsByLead).forEach(arr => arr.sort((a,b) => a.id - b.id));
+
+        // Group orders by customer
+        const ordersByCust = {};
+        if (allOrders) {
+            allOrders.forEach(o => {
+                if (!ordersByCust[o.customer_id]) ordersByCust[o.customer_id] = [];
+                ordersByCust[o.customer_id].push(o);
+            });
+        }
+
+        const getTier = (cId) => {
+            if (!cId || !ordersByCust[cId]) return { tier: 'New', totalSpend: 0, repeatCount: 0 };
+            const orders = ordersByCust[cId];
+            const totalSpend = orders.reduce((sum, order) => sum + (order.total_price || 0), 0);
+            let tier = 'C1';
+            if (totalSpend === 0) tier = 'New';
+            else if (totalSpend < 5000) tier = 'C1';
+            else if (totalSpend <= 15000) tier = 'C2';
+            else if (totalSpend <= 50000) tier = 'C3';
+            else if (totalSpend <= 100000) tier = 'C4';
+            else tier = 'C5';
+            return { tier, totalSpend, repeatCount: orders.length };
+        };
+
+        const data = realLeads.map((lead) => {
             return {
                 id: lead.id,
                 line_user_id: lead.line_user_id,
@@ -381,12 +422,10 @@ app.get('/api/chats', async (req, res) => {
                 industry: lead.industry || null,
                 company_revenue_grade: lead.company_revenue_grade || null,
                 visit_required: lead.visit_required || false,
-                analytics: analytics,
-                messages: msgs || []
+                analytics: getTier(lead.customer_id),
+                messages: msgsByLead[lead.id] || []
             };
         });
-
-        const data = await Promise.all(promises);
         // Sort by latest message timestamp (newest first)
         data.sort((a, b) => {
             const aLast = a.messages.length > 0 ? new Date(a.messages[a.messages.length - 1].created_at) : new Date(0);
