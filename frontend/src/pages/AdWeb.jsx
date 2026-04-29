@@ -171,7 +171,7 @@ export default function AdWeb() {
   }, []);
 
   const fetchChats = () => {
-    axios.get(`${API_URL}/chats`).then(res => {
+    axios.get(`${API_URL}/chats?t=${new Date().getTime()}`).then(res => {
         setLeads(res.data);
         // Auto-init: first load after version upgrade → mark all as read
         if (!autoInitDone && res.data.length > 0) {

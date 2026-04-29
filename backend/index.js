@@ -5,8 +5,10 @@ const path = require('path');
 const fs = require('fs');
 const line = require('@line/bot-sdk');
 const { createClient } = require('@supabase/supabase-js');
+const compression = require('compression');
 
 const app = express();
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
@@ -352,9 +354,23 @@ const evaluateCustomerTier = async (customerId) => {
     return { tier, totalSpend, repeatCount };
 };
 
-// CRM Endpoints
+// Memory cache for chats to prevent DB overload from 5s polling
+let chatsCache = { data: null, timestamp: 0 };
+
 app.get('/api/chats', async (req, res) => {
+    // Prevent browser from caching the XHR response (fixes "stuck" UI bug on Safari/Chrome)
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     try {
+        const now = Date.now();
+        // 2.5 second memory cache. Enough to deduplicate concurrent requests from multiple admins
+        // or fast UI re-renders, but fresh enough for a chat app.
+        if (chatsCache.data && (now - chatsCache.timestamp < 2500)) {
+            return res.json(chatsCache.data);
+        }
+
         const { data: leads, error } = await supabase.from('lead_contact').select('*');
         if (error) throw error;
         
@@ -421,6 +437,8 @@ app.get('/api/chats', async (req, res) => {
             const bLast = b.messages.length > 0 ? new Date(b.messages[b.messages.length - 1].created_at) : new Date(b.created_at || 0);
             return bLast - aLast;
         });
+
+        chatsCache = { data, timestamp: Date.now() };
         res.json(data);
     } catch (e) {
         res.status(500).json({ error: e.message });
