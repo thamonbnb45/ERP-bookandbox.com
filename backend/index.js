@@ -359,7 +359,7 @@ app.get('/api/chats', async (req, res) => {
         if (error) throw error;
         
         // Filter out seeded mock leads (keep only real LINE/FB/TikTok customers)
-        const realLeads = leads.filter(l => !l.line_user_id.startsWith('U_SEED_'));
+        const realLeads = leads.filter(l => !(l.line_user_id && l.line_user_id.startsWith('U_SEED_')));
         const promises = realLeads.map(async (lead) => {
             const analytics = await evaluateCustomerTier(lead.customer_id);
             const { data: msgs } = await supabase.from('chat_message')
