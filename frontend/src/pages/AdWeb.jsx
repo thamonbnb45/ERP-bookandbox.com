@@ -484,7 +484,6 @@ export default function AdWeb() {
               <option value="all">ล่าสุด</option>
               <option value="unread">🟢 ไม่อ่าน</option>
             </select>
-            <button onClick={() => { if(confirm('อ่านข้อความทั้งหมด?')) markAllRead(); }} style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', border: '1px solid #e2e8f0', background: 'white', cursor: 'pointer', fontSize: '0.7rem' }} title="อ่านทั้งหมด">✓✓</button>
           </div>
 
           {/* Contact Items */}
