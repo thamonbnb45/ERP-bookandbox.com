@@ -40,8 +40,8 @@ export default function AdWeb() {
   const [searchQuery, setSearchQuery] = useState('');
   const [salesFilter, setSalesFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all'); // all, unread
-  // ★ LINE-Style Read Tracking (v4 — fix stale closure)
-  const READ_VERSION = 'chatReadV4';
+  // ★ LINE-Style Read Tracking (v5 — force reset green badges)
+  const READ_VERSION = 'chatReadV5';
   const [readTimestamps, setReadTimestamps] = useState(() => {
     try {
       const ver = localStorage.getItem('chatReadVersion');
@@ -486,6 +486,7 @@ export default function AdWeb() {
               <option value="all">ล่าสุด</option>
               <option value="unread">🟢 ไม่อ่าน</option>
             </select>
+            <button onClick={markAllRead} title="อ่านทั้งหมด" style={{ padding: '0.3rem 0.5rem', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#f0fdf4', cursor: 'pointer', fontSize: '0.65rem', color: '#16a34a', whiteSpace: 'nowrap' }}>✓ อ่านแล้ว</button>
           </div>
 
           {/* Contact Items */}
