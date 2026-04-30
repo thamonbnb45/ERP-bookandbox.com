@@ -1,0 +1,401 @@
+[
+  {
+    "type": "messageSent",
+    "timestamp": 1777366167556,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611588014531149997",
+      "quoteToken": "KvrT1_vB0a2whHuMWN7rQPSIf8WfMp0yyuRZ5yeVCTdHQ5KcFRkVjmXso9S6DcnaCSWA9vKYstInP3PnBvUBvWXSk6P7lU6tL9fn91_j_uMEMuFVBLePmMpt4a-ham-X8qkjncU0qGyZRyU9sBvrow",
+      "packageId": "11539",
+      "stickerId": "52114110",
+      "stickerResourceType": "ANIMATION",
+      "type": "sticker"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1777366166565_67071380",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777366135747,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "611587961129009418",
+      "type": "text",
+      "quoteToken": "1tVvq3f0w0Z481J44hrGmEVROf-T7aQ8JLOiYmM-Dg-MYB97rSxmtBhQJkJrqn3nW6cNNpedAOl7UXhWkGR8chu3n2f4gCJvvYJlcUeqkCv_5GJc_QjMGmuR4AYVsGdWBlFWaL8UWSU7DryqgQu2aA",
+      "text": "กดผิดครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777366091466,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "611587886873051206",
+      "type": "text",
+      "quoteToken": "K150VT9yMrLi3hCua6iQOvOQId_QWY4lN5h1JFu-kwZOFIsX2G1wt9aiAHmSGaBM6PGHnjxAuj38eK2uAXDcORw5v4T_B5UFc5Rz_tdoKlvULpB3tWmIKh-3uCFH6kAb3sPlhcrpOYdPWb_0sap5UQ",
+      "text": "สนใจออกแบบกล่องครึ่งราคา❤️"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777015963006,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1777015963006
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777011654430,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610993239943807359",
+      "quoteToken": "Jl3wOLLCKHnioPyuEB4q_Qe0mdVtTtvvGmXuu3SZfeURwPIdjXVVC_6q3fjabl4FD7Tcp_S381Z8Ri9c8b9sF5lOVasdfNo3t1r2DdlNu1HI-PLRVjsoU2MYELpDwEkE4ESpGoUzFpacOiI2T-0SoQ",
+      "packageId": "11538",
+      "stickerId": "51626520",
+      "stickerResourceType": "ANIMATION",
+      "type": "sticker"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1777011653232_52165840",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777011592864,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "610993136730898436",
+      "type": "text",
+      "quotedMessageId": "610993048667292046",
+      "quoteToken": "uQ3TzM5CPX4wbGM4qySzDR3T27DRerSum6qRAw66k21qfvmJPFo0fWj39A_G_YZ0Ac3E49BiwewjjV3XHj9SgyCIyO-vcWq-9DDc_vLCfWwmht2rldEj9w435kwIMZOmUt8ifbDHH8__ZRMvFpVbFQ",
+      "text": "งั้นไม่เป็นไรครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777011585748,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1777011585748
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777011540363,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610993048667292046",
+      "type": "text",
+      "quoteToken": "1sM7vJdlvSpLnGyMMPKg71PRrpmAxNIgY1r7KGjgkycH_AHakElF3Bp_EkCPvDGEex_jy0U7S-E7jSmiisiVRRKUkAGeKILifiMw2E3ljkGwrCueNf8ja-epJTmb6cxKYaKgfl3CP910zBHa_j5QjQ",
+      "text": "สวัสดีครับ 500 ซองผลิตได้ครับ แต่ราคารวมจะเกือบเท่า 1,000 ซองเลยครับ ต้องการดูราคาก่อนไหมครับผม"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1777011539198_15228766",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777011446886,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "610992891716436062",
+      "type": "text",
+      "quoteToken": "-P9A1M23849kXG_ch4p6hJZmiOPV-Nw1btB1acDi2CPuXcWXMPoOt6a5MrebD5wDcE_Kt2tNyEZXZit3OUZLZOhwemDG9fNdnE8nj1qk1dbqH3EsgpUsHObP3QRiRoozmwQTCLnXS4qX3cy0Qxt6bQ",
+      "text": "อยากได้ไม่เกิน 500 ซอง นะครับ ถ้า 1000 ขอผ่านก่อนครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776929029591,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1776929029591
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776927903125,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610852728662917163",
+      "type": "text",
+      "quoteToken": "GpuAAztxKtdRaVPX2LMQLdO-rqkJAk1GFdHRKxDIGFwQanFpB1s0tMP6rRZ_DmTfxoatHyCZAlzk-NmymTBXsNJdssLl0MMhkc6yfnOX-5wqpOWctAJEphdWJWxyw4Jxevo7Wmbo7Rv_RUfiH-jO-A",
+      "text": "สนใจจำนวนเท่าไรดีครับ"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1776927902594_87808157",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776927893968,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610852713160507897",
+      "type": "text",
+      "quoteToken": "vkXW44KZHLie0KWOaf8cH1HX4HPWImWws1GB_vEbxgdfjmmkn0-43Rouvtz8QEzfjqeNG3VTGROeePc9EFGr-hSolPsT04c1zL0My4G420F2aRKY-oPLBoMhJ2Cf-u0hSNfuCa3PlabO7N_JsJBnZA",
+      "text": "สวัสดีครับ เริ่มต้น 1000 ซองต่อแบบครับ"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1776927893426_96507067",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776927251831,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "610851636113572239",
+      "type": "text",
+      "quoteToken": "aTaDrpTO7s22nzKR5k1AW_k1GfZM3fDIhjDjW28ru5JJf4z7b4YtwSBGBPETSZy-bCGS-5LdZRDEeMTU9N4BCr0IdBJXnAKlnS9S4VZ7w2CQVN3BaBCG1khmdxdLOFadC-y0Ys76HbR2R_Eszr3hLw",
+      "text": "อยากสอบถามว่ามีขั้นต่ำมั้ยครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1776927244221,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "610851623362625902",
+      "type": "text",
+      "quoteToken": "sFy-W-YbRQaSOO6NWx_t9pYJh7leSTRJTbMojMh7JklavChzTAlrbZTy2W2SUdbdOBQ7L_uL6-a2YEsu4MNERh28y4KQXzddiGQeE21xxK67T0MkHdJR2GWxWIhsWG6yHAx7-P9020SOFx094my6tA",
+      "text": "สนใจพิมพ์  ซองน้ำตาล ขนาด 9 x 12 3/4 นิ้ว เนื้อ KA \nพิมพ์ 1 สี (ดำ) เว้นขอบรอบงาน 1 ซ.ม"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776844622198,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1776844622198
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1774600192808,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1774600192808
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1774600002583,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "606947159694377674",
+      "quoteToken": "RIkFa_hbC0mQQP5Ht0F4X5VHKMDR4ofviRThF8bghLD5gVQX2BxBdO5XouOscRCiHQvbxGC-JOJz9TJ94tUKQ4--hgtAzuMod3p5YPr3yol6ZhPZ1BKyUmgqy5ElDfBUIuKOHr7e8PCVUD3A141jCg",
+      "packageId": "11539",
+      "stickerId": "52114115",
+      "stickerResourceType": "ANIMATION",
+      "type": "sticker"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1774600001685_48744978",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1774600001009,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "606947157060878800",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "taWVZf6gO5Ng3FOWhFrCVF5ObrDq7gxyP9X20eu8SlyjD0AK58vvdkDfD-UGj3HJjCG7CnvVRIHtxgAVMY8jAqvtfHCg_-R86r59Tdufihrjd5nTLGgoXBbrCHWw_KthjgTjgTGATm1_gXXKFHhmhg==",
+        "expired": false,
+        "expiredAt": 1932711941009
+      },
+      "fileName": "QTG69-02239- เอ็ดดูพลอยส์ เกมแอนด์ทอย.pdf",
+      "fileSize": 140467,
+      "contentHash": "taWVZf6gO5Ng3FOWhFrCVF5ObrDq7gxyP9X20eu8SlyjD0AK58vvdkDfD-UGj3HJjCG7CnvVRIHtxgAVMY8jAqvtfHCg_-R86r59Tdufihrjd5nTLGgoXBbrCHWw_KthjgTjgTGATm1_gXXKFHhmhg==",
+      "expired": false,
+      "expiredAt": 1932711941009
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1774599999799_28968505",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1774599997682,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "606947151306031723",
+      "type": "text",
+      "quoteToken": "5UuzF8E6To-BV5RIpD8cUuV385cfJGp3azHLnQwMPDb07-yCmOzDVzalm4BzXOCVIenxrx5PXg57WSR5RNxiu5oArp0XdYk8VJVW6r_Ex6PwGfL9z6_RmsvV4Vn0R0VG4gHCYbQBFVAbJ8MLNQmVQw",
+      "text": "ใบเสนอราคานะครับ ตรวจสอบก่อนได้เลยนะครับ"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1774599996758_29102813",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1774593162378,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "606935683626173049",
+      "type": "text",
+      "quoteToken": "9e-M8mXGYEP4Aq5Z7KV2btMFd3UJqi-ihkEDeVsjTyWcptocQApN9BWOI6lkmdL4yyYNBReyo4tAD-NgNize-Z4-CfhPE6shnKn7wAWaT2bLDN5F5nzb16IdtWLmj9U1FVhDbzyfFhgP-u_FfRMwkg",
+      "text": "โอเคครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1774593152815,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1774593152815
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1774592980358,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "606935378163138600",
+      "type": "text",
+      "quoteToken": "wCryZJmWzR14XhEWxrjl8CrDplYCi4VQx_MJzBRMEAV3GHtIvhd0NSpsXww7dSW2oFqutpBo3ZT77F1zwcQIRhQQYIYVroO_ScO0ekEq5jHFu5QegpH0huU4DjqGSXoSpLRE025toJPAkQOWDnYWGQ",
+      "text": "สวัสดีครับ ได้ครับทำราคาให้นะครับ"
+    },
+    "sendId": "U0ff168cb8b1ae286ba034700e0459b81_1774592979586_2179780",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1774592394992,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "606934396041167562",
+      "type": "text",
+      "quoteToken": "mp5h5RI1hmOhmznooY_gmih5gU0TmcRLq4q3VOq0xpnL59bHFqg1h7Iopr1KofHytZM08uVWlx9t6ZINzOVJUwc-n1E7PKVm0JDbJYghtquYrI6WDpW3EBA2h7WbIrwnlEYXJelMOa1JTEa-8-QAiw",
+      "text": "ตัดสี่เหลี่ยม ครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1774592394737,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "606934395957280905",
+      "type": "text",
+      "quoteToken": "Cej3p0zAqUZH2YmVz3d6r2fHFC-utJ42HD1W4UzQZBTmsOpg6KzEt8prWWmgdnuOZZYzcHv_iEJ1DixbqzpSYqgScK-cUAa1-H2BEVSUtl7aSqcE85KCumsJdGCVj5Qx4bVOFhN5UI8eWs6EvmwnJg",
+      "text": "ป้ายสแตนดี้ขอราคาสองขนาด 170*80 (5ป้าย) กับ ขนาด 150*60 (1ป้าย)  ครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1774592394582,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "message": {
+      "id": "606934395538112930",
+      "type": "text",
+      "quoteToken": "P6_Oqzo6T10D_umD9sK7vBI4kc_EWcSNqDQZ_SPVwD2tUB_nOEzqwB7CLTQ2KbKjorDK61hZThV3OHx2xhw1YFtmfVOzCI2p-rzG5cP0ZhRWgmDyv3bbS4IW71VHxizZEvJwVxnOZuPlcZ4wlB2JHg",
+      "text": "พอดีสนใจทำสแตนดี้ ครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1774318776957,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1774318776957
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1770000412330,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1770000412330
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1769427377480,
+    "source": {
+      "chatId": "U0ff168cb8b1ae286ba034700e0459b81",
+      "userId": "U0ff168cb8b1ae286ba034700e0459b81"
+    },
+    "read": {
+      "watermark": 1769427377480
+    }
+  }
+]

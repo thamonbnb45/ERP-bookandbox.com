@@ -1,0 +1,208 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1777369364388,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    },
+    "read": {
+      "watermark": 1777369364388
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352546443,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611565161815474251",
+      "type": "text",
+      "quoteToken": "9_3aDAiGpGLaBY0Vhv-KOJAmlaEfCuX79qtJhELiGgjx1ffoXJrHe_c35eWSKJQ8vqGdVXODHs5ekGb76e0bRQbPNWbpyUnsxJjTmYetdCCP-OiClgU2EA-xQ8FFbF5XIvCdn41q280QDg2QO7GNoQ",
+      "text": "อย่างน้อยต้องมีไดคัทงานให้ดูครับผม"
+    },
+    "sendId": "Uba40d55de588d7606531083e11b0f263_1777352545735_83701654",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352377149,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    },
+    "message": {
+      "id": "611564877776945489",
+      "type": "text",
+      "quoteToken": "xvz27_xocF00LVYXU7BLWz0AaQbYDuo0juR0qht_-jnXiWTI32hPPMf52NRXgqMktZvKnu85P0MzGO_Z8Nks05EMGa8g_HFz0f97qLXU_KkaI4HPkwxi6TLBKRYBOUfSWulYC6lEfj6INDU-PfGi3g",
+      "text": "เพิ่งเริ่มโปรเจคค่ะ เลยยังไม่มีไฟล์ และ final spec เดี๋ยวขอคุยกับทีมแล้วแจ้ง spec คร่าวๆเพื่อทราบราคาเบื้องต้นได้มั๊ยคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777352179597,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    },
+    "read": {
+      "watermark": 1777352179597
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777351444061,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611563312462692782",
+      "type": "text",
+      "quoteToken": "DCGR8c11F-uLjoU4Ewpb0Y-F_DJXfxZ9PQ6TZmLkNFXjKMFMZ5KmOosLaZ_5LbSgoFMbQNR0uBUEItkhr3BPKgXKJoe9g0lnBw2Q0XT2rftxUb3ySraudpFFbYAtJFVHcSW4QHzOjhWUfiV0Szj1oQ",
+      "text": "มีไฟล์งานไหมครับ"
+    },
+    "sendId": "Uba40d55de588d7606531083e11b0f263_1777351443364_16780944",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777351438083,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611563302346817714",
+      "type": "text",
+      "quoteToken": "YvtTOGEIkSjAv5G9N24twk3Vjl4DhWWhnfk87R54iTBeWGnxz_2mVvSeNvkuo5H9IuYjpReyuWqak_WJA-S1ohJk_XwvLamRFQzRjzl5HXdL3MyfjZlmccxaVHwNn4sUygFqePNxt1crNlmjzrp7iA",
+      "text": "สวัสดีค่ะ Book and Box ยินดีให้บริการค่ะ\nแอดมินขอทราบรายละเอียดที่คุณลูกค้าต้องการ\nเพื่อการประสานงานที่รวดเร็วที่สุดนะคะ (moon big smile)(high five)",
+      "emojis": [
+        {
+          "index": 121,
+          "length": 16,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "009"
+        },
+        {
+          "index": 137,
+          "length": 11,
+          "productId": "5ac21e6c040ab15980c9b444",
+          "emojiId": "037"
+        }
+      ]
+    },
+    "sendId": "Uba40d55de588d7606531083e11b0f263_1777351437345_83400697",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777350407828,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    },
+    "message": {
+      "id": "611561573906907722",
+      "type": "text",
+      "quoteToken": "OU09jR8TaVADGuF7_ehMG8Dkh0nMN2CWvL2Za3I8Uu0zwwXR22parw44aOE4m0uU3IMNzqds9Uk_i0ErdsTCHkZhCl3SRaw_zaeVEEDzLfiMpIIhYKCSo9B77YskmljeUW5yZwIiPrPFQe2LOWdFEQ",
+      "text": "กระดาษเป็นลูกฟูกขาว"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777350303001,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    },
+    "message": {
+      "id": "611561398215901414",
+      "type": "text",
+      "quoteToken": "r7Sp9DiCHZi4P33f4PhpXPLICdNvvLwfG7KiTvNu2ge0tZadUPLiH43m1ciGM402-D_YQc_dVO_NJ2LCRGHxngXzgp6NfRTGYhUT7Pzj-4-x_l5nXry8nG2Zj4z58jE09tU7yi0DEmQpsDgF0r8ylw",
+      "text": "สอบถามค่ะ รับงานกล่องลูกฟูกออฟเซ็ต แบบมีwindow พลาสติกใสมั๊ยคะ \nขนาดกล่อง 35x37x12cm /ขนาด window - TBC/ inside partition TBC\nจำนวน 20,000 ขอทราบราคาเบื้องต้นได้มั๊ยคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777349712000,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    },
+    "read": {
+      "watermark": 1777349712000
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777349689154,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611560368061284769",
+      "type": "text",
+      "quoteToken": "TWjBg5FgPNfoigG3N7GSk79UGvCoJqqfVHwjJnjROklevT0N8OEipJsS8j9TOGFcgIKl68VlGk-WI1Q3-qASP3aefcr4LArv5Zrd_xEB4DMwm4veJ6fb5c8iJRuvTJSJKJ2Mv3MR6DjZwKe4ZLmUcQ",
+      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777349689153,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611560368229318991",
+      "type": "text",
+      "quoteToken": "horIphG69z9MPcXyuJWQrpkKkezSn1dTiEBNde0AFNDJK-M9q10MKnN_qgKU5y64t4Cknce8vNJJA-cxBa1qdILlfYA6UvbNlu6LRSn7mnEKpMoFrLn5RC253i_g2cbnsZmI4rVMxe3-nBCOy5VxaA",
+      "text": "สวัสดีค่ะ คุณ Par BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777349689152,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611560368346497479",
+      "type": "text",
+      "quoteToken": "yrT0aszWsNcgA5iQinUTFpKGykv7Q7ulkvR-8xmwXOFYSJYvpRYCdhMpdOi8585h3rXybH6fnQPb1Wm4J9FO0eC_OaOWp5St4c_kQ3JHzDeI3pDwJOWam7dp-06HpzenTdd-h1k85IhECQx6vc857g",
+      "text": "STEP 7 วัน",
+      "originalType": "flex"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777349689151,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611560368346759822",
+      "type": "text",
+      "text": "ขั้นตอนการสั่งซื้อ",
+      "originalType": "rich"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "follow",
+    "timestamp": 1777349688482,
+    "source": {
+      "chatId": "Uba40d55de588d7606531083e11b0f263",
+      "userId": "Uba40d55de588d7606531083e11b0f263"
+    }
+  }
+]

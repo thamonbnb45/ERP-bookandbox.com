@@ -1,0 +1,421 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1777446835710,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777446835710
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777445647356,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611721359508898048",
+      "type": "text",
+      "quoteToken": "CFRA4D_l8dsZkPsjnJ3FizA6LkTf-TWz-XeT9BeMldcwh1QJ4jdKxFd0M9qadM198yH76Xu61NxnhR_5C1Mvvj3eEFVWb3nm0s7jOruQrQixeFoeV97HyLxe9ffFdM71AxsAuT7X7TTFjfg4k2umxA",
+      "text": "🙏 รบกวนขอรายละเอียดเพิ่มเติม เพื่อทำใบเสนอราคาให้ค่ะ 🙏\n👉 ชื่อ/นามสกุล \n👉 ชื่อบริษัทฯ \n👉เบอร์โทรติดต่อ \n👉ประเภทธุรกิจของลูกค้า \n👉 ที่อยู่บริษัท หรือที่อยู่ในการส่งสินค้า\n\nรบกวนขอข้อมูล เพื่อทำใบเสนอราคาและ ลงประวัติข้อมูลลูกค้า \nขอขอบคุณที่สนใจใน\n 🙏Book and Box🙏"
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777445646940_45836756",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777444045857,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777444045857
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443957250,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718523974844775",
+      "quoteToken": "CaqISas56fXcHwf63iwQ-ERh5D4BTeEv5bo9xXaeBEkGPx8rlCmSFNRUabsXWRB40Ig8dSpiuuXSkp9c2fWpiy_w2Ao4kqq8Mm9C0UIeFGoAjQtAHYP87nLO-rrTw_oMIoOgqz_0O96Dw6_Q1zh0FA",
+      "packageId": "11539",
+      "stickerId": "52114110",
+      "stickerResourceType": "ANIMATION",
+      "type": "sticker"
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777443956879_82486280",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443954608,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718519461511446",
+      "type": "text",
+      "quoteToken": "9vUU5LM_u6hcaiHpiDBiwHRv-NIvRlGp3gpxDAeSCY7btbQsjLDGwSqa_ZGpjOIAqq-qOB6SvW-Sri8zjvYN0qhJFGgn57YO0tMKXkT1VfdBS3kKKZobzOb6Qk7ebnbWXQnMwpgR7cbA-N8RiFY0_A",
+      "text": "เช็คให้นะคะ"
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777443954228_81766635",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443915181,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718453208547707",
+      "type": "text",
+      "quoteToken": "WTQymWWzzMT4XYmw_ps-hcCxLNfXbUHOpGQPvgEzZjkrZqy19TH9Qg5j8x43xxPOXpra5A8mIrGP8u0taLwl17RoeKFMDRLrVBA0WH0QGmzQb6oEl2x6QlT2qB4I-cA6w-zJbQwCYBWvLINDq9dCQg",
+      "text": "ได้เร็วสุดวันไหนค่ะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443902604,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718432034914814",
+      "type": "text",
+      "quoteToken": "eAGW7YjXoE1i4zHJwvUeuOeLHQNZZPXEaiJIHXIULlfuJRI9DFv01qsjilHJApb26ObLAyABaWoDkU_Q_URLgnnJMCQNs3JIrONGXQqZN_fN7bLe87SmghZCNIKUDLzyr7sG2yb8BEZaBfHz2eVoZg",
+      "text": "เสาร์เช้าไม่ทันใช่ไหมค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777443876705,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777443876705
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443876343,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718388230390254",
+      "type": "text",
+      "quoteToken": "s7iYU-VZblvTpvQ-3Ub4JR-WeQ7wcj-00vwTJLhi1Bl11m3UWAyQ6wIxUzieHpznR0szpnhHbgKwbeN8Gv8NXGjFgcNZ73vRwRapDi8QeVDNk37LG2J5vFMVExQitxnRDqwmt5iFWqnd9MqwmH8bkA",
+      "text": "ถ้าเป็นเเผ่นพับเบื้องต้นคิวผลิต 4วันทำการไม่นับรวมวันหยุดนะคะ"
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777443876004_86963332",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443861717,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718363433665162",
+      "type": "text",
+      "quoteToken": "-bf2CKGNxnCBq18RRcRxNB5j0QK7SiNvLO0Y-CSRskAAWstQHBFNGrnZ-ihcvJlX06cY12l_CilumB7_4-g7qxJOZQC0gkrZscJB877yd3HBXYJibi5TATPAzwS0KucSoXeKHiprO4f7Iv432wguDA",
+      "text": "3 ตอนค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777443843790,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777443843790
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443843499,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718332915122421",
+      "type": "text",
+      "quotedMessageId": "611718135045161556",
+      "quoteToken": "K-fOqPLln_r7zWxYlvpaFOUm0R46DmwtZzbEXmbM03khPHdvbhqhvhlA6YziN70fRYpaJf2aQLLsxbcGqUrYULGSRqsDNSdf9F88c3zGmqCLGGfVbi0YP0WeLOfOmRkF7q1PkVhwuV8nJ__6tXPEIQ",
+      "text": "เป็น a4 พับครึ่ง หรือ a4 2พับ3ตอน  คะ"
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777443843156_15953545",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443817684,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718289697013902",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "cWXEGB0RRs0cdPUGlI1JH0vf-Trm8yUgha2BOG4BPrc18WJw4e3gl6iSUJAMLPhAFKmAwVsGfnrZ4WFXVGOzmb8UjCvSAejLespY3fwCrBJ3cgnPfoIIgzcgwG-Zz6dGPGAWgRoNfwFFSQkqTkXAuA==",
+        "expired": false,
+        "expiredAt": 1935555757684
+      },
+      "fileName": "bro-magical 240469 create.ai",
+      "fileSize": 151424656,
+      "contentHash": "cWXEGB0RRs0cdPUGlI1JH0vf-Trm8yUgha2BOG4BPrc18WJw4e3gl6iSUJAMLPhAFKmAwVsGfnrZ4WFXVGOzmb8UjCvSAejLespY3fwCrBJ3cgnPfoIIgzcgwG-Zz6dGPGAWgRoNfwFFSQkqTkXAuA==",
+      "expired": false,
+      "expiredAt": 1935555757684
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443801613,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718262719513144",
+      "type": "text",
+      "quoteToken": "hCR8JcnSDRVFTVqKtOAVSsOKxllstMXu_0mTOu9IcvHRQbUoHi9ZJgcSRPKXsKryA9dBCvZK8k9uAAOof95Zs5Olh2hEW2xx2DdwZqQdBD6ncRCBqxUzly1ks1sfTfYyLFhgqBqhRhMPk3V2xN4ZEQ",
+      "text": "แผ่นพับค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777443786662,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777443786662
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443786336,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718237235445948",
+      "type": "text",
+      "quoteToken": "lEoubd1BR6igdI4eTel6qlmpf2Qm_CxHKAq0lC72oDIaoYyd7zjqISQWnoOVBoocFiNnNnNzwgUQrsU4qlGB00r7co8KWwdjhkT00Z2RNLxJsLesaCa24nXJs8Xi2cbVkwtqzgCM8iQW99Jy94ZhFA",
+      "text": "สวัสดีค่ะ ลูกค้า ไม่ทราบว่า เป็นใบปลิว หรือ เเผ่นพับคะ"
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777443785973_35420076",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443775790,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718219535221162",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "U-AOZuZws-Y1jSihnBidbUqQFoeZnV0TIcYDzbzK7cK8xUSrS_kVDslsrR-wiyeLyU64up4kqGrFKVYdVU7RWpmablGSbLZxzwuPRPj1qz8g38XbweYnaP-Q6zh_99SKCPs1Dl06N9VAVlxHgFo47A==",
+        "expired": false,
+        "expiredAt": 1935555715790
+      },
+      "fileName": "bro-magical 240469 create.pdf",
+      "fileSize": 150581721,
+      "contentHash": "U-AOZuZws-Y1jSihnBidbUqQFoeZnV0TIcYDzbzK7cK8xUSrS_kVDslsrR-wiyeLyU64up4kqGrFKVYdVU7RWpmablGSbLZxzwuPRPj1qz8g38XbweYnaP-Q6zh_99SKCPs1Dl06N9VAVlxHgFo47A==",
+      "expired": false,
+      "expiredAt": 1935555715790
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443738277,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718156536250839",
+      "type": "text",
+      "quoteToken": "74UgrJ3H_GH4ToDDyprEQlAObIuJGkPnZXLs3PzWV-rzbRIuOkOUiuePe9ec4NBQk-1nKHj_Lbl_JCwudksUn4XYA7h9EKUAj9FxfYnZX93L9XFe5RCigQkhw8DJlleVoyUrY-Yu3-ATsSu0X0QFwA",
+      "text": "อยากได้ของวันเสาร์เช้าค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777443729548,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777443729548
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443729143,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718141168845094",
+      "type": "text",
+      "quoteToken": "frUFz342fzbnf_MU3MPoZHSKx78pNrTkv_bUcJ7OzJO2XM3kZqX_IYQkZhEmxJiGtk7vtZaEDnmC2O55L50unQgnIgGuZzhIqH-u9q8QyCzeujAfp0mfwlG3I_waEFqRYipPRo8qvrDNx73SXABT4Q",
+      "text": "สวัสดีค่ะ Book and Box ยินดีให้บริการค่ะ\nแอดมินขอทราบรายละเอียดที่คุณลูกค้าต้องการ\nเพื่อการประสานงานที่รวดเร็วที่สุดนะคะ (moon big smile)(high five)",
+      "emojis": [
+        {
+          "index": 121,
+          "length": 16,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "009"
+        },
+        {
+          "index": 137,
+          "length": 11,
+          "productId": "5ac21e6c040ab15980c9b444",
+          "emojiId": "037"
+        }
+      ]
+    },
+    "sendId": "U965e55a6783997ce3b1f53bf6c7ee8df_1777443728805_5858744",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443725431,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718135045161556",
+      "type": "text",
+      "quoteToken": "C493kNhv8eRijGXdgzzxR6sReImAMfKAICiOidMJNuV8Q1AWXZvqIl1UYwZcl0AR414qeBRmqDRlPk_hmQVRnX7jHVcQ926JB3fbWT7SosBKyJtECqujJuOi_hDTi2pKA8k3e7RBBJ2aGusLP6PjBw",
+      "text": "ขนาด A4 จำนวน 4000 ชิ้น"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777443711140,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "message": {
+      "id": "611718110919262352",
+      "type": "text",
+      "quoteToken": "H9OI-buKjs4IHhYQhzkxSYvOZtgfpJuN4k9lFdeHw69cRJHWAhBLzEWgW6tJnbladI_D4NjWMgimafFcXk21SnEJPly7swkthkW1lgtCHI30ZrCbwO57ZcHIeUlZGyBL_DcipLHLwy1Yys0T1On9Pw",
+      "text": "สวัสดีค่ะรับทำโบรชัวด่วนไหมคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777443703708,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    },
+    "read": {
+      "watermark": 1777443703708
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443700952,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718093706363194",
+      "type": "text",
+      "quoteToken": "r5LLJTPpcg5b8Xv26KQLGo007vEL3XsPu77qur7TszmO2NFwEb68MbP-fUK_DSUVKt1uS7jjVAplgOD5hctUWTSUoeUvr83ss70Vtl1wHk9soyqyAw8bYBY96mPVe2ldDP5E0Jss5p8kZDwrO-Yxzw",
+      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443700951,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718093974012009",
+      "type": "text",
+      "quoteToken": "f3IlUpFdlWaJ6iW1xRPc3wlImMUrSLbjrAIlPIFrMLgbPofF9tr9961gi-2zF845rKyydpheVuW518LU_5zSJOkwPH7aGD_WStWEg7xCyN7GQKv9YxWBt9tcTbQD-x2mG2L7QhJeDewxUoQLeOylWg",
+      "text": "สวัสดีค่ะ คุณ June965♾ BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443700950,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718093806764536",
+      "type": "text",
+      "quoteToken": "_NOEn-1x71544KQHWTxpquuA_W7zZSGIhpN_YsZ73hEb0JwDVPulY89EgzZbFUpHV_pFcAwh8D_2qRHcLUNZ4Zoh5r92rXEYkw2ekvqRJizSk8CsFmr3CAUp1wqM8c53cM1_dL8zDltdy0ojkQyH_Q",
+      "text": "STEP 7 วัน",
+      "originalType": "flex"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777443700949,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611718093974012008",
+      "type": "text",
+      "text": "ขั้นตอนการสั่งซื้อ",
+      "originalType": "rich"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "follow",
+    "timestamp": 1777443700683,
+    "source": {
+      "chatId": "U965e55a6783997ce3b1f53bf6c7ee8df",
+      "userId": "U965e55a6783997ce3b1f53bf6c7ee8df"
+    }
+  }
+]

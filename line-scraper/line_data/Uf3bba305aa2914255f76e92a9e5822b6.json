@@ -1,0 +1,721 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1777352563869,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1777352563869
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352539462,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611565150122017219",
+      "type": "text",
+      "quoteToken": "-SY-_IHtaEtNUSbffEjZL0eGVfVvKoCmnulvZoi9uE4Hhl-9EzAlCG0xQcrGnEneeVwNFyBN0MEcalqzyvRBgZXtpeWpjxrBWfsLb9chMWmzdVFOTSsudxzW2ZyJ65IrtwVITwHAPsbHES1FxZld-Q",
+      "text": "ได้ครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352563819_69532063",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352524082,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611565124435837106",
+      "type": "text",
+      "quoteToken": "PrAC99BFUSZaBtki2rUyaEsXTakvQvJ8kqu1rL2IBL69Iu4-t5QnYGneDeX4PPFwdoQC1xl3I8dI_o0AwV9-KtJ2ExwCLoILiP_KWKIr2XQqtvq9sW6_6vkXqC5MuC-bzYNWt9pJNh_YFMevmJR2KQ",
+      "text": "ไม่ใกล้เลยค่า แต่เดี๋ยวถ้าราคาพอไปได้ อาจจะหาวันเข้าไปดูกระดาษค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777352478464,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1777352478464
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352476401,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611565044392263975",
+      "type": "text",
+      "quoteToken": "GZh7YTGRFVpzVEo2vMNpAgEJHWNTlAr7_WmJKw0edEvoB9mKCkE1UB4ICB0qoTfni4QGvhvBLiey6BYdImINFo_G4Q0cvweJGBE3PD8WAZ2Kk08pkpbUOJ1uTl08Ru2wsduwwy0LFSw0rdN8JYg34A",
+      "text": "ใกล้ลูกค้าไหมค้าบ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352500759_97927088",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352473240,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611565038956183951",
+      "type": "text",
+      "quoteToken": "mW2MkT4uENOoAErsjjrrStvX5wROdLrpDHYCneIodrdCPWaVdyOxnYUxGxnguqwNc4dzcdeuIHNc2lq3G8Ek6t-NPiOzsGC2vVUPn1KUvw2o-TgySgbYHoj_kS0qywxIh3v1aVm-3baAx0MFy2-WXw",
+      "text": "ครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352497570_33951246",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352471262,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611565035919246040",
+      "type": "text",
+      "quoteToken": "RiX28vSe6TwQcqW48oV3nsOrXOtEe35IpZ77xyBGPtQnazW7OywtSRbcUOoEDpAwV-kJDBfEoE_dr6C5gk7SyZzgPBcoOD-R9NxSEwc5dTOR1x44dEFVbpEoOaDBWHltT9XA8lb1q97WX_Kw6DM1fQ",
+      "text": "เพชรเกษม 25 8รับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352495627_92778728",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352457117,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611565012078559355",
+      "type": "text",
+      "quoteToken": "gX-dDmuLWX8biFalQIa08kjB0s5G7eocwoDT8zpayp-dkeHbovTQbZ7Lf471_nu9F-X6yjrJef4AuqENxlHOiI0ZmU_QftYo6SDw25edwdKFdwDslXao7D0vf-WhZIVnUlysNTlL9Wo9AYDNh2-9xQ",
+      "text": "สามารถเข้าไปดูกระดาษจริงได้ไหม"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352444878,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611564991627133253",
+      "type": "text",
+      "quoteToken": "m9uFQZZgegXE4A6-DBRyfuAA5ZtOnWH96plwpfZnLkvy2UlhKC3DzD1VrshIZb8tulrobzIhlGzkygYhYYvuVMfWzgfi5s4V8nwEvUl-5TgEeMBxSkqGjp3DGzbq8jNeLEzIX9-Xk9iHNaFWMjP2yQ",
+      "text": "อันนี้ร้านอยุ่ที่ไหนนะคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777352421617,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1777352421617
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352393075,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611564904554169053",
+      "type": "text",
+      "quoteToken": "bfZlELSXKs70M0eb6gGG9JXjkd25ZF2vIVgNYsvDfBvDj00UsB_-vDXmWOO2yv8WQHAujeMctgkub8XB6xJvBvNU3E7vDUejPikzf1zM1xI8GqhTQYiszlmXC1V3Uzb1N1vYiGeqNAi4bXrhPVhF1Q",
+      "text": "ได้ค้าบ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352417421_50003593",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352367937,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611564862325129561",
+      "type": "text",
+      "quoteToken": "R0uFKpwBZFXSAYoJSmAEWleqKcN9vGBanowqufgEdFwbJp1IqvhfT6Nwqsvck7XBggIr0xcW7qLSgAkJvAoEG4dNp1cTb9P7Z3Rl7Q0iivm_hZ90L4tTrUmwWqhPmPS4wfc2Qv-4AUOr4zqqbxfD0A",
+      "text": "มีค่า แต่ไม่ได้ถ่ายไว้ เดี๋ยวส่งรูปให้ น่าจะพรุ่งนี้ค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777352315043,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1777352315043
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352312936,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611564770251768032",
+      "type": "text",
+      "quoteToken": "6UEDTTw_LFrAqiMmvluNum1pO-wm7Ul1I8WC2tr8sjjGZb5nxy7_WF9pRPBb3_tJv0vJX0gMtOrGiPJdkJwtBUI16C5b7OeuRlTGT7NCqB9RpoLgpPcgciBeHRe6hHJZ7FZvSbm4Ih21HCZt9qYyxQ",
+      "text": "มีสินค้าตัวจริงไหมครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352337304_85882887",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777352307559,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611564761310036343",
+      "type": "text",
+      "quoteToken": "DFXgXhexSc1nhlDoN195sIbixu8D8nwIGp4M66yblPt36p6daLlfKFYsClijaMqqEc2wG-4GzmQkDcSwR6HXRxrVqKcfdm9z_Y7ISql8j8B-kQYlv0bfr_3jSeCxf0PlKV253oEI_yNIn5UoU5OLLA",
+      "text": "ดูเหมือนเคลือบด้านเลยครับงานที่ส่งมา"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352331879_4834392",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352216164,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611564607898910743",
+      "type": "image",
+      "quoteToken": "G_4sTOCDvWZCTAIs97SMVsnPrg7epkI7muWKlZQ1k7cqR-13M5XiIGY1DbLnMhdzX8nmgvmrJV2L8CEan3NDBcCzjiHPPY81MrY2ueKoT2Tjj2tr4prmcmf5BJRvR41g-BPFxsDu-lxVf-UMGwL0xA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "Zspnl2r2YWAEd1h1GxhHDtwcFTjz8aTfsONaDhwZahrhqVYBS_gIl2FptOJtKN8q1G6w5JdSOOk6L5NOZX5XFtzv8PiX1mW26e8GWcsPbgz-wXGyZImznkMePOPwUnFRyoEYSNdl5TIBu65cFcBv0A==",
+        "expired": false,
+        "expiredAt": 1935464156164
+      },
+      "contentHash": "Zspnl2r2YWAEd1h1GxhHDtwcFTjz8aTfsONaDhwZahrhqVYBS_gIl2FptOJtKN8q1G6w5JdSOOk6L5NOZX5XFtzv8PiX1mW26e8GWcsPbgz-wXGyZImznkMePOPwUnFRyoEYSNdl5TIBu65cFcBv0A==",
+      "expired": false,
+      "expiredAt": 1935464156164
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352215666,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611564607059788055",
+      "type": "text",
+      "quoteToken": "Lp48xbcvEwWrObVuGPBEgoGw8ftRFWAr7BhaYHRw3Exvqw80xTzjJRLDTSwnBiqdn-M-AQ7jxQpTuREF_ZyJtIL55lpvuQ8mMxtGS9C2cYFIYCoRMKcpws6doXE_Zf1FSingNtGluxmeYSgSX_1tEA",
+      "text": "ที่เอามาใช้ มันจะคล้ายๆแบบนี้ค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777352081623,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611564381927113236",
+      "type": "text",
+      "quoteToken": "_IQWK4njyl65UZkhZFtGioWrznEFW1bK8TO2VnMXTtBx-gsmjjN4ZbO3JIOzUQvhlMXuufd1Ig15nIi0iQE_NaPYj1T-B7-RbAehEkTlUJGfpxhKOf_u-hVoel9Tkmdot_unCjumBGmHO-lwZXOytA",
+      "text": "คือลองเอากระดาษ อาร์ตการ์ด 210 แกรม มาแล้วแล้วห่อตัวเสื้ออะค่ะ มันไม่แตกเพราะว่ามันไม่ได้พับเป็นมุม 90 องศา มันจะโค้งไปตามเสื้ออะค่า แล้วถ้าปั๊มพับมันจะเป็นเหลี่ยม ไม่กระชับกับตัวเสื้อ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777351986389,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1777351986389
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777351980207,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611564211940098120",
+      "type": "text",
+      "quoteToken": "kcWyQYWu0tL8fmab7t5RHCOiwEUR8ooC68ftrS4RVLmc37l4o7IlPYec5oGMgOP01RDDemdPAiiGCE8KyVi6yB5qfbPo48S_F6G0t2rWgezo-S47UP6iU_D9JY-UR3DHqvCh3pdfQSxWwQBOel_ssw",
+      "text": "มันจะแตกครับลูกค้าครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352004569_89931133",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777351977383,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611564207242740093",
+      "type": "text",
+      "quoteToken": "7IEfBxChsgLrM20OkJ2HFwlobg2scO8qiizT5P_n5aQ983_ri-PU9jX_NIHaYvgj1f2QpcnUZCOqt_ORWcaeN-ZKgbo69dFUE6bvQi9xaKeVT2yCRVFu77AqAe9UT3brcx1J0HXK_mKiQmY4fFUkaw",
+      "text": "งานมันกระัดาษหนา"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777352001695_54949164",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777351973842,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611564201253273689",
+      "type": "text",
+      "quoteToken": "scX4jfgq_AEs1mpUDYBehk4-CyqUaM7Wyd4sPqRjkFamLaPk_MuRTwq2K_wD5YXcRuopl95NTQDfh90DzK-wgF6ey_WmePFJ4NeUcG70htICIAXP6CJzW-3FvSacau9wprcYmNk3S7mN2pupXbPIlw",
+      "text": "ไม่เคลือบไม่ปั๊มไมไ่ด้ค้าบ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1777351998205_70034507",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777351951362,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "611564163705864636",
+      "type": "text",
+      "quoteToken": "hOcnceTo40KWWY1R0KScc3P-5oq4MJa-FGwjJRKKj2tV2Kb1sSa0FIA_ze_7YOrMEUU1YKG-v2Xh3eT60zShWtYRcZXqahOGpPeNRUfHBHvFlmmrXv6H8D57mTWvIOSqRyRy-nWiSq0VBrmaLC0sfQ",
+      "text": "ถ้าเป็น สายคาด\nขนาด 7x42 cm อาร์ตการ์ด1/S 210 แกรม พิมพ์ 4 สี 1 หน้า\nไม่เคลือบ ไม่ปั๊มพับ + ปะกาว 1 จุดปลายสาย จำนวน 200 ชิ้น \nราคาเท่าไรคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777351884979,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1777351884979
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776849319001,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610720886555148494",
+      "type": "text",
+      "quoteToken": "IGpvPKAYJHmiyy7hsGs42LtamkJCHJnqy2xMi23kGcSCoWMPiphwOcl7Wv5NrXEXK05qSGlkDA1_P6Yhc5d9jvtKDzXg5VNLQJlp7L4MCWncmuGtXD7l8JraMHjmBLU07ZjRmf5Sr6G6PfLXt_gxOg",
+      "text": "ให้ผมทำใบเสนอราคาให้เลยไหมครับลูกค้าครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776849328727_64474614",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776840043558,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776840043558
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776839998375,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610705249082540375",
+      "type": "text",
+      "quoteToken": "OHLLknvi1Y4-ywb1-hCmieKoNBHhlnYZ163_RAS1kCIsnjCa0mrcNuwJTMLYGNHP31R2hoLL7ivjqnR0IYDhSMQM3M9jvZ-ZvJ4hg5FMd9eNeZSPpSqiHcB1GvWbffWUzssTY4oP244b4Y9aH56qOw",
+      "text": "สายคาด\nขนาด 7x42 cm อาร์ตการ์ด1/S 250 แกรม พิมพ์ 4 สี 1 หน้า\n+ เคลือบ PVC ด้าน 1 ด้าน\n+ ปั๊มเส้นพับ\n+ ปะกาว 1 จุดปลายสาย\nจำนวน 200 ชิ้น x 25 = 5000\n(ราคายังไม่รวมVat7% และค่าขนส่งครับ)"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776840008135_60973550",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776825883841,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "610681568763838623",
+      "type": "text",
+      "quoteToken": "k8TWwgFOhEHaDLPhDx2uNk2r2WddpXzR8FsEfgdS718OD-1t1QpGX5MIOtPNa3BdBqRyAR078ddvT-cjj1gOH0-gwp0YkpIcRgWquzPkbsyV7-A8MnrA-vd-GJY0myUlT3kdIjqRmMixV2GcJb7t4Q",
+      "text": "ค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776824992462,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776824992462
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776823931280,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610678292693647848",
+      "type": "text",
+      "quoteToken": "-o1RVNNXjj-1cWFj0PzszXK4SQ49HfnBWnE7Jur58fhdbRazy9n3Ev7OR8FC-aAlLL0b4W-ebOFVtkNdUrhCn4Q7IzxSevLUYkwLDlGdIgkpUqyJ7wTPVKlnfule4wfoWQmISYhBCTJMLfkni-Db5A",
+      "text": "ขอราคาสเปคนี้ให้ครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776823940043_44581092",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776823926771,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610678285176668463",
+      "type": "text",
+      "quoteToken": "cS9AjHzzsW7Th0t5FFoKP9MVn-51g9OhkGPtr0SJo-G4tj-ghAnkR2DOZblh-jY_yja5KP0rzicq0RCo24eX0-4sy4CqgZXLZF_nabqm0Xn5JmJ0PYUTTjaP-cnk25dDVBzDBVfMnQ6Dbsc6rhl1Ww",
+      "text": "สายคาด\nขนาด 7x42 cm อาร์ตการ์ด1/S 250 แกรม พิมพ์ 4 สี 1 หน้า\n+ เคลือบ PVC ด้าน 1 ด้าน\n+ ปั๊มเส้นพับ\n+ ปะกาว 1 จุดปลายสาย\nจำนวน 200 ชิ้น "
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776823935479_84486520",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776823854068,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610678163156500692",
+      "type": "text",
+      "quoteToken": "pzcU0y8CrS4SaddqeiLHeeKprP1Z0PZ0L2p8WDtZQyyDoAv93-zJ3lPqrb374jWyhcaE6d-3YKHymZDkYwJsAx6tSLgVeT3LzZq69yrstP1Kq4IMZAoyulPych1n-VN8HLwi-pr-Cwh1UQW-bfPhPA",
+      "text": "เดี๋ยวผมทำราคาให้ก่อน"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776823862826_97418502",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776823846410,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610678150640697821",
+      "type": "text",
+      "quoteToken": "89ZUYt6knbcL2xjt7wUesG68q9das6HLmBvA0K86JTEPIlvXmu4TRdBAPlj53qGxH5HH2NnWUeVjua0FBn35J0b0YKlzJCsqu0CPI1zsLsEePRP0ye6sVVcw4pKyQ_CxlOAxsxQum-VkCQSdsPwM2Q",
+      "text": "ส่วนเรื่องระยะเดี๋ยวลูกค้าค่อยทำไฟล์แจ้งจุดปั๊มมาอีกทีก็ได้ครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776823855171_7208329",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776823828990,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610678121095758192",
+      "type": "text",
+      "quoteToken": "LUo1taAWA7_XsNGyoCf1cYOaSp_sBxdIT85SRaAZytIyXaJ7v8vebhjGuTeq7iNEi6fNbs0hvJdougIbV_FmN15XBULKpc7La0kTOHD0cUYd9SU0DyeWscab1aiA7lFGh1OQD_NTZDe8Flx--BjPEQ",
+      "text": "เบื้องต้นคิดว่าต้องปั๊มครับเพราะกระดาษหนาไม่อย่างนัี้นเวลาลูกค้าจะเอาไปคาดของมันจะต้องมีรอยพับตรงจุดนั้นแล้วมันจะแตกได้ครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776823837723_65826519",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776768183473,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776768183473
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776768183057,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610584762901332368",
+      "type": "text",
+      "quoteToken": "yp1CYY9p250QKI79gQ_Lif8cq0j_BeodCUsX0G5MV5ThrPEnzpHsfWn7RDK9Qcq1py4Nj4kiRI4krOBKA8TdFSJRsAum4aA5JXKe1aVN9iZOUXyZzuUbO6b9apBsM2rLehlORAa51bxZoTUlRtkgxg",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ Prim \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 476,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776768182354,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "610584761727189322",
+      "type": "text",
+      "quoteToken": "jHwRiPpLFxC_pEl9DwE3R723u-wQphZMgppYgwgpeX0hqdhCm8foLCtNZ-JVXzWvYDnxDIlh9TRZ5A10bESTqAmsi5qgQSA1b4lo21I5pUha3Hrb_8cRBzxobAhh8pkTIfvD8BHlnrvHHCeBheMS-Q",
+      "text": "ถ้าใช้คาดเสื้อ เป็นpackaging ต้องปั๊มรอยไหมคะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1776767575381,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "610583743215960306",
+      "type": "text",
+      "quoteToken": "wRWO1XbFKxYJ65puil8gu30iI_4BccP6jikHc0iIRBVBLjvDe5nnCz7e_Ta45DbpEq1U26wQPl0Vj4vo0LrajbarDauGV_HNGen0tthwD4bFOMJIOMOddL9KvhikvZoX7ngtMgemVYlErRODWx6I9w",
+      "text": "ค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776767544107,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776767544107
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776767534471,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610583674546553461",
+      "type": "text",
+      "quoteToken": "qKgUHH9eOgJsCo5YkhmxxpfeSQI50I_biF6nng20jza4nHPF6L8ENeMAljIbXVeFd3Pfiz_Unt20MvCZlLkVqSgfYPQSEzyEQLkSReLizxcAiNIVrEKXBn8HXyoFhhcxNO4oopgoSHw03wON-zKwyA",
+      "text": "ถึุงแม้ว่าเราจะเคลือบแล้วก็ตามครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776767541649_65929183",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776767526483,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610583661426770128",
+      "type": "text",
+      "quoteToken": "54pkMnGXifsWIk_A_B0mtz44v1rqyGwk83yRLoZybeDGAsFU2-vlDx50Pz-hxiWZobcxwnNP8ES-dPRKSzAqZIGpqu8s-EzbCR6sWI7AzaZ-mdOCy4wwu9wYubO7Xf6wvWD8bDu-8T65ql-efXVQZg",
+      "text": "ไม่ปั๊มเส้นพับเวลาสายคาดคาดแล้ว จะแตกครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776767533656_92029548",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776767518937,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776767518937
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776767518458,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610583647786893833",
+      "type": "text",
+      "quoteToken": "CvuG7e8r6s7-YqxpjZtjGqkAKCXTJXwIVFz4VSIWHS_KwZ3Vs78yGz9lxhADuJJ2mUAq1DP0hU20A_80QK6x8cqpLm6hU-FliAda9mE-zTiA18bpwMb_WA6pVVHPj1J4ch5M-E2UTTii1X8_JYu-bg",
+      "text": "เพราะว่ากระดาษหนา"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776767525594_60321658",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776767516280,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776767516280
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776767515887,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610583643491926562",
+      "type": "text",
+      "quoteToken": "u2HNzbjce1shSe3Bk-tlNRYhkzuzlRZb1ZCFIHCwcU0diu-O89tqSsfu_5wPcC6f-auAUMRPz3Gs-WeYC5Rtn1NiTuf5aN5BANT5UQXKJ4FoRcVd1XZQQHAKMm8dYtqSU_GVpdmQ_D8GFOxMIrOwzQ",
+      "text": "อาจจะต้องมีปั๊มเส้นพับนะครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776767523053_2761031",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776767511778,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "610583636748009901",
+      "type": "text",
+      "quoteToken": "ui2kAhbgdAHiwfCBAeTj5EqR7Lw0_4EHXGBdPpiMYo-vxoYk5oWYzfxpb4RYJYAZFqoEupVeaS6jYTOvFjV8ZLwKavTKHnn2xxRulAm0c3in7zXk9jvthDIoZ9pRiVEKYI2NYD0ROgzm1oshIRrXlA",
+      "text": "ด้านค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776767509497,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776767509497
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776767505720,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610583626396729831",
+      "type": "text",
+      "quoteToken": "k6rq6fIzrVrNr11AFWCCkGZrivT_bujWYDdNMIgQhAR2zKS8qtnmILedMNULn9f468wsGHA1A465GbvELFpX0aUpKihnPrfSN1HTEXV3UGP3XVc51i53e2FkkBEQBbM2hXgLSO58nlReHUjvQGJ_fA",
+      "text": "และอาร์ตการ์ดเคลือบเงาหรือด้านดีครับ"
+    },
+    "sendId": "Uf3bba305aa2914255f76e92a9e5822b6_1776767512907_59698320",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776767499973,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "message": {
+      "id": "610583616984711832",
+      "type": "text",
+      "quoteToken": "irMZ1cBtPsev7mwuZYmwvJGtylq2gJnKVEm7xPxX9egnvsTuSTJnGd5iBs8OAn-yCwLIW_-L9aLJvrAKGm59Yqr8H-FRiTbWpiQPL4AnSU9ilKuLm5xBIyx29h9dXQHgFbxVdRQrpmb8Q4u8zMtD9w",
+      "text": "มีกาวค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776767490464,
+    "source": {
+      "chatId": "Uf3bba305aa2914255f76e92a9e5822b6",
+      "userId": "Uf3bba305aa2914255f76e92a9e5822b6"
+    },
+    "read": {
+      "watermark": 1776767490464
+    }
+  }
+]

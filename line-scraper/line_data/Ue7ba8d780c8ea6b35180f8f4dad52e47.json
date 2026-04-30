@@ -1,0 +1,46 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1759221580009,
+    "source": {
+      "chatId": "Ue7ba8d780c8ea6b35180f8f4dad52e47",
+      "userId": "Ue7ba8d780c8ea6b35180f8f4dad52e47"
+    },
+    "read": {
+      "watermark": 1759221580009
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1757485104013,
+    "source": {
+      "chatId": "Ue7ba8d780c8ea6b35180f8f4dad52e47",
+      "userId": "Ue7ba8d780c8ea6b35180f8f4dad52e47"
+    },
+    "read": {
+      "watermark": 1757485104013
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1754033752653,
+    "source": {
+      "chatId": "Ue7ba8d780c8ea6b35180f8f4dad52e47",
+      "userId": "Ue7ba8d780c8ea6b35180f8f4dad52e47"
+    },
+    "read": {
+      "watermark": 1754033752653
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1714617728454,
+    "source": {
+      "chatId": "Ue7ba8d780c8ea6b35180f8f4dad52e47",
+      "userId": "Ue7ba8d780c8ea6b35180f8f4dad52e47"
+    },
+    "read": {
+      "watermark": 1714617728454
+    }
+  }
+]

@@ -1,0 +1,880 @@
+[
+  {
+    "type": "message",
+    "timestamp": 1777447386967,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611724277955429054",
+      "quoteToken": "yVStf8rEVQv7LxirLWWI2c7vu8OqDdsj2SUQIXn75GTGn1a-9D6U0i3ElA234eoJgLcq4s0i56rwUzPf4Vv4KQfiUhRG597H34X6WTAEZYVYE60zHOzl-BxKbFMViZTkLbmX99c1rme2i4s890A79g",
+      "packageId": "3",
+      "stickerId": "180",
+      "stickerResourceType": "STATIC",
+      "type": "sticker"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777447383738,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611724272670867848",
+      "type": "text",
+      "quoteToken": "ANImSdAbhmIDIB4sE8ciK9Rm8Busk6FOZEQpV7sN0Ya3cEBOGmEybk-Oe2kxg7sfWLSSci85LrKQp31HikZTY8FNOLPlOXY3_jbqUlOb01GapusBOpOKbTPY7RWwnvrFczXOKirfPFaFiDqa4isyRw",
+      "text": "ขอบคุณมากๆค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777447377333,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777447377333
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447375008,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724257822507358",
+      "type": "text",
+      "quoteToken": "uG5vETJPKqYyH-B4e36lvKS3-fvc0vQ-pJpyYdIMuUmemPer9blYw1JSwZRzMSKiDVOkrAz7QzW8N5nu-qVrpWzVcEvggDWnSkCe2NSlsKOyfUuO8MGam2gAckjgzNsPj6I1mkG1m-E12s5xRCYFjg",
+      "text": "อีมสั่งผลิตให้ครับ"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447402123_49479369",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447371883,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724252756312356",
+      "type": "text",
+      "quoteToken": "DJI_KI_5QxDoYfPgiRyd055cS4fSKcnHWJi91YseLZV6tnRmDmIbkrIBOAwjqei-5regP6axsewj3-TfTRa-CjgQwt8rDpda_K_Ei-3Hm7z9zFf2acrCmO2RzKC-XU9W12FmooOkZTl1LUXPDKVZ1Q",
+      "text": "ขอบคุณค้าบพี่อร"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447398964_96750207",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777447322697,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611724170162078177",
+      "quoteToken": "--Izx2oYK1AB3X5XDo33fbyZRaj5c7hmtNKaYRyeau1GsGgIFXmExL1s6YW9jorvWtIuFOL6kBFjFZGf-Gc-1TcZUOAVVqrs0VA0AqWxLGmyzVxgdBRPQxRQeiLn5IrWjHR6S1yibgGYBdhlEQwumw",
+      "packageId": "11539",
+      "stickerId": "52114110",
+      "stickerResourceType": "ANIMATION",
+      "type": "sticker"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777447320863,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611724166890259226",
+      "type": "text",
+      "quoteToken": "727ZIazlIHubal1BDpasUfIyVwJmckok7CtRH-F6kqZEHA2lq5Vy2jZMa3kRlPYsIgJKKhXGwWZxAmGb2iMwTl5anQ-c_EhWHxh9UjWb0zZoOpl8De2y7ncU_QJYsAu8cSz0CG4fYU_PHbnEFLDUWA",
+      "text": "ขอบคุณมากค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777447317979,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611724162209415342",
+      "type": "text",
+      "quoteToken": "mdiXpLeUtWUayJX5QiI1KxdFNxlikO1WoF9FsKwtK-J2OWuJ4oAAUYVB02L17k7-wTuxnf0__nXKNVBcnUT1g-AoyWED8Ftl_3CU60I8HIUXQP0OJ9TE0x44VwwhjbCbJpEuZE0VtX1Uyc4xq8iXDA",
+      "text": "Confirm ค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777447259671,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777447259671
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447244548,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724039014056365",
+      "type": "text",
+      "quoteToken": "dIkXyjLKmrBGp4MrCl2e5p_Sl5s8zjFvkAbVWk50sJkh2qzt7xRRtmRA9z3j6U2Livbtcvqnxw8-urdx8l_iy_pA-pGuOljQxV7-j6OA0n8qML23nuEDuCc7_R0sCblWqZqaT_7KFSxChxtM_owDcQ",
+      "text": "เส้นสีแดง = ระยะตัดตก /ไดคัทครับ ( อะไรที่อยู่ในเส้นสีแดงจะไม่โดนตัดครับ )\nเส้นสีเขียว = ระยะปลอดภัยของงานครับ (ในส่วนข้อความไม่ควรเลยเส้นนี้ออกไปครับ)"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447271640_24918065",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447239946,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724031397724179",
+      "type": "text",
+      "quoteToken": "zuDKuAEIkojzwAL6mjbboZu63Sz_C4HfDKL1jDeIFXw0bbdXQMyf_Lt6NRHwjYrHT5gGokXVg90kqE_J7YNp7ouwZbUmNGORaDjUZ26CQEh5f7hXNd24KmHrcrH6crHxcw2gJeMwBCMHEFv4QYVMvw",
+      "text": "📌📌📌 รบกวนอ่านทุกบรรทัดเพื่อประโยชน์ของลูกค้าเอง 📌📌📌\n\nข้อตกลงและเงื่อนไข ในการสั่งงานพิมพ์ ดังนี้\n\nไฟล์ Master = ไฟล์งานต้นฉบับจากลูกค้า\nไฟล์ Artwork = ไฟล์งานหลังจากที่ทางกราฟิกของโรงพิมพ์ เช็คเรื่องระยะตัดตก (หรือหากแก้ไขจุดต่างๆ **ถ้ามี)\nโดยลูกค้าจะต้องตรวจเทียบไฟล์ทั้ง 2 ด้วยตนเอง\n\n** คำยืนยันจากลูกค้าถือเป็นที่สุด หากผิดพลาดหลังจากนี้ \"โรงพิมพ์ไม่รับผิดชอบทุกกรณี\"\n\n** ข้าพเจ้ายอมรับข้อตกลง และยืนยันว่าได้ตรวจสอบไฟล์เรียบร้อยแล้ว\n\nลงชื่อยืนยัน ………………"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447267031_89299379",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447235130,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724023294328870",
+      "type": "text",
+      "quotedMessageId": "611724007858765895",
+      "quoteToken": "6XMLSZe0oqMRf7ie7RIEpxxJZKmJSr_5ZO5pmbYjVvxkTkYd9o1OVBIzlebU7X9QZrGKdpisqZ9IOVUKXrZU3E3Fw-6mbUbsKVp-dN9KBuHBBy6JdRKLcBfpTlM8tPN16l-dxRBW9uMf8Mced9y_jw",
+      "text": "A5"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447262203_41070096",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447231010,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724016331522172",
+      "type": "text",
+      "quotedMessageId": "611723992423727616",
+      "quoteToken": "W0Zxe2SkW7FNo4YbBMzKZcy52E7Lmy_X3G9OoIZZisjWOtG-qlUplj-sfejwbmR_WFqt1A9u7VIo6hcVmJ-uMAlhOxmUbKNEKxpaZDGGfLU2sr6bdynHgnwOj1L3He5XuxsqnfbTa0YYi-eQoupUDw",
+      "text": "A4 ครับ"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447258086_3281527",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447226226,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724008832368790",
+      "type": "image",
+      "quoteToken": "QsuYE5_OweJ3X3RryWrsRbDhNKvdrLuN6jeHocDdQ-sQsGjErOqbRUFH1PmRs3Ylg5Y8F4j_OAonWJlR4jQb20lZzeT2SHz_JvDB03WWeGGtITKeNBKc_EimU6mlGxI2xCFig6eoUlTNwDBCy9f7jQ",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "Aomcrxjc0gSuBeQtdCTIiFye8tXROWZucjzb1chBKZQRT_Jmp1Jo8yjDfNnrL7FTEVAWWRtyBHChuJFlT4slh0WAeip1DWsdm0rrBE9CnhxrT-oqhQQ0k9R0CRjHRjouOObrIXWDvj3wvVZWXR7TOg==",
+        "expired": false,
+        "expiredAt": 1935559166226
+      },
+      "contentHash": "Aomcrxjc0gSuBeQtdCTIiFye8tXROWZucjzb1chBKZQRT_Jmp1Jo8yjDfNnrL7FTEVAWWRtyBHChuJFlT4slh0WAeip1DWsdm0rrBE9CnhxrT-oqhQQ0k9R0CRjHRjouOObrIXWDvj3wvVZWXR7TOg==",
+      "expired": false,
+      "expiredAt": 1935559166226,
+      "imageSetId": "F4D7BFE5CE59620205698C175D1D0B693914CEEF69FCECF3F61B0A683E23DACB"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447250537_54949705",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447225828,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724007858765895",
+      "type": "image",
+      "quoteToken": "dTnieG3Tq-W--AxZ323e5bmys0skZWLSL8bvpO74Amaj4bLuY0oJXvVHs5oYI1iA5muo8pIwJoTGvLTQMff2tq4gmXHMlAT35sGNA9cxitRZqD-ggHGQE8MuvZu2wVawd2SyIx8s2MIUDg0LXWBD6A",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "umIyRY2rfry-XfwVVDQ9SGyVwlSr9tFfmemIPOGW9ORP6omUC6oULSvZyTeCfpabi6_35Rc2xQ3nVPaXQHg8shuhahNBGqfk00xCKgz5E_IQFA6uxR5aXZimAcUcTSj6-Y6RmCFYWj9R9NUu3GhWkQ==",
+        "expired": false,
+        "expiredAt": 1935559165828
+      },
+      "contentHash": "umIyRY2rfry-XfwVVDQ9SGyVwlSr9tFfmemIPOGW9ORP6omUC6oULSvZyTeCfpabi6_35Rc2xQ3nVPaXQHg8shuhahNBGqfk00xCKgz5E_IQFA6uxR5aXZimAcUcTSj6-Y6RmCFYWj9R9NUu3GhWkQ==",
+      "expired": false,
+      "expiredAt": 1935559165828,
+      "imageSetId": "F4D7BFE5CE59620205698C175D1D0B693914CEEF69FCECF3F61B0A683E23DACB"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447250519_43147279",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447225521,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724007020429818",
+      "type": "image",
+      "quoteToken": "7lgcfRdcLvtajvSUUPsS4DJQsEz1e-yczX08bROtJDC5h5xrjyXGh_N_36Pp9yiLTq66UtfBz-tFlwVcRgae2JITihgqCh9JFBFbJ3e0QblTPoSrDzoFv5rvjWTxeqQ4m_5gLjsj09uZGtpK6bOMnw",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "m0DBL2EI0m2KdrNFw5ZgnPZI7k0UrRiWSBqrjQdoR-Mtk-MU1wM09IykXg85rg5anynFx8A_IxJ9SuKnKEVeQR_T2W72sKnr1RUjuPbiYz39iCcy-QQgcmHBRLyfKxAU6jNu5bRgUMkvYKl3YQCxcw==",
+        "expired": false,
+        "expiredAt": 1935559165521
+      },
+      "contentHash": "m0DBL2EI0m2KdrNFw5ZgnPZI7k0UrRiWSBqrjQdoR-Mtk-MU1wM09IykXg85rg5anynFx8A_IxJ9SuKnKEVeQR_T2W72sKnr1RUjuPbiYz39iCcy-QQgcmHBRLyfKxAU6jNu5bRgUMkvYKl3YQCxcw==",
+      "expired": false,
+      "expiredAt": 1935559165521,
+      "imageSetId": "F4D7BFE5CE59620205698C175D1D0B693914CEEF69FCECF3F61B0A683E23DACB"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447250485_50294776",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447225147,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724006650806746",
+      "type": "image",
+      "quoteToken": "urqTfjeHBLiOjzcGEdlKv2Dks6JlqkRHOyZap-gXC4U_7ifF5-7ROctJu0YVpgFMOh2J8ergnXs_GVUzyPziPVfPjU62n_7uLHQ1yDn60xq5FBGxQLgAs1mu9WIdHdCg0FXN_gnH9NoHlhDksEKdJQ",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "Vm3q4IeHlvi6PmrsZ-Iqp8hR-Bo83XhNkzQ1b55z6kcUQ9GkAQoUfjlw7fAPlJLyoLGvADaenCDDxayk3mYyKgEoLHMOhdCT9QJtVa-D8BjSGEgehJFUAAEvDDme52WAPGAWgRoNfwFFSQkqTkXAuA==",
+        "expired": false,
+        "expiredAt": 1935559165147
+      },
+      "contentHash": "Vm3q4IeHlvi6PmrsZ-Iqp8hR-Bo83XhNkzQ1b55z6kcUQ9GkAQoUfjlw7fAPlJLyoLGvADaenCDDxayk3mYyKgEoLHMOhdCT9QJtVa-D8BjSGEgehJFUAAEvDDme52WAPGAWgRoNfwFFSQkqTkXAuA==",
+      "expired": false,
+      "expiredAt": 1935559165147,
+      "imageSetId": "F4D7BFE5CE59620205698C175D1D0B693914CEEF69FCECF3F61B0A683E23DACB"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447250450_93500410",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447221402,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724000192102885",
+      "type": "text",
+      "quoteToken": "Q-DnGkwECsCc-iVf6iUmvQYeG_6qf96mXdFVIS5UtmVvRbXMATm3pD8i3ODcPwZ7ZTb_RyGdf8Fe-2DwNhaOO97G1mdw2df3YJiz-PdpIDKpy8zaqjBfXyzuTk3BfxZPdswoU907WZ8EtsNTtmAEmQ",
+      "text": "-----------------------"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447248497_76100197",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447217214,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611723993312920019",
+      "type": "image",
+      "quoteToken": "2o7-t3rmH1UA4TVJZ3RcgH7YIQsIRH4_OXGe7Ikb2xFHbFCQCzQ2NtLKpd4TCGN4xXdQWwtCo_RgDSg5xf66wEhzxX-MGyrjuXAeVj4qo50T4HrDY5cjc6NWg9UUX2Bzj5zz2YS8paJ8z-NVkvKWUA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "ItAYJFPPtFaMTC-mkOtO_QsvPP_cdMXUMdh6Amz5oGSekKpKFDZietzxBMPl8E7HgCX9MkdEOLNwe0_oAMTQJZr7y1JVDuUTRaa-4CMwlcVDRmKlW2sgGjp9wXSzHPh1-Y6RmCFYWj9R9NUu3GhWkQ==",
+        "expired": false,
+        "expiredAt": 1935559157214
+      },
+      "contentHash": "ItAYJFPPtFaMTC-mkOtO_QsvPP_cdMXUMdh6Amz5oGSekKpKFDZietzxBMPl8E7HgCX9MkdEOLNwe0_oAMTQJZr7y1JVDuUTRaa-4CMwlcVDRmKlW2sgGjp9wXSzHPh1-Y6RmCFYWj9R9NUu3GhWkQ==",
+      "expired": false,
+      "expiredAt": 1935559157214,
+      "imageSetId": "71CEA2CF59BF0B6ACDDD2A08D3881F9AD037C75E43FEE9CC0ABB780D41745DBE"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447240795_42690584",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447216810,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611723992423727616",
+      "type": "image",
+      "quoteToken": "8xopd__EIdmpv9ql45JKbQkb18n-CkYrf_gIfeqVyRixvIP58S8b_WJZSY4Rfa4dVi9UWz--h9iNNDhvEaGM5EbaMBUIUtwoFkskgP_4DQnM28e0VrJjzdMH_dM_-xzV0ZIpjZ7umMBa2giOZm5qMw",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "0YnX7pf7GjuadIF8WTZlXCLcRPrfSY1Md1HYaRf489Dn5omm6wpTH9ZQHxld6ASiRRkRCbGJBgi_TbAWBE8mg3XXvVV-_y6ovVkdgOr3NVOOe50RevDpZDzBdlVeVN8hQQq1-WG3eFy_I7uXKcbEYg==",
+        "expired": false,
+        "expiredAt": 1935559156810
+      },
+      "contentHash": "0YnX7pf7GjuadIF8WTZlXCLcRPrfSY1Md1HYaRf489Dn5omm6wpTH9ZQHxld6ASiRRkRCbGJBgi_TbAWBE8mg3XXvVV-_y6ovVkdgOr3NVOOe50RevDpZDzBdlVeVN8hQQq1-WG3eFy_I7uXKcbEYg==",
+      "expired": false,
+      "expiredAt": 1935559156810,
+      "imageSetId": "71CEA2CF59BF0B6ACDDD2A08D3881F9AD037C75E43FEE9CC0ABB780D41745DBE"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447240783_36513446",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447216425,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611723991786193165",
+      "type": "image",
+      "quoteToken": "88Vu1vwwb3i9bGz8Ww-517sxLCBh7of7cDKPs1Bvr-qXyqyH5_ThzcgGWkgu1QcVbgXERlN20QmpemPy8TZ_l6BZBHPybZblol5hJPDutzunz9AI-wwvlb2nxKbOnPBdwqXPDLmKXeZc3yORQ9D2aA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "YhUoynn41em6LWrxg3AmQOv_eq29NEgg90mygMEVMYeUUDn9CFYTcIm6UcfaIKq6xGLolHqBV0Gt6IeY5Fp8HEGVpTsAqbZ7Ln45PIyjyAxlDlYWiz5RWrkegf2Lu5rPPGAWgRoNfwFFSQkqTkXAuA==",
+        "expired": false,
+        "expiredAt": 1935559156425
+      },
+      "contentHash": "YhUoynn41em6LWrxg3AmQOv_eq29NEgg90mygMEVMYeUUDn9CFYTcIm6UcfaIKq6xGLolHqBV0Gt6IeY5Fp8HEGVpTsAqbZ7Ln45PIyjyAxlDlYWiz5RWrkegf2Lu5rPPGAWgRoNfwFFSQkqTkXAuA==",
+      "expired": false,
+      "expiredAt": 1935559156425,
+      "imageSetId": "71CEA2CF59BF0B6ACDDD2A08D3881F9AD037C75E43FEE9CC0ABB780D41745DBE"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447240755_12425337",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447216039,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611723991316431177",
+      "type": "image",
+      "quoteToken": "O6hbYSmBbUJoVuGEuVUPNoYnrqYCMjaKUvR3BkRhxXWmzUzwn4YDBhSS0o17TnrP_7GQs1_WtOUwm6tm9KcmRH_kOwybUWDiTBmUy0bdUXxC5sCMlzSCIv-Fpb70DQswKOuMQwfjEAC2pm0XOzMHQg",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "ar5fDZqXHeNtYiAKLaKda7v3h89NT5IYgOZOBbnkdi55MwZS426XfQa82fdby-7te9PhdYxEAMkV8NBuKyAYqbVlaAxo1tvcYDn05KRCFQl2BCNjeY7UsJ8ExzG5cklqyoEYSNdl5TIBu65cFcBv0A==",
+        "expired": false,
+        "expiredAt": 1935559156039
+      },
+      "contentHash": "ar5fDZqXHeNtYiAKLaKda7v3h89NT5IYgOZOBbnkdi55MwZS426XfQa82fdby-7te9PhdYxEAMkV8NBuKyAYqbVlaAxo1tvcYDn05KRCFQl2BCNjeY7UsJ8ExzG5cklqyoEYSNdl5TIBu65cFcBv0A==",
+      "expired": false,
+      "expiredAt": 1935559156039,
+      "imageSetId": "71CEA2CF59BF0B6ACDDD2A08D3881F9AD037C75E43FEE9CC0ABB780D41745DBE"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777447240725_63007893",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777445361821,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611720880452010631",
+      "quoteToken": "lsTw59HmUypGi98PC0q6hLpd4IhEi9ao3wwNSEQ1vTIK1lVVRopX1NTBxCmF188FKvS2QvdSS2kw3lK-wFD8HTnSTbPrx4GyyA-dGMvA9mL4YgZ3GI_seg3Pey881DSqAvWgBxkxIPe1vXjkoQ2HJA",
+      "packageId": "11539",
+      "stickerId": "52114110",
+      "stickerResourceType": "ANIMATION",
+      "type": "sticker"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777445359623,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611720876459032836",
+      "type": "text",
+      "quoteToken": "PI_P6fi_z2Sy_2nH_SoGN7lpBvaGPlMkExEiH0T23x7DhC59bA4oMVEbYfNNfmnpIy7Cu-YE5wfqybL5eZ7cPTn8SMNNM6U7W5Be4JhDKNP6jziu6B6jLSW634BQUfRkDvGv9nhTQdG18q1grE6Gcw",
+      "text": "ขอบคุณมากค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777445356888,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611720871979253974",
+      "type": "text",
+      "quoteToken": "uMvYm_LQBMC3oJWigFbIi7A0jVixhcja0BWsvPu2PVAjbrhdYdW9XkZvGShS6EIHKeggeShvjiIPZoimDWD3pWeJUMVGLO2WH8LEwqiu6HDQyguUy_IkxcnxHi7Ekasiq4E31jmCAnvdfppg3Wf3KQ",
+      "text": "โอนเรียบร้อยค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777445353079,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611720865654767842",
+      "type": "text",
+      "quoteToken": "l4Ayya2-uPbN1EnsYxHEwFKrNrpDIRF1vyGWUZN5M4PWFVnt7h-hLU_AkIr_iRtZVQ7Th9-6V2mN5J3NOiP6vxWsnk4n9CI81xFpYDAYP3tuDBoic5NC4uT2P_T36GKYaZ0DRpUIfTlSGkEhc4Mi1g",
+      "text": "ขอโทษที่ ตอบช้าค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777445337899,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611720840001880306",
+      "type": "text",
+      "quoteToken": "KkX_E01c-JG0W0msvBeFuH11JlkAThiPFF_m61elShwMLdP1QoM6aMkH2jeJCub7oHrB337SPRVO7WQ5pH8cJrAcahqeyTdchy53rYTL98PNmj20PZozS_5SIHdA3kmYbwmsPz3Xdq29ApmQhek7ww",
+      "text": "โอนแล้วค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777445334044,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611720833660617114",
+      "type": "image",
+      "quoteToken": "GXWYYiXKQdf4ZRcorZqiboZEk2WGBJQhrjNg2dUNHTqIaiYXpO5hainu-XsoquXC9YNuxPDmx9DZQVN8SPKgOBMciI8Chu3zdUdsAyWPHzfKe_xFawXzNd_MXpSsj9G_g4wQJWvoGDqNM7hnWsOu-g",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "gIlvvFOXxgKiHxC72XJpaXsf1XCR27OtWNUVAm5vxCIoZrPv9LEnxwiMxFSjT5j5gt9vx5nYEuygYyYYagEG9IobIcamAM866nmV97xRlHfyDnBDtgpycheIPL12m4fHhQ7XXNlMIvOKyR-Uke5ipw==",
+        "expired": false,
+        "expiredAt": 1935557274044
+      },
+      "contentHash": "gIlvvFOXxgKiHxC72XJpaXsf1XCR27OtWNUVAm5vxCIoZrPv9LEnxwiMxFSjT5j5gt9vx5nYEuygYyYYagEG9IobIcamAM866nmV97xRlHfyDnBDtgpycheIPL12m4fHhQ7XXNlMIvOKyR-Uke5ipw==",
+      "expired": false,
+      "expiredAt": 1935557274044
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777445235914,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777445235914
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777426598903,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611689401378669057",
+      "type": "text",
+      "quoteToken": "3VLNHGX_KvIRuMl0ifRXuZqiGbjArOEfer0KMHhS9nRQ1BM6jqH0fkq4xO8tZ56vtIpNUmuCenyO7Kn9GQtub2jppE3SbXL0R4HxGRvW0nMBF_Y5VSN-sVvfR_d0BTV7Mf0iYBaPRqz7yClxAIZa-A",
+      "text": "แก้ไขครับลูกค้า"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777426625528_368510",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777426593192,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611689391681175886",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "jsqBwqRb5HNmKFsImBdgOzjw-L-46xasUCTnMijzznY_zkNLeuvZYEizQqR0idv_ha-QGsFm_lalmF0ekqWO_X7Q-YLzLYwVwaO0fcBEr3qCCs2uzpaoP0FP9r7aqHT9r6fRbKROf4YksHppMo5QDQ==",
+        "expired": false,
+        "expiredAt": 1935538533192
+      },
+      "fileName": "QTG69-02858-เทรดิโก้ อินเตอร์เนชั่นแนล.pdf",
+      "fileSize": 139621,
+      "contentHash": "jsqBwqRb5HNmKFsImBdgOzjw-L-46xasUCTnMijzznY_zkNLeuvZYEizQqR0idv_ha-QGsFm_lalmF0ekqWO_X7Q-YLzLYwVwaO0fcBEr3qCCs2uzpaoP0FP9r7aqHT9r6fRbKROf4YksHppMo5QDQ==",
+      "expired": false,
+      "expiredAt": 1935538533192
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777426619245_73366426",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777426119860,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611688597599027546",
+      "type": "text",
+      "quoteToken": "Hi-kwmPTHZFKPGZHHAbGWC58tKsQXCpTU9fW13sB1MKOYEgvxzXcqOq98WUsiGU4sSJH8qkJ9lWEW9PLzIVX0B95z8Xy7eYVUoYGh5CTI5tEjHjWDioZIdPVF0sMdd7iT7-LevXN2scC6UKt7kHuHg",
+      "text": "ผมแก้ไขให้นะครับพี่"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777426146480_44793246",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777426117146,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611688593152541413",
+      "type": "text",
+      "quoteToken": "ZvU0JYQaCzDJm4B0I4XJx4i3G6WbQbnrhhSvAGpXSsgtzIFLHAhPB5YRjSw24NoiSwrckPJTH4bIh5iNq3ZJi1KxtghFCucPl9ONalpw2DzVGq1EECjKzjOBjZwXSChFgEDq4blxDu23PZ8KlmxXHQ",
+      "text": "ได้ครับ"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777426143736_90090915",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777395013272,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777395013272
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777395012762,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611636408494325937",
+      "type": "text",
+      "quoteToken": "3ersG9BbciHnLUI5A4qdnh1iXVEuX8Ody2xGMJM8blyBUr62Pbj42ff27Izr0kM2mUQUuTB06McEM_p5rX8Fm5l2PE_t2pGmHR_6UDZCTiWvT6kzIOvM7fSqCDERggzs1iLdtOipoADQDGzARnMaYw",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ On \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 474,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777395012023,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611636407337222249",
+      "type": "text",
+      "quoteToken": "k8IM1AhUWcXsby7tIsaZ4_Oi6W2dUSgSBaAlCfDcX32lmqVzqUyu08UB05O2n0Fo4K0-v3wQvtOYVI_ubm0YkqyyKiZkcKKaITKHQ89KtS7AcKlj8Us0xuh9VlWVXG848-asH7f0NF6oo9z4cRpM8g",
+      "text": "ขอเป็น vat 7%  ไม่ต้องหัก ณ ที่จ่าย ได้รึเปล่าคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777364632611,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777364632611
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777360185185,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611577977780306024",
+      "type": "text",
+      "quoteToken": "fe8J-uJL9AHCdpxzVZpawA_AD1ih0OVuDqDVvP91JTORUe7kTRSbzS757kqq-r5_OKvZQyWdNDji28M5FGypGHMiQY2WgY6i76W4eWRbnJkUF5zQbj4jjwVc_151S3mDNKJxkI5foljtl5d_MrwxiQ",
+      "text": "♡ ใบเสนอราคา + ช่องทางการชำระเงินครับ ♡\nหลังจากลูกค้าชำระยอด+คอนเฟิร์มไฟล์งานก่อนผลิตจริง (ตัดยอด 15.00 น.)\nงานผลิต 5 วันทำการ เริ่มนับวันถัดไปวันแรก (ไม่นับวันหยุดและวันนักขัตฤกษ์) พร้อมส่งออก 16.30 น."
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777360209727_31581519",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777360179111,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611577967562457090",
+      "type": "text",
+      "quoteToken": "DymcbptZ8kUOl3qeMA3OuoJ84HoXSvFkmGTZKd4eUK4rwhUJhY8wnWnNcxgMQiOQxfjBfgtwaDNXxWA8EAsy86LJpLNYpEczEsV-gcCmsUQtRe7BhgnkC_MW8RR50qdGzH9IAOOwOVRn6t0TZvsUrg",
+      "text": "♡ ธ.กสิกรไทย ♡\nชื่อบัญชี บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี\n\n0788919247\n\nหลังจากโอนชำระเงินแล้ว รบกวนส่งสลิปให้ทางไลน์นี้ด้วยนะครับ\n♡ ขอบคุณครับ ♡"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777360203640_91053798",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777360174292,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611577959577027022",
+      "type": "image",
+      "quoteToken": "VmFmkEAnA-dH9dqDYVUUslMNHI9n2bdMUpasWp43wJ5FQ8n6iZ3EQiFjmWpKzLvSdNa4fNN_zrtIAKkJ3Wst9vlcdeGzzq05GPJUrR-MdDNithKmeqo1DdEZKDz32u3LdRU4OUsTuDhnUxBtgg5RqA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "W8OTd_nfRhX8BqyVZfp0pJ7BLBNKFyMT4heqoM4SjEv3QcfIZYMJA_WPih8Vdd-4o-sYbCmdysGrIOEIflb-FY6epiNdLkzGLbaKpLOBfdYnRzyoPar_c5w3RxEGUBr5Q0mGTKiMiK02azDH-NEk1Q==",
+        "expired": false,
+        "expiredAt": 1935472114292
+      },
+      "contentHash": "W8OTd_nfRhX8BqyVZfp0pJ7BLBNKFyMT4heqoM4SjEv3QcfIZYMJA_WPih8Vdd-4o-sYbCmdysGrIOEIflb-FY6epiNdLkzGLbaKpLOBfdYnRzyoPar_c5w3RxEGUBr5Q0mGTKiMiK02azDH-NEk1Q==",
+      "expired": false,
+      "expiredAt": 1935472114292,
+      "imageSetId": "A2F750FB131431118823727A0B42059C04DCB1B8DA724CD16D26C47237BEDC05"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777360197175_99301978",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777360173931,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611577958838043128",
+      "type": "image",
+      "quoteToken": "vT8nfIVU3TamRJ0-d_YDGC0Q2TbLBGJkH91dbJ0E-PHJo8wYV9sOw6jdkrk_P-xgURbYJIlKz67sDRT6ZsRkSo7XIVQP36cdowchCUddgQMa62uLAZMNrACIK30msFOiksE3kklPCcbQcKRvWrTskA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "Ik6weVGzOEHujAbOGldrlKTruqpjwNCTPuiiK9FvsJq4UblVzxY_Pne_AYmo8W0YVcm7Cv1y5Z41n8zJjwGXkTHA_dnpsbZqgZNGsjz9grI5uGSbT743SHNET3b9RE6pdWH1GW1Hzzc1ZjJIrpDCnQ==",
+        "expired": false,
+        "expiredAt": 1935472113931
+      },
+      "contentHash": "Ik6weVGzOEHujAbOGldrlKTruqpjwNCTPuiiK9FvsJq4UblVzxY_Pne_AYmo8W0YVcm7Cv1y5Z41n8zJjwGXkTHA_dnpsbZqgZNGsjz9grI5uGSbT743SHNET3b9RE6pdWH1GW1Hzzc1ZjJIrpDCnQ==",
+      "expired": false,
+      "expiredAt": 1935472113931,
+      "imageSetId": "A2F750FB131431118823727A0B42059C04DCB1B8DA724CD16D26C47237BEDC05"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777360197118_78687961",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777360163028,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611577940618772924",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "DjPGZ2tR10let16i02vb87qoZPnOs3ynQu2AKVj-CpfnlbrQpC03S8rLyo_4GO9awtjCcoGDtIP1jln0ojEIQUFVfpkaj7KKRVj3Vu1WJuENoadyH_iSk431wi5EZcsf6jNu5bRgUMkvYKl3YQCxcw==",
+        "expired": false,
+        "expiredAt": 1935472103028
+      },
+      "fileName": "QTG69-02858-เทรดิโก้ อินเตอร์เนชั่นแนล.pdf",
+      "fileSize": 139628,
+      "contentHash": "DjPGZ2tR10let16i02vb87qoZPnOs3ynQu2AKVj-CpfnlbrQpC03S8rLyo_4GO9awtjCcoGDtIP1jln0ojEIQUFVfpkaj7KKRVj3Vu1WJuENoadyH_iSk431wi5EZcsf6jNu5bRgUMkvYKl3YQCxcw==",
+      "expired": false,
+      "expiredAt": 1935472103028
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777360187082_87266932",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777358539742,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611575216887300614",
+      "quoteToken": "r9i0VIBMSwSBBEM5D1QdO2ZGdDpYQ4moVqyxOXuccXTsl_8Lu43kReJeBhNmrjaIMue2U1oQU_5C-r0kjEsEHFCYklUQlEc0QifMcX-rJEYvKD-JETodiKhaiLDqFyEcommBGvDSRFvufeMDSWCbNQ",
+      "packageId": "3",
+      "stickerId": "180",
+      "stickerResourceType": "STATIC",
+      "type": "sticker"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777358535899,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611575210730586436",
+      "type": "text",
+      "quoteToken": "KseCQfqDoY1mN64yTYpdizRTMazu_5hqD47LBoE88M0PV_u8TFYelUQ4Cl5vsoBa4qGqZMf3FvE-sbRMw9w-N9vI22SRF53AFGRVwO9eUUHc3hEeku_pJ5Mi10GRe2u0Q8aI6FCBXXhKEfVnpN2ubQ",
+      "text": "ใช่ค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777358531298,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777358531298
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777358530940,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611575202157167033",
+      "type": "text",
+      "quoteToken": "D6Q0UkRUKh1jgbrj4KHJ7u2p2aiyvUMIvemFhSQg_lHoOjagIy-fllRb9IeZ2vofHgXLDhL0MSYDjVOlpcYJOqkgrWZysvo_7Hb2Pp4LTCD8n5l5waiaAek106PABZzS9L1o2NyR9ztoTO0I6YcNKQ",
+      "text": "ขอบคุณมากค่า"
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777358530585,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611575201788592267",
+      "type": "text",
+      "quotedMessageId": "611575177511698880",
+      "quoteToken": "cx4kCi-Mza_x8CLxql8tj2OniDEZsNnyeQQ6PKa48Z2zwVeGOaNuKam15-5zPkS2YX8r3sw8BGY92Oe_i4IEREC2Co26z4Cx6OvH39f9UT3Bj-SIOFqTawMh3VyrjMnsqSu2My0m8Zw7TZuIvJJfPw",
+      "text": "หมายถึงพี่อรจะเรียกรถมารับเองนะครับ"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777358555122_38256389",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777358523342,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777358523342
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777358522693,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611575188399587725",
+      "type": "text",
+      "quoteToken": "rZtMSME2tMwmKQw7rNdcI6a8BVhrc0tX0q-bq5sjgnGnx0QOV-rUbgVm1ulFKEJYmwXeaYnJfp-sPehFq3WLoA09tUM7nyu0KQxT117wfIkuZGZV4sZlFxyKoQyxgga3b9XzPt5AW_J__9dPs7VTLg",
+      "text": "เดี่ยวทำใบเสนอราคาให้นะค้าบ"
+    },
+    "sendId": "Ucf3a956233ce6c96424a5a4870338946_1777358547254_95321967",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777358516359,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "read": {
+      "watermark": 1777358516359
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777358516295,
+    "source": {
+      "chatId": "Ucf3a956233ce6c96424a5a4870338946",
+      "userId": "Ucf3a956233ce6c96424a5a4870338946"
+    },
+    "message": {
+      "id": "611575177511698880",
+      "type": "text",
+      "quoteToken": "7LkaDzTYpSDEJEONufUrek18saaov4zw_Kplv7u4vzEKYl9QVzcHjD72T3blmjE74HxTGDn8-C1C9OF3r3fJAT3PJ08BJB4tgZJ1Y-wfSlkBtztOp9Htmx2PrjUBAH5YoRbywOgFxbwhnvjNPpj48g",
+      "text": "เรียก lalamove รับงานเองค่า"
+    }
+  }
+]

@@ -1843,7 +1843,7 @@ app.get('/api/daily-stats', async (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
-// Customer Quotes — ประวัติราคาที่เสนอลูกค้า (per lead)
+// Customer Quotes — ระบบ Price Tracking (เสนอราคา + ซื้อสินค้า)
 // ═══════════════════════════════════════════════════════════════
 app.get('/api/customer_quotes/:leadId', async (req, res) => {
   try {
@@ -1858,9 +1858,29 @@ app.get('/api/customer_quotes/:leadId', async (req, res) => {
 
 app.post('/api/customer_quotes', async (req, res) => {
   try {
-    const { lead_id, product_name, category, specs, quantity, price_per_unit, total_price, quoted_by, notes, pdf_url } = req.body;
+    const { lead_id, product_name, category, specs, quantity, price_per_unit, total_price, quoted_by, notes, type, quote_date, rejection_reason, ref_quote_id } = req.body;
+    const recordType = type || 'quote';
+
+    // Auto-calculate round_number
+    const { data: existing } = await supabase.from('customer_quotes')
+      .select('round_number')
+      .eq('lead_id', lead_id)
+      .eq('type', recordType)
+      .order('round_number', { ascending: false })
+      .limit(1);
+    const nextRound = (existing && existing.length > 0 && existing[0].round_number) ? existing[0].round_number + 1 : 1;
+
+    const insertData = {
+      lead_id, product_name, category, specs, quantity, price_per_unit, total_price,
+      quoted_by, notes, type: recordType, round_number: nextRound,
+      quote_date: quote_date || new Date().toISOString().split('T')[0],
+      status: recordType === 'purchase' ? 'ordered' : 'quoted'
+    };
+    if (rejection_reason) insertData.rejection_reason = rejection_reason;
+    if (ref_quote_id) insertData.ref_quote_id = ref_quote_id;
+
     const { data, error } = await supabase.from('customer_quotes')
-      .insert([{ lead_id, product_name, category, specs, quantity, price_per_unit, total_price, quoted_by, notes, pdf_url, status: 'quoted' }])
+      .insert([insertData])
       .select().single();
     if (error) throw error;
     res.json(data);
@@ -1869,7 +1889,7 @@ app.post('/api/customer_quotes', async (req, res) => {
 
 app.put('/api/customer_quotes/:id', async (req, res) => {
   try {
-    const { status, notes, price_per_unit, total_price, product_name, specs, quantity, pdf_url } = req.body;
+    const { status, notes, price_per_unit, total_price, product_name, specs, quantity, pdf_url, rejection_reason, quote_date, type } = req.body;
     const updatePayload = { updated_at: new Date().toISOString() };
     if (status) updatePayload.status = status;
     if (notes !== undefined) updatePayload.notes = notes;
@@ -1879,12 +1899,53 @@ app.put('/api/customer_quotes/:id', async (req, res) => {
     if (specs !== undefined) updatePayload.specs = specs;
     if (quantity !== undefined) updatePayload.quantity = quantity;
     if (pdf_url !== undefined) updatePayload.pdf_url = pdf_url;
+    if (rejection_reason !== undefined) updatePayload.rejection_reason = rejection_reason;
+    if (quote_date !== undefined) updatePayload.quote_date = quote_date;
+    if (type !== undefined) updatePayload.type = type;
     const { data, error } = await supabase.from('customer_quotes')
       .update(updatePayload)
       .eq('id', req.params.id)
       .select().single();
     if (error) throw error;
     res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Convert quote → purchase
+app.post('/api/customer_quotes/:id/convert', async (req, res) => {
+  try {
+    // Get the original quote
+    const { data: quote, error: fetchErr } = await supabase.from('customer_quotes')
+      .select('*').eq('id', req.params.id).single();
+    if (fetchErr) throw fetchErr;
+
+    // Mark quote as ordered
+    await supabase.from('customer_quotes').update({ status: 'ordered', updated_at: new Date().toISOString() }).eq('id', req.params.id);
+
+    // Auto-calculate purchase round
+    const { data: existing } = await supabase.from('customer_quotes')
+      .select('round_number')
+      .eq('lead_id', quote.lead_id)
+      .eq('type', 'purchase')
+      .order('round_number', { ascending: false })
+      .limit(1);
+    const nextRound = (existing && existing.length > 0 && existing[0].round_number) ? existing[0].round_number + 1 : 1;
+
+    // Create purchase record linked to the quote
+    const { data: purchase, error: insertErr } = await supabase.from('customer_quotes')
+      .insert([{
+        lead_id: quote.lead_id, product_name: quote.product_name, category: quote.category,
+        specs: quote.specs, quantity: req.body.quantity || quote.quantity,
+        price_per_unit: req.body.price_per_unit || quote.price_per_unit,
+        total_price: req.body.total_price || quote.total_price,
+        quoted_by: quote.quoted_by, notes: req.body.notes || '',
+        type: 'purchase', round_number: nextRound,
+        quote_date: req.body.quote_date || new Date().toISOString().split('T')[0],
+        status: 'ordered', ref_quote_id: quote.id
+      }])
+      .select().single();
+    if (insertErr) throw insertErr;
+    res.json(purchase);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

@@ -140,11 +140,13 @@ export default function AdWeb() {
   const [priceReqSpecs, setPriceReqSpecs] = useState('');
   const [priceReqUrgency, setPriceReqUrgency] = useState('normal');
 
-  // ★ Quote History (ประวัติราคาที่เสนอลูกค้า)
+  // ★ Price Tracking (เสนอราคา + ซื้อสินค้า)
   const [customerQuotes, setCustomerQuotes] = useState([]);
   const [showQuotePanel, setShowQuotePanel] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
-  const [quoteForm, setQuoteForm] = useState({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '' });
+  const [quoteTab, setQuoteTab] = useState('quote'); // 'quote' | 'purchase'
+  const [quoteMonthFilter, setQuoteMonthFilter] = useState('all');
+  const [quoteForm, setQuoteForm] = useState({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '', quote_date: new Date().toISOString().split('T')[0] });
   
   const fetchQuotes = async (leadId) => {
     try {
@@ -818,20 +820,61 @@ export default function AdWeb() {
             )}
           </div>
           
-          {/* ★ Quote History Panel */}
-          {showQuotePanel && (
-            <div style={{ background: '#faf5ff', borderBottom: '2px solid #7c3aed', padding: '0.8rem 1rem', maxHeight: '300px', overflowY: 'auto' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                <h5 style={{ margin: 0, color: '#7c3aed', fontSize: '0.85rem' }}><i className="fa-solid fa-tags"></i> ประวัติราคาที่เสนอ ({customerQuotes.length})</h5>
-                <button onClick={() => { setShowQuoteForm(!showQuoteForm); setQuoteForm({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '' }); }} style={{ background: '#7c3aed', color: 'white', border: 'none', borderRadius: '6px', padding: '0.2rem 0.5rem', fontSize: '0.7rem', cursor: 'pointer' }}>
-                  {showQuoteForm ? '✕ ปิด' : '+ บันทึกราคาใหม่'}
-                </button>
+          {/* ★ Price Tracking Panel */}
+          {showQuotePanel && (() => {
+            const quotes = customerQuotes.filter(q => (q.type || 'quote') === quoteTab);
+            const purchases = customerQuotes.filter(q => (q.type || 'quote') === 'purchase');
+            const allQuotes = customerQuotes.filter(q => (q.type || 'quote') === 'quote');
+            const totalPurchaseAmount = purchases.reduce((s, q) => s + (Number(q.total_price) || 0), 0);
+
+            // Month filter options
+            const monthOptions = [...new Set(customerQuotes.map(q => {
+              const d = new Date(q.quote_date || q.created_at);
+              return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            }))].sort().reverse();
+            const formatMonth = (ym) => { const [y, m] = ym.split('-'); const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']; return `${months[parseInt(m)-1]} ${(parseInt(y)+543).toString().slice(-2)}`; };
+
+            // Filter by month
+            const filtered = quoteMonthFilter === 'all' ? quotes : quotes.filter(q => {
+              const d = new Date(q.quote_date || q.created_at);
+              return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` === quoteMonthFilter;
+            });
+
+            return (
+            <div style={{ background: '#faf5ff', borderBottom: '2px solid #7c3aed', padding: '0.8rem 1rem', maxHeight: '380px', overflowY: 'auto' }}>
+              {/* Summary Bar */}
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', fontSize: '0.7rem' }}>
+                <span style={{ background: '#fef3c7', color: '#92400e', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>🟡 เสนอ {allQuotes.length} ครั้ง</span>
+                <span style={{ background: '#d1fae5', color: '#065f46', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>✅ ซื้อ {purchases.length} ครั้ง</span>
+                {totalPurchaseAmount > 0 && <span style={{ background: '#ede9fe', color: '#7c3aed', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>💰 ยอดรวม ฿{totalPurchaseAmount.toLocaleString()}</span>}
               </div>
 
-              {/* Add Quote Form */}
+              {/* Tabs + Filter */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '2px', background: '#e9d5ff', borderRadius: '8px', padding: '2px' }}>
+                  {[{key:'quote',label:'🟡 เสนอราคา'},{key:'purchase',label:'✅ ซื้อสินค้า'}].map(t => (
+                    <button key={t.key} onClick={() => setQuoteTab(t.key)} style={{ padding:'0.25rem 0.6rem', fontSize:'0.72rem', borderRadius:'6px', border:'none', cursor:'pointer', fontWeight: quoteTab === t.key ? 'bold' : 'normal', background: quoteTab === t.key ? 'white' : 'transparent', color: quoteTab === t.key ? '#7c3aed' : '#6b7280', boxShadow: quoteTab === t.key ? '0 1px 3px rgba(0,0,0,0.1)' : 'none' }}>{t.label}</button>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                  <select value={quoteMonthFilter} onChange={e => setQuoteMonthFilter(e.target.value)} style={{ padding:'0.2rem 0.3rem', fontSize:'0.68rem', borderRadius:'4px', border:'1px solid #d4d4d8', background:'white' }}>
+                    <option value="all">ทั้งหมด</option>
+                    {monthOptions.map(m => <option key={m} value={m}>{formatMonth(m)}</option>)}
+                  </select>
+                  <button onClick={() => { setShowQuoteForm(!showQuoteForm); setQuoteForm({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '', quote_date: new Date().toISOString().split('T')[0] }); }} style={{ background: '#7c3aed', color: 'white', border: 'none', borderRadius: '6px', padding: '0.2rem 0.5rem', fontSize: '0.7rem', cursor: 'pointer' }}>
+                    {showQuoteForm ? '✕ ปิด' : `+ ${quoteTab === 'quote' ? 'เสนอราคา' : 'บันทึกซื้อ'}`}
+                  </button>
+                </div>
+              </div>
+
+              {/* Add Form */}
               {showQuoteForm && (
-                <div style={{ background: 'white', borderRadius: '8px', padding: '0.6rem', marginBottom: '0.5rem', border: '1px solid #e9d5ff' }}>
+                <div style={{ background: 'white', borderRadius: '8px', padding: '0.6rem', marginBottom: '0.5rem', border: `2px solid ${quoteTab === 'quote' ? '#fbbf24' : '#34d399'}` }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 'bold', color: quoteTab === 'quote' ? '#92400e' : '#065f46', marginBottom: '0.3rem' }}>
+                    {quoteTab === 'quote' ? '🟡 บันทึกเสนอราคาใหม่' : '✅ บันทึกซื้อสินค้า'}
+                  </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.3rem', fontSize: '0.75rem' }}>
+                    <input type="date" value={quoteForm.quote_date} onChange={e => setQuoteForm({...quoteForm, quote_date: e.target.value})} style={{ padding:'0.3rem', borderRadius:'4px', border:'1px solid #d4d4d8', gridColumn:'1/3' }} />
                     <input placeholder="ชื่อสินค้า *" value={quoteForm.product_name} onChange={e => setQuoteForm({...quoteForm, product_name: e.target.value})} style={{ padding:'0.3rem', borderRadius:'4px', border:'1px solid #d4d4d8', gridColumn:'1/3' }} />
                     <select value={quoteForm.category} onChange={e => setQuoteForm({...quoteForm, category: e.target.value})} style={{ padding:'0.3rem', borderRadius:'4px', border:'1px solid #d4d4d8' }}>
                       {PRICE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -844,52 +887,88 @@ export default function AdWeb() {
                     <button onClick={async () => {
                       if (!quoteForm.product_name) return alert('กรุณาใส่ชื่อสินค้า');
                       try {
-                        await axios.post(`${API_URL}/customer_quotes`, { ...quoteForm, lead_id: activeLeadId, quoted_by: user?.name || 'Sales' });
+                        const erpUser = JSON.parse(localStorage.getItem('erp_user') || '{}');
+                        await axios.post(`${API_URL}/customer_quotes`, { ...quoteForm, lead_id: activeLeadId, quoted_by: erpUser.name || 'Sales', type: quoteTab });
                         fetchQuotes(activeLeadId);
                         setShowQuoteForm(false);
                       } catch(e) { alert('Error: ' + e.message); }
-                    }} style={{ background:'#7c3aed', color:'white', border:'none', borderRadius:'4px', padding:'0.3rem', cursor:'pointer', fontWeight:'bold' }}>💾 บันทึก</button>
+                    }} style={{ background: quoteTab === 'quote' ? '#f59e0b' : '#10b981', color:'white', border:'none', borderRadius:'4px', padding:'0.3rem', cursor:'pointer', fontWeight:'bold' }}>
+                      💾 {quoteTab === 'quote' ? 'บันทึกราคาที่เสนอ' : 'บันทึกการซื้อ'}
+                    </button>
                   </div>
                 </div>
               )}
 
-              {/* Quote List */}
-              {customerQuotes.length === 0 ? (
-                <p style={{ color: '#94a3b8', fontSize: '0.75rem', textAlign: 'center', margin: '0.5rem 0' }}>ยังไม่มีประวัติราคา — กด "+ บันทึกราคาใหม่" เพื่อเพิ่ม</p>
-              ) : customerQuotes.map(q => (
-                <div key={q.id} style={{ background: 'white', borderRadius: '8px', padding: '0.5rem 0.6rem', marginBottom: '0.4rem', border: '1px solid #e9d5ff', fontSize: '0.75rem' }}>
+              {/* Record List */}
+              {filtered.length === 0 ? (
+                <p style={{ color: '#94a3b8', fontSize: '0.75rem', textAlign: 'center', margin: '0.5rem 0' }}>
+                  {quoteTab === 'quote' ? 'ยังไม่มีประวัติเสนอราคา' : 'ยังไม่มีประวัติซื้อสินค้า'} — กด "+" เพื่อเพิ่ม
+                </p>
+              ) : filtered.map(q => {
+                const qDate = q.quote_date ? new Date(q.quote_date) : new Date(q.created_at);
+                const dateStr = qDate.toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'2-digit' });
+                const roundLabel = quoteTab === 'quote' ? `ครั้งที่ ${q.round_number || '?'}` : `ซื้อครั้งที่ ${q.round_number || '?'}`;
+                const borderColor = q.status === 'ordered' ? '#34d399' : q.status === 'rejected' ? '#fca5a5' : '#fbbf24';
+
+                return (
+                <div key={q.id} style={{ background: 'white', borderRadius: '8px', padding: '0.5rem 0.6rem', marginBottom: '0.4rem', borderLeft: `4px solid ${borderColor}`, border: '1px solid #e9d5ff', borderLeftWidth: '4px', borderLeftColor: borderColor, fontSize: '0.75rem' }}>
+                  {/* Header: round + date + actions */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong style={{ color: '#0f172a' }}>📦 {q.product_name}</strong>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                      {['quoted','ordered','rejected'].map(s => (
-                        <button key={s} onClick={async () => {
-                          await axios.put(`${API_URL}/customer_quotes/${q.id}`, { status: s });
-                          fetchQuotes(activeLeadId);
-                        }} style={{ padding: '0.1rem 0.3rem', fontSize: '0.6rem', borderRadius: '4px', cursor: 'pointer', border: q.status === s ? 'none' : '1px solid #d4d4d8',
-                          background: q.status === s ? (s === 'quoted' ? '#fef3c7' : s === 'ordered' ? '#d1fae5' : '#fee2e2') : 'white',
-                          color: s === 'quoted' ? '#92400e' : s === 'ordered' ? '#065f46' : '#991b1b',
-                          fontWeight: q.status === s ? 'bold' : 'normal'
-                        }}>
-                          {s === 'quoted' ? '🟡 เสนอ' : s === 'ordered' ? '✅ สั่ง' : '❌ ไม่สั่ง'}
-                        </button>
+                    <div>
+                      <span style={{ background: quoteTab === 'quote' ? '#fef3c7' : '#d1fae5', color: quoteTab === 'quote' ? '#92400e' : '#065f46', padding: '0.1rem 0.4rem', borderRadius: '4px', fontSize: '0.65rem', fontWeight: 'bold' }}>{roundLabel}</span>
+                      <span style={{ color: '#94a3b8', fontSize: '0.65rem', marginLeft: '0.4rem' }}>📅 {dateStr}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '3px' }}>
+                      {quoteTab === 'quote' && [
+                        { s: 'quoted', label: '🟡 รอ', bg: '#fef3c7', c: '#92400e' },
+                        { s: 'ordered', label: '✅ สั่งแล้ว', bg: '#d1fae5', c: '#065f46' },
+                        { s: 'rejected', label: '❌ ไม่สั่ง', bg: '#fee2e2', c: '#991b1b' },
+                      ].map(btn => (
+                        <button key={btn.s} onClick={async () => {
+                          if (btn.s === 'ordered') {
+                            // Convert quote to purchase
+                            try { await axios.post(`${API_URL}/customer_quotes/${q.id}/convert`); fetchQuotes(activeLeadId); } catch(e) { await axios.put(`${API_URL}/customer_quotes/${q.id}`, { status: btn.s }); fetchQuotes(activeLeadId); }
+                          } else if (btn.s === 'rejected') {
+                            const reason = prompt('เหตุผลที่ไม่สั่ง (ไม่บังคับ):');
+                            await axios.put(`${API_URL}/customer_quotes/${q.id}`, { status: btn.s, rejection_reason: reason || '' });
+                            fetchQuotes(activeLeadId);
+                          } else {
+                            await axios.put(`${API_URL}/customer_quotes/${q.id}`, { status: btn.s });
+                            fetchQuotes(activeLeadId);
+                          }
+                        }} style={{ padding:'0.1rem 0.3rem', fontSize:'0.6rem', borderRadius:'4px', cursor:'pointer', border: q.status === btn.s ? 'none' : '1px solid #e2e8f0', background: q.status === btn.s ? btn.bg : 'white', color: btn.c, fontWeight: q.status === btn.s ? 'bold' : 'normal' }}>{btn.label}</button>
                       ))}
-                      <button onClick={async () => { if(confirm('ลบราคานี้?')) { await axios.delete(`${API_URL}/customer_quotes/${q.id}`); fetchQuotes(activeLeadId); }}} style={{ padding:'0.1rem 0.3rem', fontSize:'0.6rem', borderRadius:'4px', cursor:'pointer', border:'1px solid #fecaca', background:'white', color:'#dc2626' }}>🗑️</button>
+                      <button onClick={async () => { if(confirm('ลบรายการนี้?')) { await axios.delete(`${API_URL}/customer_quotes/${q.id}`); fetchQuotes(activeLeadId); }}} style={{ padding:'0.1rem 0.3rem', fontSize:'0.6rem', borderRadius:'4px', cursor:'pointer', border:'1px solid #fecaca', background:'white', color:'#dc2626' }}>🗑️</button>
                     </div>
                   </div>
-                  <div style={{ color: '#64748b', marginTop: '0.2rem' }}>
-                    {q.quantity && <span>จำนวน: {Number(q.quantity).toLocaleString()} | </span>}
-                    {q.price_per_unit && <span>@{Number(q.price_per_unit).toFixed(2)} | </span>}
-                    <strong style={{ color: '#7c3aed' }}>฿{q.total_price ? Number(q.total_price).toLocaleString() : '-'}</strong>
-                    {q.specs && <span> | {q.specs}</span>}
+
+                  {/* Product info */}
+                  <div style={{ marginTop: '0.3rem' }}>
+                    <strong style={{ color: '#0f172a' }}>📦 {q.product_name}</strong>
+                    <span style={{ color: '#94a3b8', fontSize: '0.65rem', marginLeft: '0.3rem' }}>({q.category})</span>
                   </div>
-                  <div style={{ color: '#94a3b8', marginTop: '0.1rem', fontSize: '0.65rem' }}>
-                    {q.category} • {q.quoted_by || '-'} • {new Date(q.created_at).toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'2-digit' })}
+
+                  {/* Price details */}
+                  <div style={{ color: '#64748b', marginTop: '0.15rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {q.quantity && <span>📊 {Number(q.quantity).toLocaleString()} ชิ้น</span>}
+                    {q.price_per_unit && <span>💲 @{Number(q.price_per_unit).toFixed(2)}</span>}
+                    <strong style={{ color: '#7c3aed' }}>💰 ฿{q.total_price ? Number(q.total_price).toLocaleString() : '-'}</strong>
+                  </div>
+
+                  {/* Specs + Meta */}
+                  {q.specs && <div style={{ color: '#475569', marginTop: '0.1rem', fontSize: '0.68rem' }}>📋 {q.specs}</div>}
+                  <div style={{ color: '#94a3b8', marginTop: '0.1rem', fontSize: '0.62rem' }}>
+                    👤 {q.quoted_by || '-'}
+                    {q.ref_quote_id && <span> • 🔗 จาก Quote</span>}
+                    {q.rejection_reason && <span style={{ color: '#dc2626' }}> • ❌ {q.rejection_reason}</span>}
                     {q.notes && <span> • 📝 {q.notes}</span>}
                   </div>
                 </div>
-              ))}
+              );
+              })}
             </div>
-          )}
+          );
+          })()}
 
           {/* Messages */}
           <div className="chat-messages" style={{ flex: 1, padding: '1.5rem', overflowY: 'auto', background: '#f1f5f9' }}>

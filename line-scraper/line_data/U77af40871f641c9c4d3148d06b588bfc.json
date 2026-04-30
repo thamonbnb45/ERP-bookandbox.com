@@ -1,0 +1,294 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1777349875665,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "read": {
+      "watermark": 1777349875665
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777349324540,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611559756599132422",
+      "type": "text",
+      "quoteToken": "cMeNdVD_GTmFJ9NOYraQY42mdN9UjmN0QC1ocFrj87_3cwujqKsk6Q0cnVot03GidEvZ6bBf2d_dz6Da9nmO4UaS69xqlks5rVwNvsvc3KodTlBf-kVcMEEpBb8ZyFjCl5QmlVCHwAcMBroMyrmmAQ",
+      "text": "ใบเสนอราคาครับผม"
+    },
+    "sendId": "U77af40871f641c9c4d3148d06b588bfc_1777349323821_53302444",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777349320844,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611559750241092093",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "gDYOhoBUimAs2zf0iCF09-R8p9NixPEC18c1J3D0Pf2CHwjEQR40BQdN1nOAwdslhgP4qqvKy6HHjCFasLsdkPmiK5mcOZzFMwUW1th1pOsR8fSaGxSuGxNh-zl1QT0LOObrIXWDvj3wvVZWXR7TOg==",
+        "expired": false,
+        "expiredAt": 1935461260844
+      },
+      "fileName": "QTG69-02847 รีเฟอร์ ใบเสนอราคา.pdf",
+      "fileSize": 139021,
+      "contentHash": "gDYOhoBUimAs2zf0iCF09-R8p9NixPEC18c1J3D0Pf2CHwjEQR40BQdN1nOAwdslhgP4qqvKy6HHjCFasLsdkPmiK5mcOZzFMwUW1th1pOsR8fSaGxSuGxNh-zl1QT0LOObrIXWDvj3wvVZWXR7TOg==",
+      "expired": false,
+      "expiredAt": 1935461260844
+    },
+    "sendId": "U77af40871f641c9c4d3148d06b588bfc_1777349319647_8793860",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777348910220,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "read": {
+      "watermark": 1777348910220
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777348775965,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611558836218364450",
+      "type": "text",
+      "quoteToken": "nwydNO-QxGXWCCm22G5AxZmXhI_vFG80HixEX2yIyi0GfqPHmCQJUDQEtTXFL-X3NchI3mphmdNplWkT1PoS4p86FJPyDqoIwiyK47_vNyY-4y7PU4P5_BU67F2HDFuCoj54z7TjPt7Qz90gZc5a-g",
+      "text": "สักครู่ส่งใบเสนอราคาให้ครับ"
+    },
+    "sendId": "U77af40871f641c9c4d3148d06b588bfc_1777348775055_36588592",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777348770458,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611558826839900698",
+      "type": "text",
+      "quoteToken": "2P6DHxc1AeOYQx7gGtnGFlpoEwizJBgWrkQ1C1m1URyk0k1eJOJuzAQeOcQ8_FL7cbZnI37rgePIV5Dz4EiwB6ie2BxQdm407-6cJLFm5aN4GEeqAU1pt-XjkK4l8KGAaiEGYCbHhRXD9LpLilaPMw",
+      "text": "บุ๊ค แอนด์ บ๊อกซ์ สวัสดีครับ 🙏\nคุณCHOM'POO 🦋ครับ ผม \"แบงค์\" ยินดีให้บริการครับ\nสอบถามงานพิมพ์ แจ้งสเป็คงานได้เลยนะครับ \nหรือสามารถโทรติดต่อได้ที่ 0942926294 นะครับผม ^^\nขอบคุณครับ"
+    },
+    "sendId": "U77af40871f641c9c4d3148d06b588bfc_1777348769713_9319450",
+    "bizId": "fdfc0790-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348596527,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558535150960830",
+      "type": "text",
+      "quoteToken": "NGo8CSIPmEo-hDBckbJjE8LNvKKQlELU6_jxt6L1OCS2sVIFZB27zFeg6HpR0VlNEJxr0U_Mb_kwcWdOUeQKs44-LFnNlmp0b-FeLCt5C0UdUUADj1USxjLp9-xC1b0XqgdLrO-zZWstIeQA61KhSQ",
+      "text": "วนาลี (จัดซื้อ 0888582870)"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348595824,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558534043140908",
+      "type": "text",
+      "quoteToken": "JpHRTxDxYccKz4gb_QRVii3xagrm5P-D6EuqfLUVTVpQ2MqEqg0qD4gbx_DvfBs6Rz-aPe2S0RFyGmNlgCkt3kxYkg_hOVQzp6-QU9jOFiZRN8ISmWZu-PVTaWdEkJwNL0m5jye9UcyLPazVvoIdzQ",
+      "text": "สำหรับออกเอกสารใบเสนอราคาค่ะ "
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348587669,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558520369709312",
+      "type": "image",
+      "quoteToken": "LRMBtHsMfdQ7TRu3i_qhI8zynWQxtHjDERw2oiYCKxx405QwlXFVvTY7rY96YShEBFXvqFjfcbxNo5qMjaQgUW3YoCS_t6vS6mQZIuy2dJ1ib6VCnc3rWkw2wm5hkQ35SXJGXb_DVylGsfNj33RM-A",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "rn_edsglLw2WYpN-osrl1WqmcI2y0sU6-1gjv1xswPVRvK7hjCDhXmfvPb9OLMHVkHLCK5vCR17imYM_oCDVp5Aj9GGznpsViZFP2uTCUnaRfzg__IWxGa8ZbW1JrBS8OObrIXWDvj3wvVZWXR7TOg==",
+        "expired": false,
+        "expiredAt": 1935460527669
+      },
+      "contentHash": "rn_edsglLw2WYpN-osrl1WqmcI2y0sU6-1gjv1xswPVRvK7hjCDhXmfvPb9OLMHVkHLCK5vCR17imYM_oCDVp5Aj9GGznpsViZFP2uTCUnaRfzg__IWxGa8ZbW1JrBS8OObrIXWDvj3wvVZWXR7TOg==",
+      "expired": false,
+      "expiredAt": 1935460527669
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348569409,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558489466601971",
+      "type": "text",
+      "quoteToken": "0DAbxX66eA7_RJcdfMY4hecrg33tdgPNAzq27iKGkW0CVr8oYKbf8VLjvC_9Idy7VApPHL_uvCEUFZz1AzfYs9ozmGlHWagj2w3D-SOlia6bmGqUJOtqOVoIZj0LN-5GSC-TClxIvRU6UcnbWj5LFA",
+      "text": "https://drive.google.com/file/d/1S_8IrNfNtdaatR44rO0oF6EzKo55fAZx/view"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348543105,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558445375554018",
+      "type": "text",
+      "quoteToken": "0Aj0u20-kifFcV6MxKAYt42FBWWhip2bGnk8Vc8nTBoQJPlrO5q5LN0WhiSHpx3_6-l8DlRgjRVLokr3WDJsR0Vs1RfsXVyGyiouLCozTwhUcM4ofM6uglCD-G4G5kkTpML1eabNjAiCPr1Sn74V_Q",
+      "text": "** รายละเอียดค่ะ ** \n- เป็นกระดาษเงา ประมาณ 130 แกรม \n- ขนาด A4\n- แบบละ 200 ใบ\n(จะมีทั้งหมด 5 แบบนะคะ แบบละ 200 ใบ )"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348488023,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558353000464817",
+      "type": "text",
+      "quoteToken": "WmQfY-_v0ncf_EMnGYC-sMsoh28U9PzG7_HFIoP85pExkdO7LaCvPYJiyC9y2ygqBgnsAN1coQJkEaskoqghfvOe6_jszFIykYqG0GgqOyRtOhXM0_JtLZaxHGCf92fiPcgHoVYu6_s9VUw7kg2V8A",
+      "text": "พอดีทางเรา สนใจจะทำเป็นตัวโปรชัวร์ ขนาด A4 ค่ะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777348478661,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "message": {
+      "id": "611558337246397086",
+      "type": "text",
+      "quoteToken": "7-3TqQ2tImR9B_22I7HE7oJD2xKE3Z2baPVrRQkoDsywutj5ypPk1iLyboNP_2bW-kh12bPKZaiGuLL5X5XmxpkgvU_hG_-1hAmmlre6qGZe6xClv7peQMKCB4kC13lzTJzqSs0I46LvWyUhPubZrA",
+      "text": "สวัสดีค่ะ  จะรบกวนขอใบเสนอราคาค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777348426701,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "read": {
+      "watermark": 1777348426701
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777348410647,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    },
+    "read": {
+      "watermark": 1777348410647
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777348409133,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611558220611715436",
+      "type": "text",
+      "quoteToken": "25jWZnh_dwHxZAVJXpjk3EEYIY4w8N-Rj74GGMa8UI5_q4nng1-TsozY_mi35jSAivH5rzp0IQTpj2dD99ZAHXHDN2GpGQeDAk2ac0276DW9aQanZlb0CLsi66rR3VGpoVWzYZb7EGN_U4HjK5mykg",
+      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777348409132,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611558220846596134",
+      "type": "text",
+      "quoteToken": "Jv7lQyK9U-nfqplM1zTTcm_Vdkc4tHmXKcPBHDrjc093Vv-iZaZoeBMVqQXYAB9jUxXKOuY6FlCBDHfhucoLauPS-dvBUr01yKhOdE0RuNl2YYqK_hmcr2o_yPJ0rzXUMVOnyykaicEpaCZPmAz6Gg",
+      "text": "สวัสดีค่ะ คุณ CHOM'POO 🦋 BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777348409131,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611558220728894053",
+      "type": "text",
+      "quoteToken": "ETtMvE98stNicF8zMA7x1vQ6H_KCdcnKAxuOUCqetukYwb779t1e3dNZ9-6BaMlyHOdbziMiBRqG0f5dYHpYn9QsYN9S8egPOA61NfRUXy-ogYAfdABXUOepd7yqi6sFi-cZ0cI1zMiX6dwVX0ZgVg",
+      "text": "STEP 7 วัน",
+      "originalType": "flex"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777348409130,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611558220528091538",
+      "type": "text",
+      "text": "ขั้นตอนการสั่งซื้อ",
+      "originalType": "rich"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "follow",
+    "timestamp": 1777348408648,
+    "source": {
+      "chatId": "U77af40871f641c9c4d3148d06b588bfc",
+      "userId": "U77af40871f641c9c4d3148d06b588bfc"
+    }
+  }
+]

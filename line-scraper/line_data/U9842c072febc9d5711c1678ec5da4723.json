@@ -1,0 +1,166 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1777449274010,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "read": {
+      "watermark": 1777449274010
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777449129609,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611727201570390210",
+      "type": "text",
+      "quoteToken": "ks-VFENdDiDrAgkM8jCrbIhXJoctWkmUpo7p6TrUZaFlD5XBlKwL9TYtqc2e2sjUzWMWbHLFOgnYqPo14FxIHUtK4u--8z67lzgfz0Cu-tjpP-crsaIk4e9-0DlTDYdG0mfY17eI5aEgRzi24VbYkA",
+      "text": "รับทราบครับผม"
+    },
+    "sendId": "U9842c072febc9d5711c1678ec5da4723_1777449128255_25380145",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777448440537,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611726045552836850",
+      "type": "text",
+      "quoteToken": "wrW2OhMN-cfFmuo5ST6_dsY1LKY4bBVFyYQALxowS8jVxNNoh1viwyTDQAUwCUZaSACYQQdMqd6yPwTYIju1PDFcX7ofngs9pP0jW-YxqxHVx_1yv54apWvUnHKi38mOCht--vCJ0T9wymzLxsnQdg",
+      "text": "ที่อยู่จัดส่ง\n\n245 อาคาร ทองทิพเพลส ซ.ลาดพร้าว 26 ถ.ลาดพร้าว แขวง จอมพล เขต จตุจักร กทม 10900"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777448434078,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611726034848973311",
+      "type": "text",
+      "quoteToken": "87LNuYhoRILF-Ob7-1kZXjAd_ifUXF_z7zUBy1XL1sxEclu8Xd89tkCq62rf1sc_BSar3qfJ_PMsDI4pu3oCVDcHI-qk1YDRu-VFE1wN2U1Kw1b4SJxZDT5I9HLjQW6aYzksm1fXaSyV1FJ4ApVKAQ",
+      "text": "ผู้ติดต่อ\n\nเฌอลินน์ สุขเจริญ\n063-226-7899\nsherlynn@leaderplus.co.th"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777448426388,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611726021645042408",
+      "type": "text",
+      "quoteToken": "onZ9uLQHx7pFhImMD0GG1ADCS1xBF50uoLesEwjQg7IY6f3-kJForQRTfywCx2CAyYk-BOKwHwTW5g1f1FxmB6m-4psKWQNPf6m9E9t1PwEMeOeh9_G6ZHDodgAIMX7sxsBP3v9xCXlqCUHBvRttvw",
+      "text": "ของข้อ 2 ออกในนาม\n\nบริษัท มาสเตอร์ เฮลท์ จำกัด\n99/20 หมู่ที่ 22 ตำบลบางพลีใหญ่ อำเภอบางพลี\nจังหวัดสมุทรปราการ 10540\nเลขผู้เสียภาษี 0115558022620"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777448416356,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611726004834271835",
+      "type": "text",
+      "quotedMessageId": "611724134846038204",
+      "quoteToken": "fPPcrEkPR_qNpqZQslo6v8r5AmnfmzmTlswSyInm-ozQGQciNVC_vLXTgcK6ROeKzXehagycX4lIflMvWsOKGd6olfkzDUFlLF4fUNxinTCUTrmESJwH4IENZTVahVe11g8VOfA6cS4Zc-dptyp3Aw",
+      "text": "ของข้อ 1 ออกในนาม\n\nบริษัท ลีดเดอร์พลัส เมดดิคอล จำกัด   \n103/4 ซอยลาดพร้าว 26 ถนนลาดพร้าว   \nแขวงจอมพล เขตจตุจักร กรุงเทพฯ 10900   \nเลขผู้เสียภาษี 0105555093372"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777447699645,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611724802595750232",
+      "type": "text",
+      "quoteToken": "udShaT1auyzkRdwm9HdSUhDe34R3pX59TkI_GyFaAUjtk24S0bfKeqB1WScN58Jkykr9HPEqhOdRySx0VdVgq5RxVzheTotiIUX5mjbZY0vCnlQ0i9GPuZ-wm2w_sY6ihBJj3tRlcyZTPTFXM28dyg",
+      "text": "ไม่มีพับค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777447695340,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "read": {
+      "watermark": 1777447695340
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777447584850,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611724609791984028",
+      "type": "text",
+      "quoteToken": "LLlwPD7BZlTIzJzsRdQJEWJbx7kcv8AozPB2mo_Ik7FPOZK3gpshBpCmS-3X_oHu2k7qwJn4KJn72Yt7_ND4xuZfyl5iEIqZ6-2ImkWALAbuxOf2HL2K_q3BFkh-qli0_QnPo0Fi2h8xT209JHCeDg",
+      "text": "สวัสดีครับ ได้ครับผมงานไม่มีพับใช่ไหมครับ"
+    },
+    "sendId": "U9842c072febc9d5711c1678ec5da4723_1777447583487_84965729",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777447301583,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611724134846038204",
+      "type": "text",
+      "quoteToken": "jr01ARJkVdUNj6ZdlFj5WlLoTuRTB1F9yS8ayuO1zZXDpgpGoO0VSOuKzCppfddwp8ffHJuv5X528gxGVo1kRoH2zDNUyDcQTL793G6kAASK7VVlwpRkJ10VdPk2nQ5Owh4ixt7pfriZyiC8s0PKpg",
+      "text": "พอดีอยากได้ใบเสนอราคาโบร์ชัวร์สี 2 หน้า\n\n1. A4 130 แกรม\nจำนวน 1000 ใบ และ 2000 ใบ ค่ะ\n\n2. A5 กระดาษแข็ง 180-200 แกรม\nจำนวน 1000 ใบ และ 2000 ใบ ค่ะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777446931107,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "message": {
+      "id": "611723513166299413",
+      "type": "text",
+      "quoteToken": "tgbmEzb8COzTDiIkVyAFjI6C-DqeCBLwK-7qIZmFPN8499PGKo_0TuZ4MLS2YXnecn1BfWluQBS_AK_obV0J88YFTuZyL8_iP8Uuv4m71_zfo8F1DjAntRU1U3zAuDLu5xxa26dSK5FOgMTRImZJSw",
+      "text": "สวัสดีค่า"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777446883729,
+    "source": {
+      "chatId": "U9842c072febc9d5711c1678ec5da4723",
+      "userId": "U9842c072febc9d5711c1678ec5da4723"
+    },
+    "read": {
+      "watermark": 1777446883729
+    }
+  }
+]

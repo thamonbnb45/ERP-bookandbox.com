@@ -1,0 +1,57 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1774350334749,
+    "source": {
+      "chatId": "U36e6ef829906d0001d16716b8dd293da",
+      "userId": "U36e6ef829906d0001d16716b8dd293da"
+    },
+    "read": {
+      "watermark": 1774350334749
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1772180100649,
+    "source": {
+      "chatId": "U36e6ef829906d0001d16716b8dd293da",
+      "userId": "U36e6ef829906d0001d16716b8dd293da"
+    },
+    "read": {
+      "watermark": 1772180100649
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1743604388530,
+    "source": {
+      "chatId": "U36e6ef829906d0001d16716b8dd293da",
+      "userId": "U36e6ef829906d0001d16716b8dd293da"
+    },
+    "read": {
+      "watermark": 1743604388530
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1737038494965,
+    "source": {
+      "chatId": "U36e6ef829906d0001d16716b8dd293da",
+      "userId": "U36e6ef829906d0001d16716b8dd293da"
+    },
+    "read": {
+      "watermark": 1737038494965
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1729588108694,
+    "source": {
+      "chatId": "U36e6ef829906d0001d16716b8dd293da",
+      "userId": "U36e6ef829906d0001d16716b8dd293da"
+    },
+    "read": {
+      "watermark": 1729588108694
+    }
+  }
+]

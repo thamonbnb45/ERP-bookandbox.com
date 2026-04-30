@@ -1,0 +1,367 @@
+[
+  {
+    "type": "messageSent",
+    "timestamp": 1777435057311,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611703592285897305",
+      "type": "text",
+      "quoteToken": "vJOHDy6y3MOyTNwy7d9qTJ_6Rx4E2ViyPuQz9crK0U1Y1pTEOHI2U_uXlTpR7AGrH4R6fejBY69L5gox2NtYTxYGU4ToioF_gYaQN9GbfsfGZ1xfY9k6PG6TVAAZ8wKBEapmZY7dWHdiEJd80NvcnA",
+      "text": "เป็นงานหนังสือ ถูกต้องมั้ยคะ "
+    },
+    "sendId": "Uf1dbfaa74745c6a33e03beffaddd3c2e_1777435057145_68970883",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777434945138,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611703404162974122",
+      "type": "text",
+      "quoteToken": "fOuZ9RNNPxHUWkjVqNR-Ehoc4trQ0NwKJeAz5oTGh63Pto4LN1_UXJfH-EMg3krDROVzsoNM76R6uNr_iesWweTtDtJHDJZJr0UscIWOb5zXT64iRfUPdMJGSKyiOX4wFAeqH8glbpJ8zvtapkEyUg",
+      "text": "สวัสดีค่ะ ลูกค้า"
+    },
+    "sendId": "Uf1dbfaa74745c6a33e03beffaddd3c2e_1777434945002_72505888",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777434913388,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611703350659907948",
+      "type": "text",
+      "quoteToken": "nZIZun137yX1GmeLTn0HenDraLRuA2j6E2gACUgkuhTyi9OAY5BUsCiAe4GU9zBINOoWiPVABUkHzl8tL5B2ruCQFdlZgNSGQBXjkVBjKdZpEGcJWsanYR1ZcMIcifmWKALSoV-Bd9dsQzNrO9KuUA",
+      "text": "สวัสดีค่ะ Book and Box ยินดีให้บริการค่ะ\nแอดมินขอทราบรายละเอียดที่คุณลูกค้าต้องการ\nเพื่อการประสานงานที่รวดเร็วที่สุดนะคะ (moon big smile)(high five)",
+      "emojis": [
+        {
+          "index": 121,
+          "length": 16,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "009"
+        },
+        {
+          "index": 137,
+          "length": 11,
+          "productId": "5ac21e6c040ab15980c9b444",
+          "emojiId": "037"
+        }
+      ]
+    },
+    "sendId": "Uf1dbfaa74745c6a33e03beffaddd3c2e_1777434913205_48879355",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777424422126,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "read": {
+      "watermark": 1777424422126
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424421626,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685748558528534",
+      "type": "text",
+      "quoteToken": "VnfG7hYs6822Ip6la4spna-33xHJ5cbsxo_mNhgHrD8x5agVQlcclpYHdsw3b9abUas2AC0WeFr2x1IYSCO-Xcub5WYGhOPmV53fzXqCBLw-uBhPZJ4SZ6G96y3irmILjXzBt5XnEiJnvISmfB8e0Q",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ Tashk. \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 478,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777424420621,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "message": {
+      "id": "611685746864292046",
+      "type": "image",
+      "quoteToken": "Wry1oxt4FfkU8FPupa9Mc_LMnQfd3BSG76IGBvk9qaQtrOqGplC_t1D3XXw-p_Ki_3D9yc_PAwcfvLYFIfRv4HZbCJjHPnrPND3lESHQrINsde6vsyAm9PJ6vl4yOx95Iaz0lW8VXhKTPecy3NLsXw",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "W34LbIt9jyZY-2ZFbKelN-CptbWEqOjXJZgKQwDHwDLVEAJb3KgOVgfwW_qvmXAXPe6lRcV1GFUZnhpEbNct2rZceNrILzE3XTlUjUy_vV6X8RKSBE1AHnzgwjtj3ShYQQq1-WG3eFy_I7uXKcbEYg==",
+        "expired": false,
+        "expiredAt": 1935536360621
+      },
+      "contentHash": "W34LbIt9jyZY-2ZFbKelN-CptbWEqOjXJZgKQwDHwDLVEAJb3KgOVgfwW_qvmXAXPe6lRcV1GFUZnhpEbNct2rZceNrILzE3XTlUjUy_vV6X8RKSBE1AHnzgwjtj3ShYQQq1-WG3eFy_I7uXKcbEYg==",
+      "expired": false,
+      "expiredAt": 1935536360621
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777424397134,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "read": {
+      "watermark": 1777424397134
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424371265,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685663817597360",
+      "type": "text",
+      "quoteToken": "IdUopBFsGLzC77i9NtDFkU-6XSd3kPSfL1nIs1axurjmQBF4AI3hcD1Tnp0Unlgg3HRIQAFA8p3a1XVYRKXHLgxGVeBSBvvLe_GEnzOrQvHSVCpw0WAcwbwn4uSgteuAs4A1FZuZok_6Jc982cPiGA",
+      "text": "🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\nสวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏"
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424370231,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685662340939982",
+      "type": "text",
+      "quoteToken": "F4TxTsKL2H3ypB8qDyRya4Q_VvsCgC-6jv4wVS8_nbvXoDrXyxZOrlKLvYZRemvuCphnJiKDyGqoqD2LGSHTEMz5XE8aevZB2-7RXgv9lfGTvkv6WFOxzSp9c1yfEvxoR1p6kxj-kaVN5AETAKGcLQ",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ Tashk. \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 478,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777424369740,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "message": {
+      "id": "611685661334044763",
+      "type": "text",
+      "quoteToken": "2wBBa3b_VZ1TO8hbYZ3wDNJlJDFTHcpQxLPKPxGTIbmQ7oAX_IEhz7YgA7Nd5f-1URkH4o2qPtvuDWdhgd7M-6GIcs5YBUq7_YoZhbEH9m4GIDCZALBGJcm3gQUnApMKqD2JgxjAPxlG6povJtATdg",
+      "text": "ราคาเท่าไหร่คะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777424367264,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "read": {
+      "watermark": 1777424367264
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424366817,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685656418058737",
+      "type": "text",
+      "quoteToken": "9W-4ZiZ5IacEmwW0t5VoUbGFHy_9x1jd_2j6SNcks4IYnR2j6h6btaAkuCkxpjVBOaWvjS0QatTKOO79mvowL4_3JhsMRWBxjoQjEWwWe8gU4PnGgrfgPHzPOD1fTclvqNMsYux3WC2ky60mQVm-_Q",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ Tashk. \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 478,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777424366516,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "read": {
+      "watermark": 1777424366516
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777424366377,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "message": {
+      "id": "611685655831642642",
+      "type": "text",
+      "quoteToken": "9EKUdgcgPtNfX8nZz7TiFFmFJHXfDt1EarVOjUTuhJFNOxkMn4ZDLk-aD-3491YQc8TCZG2Ehwk6T0h3-TZaFwM-yPRPYQiflXC3WCpp-DfCQaiQbDWQzXdg5vkAqUNZ7V2W8SRiS_69zNGVBLOXRQ",
+      "text": "สนใจประมาณนี้ค่ะ"
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424366052,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685655277469988",
+      "type": "text",
+      "quoteToken": "jGA4A60yfvYfGzoltBZj3QR2Eayi8O1M_sfCmCXkE_8u-JD0ZACfFGr9NcMZoZ_74Fxmje_Jk7GM8o3qJmT_ci3i-Z0c6P08sS14WycKWS4gaT7XARWprhsaGVG-OkcJbf8URDmUcD0ng3Tnmo2dig",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ Tashk. \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 478,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777424361856,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "message": {
+      "id": "611685648365781044",
+      "type": "video",
+      "quoteToken": "4WThRqgSzxnLw3oZbOboDTXd4k9YCbaHov4myLSzVSaWhDV9Z07BHxHxfcJhtsGFnG1O5c8SBgfyyf2HI1njTqGn6LxUcOkX083OiuRRAA3n1EFnIaxk-CmRBUiQBqNoluDRiZZTSgeRe9xNY3raWA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "79JZdSnAQDbMZNV1L_XRBDouVI1YG6BdrG0w0ZQ8gWzrG8YiJDUIYg6J0k_DcRaSCK_zotPtm8pKbfX4OiY4Ru4sNg_boMOnDmEJkF5e5a9NXHxVF8RmXwEc8XRx6Hw0yoEYSNdl5TIBu65cFcBv0A==",
+        "expired": false,
+        "expiredAt": 1935536301856
+      },
+      "duration": 70634,
+      "contentHash": "79JZdSnAQDbMZNV1L_XRBDouVI1YG6BdrG0w0ZQ8gWzrG8YiJDUIYg6J0k_DcRaSCK_zotPtm8pKbfX4OiY4Ru4sNg_boMOnDmEJkF5e5a9NXHxVF8RmXwEc8XRx6Hw0yoEYSNdl5TIBu65cFcBv0A==",
+      "expired": false,
+      "expiredAt": 1935536301856
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777424313184,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    },
+    "read": {
+      "watermark": 1777424313184
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424295503,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685537082245308",
+      "type": "text",
+      "quoteToken": "Js7b9VtTi6UgDj_dhuDxcTeuztpZkSjpMdoyFlShu0hZ9v6XTMw1c8F5ur1ZZx2A2cjCXTzRhPh1yW3IsUCbBt0te2PJ4oL0i2jaGnR6U5MHrwmMFblHgDhr6iOoEE1xkvC7oCq5aJQNtqBa8Hn5VQ",
+      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424295502,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685536948289728",
+      "type": "text",
+      "quoteToken": "nAb0TZKuuJrH4x2lykbBpgVncSM77VqoX644OdCGu0Jc46CNzhtzdcFAwgy4nwslrtBr0G3p2sCXno5C98IodLJjQwjfD-O3ZDeJJkRFIWmVz8bryrSerPbTHW83bMbNeUGAN4d2zQPcSDvbGJNh6w",
+      "text": "สวัสดีค่ะ คุณ Tashk. BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424295501,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685536763740217",
+      "type": "text",
+      "quoteToken": "vF1wPIrhXx9PZ4KsLGRLZMuu6QcK90noV9LKVTl4cvY_wk6kWY1HItcrRk_0ugQJ_DoVKc0-t5ubO5rYAClUh_r9TXHcieeNk4BXGOpNb01SUP8IU36HqXhp8E6k5MgvQ4WS7tUGlpHD1U1NBP6CPQ",
+      "text": "STEP 7 วัน",
+      "originalType": "flex"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777424295500,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611685537048690723",
+      "type": "text",
+      "text": "ขั้นตอนการสั่งซื้อ",
+      "originalType": "rich"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "follow",
+    "timestamp": 1777424294747,
+    "source": {
+      "chatId": "Uf1dbfaa74745c6a33e03beffaddd3c2e",
+      "userId": "Uf1dbfaa74745c6a33e03beffaddd3c2e"
+    }
+  }
+]
