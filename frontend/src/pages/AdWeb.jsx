@@ -428,7 +428,7 @@ export default function AdWeb() {
       {/* Header + Daily Stats */}
       <div className="flex justify-between align-center mb-4">
         <div>
-          <h3 className="text-primary"><i className="fa-solid fa-headset"></i> Omni-Channel Chat Center</h3>
+          <h3 className="text-primary"><i className="fa-solid fa-headset"></i> Chat Center</h3>
           <p>รวมแชท LINE / Facebook / TikTok + CRM ลูกค้าเจ้าใหญ่</p>
         </div>
         <div style={{display: 'flex', gap: '0.8rem'}}>

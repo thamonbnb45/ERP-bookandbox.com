@@ -43,7 +43,7 @@ function Sidebar({ isOpen, closeSidebar }) {
 
           {canAccess('chat_module', ['CEO', 'Sales']) && (
               <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
-                 <i className="fa-brands fa-line"></i> Omni-Channel Chat
+                 <i className="fa-brands fa-line"></i> Chat
               </Link>
           )}
 
@@ -151,7 +151,7 @@ function MainLayout() {
       {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar}></div>}
       <main className="main-content">
         <Routes>
-          <Route path="/adweb" element={<><Topbar title="Omni-Channel Chat" toggleSidebar={toggleSidebar} /><div className="view-container"><AdWeb /></div></>} />
+          <Route path="/adweb" element={<><Topbar title="Chat" toggleSidebar={toggleSidebar} /><div className="view-container"><AdWeb /></div></>} />
           <Route path="/sales" element={<><Topbar title="Sales & Quotations" toggleSidebar={toggleSidebar} /><div className="view-container"><Sales /></div></>} />
           <Route path="/production" element={<><Topbar title="Production Control" toggleSidebar={toggleSidebar} /><div className="view-container"><Production /></div></>} />
           <Route path="/print-flow" element={<><Topbar title="Print Flow Plan" toggleSidebar={toggleSidebar} /><div className="view-container"><PrintFlow /></div></>} />
