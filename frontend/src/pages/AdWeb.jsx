@@ -431,18 +431,65 @@ export default function AdWeb() {
       )}
 
       {/* Header + Daily Stats */}
-      <div className="flex justify-between align-center mb-4">
-        <div>
-          <h3 className="text-primary"><i className="fa-solid fa-headset"></i> Chat Center</h3>
-          <p>รวมแชท LINE / Facebook / TikTok + CRM ลูกค้าเจ้าใหญ่</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.8rem', gap: '1rem' }}>
+        {/* Left: Title & Buttons */}
+        <div style={{ flexShrink: 0 }}>
+          <h3 className="text-primary" style={{ margin: '0 0 0.2rem 0' }}><i className="fa-solid fa-headset"></i> Chat Center</h3>
+          <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>CRM & Social Chat</p>
           {/* Data Upload Buttons */}
-          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'images' })}><i className="fa-solid fa-images"></i> อัพรูปสินค้า</button>
-            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'contacts' })}><i className="fa-solid fa-users"></i> อัพรายชื่อเก่า</button>
-            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'quotes' })}><i className="fa-solid fa-file-invoice-dollar"></i> อัพใบสั่ง/เสนอราคา</button>
+          <div style={{ display: 'flex', gap: '0.3rem', marginTop: '0.5rem' }}>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.65rem', padding: '0.2rem 0.4rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'images' })}><i className="fa-solid fa-images"></i> รูป</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.65rem', padding: '0.2rem 0.4rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'contacts' })}><i className="fa-solid fa-users"></i> รายชื่อ</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.65rem', padding: '0.2rem 0.4rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'quotes' })}><i className="fa-solid fa-file-invoice-dollar"></i> ประวัติ</button>
           </div>
         </div>
-        <div style={{display: 'flex', gap: '0.8rem'}}>
+
+        {/* Center: 🏆 Gamified Sales Leaderboard (Compact) */}
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <div style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', padding: '0.4rem 1rem', borderRadius: '20px', color: 'white', display: 'flex', gap: '0.8rem', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', alignItems: 'center', overflowX: 'auto', maxWidth: '100%' }}>
+            <div style={{ flexShrink: 0, paddingRight: '0.5rem', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ margin: 0, color: '#fcd34d', fontSize: '0.8rem', fontWeight: 'bold' }}><i className="fa-solid fa-trophy"></i> Leaderboard</div>
+            </div>
+            
+            {(() => {
+              const salesStats = {};
+              leads.forEach(l => {
+                const alias = l.erp_alias_name || '';
+                const parts = alias.split('-');
+                if (parts.length >= 2) {
+                  const rep = parts[1].split(' ')[0];
+                  if (!salesStats[rep]) salesStats[rep] = { name: rep, totalLeads: 0, closed: 0, revenue: 0 };
+                  salesStats[rep].totalLeads += 1;
+                  if (l.sales_status === 'c') {
+                    salesStats[rep].closed += 1;
+                    salesStats[rep].revenue += (l.analytics?.totalSpend || 0);
+                  }
+                }
+              });
+
+              const board = Object.values(salesStats).map(s => {
+                s.winRate = s.totalLeads > 0 ? (s.closed / s.totalLeads) * 100 : 0;
+                s.score = (s.revenue / 1000) * (s.winRate / 100); 
+                return s;
+              }).filter(s => s.totalLeads > 0).sort((a, b) => b.score - a.score);
+
+              const medals = ['🥇', '🥈', '🥉'];
+
+              return board.length === 0 ? <div style={{ fontSize: '0.7rem', color: '#64748b' }}>ยังไม่มีข้อมูล</div> : board.map((s, idx) => (
+                <div key={s.name} style={{ display: 'flex', gap: '0.3rem', alignItems: 'center', minWidth: '90px' }}>
+                  <div style={{ fontSize: '1rem' }}>{medals[idx] || '🎖️'}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.7rem' }}>{s.name} <span style={{fontSize:'0.55rem', color:'#fde047'}}>Lv.{Math.max(1, Math.floor(s.score))}</span></div>
+                    <div style={{ fontSize: '0.6rem', color: '#cbd5e1' }}>{s.winRate.toFixed(1)}% | {(s.revenue/1000).toFixed(1)}k</div>
+                  </div>
+                </div>
+              ));
+            })()}
+          </div>
+        </div>
+
+        {/* Right: Daily Stats */}
+        <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: '350px'}}>
           {(() => {
             const today = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'}));
             const todayStr = today.toDateString();
@@ -517,62 +564,7 @@ export default function AdWeb() {
         </div>
       </div>
 
-      {/* 🏆 Gamified Sales Leaderboard (Collapsible) */}
-      <div style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', padding: showLeaderboard ? '1rem' : '0.5rem 1rem', borderRadius: '12px', marginBottom: '1rem', color: 'white', display: 'flex', flexDirection: showLeaderboard ? 'row' : 'row', gap: '1rem', overflowX: 'auto', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: showLeaderboard ? 'default' : 'pointer', alignItems: 'center' }} onClick={() => !showLeaderboard && setShowLeaderboard(true)}>
-        <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: '1rem', borderRight: showLeaderboard ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <h4 style={{ margin: 0, color: '#fcd34d', fontSize: showLeaderboard ? '1.1rem' : '0.9rem' }}><i className="fa-solid fa-trophy"></i> Leaderboard</h4>
-            {showLeaderboard && <button onClick={(e) => { e.stopPropagation(); setShowLeaderboard(false); }} style={{ background:'transparent', border:'none', color:'#94a3b8', cursor:'pointer', padding:'0' }}><i className="fa-solid fa-chevron-up"></i> ย่อ</button>}
-          </div>
-          {showLeaderboard && <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>จัดอันดับ Real-time</span>}
-        </div>
-        
-        {!showLeaderboard ? (
-          <div style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>คลิกเพื่อดูอันดับนักขายและยอดขายรวม 📊</div>
-        ) : (() => {
-          // Calculate Leaderboard stats from current leads
-          const salesStats = {};
-          leads.forEach(l => {
-            const alias = l.erp_alias_name || '';
-            const parts = alias.split('-');
-            if (parts.length >= 2) {
-              const rep = parts[1].split(' ')[0]; // Get 'KW', 'BK', etc.
-              if (!salesStats[rep]) salesStats[rep] = { name: rep, totalLeads: 0, closed: 0, revenue: 0 };
-              
-              salesStats[rep].totalLeads += 1;
-              if (l.sales_status === 'c') {
-                salesStats[rep].closed += 1;
-                salesStats[rep].revenue += (l.analytics?.totalSpend || 0);
-              }
-            }
-          });
-
-          // Calculate Win Rate and Score
-          const board = Object.values(salesStats).map(s => {
-            s.winRate = s.totalLeads > 0 ? (s.closed / s.totalLeads) * 100 : 0;
-            // The Manager's Secret Metric: Score = (Revenue / 1000) * (WinRate / 100). Balances Volume and Quality!
-            s.score = (s.revenue / 1000) * (s.winRate / 100); 
-            return s;
-          }).filter(s => s.totalLeads > 0).sort((a, b) => b.score - a.score);
-
-          const medals = ['🥇', '🥈', '🥉'];
-
-          return board.length === 0 ? <div style={{ fontSize: '0.8rem', color: '#64748b', alignSelf: 'center' }}>ยังไม่มีข้อมูลการปิดการขาย</div> : board.map((s, idx) => (
-            <div key={s.name} style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', gap: '0.8rem', alignItems: 'center', minWidth: '160px' }}>
-              <div style={{ fontSize: '1.5rem' }}>{medals[idx] || '🎖️'}</div>
-              <div>
-                <div style={{ fontWeight: 'bold', fontSize: '0.85rem' }}>{s.name} <span style={{fontSize:'0.6rem', color:'#fde047', background:'rgba(0,0,0,0.2)', padding:'1px 4px', borderRadius:'4px'}}>Lv.{Math.max(1, Math.floor(s.score))}</span></div>
-                <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.65rem', color: '#cbd5e1', marginTop: '0.2rem' }}>
-                  <span title="Win Rate (ปิดการขาย/ทักทั้งหมด)"><i className="fa-solid fa-bullseye" style={{color:'#10b981'}}></i> {s.winRate.toFixed(1)}%</span>
-                  <span title="Revenue (ยอดขายสะสม)"><i className="fa-solid fa-baht-sign" style={{color:'#38bdf8'}}></i> {(s.revenue/1000).toFixed(1)}k</span>
-                </div>
-              </div>
-            </div>
-          ));
-        })()}
-      </div>
-      
-      <div className="chat-container shadow" style={{ height: '75%' }}>
+      <div className="chat-container shadow" style={{ height: 'calc(100vh - 170px)', minHeight: '600px' }}>
         {/* Contact List */}
         <div className="chat-list" style={{ width: '30%', minWidth: '280px', display: 'flex', flexDirection: 'column' }}>
           
