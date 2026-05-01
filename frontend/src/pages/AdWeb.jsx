@@ -640,22 +640,26 @@ export default function AdWeb() {
                     </div>
                     {/* Data Quality Badge */}
                     <div style={{fontSize: '0.55rem', display: 'flex', gap: '0.2rem', marginTop: '0.15rem', alignItems: 'center', flexWrap: 'wrap'}}>
-                        {lead.messages.length === 0 ? (
-                          <span style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>❌ ไม่มีแชท</span>
-                        ) : lead.messages.length < 10 ? (
-                          <span style={{ background: '#fef3c7', color: '#92400e', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>⚠️{lead.messages.length}msg</span>
-                        ) : (
-                          <span style={{ background: '#dcfce7', color: '#166534', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>✅{lead.messages.length}msg</span>
-                        )}
                         {(() => {
+                          const clientMsgs = lead.messages.filter(m => m.sender === 'client').length;
+                          const adminMsgs = lead.messages.filter(m => m.sender === 'admin').length;
+                          const total = lead.messages.length;
                           const parts = (lead.erp_alias_name || '').split('-');
                           const sales = parts.length >= 2 ? parts[1] : '';
-                          return !sales ? <span style={{ background: '#fef3c7', color: '#92400e', padding: '0 0.25rem', borderRadius: '3px' }}>👤?</span>
-                            : <span style={{ background: '#e0e7ff', color: '#4338ca', padding: '0 0.25rem', borderRadius: '3px' }}>👤{sales}</span>;
+                          return (
+                            <>
+                              {total === 0 ? (
+                                <span style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>❌ ไม่มีแชท</span>
+                              ) : adminMsgs > 0 ? (
+                                <span style={{ background: '#dcfce7', color: '#166534', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }} title="มีข้อมูล 2 ฝั่ง วิเคราะห์ได้">✅ {clientMsgs}↓ {adminMsgs}↑</span>
+                              ) : (
+                                <span style={{ background: '#fef3c7', color: '#92400e', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }} title="มีแค่ฝั่งลูกค้า ไม่เห็นเซลตอบ">⚠️ {clientMsgs}↓ 0↑</span>
+                              )}
+                              {!sales ? <span style={{ background: '#fef3c7', color: '#92400e', padding: '0 0.25rem', borderRadius: '3px' }}>👤?</span>
+                                : <span style={{ background: '#e0e7ff', color: '#4338ca', padding: '0 0.25rem', borderRadius: '3px' }}>👤{sales}</span>}
+                            </>
+                          );
                         })()}
-                        {lead.messages.length > 0 && lead.messages.filter(m => m.sender === 'admin').length === 0 && (
-                          <span style={{ background: '#fce7f3', color: '#be185d', padding: '0 0.25rem', borderRadius: '3px' }}>🔇ไม่ตอบ</span>
-                        )}
                         {/* Waiting status tags */}
                         {(lead.tags || []).filter(t => ['รอราคา','รอตรวจ','แก้ไฟล์','รอผลิต','รอขนส่ง','รอบิล','คืนเงิน'].includes(t)).map(t => (
                           <span key={t} style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔴{t}</span>
