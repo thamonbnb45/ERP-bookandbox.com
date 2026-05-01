@@ -475,7 +475,7 @@ export default function AdWeb() {
 
               const medals = ['🥇', '🥈', '🥉'];
 
-              return board.length === 0 ? <div style={{ fontSize: '0.7rem', color: '#64748b' }}>ยังไม่มีข้อมูล</div> : board.map((s, idx) => (
+              return board.length === 0 ? <div style={{ fontSize: '0.7rem', color: '#64748b' }}>ยังไม่มีข้อมูล</div> : board.slice(0, 3).map((s, idx) => (
                 <div key={s.name} style={{ display: 'flex', gap: '0.3rem', alignItems: 'center', minWidth: '90px' }}>
                   <div style={{ fontSize: '1rem' }}>{medals[idx] || '🎖️'}</div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -489,7 +489,7 @@ export default function AdWeb() {
         </div>
 
         {/* Right: Daily Stats */}
-        <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end', flexShrink: 0, width: '350px'}}>
+        <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end', flexShrink: 0, width: '450px'}}>
           {(() => {
             const today = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'}));
             const todayStr = today.toDateString();
