@@ -612,8 +612,17 @@ export default function AdWeb() {
                         background: '#06c755', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '0.65rem', fontWeight: 'bold', padding: '0 5px'
                       }}>{unreadCount > 99 ? '99+' : unreadCount}</div>
-                    ) : chatStatus === 'read' ? (
-                      <div style={{ width:'10px', height:'10px', borderRadius:'50%', background:'#f59e0b' }} title="อ่านแล้ว ยังไม่ตอบ"></div>
+                    ) : chatStatus === 'read' ? (() => {
+                      const mins = Math.round((Date.now() - new Date(lastMsg.created_at).getTime()) / 60000);
+                      const label = mins < 60 ? `${mins}น.` : mins < 1440 ? `${Math.round(mins/60)}ชม.` : `${Math.round(mins/1440)}วัน`;
+                      const isUrgent = mins > 1440;
+                      return <div style={{
+                        padding: '0.1rem 0.3rem', borderRadius: '8px', fontSize: '0.55rem', fontWeight: 'bold',
+                        background: isUrgent ? '#fee2e2' : '#fef3c7', color: isUrgent ? '#dc2626' : '#92400e',
+                        whiteSpace: 'nowrap'
+                      }} title="อ่านแล้ว ยังไม่ตอบ">⏳{label}</div>;
+                    })() : chatStatus === 'replied' ? (
+                      <div style={{ fontSize: '0.6rem', color: '#3b82f6' }} title="ตอบแล้ว">✓✓</div>
                     ) : null}
                 </div>
               </div>
