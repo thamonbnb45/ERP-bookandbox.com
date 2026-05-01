@@ -260,6 +260,25 @@ export default function AdWeb() {
       } catch (err) {}
   }
 
+  // ★ Waiting Status Tag Toggle
+  const toggleWaitTag = async (tag) => {
+    if (!activeLead) return;
+    const current = activeLead.tags || [];
+    const newTags = current.includes(tag) ? current.filter(t => t !== tag) : [...current, tag];
+    saveWaitTags(newTags);
+  };
+  const saveWaitTags = async (newTags) => {
+    if (!activeLead) return;
+    try {
+      await axios.put(`${API_URL}/leads/${activeLead.id}`, {
+        erp_alias_name: activeLead.erp_alias_name || activeLead.original_name,
+        tags: newTags,
+        sales_status: activeLead.sales_status
+      });
+      fetchChats();
+    } catch (err) {}
+  };
+
   const handleSaveLeadInfo = async () => {
     if (!activeLead) return;
     const tagsArray = tagInput.split(',').map(t => t.trim()).filter(t => t);
@@ -590,6 +609,16 @@ export default function AdWeb() {
                         {lead.messages.length > 0 && lead.messages.filter(m => m.sender === 'admin').length === 0 && (
                           <span style={{ background: '#fce7f3', color: '#be185d', padding: '0 0.25rem', borderRadius: '3px' }}>🔇ไม่ตอบ</span>
                         )}
+                        {/* Waiting status tags */}
+                        {(lead.tags || []).filter(t => ['รอราคา','รอตรวจ','แก้ไฟล์','รอผลิต','รอขนส่ง','รอบิล','คืนเงิน'].includes(t)).map(t => (
+                          <span key={t} style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔴{t}</span>
+                        ))}
+                        {(lead.tags || []).filter(t => ['รอไฟล์','รอโอนเงิน','รอตรวจไฟล์','รอตัดสินใจ'].includes(t)).map(t => (
+                          <span key={t} style={{ background: '#dbeafe', color: '#1d4ed8', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔵{t}</span>
+                        ))}
+                        {(lead.tags || []).filter(t => t.startsWith('นัด:')).map(t => (
+                          <span key={t} style={{ background: '#f0fdf4', color: '#16a34a', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>📅{t.replace('นัด:','')}</span>
+                        ))}
                     </div>
                 </div>
 
@@ -774,6 +803,57 @@ export default function AdWeb() {
                 </div>
             </div>
 
+            {/* ★ Waiting Status Bar */}
+            {!editingLead && (
+              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.3rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                {/* ลูกค้ารอเรา (Red) */}
+                {[
+                  { tag: 'รอราคา', icon: '💰' },
+                  { tag: 'รอตรวจ', icon: '👁️' },
+                  { tag: 'แก้ไฟล์', icon: '🔧' },
+                  { tag: 'รอผลิต', icon: '🏭' },
+                  { tag: 'รอขนส่ง', icon: '📦' },
+                  { tag: 'รอบิล', icon: '🧾' },
+                  { tag: 'คืนเงิน', icon: '💸' },
+                ].map(w => {
+                  const active = (activeLead.tags || []).includes(w.tag);
+                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} style={{
+                    padding: '0.15rem 0.4rem', borderRadius: '6px', fontSize: '0.6rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
+                    background: active ? '#fee2e2' : '#f8fafc', color: active ? '#dc2626' : '#94a3b8',
+                    border: active ? '2px solid #fca5a5' : '1px solid #e2e8f0'
+                  }}>{w.icon} {w.tag}</button>;
+                })}
+                <div style={{ width: '1px', height: '16px', background: '#cbd5e1', margin: '0 2px' }}></div>
+                {/* เรารอลูกค้า (Blue) */}
+                {[
+                  { tag: 'รอไฟล์', icon: '📁' },
+                  { tag: 'รอโอนเงิน', icon: '💳' },
+                  { tag: 'รอตรวจไฟล์', icon: '📝' },
+                  { tag: 'รอตัดสินใจ', icon: '🤔' },
+                ].map(w => {
+                  const active = (activeLead.tags || []).includes(w.tag);
+                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} style={{
+                    padding: '0.15rem 0.4rem', borderRadius: '6px', fontSize: '0.6rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
+                    background: active ? '#dbeafe' : '#f8fafc', color: active ? '#1d4ed8' : '#94a3b8',
+                    border: active ? '2px solid #93c5fd' : '1px solid #e2e8f0'
+                  }}>{w.icon} {w.tag}</button>;
+                })}
+                <div style={{ width: '1px', height: '16px', background: '#cbd5e1', margin: '0 2px' }}></div>
+                {/* นัดวัน */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                  <span style={{ fontSize: '0.6rem', color: '#64748b' }}>📅 นัด:</span>
+                  <input type="date" value={(activeLead.tags || []).find(t => t.startsWith('นัด:'))?.replace('นัด:', '') || ''}
+                    onChange={e => {
+                      const dateVal = e.target.value;
+                      const newTags = (activeLead.tags || []).filter(t => !t.startsWith('นัด:'));
+                      if (dateVal) newTags.push('นัด:' + dateVal);
+                      saveWaitTags(newTags);
+                    }}
+                    style={{ fontSize: '0.6rem', padding: '0.1rem 0.2rem', borderRadius: '4px', border: '1px solid #e2e8f0', width: '110px' }}
+                  />
+                </div>
+              </div>
+            )}
             {/* Editable CRM Profile Form */}
             {editingLead && (
               <div style={{ marginTop: '0.8rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.5rem' }}>
