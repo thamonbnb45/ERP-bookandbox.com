@@ -445,7 +445,7 @@ export default function AdWeb() {
         </div>
 
         {/* Center: 🏆 Gamified Sales Leaderboard (Compact) */}
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', minWidth: 0 }}>
           <div style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', padding: '0.4rem 1rem', borderRadius: '20px', color: 'white', display: 'flex', gap: '0.8rem', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', alignItems: 'center', overflowX: 'auto', maxWidth: '100%' }}>
             <div style={{ flexShrink: 0, paddingRight: '0.5rem', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ margin: 0, color: '#fcd34d', fontSize: '0.8rem', fontWeight: 'bold' }}><i className="fa-solid fa-trophy"></i> Leaderboard</div>
@@ -489,7 +489,7 @@ export default function AdWeb() {
         </div>
 
         {/* Right: Daily Stats */}
-        <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: '350px'}}>
+        <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end', flexShrink: 0, width: '350px'}}>
           {(() => {
             const today = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'}));
             const todayStr = today.toDateString();
@@ -564,7 +564,7 @@ export default function AdWeb() {
         </div>
       </div>
 
-      <div className="chat-container shadow" style={{ height: 'calc(100vh - 170px)', minHeight: '600px' }}>
+      <div className="chat-container shadow" style={{ height: 'calc(100vh - 140px)', minHeight: '500px' }}>
         {/* Contact List */}
         <div className="chat-list" style={{ width: '30%', minWidth: '280px', display: 'flex', flexDirection: 'column' }}>
           
