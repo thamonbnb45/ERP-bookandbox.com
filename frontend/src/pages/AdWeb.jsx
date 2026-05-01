@@ -1119,17 +1119,29 @@ export default function AdWeb() {
                     <input placeholder="ราคารวม" type="number" step="0.01" value={quoteForm.total_price} onChange={e => setQuoteForm({...quoteForm, total_price: e.target.value})} style={{ padding:'0.3rem', borderRadius:'4px', border:'1px solid #d4d4d8' }} />
                     <input placeholder="สเปค/รายละเอียด" value={quoteForm.specs} onChange={e => setQuoteForm({...quoteForm, specs: e.target.value})} style={{ padding:'0.3rem', borderRadius:'4px', border:'1px solid #d4d4d8', gridColumn:'1/3' }} />
                     <input placeholder="หมายเหตุ" value={quoteForm.notes} onChange={e => setQuoteForm({...quoteForm, notes: e.target.value})} style={{ padding:'0.3rem', borderRadius:'4px', border:'1px solid #d4d4d8' }} />
-                    <button onClick={async () => {
-                      if (!quoteForm.product_name) return alert('กรุณาใส่ชื่อสินค้า');
-                      try {
-                        const erpUser = JSON.parse(localStorage.getItem('erp_user') || '{}');
-                        await axios.post(`${API_URL}/customer_quotes`, { ...quoteForm, lead_id: activeLeadId, quoted_by: erpUser.name || 'Sales', type: quoteTab });
-                        fetchQuotes(activeLeadId);
-                        setShowQuoteForm(false);
-                      } catch(e) { alert('Error: ' + e.message); }
-                    }} style={{ background: quoteTab === 'quote' ? '#f59e0b' : '#10b981', color:'white', border:'none', borderRadius:'4px', padding:'0.3rem', cursor:'pointer', fontWeight:'bold' }}>
-                      💾 {quoteTab === 'quote' ? 'บันทึกราคาที่เสนอ' : 'บันทึกการซื้อ'}
-                    </button>
+                    <div style={{ gridColumn: '1/3', display: 'flex', gap: '0.3rem' }}>
+                      <button onClick={async () => {
+                        if (!quoteForm.product_name) return alert('กรุณาใส่ชื่อสินค้า');
+                        try {
+                          const erpUser = JSON.parse(localStorage.getItem('erp_user') || '{}');
+                          await axios.post(`${API_URL}/customer_quotes`, { ...quoteForm, lead_id: activeLeadId, quoted_by: erpUser.name || 'Sales', type: quoteTab });
+                          fetchQuotes(activeLeadId);
+                          setShowQuoteForm(false);
+                        } catch(e) { alert('Error: ' + e.message); }
+                      }} style={{ flex: 1, background: quoteTab === 'quote' ? '#f59e0b' : '#10b981', color:'white', border:'none', borderRadius:'4px', padding:'0.4rem', cursor:'pointer', fontWeight:'bold' }}>
+                        💾 {quoteTab === 'quote' ? 'บันทึก' : 'บันทึกการซื้อ'}
+                      </button>
+                      
+                      {quoteTab === 'quote' && (
+                        <button onClick={async () => {
+                          if (!quoteForm.product_name) return alert('กรุณาใส่ชื่อสินค้าก่อนครับ');
+                          const quoteMsg = `📋 *ใบเสนอราคาเบื้องต้น*\nสินค้า: ${quoteForm.product_name}\nหมวดหมู่: ${quoteForm.category}\nสเปค: ${quoteForm.specs}\nจำนวน: ${quoteForm.quantity} ชิ้น\nราคา: ${Number(quoteForm.total_price).toLocaleString()} บาท\nหมายเหตุ: ${quoteForm.notes}\n\nหากลูกค้ายืนยัน สามารถแจ้งแอดมินเพื่อดำเนินการต่อได้เลยครับ 😊`;
+                          setInputValue(quoteMsg);
+                        }} style={{ flex: 2, background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', color:'white', border:'none', borderRadius:'4px', padding:'0.4rem', cursor:'pointer', fontWeight:'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.3rem' }}>
+                          <i className="fa-solid fa-bolt"></i> สร้างข้อความเสนอราคาด่วน
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
