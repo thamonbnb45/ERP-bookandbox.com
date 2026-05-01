@@ -205,6 +205,14 @@ export default function AdWeb() {
   const filteredLeads = leads.filter(l => {
     if (platformFilter !== 'all' && (l.platform || 'line') !== platformFilter) return false;
     if (statusFilter === 'unread' && getChatStatus(l) !== 'new') return false;
+    if (statusFilter === 'nochat' && l.messages?.length > 0) return false;
+    if (statusFilter === 'incomplete' && (l.messages?.length || 0) >= 10) return false;
+    if (statusFilter === 'incomplete' && (l.messages?.length || 0) === 0) return false;
+    if (statusFilter === 'nosales') {
+      const parts = (l.erp_alias_name || '').split('-');
+      if (parts.length >= 2 && parts[1]) return false;
+    }
+    if (statusFilter === 'complete' && (l.messages?.length || 0) < 10) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       const name = (l.erp_alias_name || l.original_name || '').toLowerCase();
@@ -482,9 +490,13 @@ export default function AdWeb() {
               <option value="all">ทุกเซล</option>
               {allSalesNames.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
-            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ padding: '0.35rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.7rem', color: statusFilter === 'all' ? '#94a3b8' : '#0f172a', background: statusFilter === 'unread' ? '#dcfce7' : 'white' }}>
+            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ padding: '0.35rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.7rem', color: statusFilter === 'all' ? '#94a3b8' : '#0f172a', background: statusFilter === 'unread' ? '#dcfce7' : statusFilter === 'nochat' ? '#fee2e2' : statusFilter === 'incomplete' ? '#fef3c7' : 'white' }}>
               <option value="all">ล่าสุด</option>
               <option value="unread">🟢 ไม่อ่าน</option>
+              <option value="nochat">❌ ไม่มีแชท</option>
+              <option value="incomplete">⚠️ ข้อมูลน้อย</option>
+              <option value="nosales">👤? ไม่มีเซล</option>
+              <option value="complete">✅ ครบ 10+</option>
             </select>
             <button onClick={markAllRead} title="อ่านทั้งหมด" style={{ padding: '0.3rem 0.5rem', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#f0fdf4', cursor: 'pointer', fontSize: '0.65rem', color: '#16a34a', whiteSpace: 'nowrap' }}>✓ อ่านแล้ว</button>
           </div>
@@ -559,6 +571,25 @@ export default function AdWeb() {
                     <div style={{fontSize: '0.6rem', color: '#94a3b8', display: 'flex', gap: '0.3rem', marginTop: '0.15rem', alignItems: 'center'}}>
                         {lead.company_role || lead.industry ? <span>• {lead.company_role || lead.industry}</span> : null}
                         {revGrade && <span style={{ background: revGrade.bg, color: revGrade.color, padding: '0 0.3rem', borderRadius: '4px', fontWeight: 700 }}>{revGrade.label}</span>}
+                    </div>
+                    {/* Data Quality Badge */}
+                    <div style={{fontSize: '0.55rem', display: 'flex', gap: '0.2rem', marginTop: '0.15rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                        {lead.messages.length === 0 ? (
+                          <span style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>❌ ไม่มีแชท</span>
+                        ) : lead.messages.length < 10 ? (
+                          <span style={{ background: '#fef3c7', color: '#92400e', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>⚠️{lead.messages.length}msg</span>
+                        ) : (
+                          <span style={{ background: '#dcfce7', color: '#166534', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>✅{lead.messages.length}msg</span>
+                        )}
+                        {(() => {
+                          const parts = (lead.erp_alias_name || '').split('-');
+                          const sales = parts.length >= 2 ? parts[1] : '';
+                          return !sales ? <span style={{ background: '#fef3c7', color: '#92400e', padding: '0 0.25rem', borderRadius: '3px' }}>👤?</span>
+                            : <span style={{ background: '#e0e7ff', color: '#4338ca', padding: '0 0.25rem', borderRadius: '3px' }}>👤{sales}</span>;
+                        })()}
+                        {lead.messages.length > 0 && lead.messages.filter(m => m.sender === 'admin').length === 0 && (
+                          <span style={{ background: '#fce7f3', color: '#be185d', padding: '0 0.25rem', borderRadius: '3px' }}>🔇ไม่ตอบ</span>
+                        )}
                     </div>
                 </div>
 
