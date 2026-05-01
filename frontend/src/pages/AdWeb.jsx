@@ -514,8 +514,58 @@ export default function AdWeb() {
           })()}
         </div>
       </div>
+
+      {/* 🏆 Gamified Sales Leaderboard */}
+      <div style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', padding: '1rem', borderRadius: '12px', marginBottom: '1rem', color: 'white', display: 'flex', gap: '1rem', overflowX: 'auto', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+        <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: '1rem', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+          <h4 style={{ margin: 0, color: '#fcd34d' }}><i className="fa-solid fa-trophy"></i> Leaderboard</h4>
+          <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>จัดอันดับ Real-time</span>
+        </div>
+        
+        {(() => {
+          // Calculate Leaderboard stats from current leads
+          const salesStats = {};
+          leads.forEach(l => {
+            const alias = l.erp_alias_name || '';
+            const parts = alias.split('-');
+            if (parts.length >= 2) {
+              const rep = parts[1].split(' ')[0]; // Get 'KW', 'BK', etc.
+              if (!salesStats[rep]) salesStats[rep] = { name: rep, totalLeads: 0, closed: 0, revenue: 0 };
+              
+              salesStats[rep].totalLeads += 1;
+              if (l.sales_status === 'c') {
+                salesStats[rep].closed += 1;
+                salesStats[rep].revenue += (l.analytics?.totalSpend || 0);
+              }
+            }
+          });
+
+          // Calculate Win Rate and Score
+          const board = Object.values(salesStats).map(s => {
+            s.winRate = s.totalLeads > 0 ? (s.closed / s.totalLeads) * 100 : 0;
+            // The Manager's Secret Metric: Score = (Revenue / 1000) * (WinRate / 100). Balances Volume and Quality!
+            s.score = (s.revenue / 1000) * (s.winRate / 100); 
+            return s;
+          }).filter(s => s.totalLeads > 0).sort((a, b) => b.score - a.score);
+
+          const medals = ['🥇', '🥈', '🥉'];
+
+          return board.length === 0 ? <div style={{ fontSize: '0.8rem', color: '#64748b', alignSelf: 'center' }}>ยังไม่มีข้อมูลการปิดการขาย</div> : board.map((s, idx) => (
+            <div key={s.name} style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', gap: '0.8rem', alignItems: 'center', minWidth: '160px' }}>
+              <div style={{ fontSize: '1.5rem' }}>{medals[idx] || '🎖️'}</div>
+              <div>
+                <div style={{ fontWeight: 'bold', fontSize: '0.85rem' }}>{s.name} <span style={{fontSize:'0.6rem', color:'#fde047', background:'rgba(0,0,0,0.2)', padding:'1px 4px', borderRadius:'4px'}}>Lv.{Math.max(1, Math.floor(s.score))}</span></div>
+                <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.65rem', color: '#cbd5e1', marginTop: '0.2rem' }}>
+                  <span title="Win Rate (ปิดการขาย/ทักทั้งหมด)"><i className="fa-solid fa-bullseye" style={{color:'#10b981'}}></i> {s.winRate.toFixed(1)}%</span>
+                  <span title="Revenue (ยอดขายสะสม)"><i className="fa-solid fa-baht-sign" style={{color:'#38bdf8'}}></i> {(s.revenue/1000).toFixed(1)}k</span>
+                </div>
+              </div>
+            </div>
+          ));
+        })()}
+      </div>
       
-      <div className="chat-container shadow" style={{ height: '85%' }}>
+      <div className="chat-container shadow" style={{ height: '75%' }}>
         {/* Contact List */}
         <div className="chat-list" style={{ width: '30%', minWidth: '280px', display: 'flex', flexDirection: 'column' }}>
           
