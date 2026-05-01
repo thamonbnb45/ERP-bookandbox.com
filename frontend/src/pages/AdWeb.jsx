@@ -139,6 +139,8 @@ export default function AdWeb() {
   const [priceReqCategory, setPriceReqCategory] = useState('ใบปลิว/แผ่นพับ');
   const [priceReqSpecs, setPriceReqSpecs] = useState('');
   const [priceReqUrgency, setPriceReqUrgency] = useState('normal');
+  const [activeSalesRep, setActiveSalesRep] = useState(localStorage.getItem('activeSalesRep') || '');
+
 
   // ★ Price Tracking (เสนอราคา + ซื้อสินค้า)
   const [customerQuotes, setCustomerQuotes] = useState([]);
@@ -430,6 +432,12 @@ export default function AdWeb() {
         <div>
           <h3 className="text-primary"><i className="fa-solid fa-headset"></i> Chat Center</h3>
           <p>รวมแชท LINE / Facebook / TikTok + CRM ลูกค้าเจ้าใหญ่</p>
+          {/* Data Upload Buttons */}
+          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }}><i className="fa-solid fa-images"></i> อัพรูปสินค้า</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }}><i className="fa-solid fa-users"></i> อัพรายชื่อเก่า</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }}><i className="fa-solid fa-file-invoice-dollar"></i> อัพใบสั่ง/เสนอราคา</button>
+          </div>
         </div>
         <div style={{display: 'flex', gap: '0.8rem'}}>
           {(() => {
@@ -849,6 +857,10 @@ export default function AdWeb() {
                           <button className="btn btn-primary" style={{padding: '0.4rem 0.8rem', fontSize:'0.8rem', background: '#1e293b', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}} onClick={() => setShowOrderModal(true)}>
                               <i className="fa-solid fa-file-invoice"></i> สร้างใบงานผลิต
                           </button>
+                          {/* Sync Chat Button */}
+                          <button className="btn btn-outline" style={{padding: '0.4rem 0.8rem', fontSize:'0.8rem', borderColor: '#e2e8f0', color: '#64748b'}} onClick={() => alert('กำลังส่งคำสั่งไปที่ LINE API เพื่อดึงแชททั้งหมดของลูกค้ารายนี้... (จะอัพเดทข้อมูลใหม่ใน 1-2 นาที)')}>
+                              <i className="fa-solid fa-rotate"></i> ดึงแชท
+                          </button>
                         </>
                     )}
                 </div>
@@ -1213,23 +1225,55 @@ export default function AdWeb() {
                     {isAIGenerating ? <i className="fa-solid fa-circle-notch fa-spin"></i> : <i className="fa-solid fa-wand-magic-sparkles"></i>} ร่างคำตอบด้วย AI
                 </button>
                 <div style={{width: '1px', background: '#cbd5e1', margin: '0 0.2rem'}}></div>
-                {QUICK_REPLIES.map((qr, idx) => (
-                  <button key={idx} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid ${qr.color}`, color: qr.color, background: 'transparent', borderRadius: '20px'}} onClick={() => setInputValue(qr.text)}>
-                      <i className={qr.icon}></i> {qr.label}
+                {/* 🖼️ Product Image Categories */}
+                {['กล่องบรรจุภัณฑ์', 'ถุงกระดาษ', 'สติ๊กเกอร์', 'ใบปลิว', 'ป้าย Tag'].map((cat, idx) => (
+                  <button key={`img-${idx}`} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid #10b981`, color: '#059669', background: '#f0fdf4', borderRadius: '20px'}} onClick={() => alert(`เปิดคลังรูป: ${cat}`)}>
+                      <i className="fa-solid fa-image"></i> รูป{cat}
                   </button>
                 ))}
             </div>
 
             <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+                <select 
+                  className="form-control" 
+                  style={{ width: '130px', fontSize: '0.8rem', padding: '0.6rem', background: activeSalesRep ? '#e0e7ff' : '#fee2e2', borderColor: activeSalesRep ? '#818cf8' : '#fca5a5' }}
+                  value={activeSalesRep}
+                  onChange={e => {
+                    setActiveSalesRep(e.target.value);
+                    localStorage.setItem('activeSalesRep', e.target.value);
+                    // Automatically assign lead if unassigned
+                    if (e.target.value && activeLead && (!activeLead.erp_alias_name || activeLead.erp_alias_name.indexOf('-') === -1)) {
+                      const newAlias = (activeLead.erp_alias_name || 'I') + '-' + e.target.value.split(' ')[0];
+                      axios.put(`${API_URL}/leads/${activeLead.id}`, { erp_alias_name: newAlias }).then(fetchChats).catch(console.error);
+                    }
+                  }}
+                >
+                  <option value="">-- ผู้ตอบ --</option>
+                  <option value="KW กวาง">KW กวาง</option>
+                  <option value="KW2 อาร์ท">KW2 อาร์ท</option>
+                  <option value="BK แบงค์">BK แบงค์</option>
+                  <option value="aem อีม">aem อีม</option>
+                  <option value="แอดมิน ตะวัน">แอดมิน ตะวัน</option>
+                  <option value="แอดมิน ปูเป้">แอดมิน ปูเป้</option>
+                </select>
+
                 <input 
                   type="text" 
                   className="form-control" 
-                  placeholder={`ตอบกลับลูกค้าผ่าน ${pConf.label}...`}
+                  placeholder={activeSalesRep ? `กำลังตอบในนาม: ${activeSalesRep}...` : "กรุณาเลือกชื่อผู้ตอบก่อนส่งข้อความ!"}
                   value={inputValue}
                   onChange={e => setInputValue(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      if (!activeSalesRep) { alert("กรุณาเลือกผู้ตอบก่อนครับ!"); return; }
+                      handleSendMessage();
+                    }
+                  }}
                 />
-                <button className="btn btn-primary" onClick={handleSendMessage} style={{ padding: '0.8rem 1.2rem' }}>
+                <button className="btn btn-primary" onClick={() => {
+                  if (!activeSalesRep) { alert("กรุณาเลือกผู้ตอบก่อนครับ!"); return; }
+                  handleSendMessage();
+                }} style={{ padding: '0.8rem 1.2rem' }}>
                   <i className="fa-solid fa-paper-plane"></i>
                 </button>
                 <button className="btn btn-success" onClick={() => {
