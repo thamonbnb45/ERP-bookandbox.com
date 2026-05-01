@@ -213,6 +213,31 @@ export default function AdWeb() {
       if (parts.length >= 2 && parts[1]) return false;
     }
     if (statusFilter === 'complete' && (l.messages?.length || 0) < 10) return false;
+    // Dashboard clickable card filters
+    if (statusFilter === 'newtoday') {
+      if (l.messages.length === 0) return false;
+      const todayStr = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'})).toDateString();
+      if (new Date(l.messages[0].created_at).toDateString() !== todayStr) return false;
+    }
+    if (statusFilter === 'activetoday') {
+      const todayStr = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'})).toDateString();
+      if (!l.messages.some(m => new Date(m.created_at).toDateString() === todayStr)) return false;
+    }
+    if (statusFilter === 'pending') {
+      if (l.messages.length === 0) return false;
+      if (l.messages[l.messages.length - 1].sender !== 'client') return false;
+    }
+    if (statusFilter === 'redwait') {
+      const rTags = ['รอราคา','รอตรวจ','แก้ไฟล์','รอผลิต','รอขนส่ง','รอบิล','คืนเงิน'];
+      if (!(l.tags || []).some(t => rTags.includes(t))) return false;
+    }
+    if (statusFilter === 'bluewait') {
+      const bTags = ['รอไฟล์','รอโอนเงิน','รอตรวจไฟล์','รอตัดสินใจ'];
+      if (!(l.tags || []).some(t => bTags.includes(t))) return false;
+    }
+    if (statusFilter === 'appointed') {
+      if (!(l.tags || []).some(t => t.startsWith('นัด:'))) return false;
+    }
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       const name = (l.erp_alias_name || l.original_name || '').toLowerCase();
@@ -411,48 +436,70 @@ export default function AdWeb() {
             const today = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Bangkok'}));
             const todayStr = today.toDateString();
             
-            // New leads = leads created today (first message is today)
+            // New leads = first message is today
             const newLeadsToday = leads.filter(l => {
               if (l.messages.length === 0) return false;
-              const firstMsgDate = new Date(l.messages[0].created_at).toDateString();
-              return firstMsgDate === todayStr;
+              return new Date(l.messages[0].created_at).toDateString() === todayStr;
             }).length;
             
-            const todayMsgs = leads.reduce((sum, l) => sum + l.messages.filter(m => new Date(m.created_at).toDateString() === todayStr).length, 0);
+            // Active today = any message today
+            const activeTodayCount = leads.filter(l => 
+              l.messages.some(m => new Date(m.created_at).toDateString() === todayStr)
+            ).length;
             
-            // ★ 3-State Smart Status Counts
-            const statusCounts = { new: 0, read: 0, replied: 0, done: 0 };
-            leads.forEach(l => { statusCounts[getChatStatus(l)]++; });
-            
-            const iCount = leads.filter(l => l.sales_status === 'i').length;
-            const oCount = leads.filter(l => l.sales_status === 'o').length;
-            const cCount = leads.filter(l => l.sales_status === 'c').length;
+            // Pending = client sent last & not replied (count as people)
+            const pendingCount = leads.filter(l => {
+              if (l.messages.length === 0) return false;
+              return l.messages[l.messages.length - 1].sender === 'client';
+            }).length;
+
+            // Waiting tags counts  
+            const redTags = ['รอราคา','รอตรวจ','แก้ไฟล์','รอผลิต','รอขนส่ง','รอบิล','คืนเงิน'];
+            const blueTags = ['รอไฟล์','รอโอนเงิน','รอตรวจไฟล์','รอตัดสินใจ'];
+            const redWaitCount = leads.filter(l => (l.tags || []).some(t => redTags.includes(t))).length;
+            const blueWaitCount = leads.filter(l => (l.tags || []).some(t => blueTags.includes(t))).length;
+            const appointCount = leads.filter(l => (l.tags || []).some(t => t.startsWith('นัด:'))).length;
+
+            const cardStyle = (bg, active) => ({
+              background: bg, borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center',
+              minWidth: '65px', cursor: 'pointer', transition: 'transform 0.15s',
+              outline: active ? '3px solid #3b82f6' : 'none',
+            });
+
             return (
               <>
-                <div title="ลูกค้าที่ทักเข้ามาวันนี้เป็นครั้งแรก" style={{background: '#ede9fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
+                <div title="ลูกค้าที่ทักเข้ามาวันนี้เป็นครั้งแรก" style={cardStyle('#ede9fe', statusFilter === 'newtoday')} 
+                  onClick={() => setStatusFilter(statusFilter === 'newtoday' ? 'all' : 'newtoday')}>
                   <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#7c3aed'}}>{newLeadsToday}</div>
                   <div style={{fontSize: '0.6rem', color: '#5b21b6'}}>ลูกค้าใหม่</div>
                 </div>
-                <div title={`ข้อความใหม่ที่ยังไม่ได้เปิดอ่าน (${statusCounts.new} คน) — กดเพื่ออ่านทั้งหมด`} onClick={markAllRead} style={{background: statusCounts.new > 0 ? '#e6f9ee' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'pointer', animation: statusCounts.new > 0 ? 'pulse 2s infinite' : 'none'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#06c755'}}>{statusCounts.new}</div>
-                  <div style={{fontSize: '0.6rem', color: '#059669'}}>ยังไม่อ่าน</div>
+                <div title="คนที่มีข้อความวันนี้ (วัดปริมาณงาน)" style={cardStyle('#e0f2fe', statusFilter === 'activetoday')}
+                  onClick={() => setStatusFilter(statusFilter === 'activetoday' ? 'all' : 'activetoday')}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{activeTodayCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#0369a1'}}>💬 คุยวันนี้</div>
                 </div>
-                <div title={`อ่านแล้วแต่ยังไม่ได้ตอบกลับ (${statusCounts.read} คน)`} style={{background: statusCounts.read > 0 ? '#fffbeb' : '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: statusCounts.read > 0 ? '#d97706' : '#10b981'}}>{statusCounts.read}</div>
-                  <div style={{fontSize: '0.6rem', color: statusCounts.read > 0 ? '#92400e' : '#166534'}}>🟡 รอตอบ</div>
+                <div title={`ลูกค้าส่งมาสุดท้าย ยังไม่ตอบ (${pendingCount} ราย)`} style={{...cardStyle(pendingCount > 10 ? '#fee2e2' : '#fef3c7', statusFilter === 'pending'), animation: pendingCount > 10 ? 'pulse 2s infinite' : 'none'}}
+                  onClick={() => setStatusFilter(statusFilter === 'pending' ? 'all' : 'pending')}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: pendingCount > 10 ? '#dc2626' : '#d97706'}}>{pendingCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#92400e'}}>⏳ แชทค้าง</div>
                 </div>
-                <div title={`ตอบแล้ว + ลูกค้าพูดจบ (${statusCounts.replied + statusCounts.done} คน)`} style={{background: '#f0fdf4', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{statusCounts.replied + statusCounts.done}</div>
-                  <div style={{fontSize: '0.6rem', color: '#166534'}}>✅ ตอบแล้ว</div>
+                <div title={`ลูกค้ารอเราทำ: ${redWaitCount} ราย`} style={cardStyle(redWaitCount > 0 ? '#fee2e2' : '#fef2f2', statusFilter === 'redwait')}
+                  onClick={() => setStatusFilter(statusFilter === 'redwait' ? 'all' : 'redwait')}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#dc2626'}}>{redWaitCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#991b1b'}}>🔴 ลูกค้ารอ</div>
                 </div>
-                <div title="ข้อความทั้งหมดวันนี้" style={{background: '#fefce8', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#ca8a04'}}>{todayMsgs}</div>
-                  <div style={{fontSize: '0.6rem', color: '#854d0e'}}>💬 วันนี้</div>
+                <div title={`เรารอลูกค้า: ${blueWaitCount} ราย`} style={cardStyle(blueWaitCount > 0 ? '#dbeafe' : '#eff6ff', statusFilter === 'bluewait')}
+                  onClick={() => setStatusFilter(statusFilter === 'bluewait' ? 'all' : 'bluewait')}>
+                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#1d4ed8'}}>{blueWaitCount}</div>
+                  <div style={{fontSize: '0.6rem', color: '#1e3a8a'}}>🔵 รอลูกค้า</div>
                 </div>
-                <div title={`ปิดขาย ${cCount} • สนใจ ${iCount} • เสนอ ${oCount}`} style={{background: '#e0f2fe', borderRadius: '10px', padding: '0.4rem 0.8rem', textAlign: 'center', minWidth: '65px', cursor: 'help'}}>
-                  <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#0284c7'}}>{iCount + oCount}</div>
-                  <div style={{fontSize: '0.6rem', color: '#0369a1'}}>สนใจ/เสนอ</div>
-                </div>
+                {appointCount > 0 && (
+                  <div title={`มีนัด: ${appointCount} ราย`} style={cardStyle('#f0fdf4', statusFilter === 'appointed')}
+                    onClick={() => setStatusFilter(statusFilter === 'appointed' ? 'all' : 'appointed')}>
+                    <div style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#16a34a'}}>{appointCount}</div>
+                    <div style={{fontSize: '0.6rem', color: '#166534'}}>📅 มีนัด</div>
+                  </div>
+                )}
               </>
             );
           })()}
