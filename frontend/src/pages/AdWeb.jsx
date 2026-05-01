@@ -148,6 +148,7 @@ export default function AdWeb() {
   const [showQuoteForm, setShowQuoteForm] = useState(false);
   const [showChatUploadModal, setShowChatUploadModal] = useState(false);
   const [showDataUploadModal, setShowDataUploadModal] = useState({ visible: false, type: '' });
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [quoteTab, setQuoteTab] = useState('quote'); // 'quote' | 'purchase'
   const [quoteMonthFilter, setQuoteMonthFilter] = useState('all');
   const [quoteForm, setQuoteForm] = useState({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '', quote_date: new Date().toISOString().split('T')[0] });
@@ -516,14 +517,19 @@ export default function AdWeb() {
         </div>
       </div>
 
-      {/* 🏆 Gamified Sales Leaderboard */}
-      <div style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', padding: '1rem', borderRadius: '12px', marginBottom: '1rem', color: 'white', display: 'flex', gap: '1rem', overflowX: 'auto', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
-        <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: '1rem', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-          <h4 style={{ margin: 0, color: '#fcd34d' }}><i className="fa-solid fa-trophy"></i> Leaderboard</h4>
-          <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>จัดอันดับ Real-time</span>
+      {/* 🏆 Gamified Sales Leaderboard (Collapsible) */}
+      <div style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', padding: showLeaderboard ? '1rem' : '0.5rem 1rem', borderRadius: '12px', marginBottom: '1rem', color: 'white', display: 'flex', flexDirection: showLeaderboard ? 'row' : 'row', gap: '1rem', overflowX: 'auto', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: showLeaderboard ? 'default' : 'pointer', alignItems: 'center' }} onClick={() => !showLeaderboard && setShowLeaderboard(true)}>
+        <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: '1rem', borderRight: showLeaderboard ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <h4 style={{ margin: 0, color: '#fcd34d', fontSize: showLeaderboard ? '1.1rem' : '0.9rem' }}><i className="fa-solid fa-trophy"></i> Leaderboard</h4>
+            {showLeaderboard && <button onClick={(e) => { e.stopPropagation(); setShowLeaderboard(false); }} style={{ background:'transparent', border:'none', color:'#94a3b8', cursor:'pointer', padding:'0' }}><i className="fa-solid fa-chevron-up"></i> ย่อ</button>}
+          </div>
+          {showLeaderboard && <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>จัดอันดับ Real-time</span>}
         </div>
         
-        {(() => {
+        {!showLeaderboard ? (
+          <div style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>คลิกเพื่อดูอันดับนักขายและยอดขายรวม 📊</div>
+        ) : (() => {
           // Calculate Leaderboard stats from current leads
           const salesStats = {};
           leads.forEach(l => {

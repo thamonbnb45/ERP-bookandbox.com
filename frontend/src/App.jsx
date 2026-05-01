@@ -29,81 +29,88 @@ function Sidebar({ isOpen, closeSidebar }) {
           <i className="fa-solid fa-xmark menu-toggle mobile-close-btn" onClick={closeSidebar} style={{ cursor: 'pointer' }}></i>
       </div>
       <nav className="nav-links">
+          {/* 👑 ผู้บริหาร */}
           {canAccess('dashboard_module', ['CEO']) && (
-              <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`} onClick={closeSidebar}>
-                 <i className="fa-solid fa-chart-pie"></i> Executive Dashboard
-              </Link>
+              <>
+                <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ผู้บริหาร (Executive)</div>
+                <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`} onClick={closeSidebar}>
+                   <i className="fa-solid fa-chart-pie"></i> Executive Dashboard
+                </Link>
+                <Link to="/sales-analysis" className={`nav-item ${location.pathname === '/sales-analysis' ? 'active' : ''}`} onClick={closeSidebar}>
+                   <i className="fa-solid fa-magnifying-glass-chart"></i> Sales Intelligence
+                </Link>
+              </>
           )}
 
+          {/* 🎯 ฝ่ายขาย (Sales & Marketing) */}
           {canAccess('sales_module', ['CEO', 'Sales', 'Accountant']) && (
-              <Link to="/sales" className={`nav-item ${location.pathname === '/sales' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-cart-shopping"></i> Sales & Quotations
-              </Link>
+              <>
+                <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ฝ่ายขาย (Sales)</div>
+                <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
+                   <i className="fa-brands fa-line"></i> Chat Center
+                </Link>
+                <Link to="/pipeline" className={`nav-item ${location.pathname === '/pipeline' ? 'active' : ''}`} onClick={closeSidebar}>
+                   <i className="fa-solid fa-diagram-project"></i> Sales Pipeline
+                </Link>
+                <Link to="/sales-report" className={`nav-item ${location.pathname === '/sales-report' ? 'active' : ''}`} onClick={closeSidebar}>
+                   <i className="fa-solid fa-chart-line"></i> Sales Daily Report
+                </Link>
+                <Link to="/sales" className={`nav-item ${location.pathname === '/sales' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-cart-shopping"></i> ออเดอร์ทั้งหมด
+                </Link>
+              </>
           )}
 
-          {canAccess('chat_module', ['CEO', 'Sales']) && (
-              <Link to="/adweb" className={`nav-item ${location.pathname === '/adweb' ? 'active' : ''}`} onClick={closeSidebar}>
-                 <i className="fa-brands fa-line"></i> Chat
-              </Link>
-          )}
-
-          {canAccess('chat_module', ['CEO', 'Sales']) && (
-              <Link to="/sales-report" className={`nav-item ${location.pathname === '/sales-report' ? 'active' : ''}`} onClick={closeSidebar}>
-                 <i className="fa-solid fa-chart-line"></i> Sales Daily Report
-              </Link>
-          )}
-
-          {canAccess('chat_module', ['CEO', 'Sales']) && (
-              <Link to="/pipeline" className={`nav-item ${location.pathname === '/pipeline' ? 'active' : ''}`} onClick={closeSidebar}>
-                 <i className="fa-solid fa-diagram-project"></i> Sales Pipeline
-              </Link>
-          )}
-
-          {canAccess('chat_module', ['CEO', 'Sales']) && (
-              <Link to="/sales-analysis" className={`nav-item ${location.pathname === '/sales-analysis' ? 'active' : ''}`} onClick={closeSidebar}>
-                 <i className="fa-solid fa-magnifying-glass-chart"></i> Sales Intelligence
-              </Link>
-          )}
-
+          {/* 💰 ประเมินราคา (Pricing) */}
           {canAccess('pricing_module', ['CEO', 'Sales', 'Pricing', 'Accountant']) && (
-              <Link to="/estimator" className={`nav-item ${location.pathname === '/estimator' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-coins"></i> ศูนย์ราคา
-              </Link>
+              <>
+                <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ประเมินราคา (Pricing)</div>
+                <Link to="/estimator" className={`nav-item ${location.pathname === '/estimator' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-coins"></i> ศูนย์ราคา (Price Hub)
+                </Link>
+              </>
           )}
 
-          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse']) && (
-              <Link to="/production" className={`nav-item ${location.pathname === '/production' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-industry"></i> Production Control
-              </Link>
+          {/* 🏭 ผลิตและจัดส่ง (Production & Logistics) */}
+          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse', 'Driver']) && (
+              <>
+                <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ผลิตและจัดส่ง (Production)</div>
+                <Link to="/print-flow" className={`nav-item ${location.pathname === '/print-flow' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-print"></i> วางแผนผลิต (Print Flow)
+                </Link>
+                <Link to="/production" className={`nav-item ${location.pathname === '/production' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-industry"></i> Production Control
+                </Link>
+                <Link to="/logistics" className={`nav-item ${location.pathname === '/logistics' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-truck-fast"></i> จัดส่ง Logistics
+                </Link>
+              </>
           )}
 
-          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse']) && (
-              <Link to="/print-flow" className={`nav-item ${location.pathname === '/print-flow' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-print"></i> Print Flow Plan
-              </Link>
-          )}
-
+          {/* 🧾 บัญชี การเงิน จัดซื้อ */}
           {canAccess('finance_module', ['CEO', 'Accountant']) && (
-              <Link to="/accounting" className={`nav-item ${location.pathname === '/accounting' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-file-invoice-dollar"></i> Finance & Billing
-              </Link>
+              <>
+                <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>บัญชีและการเงิน (Finance)</div>
+                <Link to="/accounting" className={`nav-item ${location.pathname === '/accounting' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-file-invoice-dollar"></i> Finance & Billing
+                </Link>
+              </>
           )}
 
+          {/* 👥 HR */}
           {canAccess('hr_module', ['CEO', 'HR', 'Production Manager']) && (
-              <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-users-gear"></i> HR Workforce
-              </Link>
+              <>
+                <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ทรัพยากรบุคคล (HR)</div>
+                <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-users-gear"></i> HR Workforce
+                </Link>
+              </>
           )}
 
-          {canAccess('logistics_module', ['CEO', 'Driver', 'Warehouse', 'Production Manager']) && (
-              <Link to="/logistics" className={`nav-item ${location.pathname === '/logistics' ? 'active' : ''}`} onClick={closeSidebar}>
-                  <i className="fa-solid fa-truck-fast"></i> ขนส่ง Logistics
-              </Link>
-          )}
-
+          {/* ⚙️ ตั้งค่า */}
           {user?.role === 'CEO' && (
-              <Link to="/settings" className={`nav-item ${location.pathname === '/settings' ? 'active' : ''}`} onClick={closeSidebar} style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0' }}>
-                  <i className="fa-solid fa-gear"></i> ตั้งค่าระบบ & จัดการสิทธิ์
+              <Link to="/settings" className={`nav-item ${location.pathname === '/settings' ? 'active' : ''}`} onClick={closeSidebar} style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0', paddingTop: '1rem' }}>
+                  <i className="fa-solid fa-gear"></i> ตั้งค่าระบบ & สิทธิ์
               </Link>
           )}
       </nav>
