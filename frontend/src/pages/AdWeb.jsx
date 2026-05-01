@@ -147,6 +147,7 @@ export default function AdWeb() {
   const [showQuotePanel, setShowQuotePanel] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
   const [showChatUploadModal, setShowChatUploadModal] = useState(false);
+  const [showDataUploadModal, setShowDataUploadModal] = useState({ visible: false, type: '' });
   const [quoteTab, setQuoteTab] = useState('quote'); // 'quote' | 'purchase'
   const [quoteMonthFilter, setQuoteMonthFilter] = useState('all');
   const [quoteForm, setQuoteForm] = useState({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '', quote_date: new Date().toISOString().split('T')[0] });
@@ -435,9 +436,9 @@ export default function AdWeb() {
           <p>รวมแชท LINE / Facebook / TikTok + CRM ลูกค้าเจ้าใหญ่</p>
           {/* Data Upload Buttons */}
           <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }}><i className="fa-solid fa-images"></i> อัพรูปสินค้า</button>
-            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }}><i className="fa-solid fa-users"></i> อัพรายชื่อเก่า</button>
-            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }}><i className="fa-solid fa-file-invoice-dollar"></i> อัพใบสั่ง/เสนอราคา</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'images' })}><i className="fa-solid fa-images"></i> อัพรูปสินค้า</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'contacts' })}><i className="fa-solid fa-users"></i> อัพรายชื่อเก่า</button>
+            <button className="btn btn-sm btn-outline" style={{ fontSize: '0.7rem' }} onClick={() => setShowDataUploadModal({ visible: true, type: 'quotes' })}><i className="fa-solid fa-file-invoice-dollar"></i> อัพใบสั่ง/เสนอราคา</button>
           </div>
         </div>
         <div style={{display: 'flex', gap: '0.8rem'}}>
@@ -1599,10 +1600,11 @@ export default function AdWeb() {
                   <i className="fa-solid fa-triangle-exclamation"></i> <b>ข้อจำกัดของระบบ LINE:</b> LINE API ไม่อนุญาตให้ดึงประวัติแชทเก่าผ่านระบบอัตโนมัติ หากต้องการนำแชทเก่าของลูกค้ารายนี้มาวิเคราะห์ คุณต้อง <b>Export ไฟล์แชทจาก LINE Official Account Manager</b> (.txt หรือ .csv) แล้วนำมาอัพโหลดที่นี่
                 </div>
 
-                <div style={{ border: '2px dashed #cbd5e1', padding: '2rem', textAlign: 'center', borderRadius: '8px', background: '#f8fafc', marginBottom: '1rem', cursor: 'pointer' }} onClick={() => alert('กำลังเปิดระบบเลือกไฟล์... (จะเชื่อมต่อหลังบ้านเร็วๆ นี้)')}>
+                <div style={{ border: '2px dashed #cbd5e1', padding: '2rem', textAlign: 'center', borderRadius: '8px', background: '#f8fafc', marginBottom: '1rem', cursor: 'pointer' }}>
                   <i className="fa-solid fa-file-csv" style={{ fontSize: '2rem', color: '#94a3b8', marginBottom: '0.5rem' }}></i>
-                  <div style={{ fontWeight: 'bold', color: '#475569' }}>คลิกเพื่อเลือกไฟล์แชทจาก LINE (.txt, .csv)</div>
-                  <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>เฉพาะประวัติแชทของ: {activeLead.erp_alias_name || activeLead.original_name}</div>
+                  <div style={{ fontWeight: 'bold', color: '#475569' }}>แนบไฟล์แชทจาก LINE (.txt, .csv)</div>
+                  <input type="file" accept=".txt,.csv" style={{ marginTop: '1rem' }} />
+                  <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '0.5rem' }}>เฉพาะประวัติแชทของ: {activeLead.erp_alias_name || activeLead.original_name}</div>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
@@ -1611,6 +1613,52 @@ export default function AdWeb() {
                         alert('อัพโหลดสำเร็จ! ระบบจะทำการประมวลผลข้อความและนำไปให้ AI วิเคราะห์ต่อไป');
                         setShowChatUploadModal(false);
                     }}>อัพโหลดข้อมูล</button>
+                </div>
+            </div>
+        </div>
+      )}
+
+      {/* Generic Data Upload Modal (Images, Contacts, Quotes) */}
+      {showDataUploadModal.visible && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', width: '500px', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h4 style={{ margin: 0, color: '#0f172a' }}>
+                      {showDataUploadModal.type === 'images' && <><i className="fa-solid fa-images text-primary"></i> อัพโหลดคลังรูปสินค้า</>}
+                      {showDataUploadModal.type === 'contacts' && <><i className="fa-solid fa-users text-primary"></i> นำเข้ารายชื่อลูกค้าเก่า</>}
+                      {showDataUploadModal.type === 'quotes' && <><i className="fa-solid fa-file-invoice-dollar text-primary"></i> นำเข้าประวัติใบสั่งงาน/เสนอราคา</>}
+                    </h4>
+                    <button className="btn" style={{ background: 'transparent', border: 'none', fontSize: '1.2rem', color: '#94a3b8', cursor: 'pointer' }} onClick={() => setShowDataUploadModal({ visible: false, type: '' })}>×</button>
+                </div>
+
+                {showDataUploadModal.type === 'images' && (
+                  <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '0.3rem', color: '#475569' }}>เลือกหมวดหมู่รูปภาพ:</label>
+                    <select className="form-control" style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+                      <option>กล่องบรรจุภัณฑ์</option>
+                      <option>ถุงกระดาษ</option>
+                      <option>สติ๊กเกอร์</option>
+                      <option>ใบปลิว</option>
+                      <option>ป้าย Tag</option>
+                      <option>อื่นๆ</option>
+                    </select>
+                  </div>
+                )}
+
+                <div style={{ border: '2px dashed #cbd5e1', padding: '2rem', textAlign: 'center', borderRadius: '8px', background: '#f8fafc', marginBottom: '1rem' }}>
+                  <i className={`fa-solid ${showDataUploadModal.type === 'images' ? 'fa-cloud-arrow-up' : 'fa-file-excel'}`} style={{ fontSize: '2rem', color: '#94a3b8', marginBottom: '0.5rem' }}></i>
+                  <div style={{ fontWeight: 'bold', color: '#475569' }}>
+                    {showDataUploadModal.type === 'images' ? 'เลือกรูปภาพที่ต้องการอัพโหลด (อัพได้หลายไฟล์)' : 'เลือกไฟล์ CSV หรือ Excel'}
+                  </div>
+                  <input type="file" multiple={showDataUploadModal.type === 'images'} accept={showDataUploadModal.type === 'images' ? 'image/*' : '.csv,.xlsx,.xls'} style={{ marginTop: '1rem' }} />
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                    <button className="btn btn-outline" onClick={() => setShowDataUploadModal({ visible: false, type: '' })}>ยกเลิก</button>
+                    <button className="btn btn-primary" onClick={() => {
+                        alert('ฟังก์ชั่นส่งไฟล์ไปหลังบ้าน (Backend API) จะเชื่อมต่อในสเตปถัดไปครับ เตรียมไฟล์ไว้ได้เลย!');
+                        setShowDataUploadModal({ visible: false, type: '' });
+                    }}>อัพโหลดไฟล์</button>
                 </div>
             </div>
         </div>
