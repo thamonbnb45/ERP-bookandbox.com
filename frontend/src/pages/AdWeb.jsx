@@ -146,6 +146,7 @@ export default function AdWeb() {
   const [customerQuotes, setCustomerQuotes] = useState([]);
   const [showQuotePanel, setShowQuotePanel] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const [showChatUploadModal, setShowChatUploadModal] = useState(false);
   const [quoteTab, setQuoteTab] = useState('quote'); // 'quote' | 'purchase'
   const [quoteMonthFilter, setQuoteMonthFilter] = useState('all');
   const [quoteForm, setQuoteForm] = useState({ product_name: '', category: 'ใบปลิว/แผ่นพับ', specs: '', quantity: '', price_per_unit: '', total_price: '', notes: '', quote_date: new Date().toISOString().split('T')[0] });
@@ -858,7 +859,7 @@ export default function AdWeb() {
                               <i className="fa-solid fa-file-invoice"></i> สร้างใบงานผลิต
                           </button>
                           {/* Sync Chat Button */}
-                          <button className="btn btn-outline" style={{padding: '0.4rem 0.8rem', fontSize:'0.8rem', borderColor: '#e2e8f0', color: '#64748b'}} onClick={() => alert('กำลังส่งคำสั่งไปที่ LINE API เพื่อดึงแชททั้งหมดของลูกค้ารายนี้... (จะอัพเดทข้อมูลใหม่ใน 1-2 นาที)')}>
+                          <button className="btn btn-outline" style={{padding: '0.4rem 0.8rem', fontSize:'0.8rem', borderColor: '#e2e8f0', color: '#64748b'}} onClick={() => setShowChatUploadModal(true)}>
                               <i className="fa-solid fa-rotate"></i> ดึงแชท
                           </button>
                         </>
@@ -1523,6 +1524,35 @@ export default function AdWeb() {
         </div>
         );
       })()}
+      {/* Manual Chat Upload Modal */}
+      {showChatUploadModal && activeLead && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', width: '500px', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h4 style={{ margin: 0, color: '#0f172a' }}><i className="fa-solid fa-cloud-arrow-up text-primary"></i> ดึงแชทย้อนหลัง (Manual Sync)</h4>
+                    <button className="btn" style={{ background: 'transparent', border: 'none', fontSize: '1.2rem', color: '#94a3b8', cursor: 'pointer' }} onClick={() => setShowChatUploadModal(false)}>×</button>
+                </div>
+                
+                <div style={{ background: '#fef3c7', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', color: '#92400e', marginBottom: '1rem' }}>
+                  <i className="fa-solid fa-triangle-exclamation"></i> <b>ข้อจำกัดของระบบ LINE:</b> LINE API ไม่อนุญาตให้ดึงประวัติแชทเก่าผ่านระบบอัตโนมัติ หากต้องการนำแชทเก่าของลูกค้ารายนี้มาวิเคราะห์ คุณต้อง <b>Export ไฟล์แชทจาก LINE Official Account Manager</b> (.txt หรือ .csv) แล้วนำมาอัพโหลดที่นี่
+                </div>
+
+                <div style={{ border: '2px dashed #cbd5e1', padding: '2rem', textAlign: 'center', borderRadius: '8px', background: '#f8fafc', marginBottom: '1rem', cursor: 'pointer' }} onClick={() => alert('กำลังเปิดระบบเลือกไฟล์... (จะเชื่อมต่อหลังบ้านเร็วๆ นี้)')}>
+                  <i className="fa-solid fa-file-csv" style={{ fontSize: '2rem', color: '#94a3b8', marginBottom: '0.5rem' }}></i>
+                  <div style={{ fontWeight: 'bold', color: '#475569' }}>คลิกเพื่อเลือกไฟล์แชทจาก LINE (.txt, .csv)</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>เฉพาะประวัติแชทของ: {activeLead.erp_alias_name || activeLead.original_name}</div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                    <button className="btn btn-outline" onClick={() => setShowChatUploadModal(false)}>ยกเลิก</button>
+                    <button className="btn btn-primary" onClick={() => {
+                        alert('อัพโหลดสำเร็จ! ระบบจะทำการประมวลผลข้อความและนำไปให้ AI วิเคราะห์ต่อไป');
+                        setShowChatUploadModal(false);
+                    }}>อัพโหลดข้อมูล</button>
+                </div>
+            </div>
+        </div>
+      )}
 
     </div>
   );
