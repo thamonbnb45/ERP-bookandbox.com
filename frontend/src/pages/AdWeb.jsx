@@ -969,6 +969,62 @@ export default function AdWeb() {
                 </div>
               </div>
             )}
+            
+            {/* ★ CRM Feedback & Win/Loss Tracking */}
+            {!editingLead && (
+              <div style={{ marginTop: '0.4rem', display: 'flex', gap: '0.3rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 'bold' }}>📊 CRM Insight:</span>
+                
+                {/* 🏆 ซื้อเพราะ (Win Reasons) */}
+                {[
+                  { tag: '🏆ซื้อ:ราคาถูก', label: 'ราคาถูก' },
+                  { tag: '🏆ซื้อ:โปรโมชั่น', label: 'โปรโมชั่น' },
+                  { tag: '🏆ซื้อ:บริการ', label: 'บริการ' },
+                  { tag: '🏆ซื้อ:ความน่าเชื่อถือ', label: 'น่าเชื่อถือ' },
+                ].map(w => {
+                  const active = (activeLead.tags || []).includes(w.tag);
+                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} title="ลูกค้าตกลงซื้อเพราะอะไร" style={{
+                    padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
+                    background: active ? '#fef3c7' : '#f8fafc', color: active ? '#d97706' : '#94a3b8',
+                    border: active ? '1px solid #fcd34d' : '1px solid #e2e8f0'
+                  }}>🏆 {w.label}</button>;
+                })}
+
+                <div style={{ width: '1px', height: '14px', background: '#cbd5e1', margin: '0 2px' }}></div>
+                
+                {/* 💔 ไม่ซื้อเพราะ (Loss Reasons) */}
+                {[
+                  { tag: '💔แพ้:ราคาสูง', label: 'ราคาสูง' },
+                  { tag: '💔แพ้:ตอบช้า', label: 'เงียบ/ตอบช้า' },
+                  { tag: '💔แพ้:เทียบราคา', label: 'เทียบราคา' },
+                  { tag: '💔แพ้:คิวเต็ม', label: 'คิวเต็ม' },
+                  { tag: '💔แพ้:เสนอราคาช้า', label: 'เสนอราคาช้า' },
+                ].map(w => {
+                  const active = (activeLead.tags || []).includes(w.tag);
+                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} title="ลูกค้าไม่ซื้อเพราะอะไร" style={{
+                    padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
+                    background: active ? '#fee2e2' : '#f8fafc', color: active ? '#dc2626' : '#94a3b8',
+                    border: active ? '1px solid #fca5a5' : '1px solid #e2e8f0'
+                  }}>💔 {w.label}</button>;
+                })}
+
+                <div style={{ width: '1px', height: '14px', background: '#cbd5e1', margin: '0 2px' }}></div>
+                
+                {/* ⭐ คำชมเซล (Compliments) */}
+                {[
+                  { tag: '⭐ชม:บริการดี', label: 'บริการดี' },
+                  { tag: '⭐ชม:งานสวย', label: 'งานสวย' },
+                  { tag: '⭐ชม:รวดเร็ว', label: 'ทำงานเร็ว' },
+                ].map(w => {
+                  const active = (activeLead.tags || []).includes(w.tag);
+                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} title="คำชมจากลูกค้า" style={{
+                    padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
+                    background: active ? '#ecfdf5' : '#f8fafc', color: active ? '#059669' : '#94a3b8',
+                    border: active ? '1px solid #6ee7b7' : '1px solid #e2e8f0'
+                  }}>⭐ {w.label}</button>;
+                })}
+              </div>
+            )}
             {/* Editable CRM Profile Form */}
             {editingLead && (
               <div style={{ marginTop: '0.8rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.5rem' }}>
