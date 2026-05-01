@@ -1,5 +1,307 @@
 [
   {
+    "type": "chatRead",
+    "timestamp": 1777548511698,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777548511698
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777548510888,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611893935589294215",
+      "type": "text",
+      "quoteToken": "tFPG4ETxOGgEOB4V3oe1B7IHH3cRt0szaFurF3u_ECqpZ9sbCBXagMV3nZBmWcjiBpjXV2rsJCIpz_Mx48q1uMcy6ZJcaIOQ6HfMaR7dYugR6xPAXn_tVCBIcpq3-8z_uLysP0JHwMBEz64rQSYKqQ",
+      "text": "🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\nสวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777548508739,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777548508739
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777548508200,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611893931361174138",
+      "type": "text",
+      "quoteToken": "HYdCs1FBVHDl4KfildubXOiPIHQ1lJxCK3gqcgFr3cKncEo_4EUJSPP6GJDhcpq4v4sjaZXWl5VqB_C7q-CCvJpiEkC_Vb-5NcpO_qrT7b_gJrVvKFSbaX57Ig0-v7-FZqGsrmwkueTgwiW_FPPYug",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ YuuYui \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 478,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777548507930,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611893930808049855",
+      "type": "text",
+      "quoteToken": "fBVHr7wwUQjpnY_WVCwty92a8_wbfo5OKECoGZ6YCCiT2EsZhFzOsCgsVcXNsorNlFCDoSgCEWOGahauh9ODe3oAR2yC3qWu493DgAm-qAgj_R0CO5hm1jDJ5P7rWDkaOW22LflYzCiLoX2fn27H1g",
+      "text": "ขอใบเสนอราคาด้วยนะคะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777514413109,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611836729175572500",
+      "type": "text",
+      "quoteToken": "jlUizuYXOaYRq_KNK8XB9BJ5taDqJCwQPHs1GFNpAs3NGBIN6SFaZL691Qn6r8KLfqDcfqUZksAKwGDVU0brWauQ7-3C-f7u8rAI2wlYkmoknU-2GPzhy3F_CoL0uCo5oK8QfLzhQY9QLlxtixuXBA",
+      "text": "แบบส่งให้พิมพ์ค่ะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777514404753,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611836715266736690",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "5CZ-WJFtlTM61G1m0LG8RikBF4iYBP60YaVIcocrwLnA-i-ThB8bm9XARaNP7YrDi37Ea-p-3FdtIc1u0o0VjLxYTdorJGQ5vI4EIvF2efynnND6lFEt3XPLKj33CjF9r6fRbKROf4YksHppMo5QDQ==",
+        "expired": false,
+        "expiredAt": 1935626344753
+      },
+      "fileName": "Annie - Flyer A5 .pdf",
+      "fileSize": 1811686,
+      "contentHash": "5CZ-WJFtlTM61G1m0LG8RikBF4iYBP60YaVIcocrwLnA-i-ThB8bm9XARaNP7YrDi37Ea-p-3FdtIc1u0o0VjLxYTdorJGQ5vI4EIvF2efynnND6lFEt3XPLKj33CjF9r6fRbKROf4YksHppMo5QDQ==",
+      "expired": false,
+      "expiredAt": 1935626344753
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777514403244,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611836712431124588",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "Wrx_VYgeSY1FBAl97kzHm2yghEDsNQ2UpKTPnvlwoHCauemzA0aT3lnLdW_NsKtOtWMwT2DvlUrbNaU8FZatjTfKigq0tGv320aMjYxxoYOxN77a_Gow7I1U3Nv7n8IihQ7XXNlMIvOKyR-Uke5ipw==",
+        "expired": false,
+        "expiredAt": 1935626343244
+      },
+      "fileName": "Annie - Flyer A5 .ai",
+      "fileSize": 2447816,
+      "contentHash": "Wrx_VYgeSY1FBAl97kzHm2yghEDsNQ2UpKTPnvlwoHCauemzA0aT3lnLdW_NsKtOtWMwT2DvlUrbNaU8FZatjTfKigq0tGv320aMjYxxoYOxN77a_Gow7I1U3Nv7n8IihQ7XXNlMIvOKyR-Uke5ipw==",
+      "expired": false,
+      "expiredAt": 1935626343244
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777514323304,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611836578616312125",
+      "type": "text",
+      "quoteToken": "7s4Wxxl55i-TJK8HWtjFjlukUZSF63r4EQgez5rEnX9u1u30dYJbzydKLJ9VoBujH3k9e7aRcCi5fIwKwsgjBBgCsRg0i0ZlzlWAsVK6AMYxc16y_j7ShyQZY7cSCqdOlPr_oYd_w0EyTSkZ8WtQuA",
+      "text": "ออกบิลในนามบริษัท\n\nบริษัท บิลเลี่ยนแนร์ควีนส์ จำกัด\n557/30  ถ.สาธุประดิษฐ์  แขวง ช่องนนทรี  เขต ช่องนนทรี  จ.กรุงเทพฯ 10120\n\nเลขประจำตัวผู้เสียภาษีอากร   0-1055-68157-23-4\n\nติดต่อ ยุ้ย 084 694 4942\nส่งของ และเอกสารที่ \n151/314  ถ.ราชดำริ  แขวง ลุมพินี  เขต ปทุมวัน จ.กรุงเทพฯ 10330"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777514178088,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777514178088
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777514026421,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611836080266150215",
+      "type": "text",
+      "quoteToken": "QL5FFfu8KvHdAbY5z2T9DU1_KHVVVSjshjw6A-zN5tqAl4yo028kzLsDLEz2v37k_0dnDR45tXRZQHMOvyxOQJuyX9wRJFnQRvMBTkaBlof5piYl994T2v4kr_gZl7GgY0GFy53b8XxJc4ziam45mQ",
+      "text": "🙏 รบกวนขอรายละเอียดเพิ่มเติม เพื่อทำใบเสนอราคาให้ค่ะ 🙏\n👉 ชื่อ/นามสกุล \n👉 ชื่อบริษัทฯ \n👉เบอร์โทรติดต่อ \n👉ประเภทธุรกิจของลูกค้า \n👉 ที่อยู่บริษัท หรือที่อยู่ในการส่งสินค้า\n\nรบกวนขอข้อมูล เพื่อทำใบเสนอราคาและ ลงประวัติข้อมูลลูกค้า \nขอขอบคุณที่สนใจใน\n 🙏Book and Box🙏"
+    },
+    "sendId": "U17ad443fb83a4e5d0d29c43fa9b8592b_1777514025310_56549839",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777514024385,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777514024385
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777514018975,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611836067984703848",
+      "type": "text",
+      "quoteToken": "Sfc5i6BDSkCDAPCN4SYrcDSXCh2XpSHXUUCn68B3YRwxkAx_6qAPhD7wl9mJn_vjciNVlP8S6PE15bK1FNHvuTuoRzXW49siYbl0UcGphK5NH3ANTD51F_TgA84nZGz4RNvT2ouRVfi3GTaLs3KB6w",
+      "text": "รับทราบค่ะ"
+    },
+    "sendId": "U17ad443fb83a4e5d0d29c43fa9b8592b_1777514017837_3464486",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777513940766,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611835936703774740",
+      "type": "text",
+      "quoteToken": "l5NI8cB9oWdBk6tfN-ioG-W4UuQ88JTZWfl12CioTf10_yKbU7bC6_6BiMtHnR1dii9nE479JGnk6piopqGjz2kktOWRpABUiAXJ0EjDbXg-P1j7MSquKBDuCcd_v6JNqICWphoSx1AhO1fMyPDkjA",
+      "text": "ไม่ได้รับสติกเกอร์ค่ะ\nเอาเป็นแค่ใบปลิว 200 ใบอย่างเดียวค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777512897007,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777512897007
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777512747889,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611833935215198505",
+      "type": "text",
+      "quotedMessageId": "611547003750711746",
+      "quoteToken": "hz4pLmbnoAUbY8qJsdMqIEVJLNePQXJ5zQdE5CVxOrMX1yYD8pBPYu9qm0soVTf3Dv6tkp-fluUJIohLjxcrlT6T6Nz5ma-hahRi30pEESLLMZDGPe-3y9-TIY7qkJf4IGGFqAy5hjvHZpafjhPw3g",
+      "text": "สติ๊กเกอร์  ลูกค้าต้องการกระดาษ เเบบไหนดีคะ "
+    },
+    "sendId": "U17ad443fb83a4e5d0d29c43fa9b8592b_1777512746782_6881227",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777477471243,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777477471243
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777477468882,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611774746908688915",
+      "type": "text",
+      "quoteToken": "GEXqRQz_PodgZvz4hAvDg-lIZgPNvWePx6aUVQXvaYKrYzK0EMCiT2zwq0NOm9PBEDxO4R-abuc6eHP5mucVF-o6Z12o_D9CxjCjB53H96fCs2N5XMcsq2sgX3uZejjwmdeemh-VRRrr4_TcSw17MA",
+      "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ YuuYui \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
+      "emojis": [
+        {
+          "index": 478,
+          "length": 11,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "047"
+        }
+      ]
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777477468170,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "message": {
+      "id": "611774745968640294",
+      "type": "text",
+      "quoteToken": "QBls5mF7XQUeqpT0RV-tSRvVoA-P5WC3zJEzqES__ZJcivp0P6SstFJxaiV8udZ4kbW3cCFeDhVlOUH5v2B7oietrw2G1TaZaATbYL6X2XsKyJW68JL2iZ3Gmp0-nuNBX5TKcnvygtIJCvZxfYQZxg",
+      "text": "ได้เลยค่ะ  ได้วันไหนแจ้งได้ค่ะ  ไม่รีบ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777477436011,
+    "source": {
+      "chatId": "U17ad443fb83a4e5d0d29c43fa9b8592b",
+      "userId": "U17ad443fb83a4e5d0d29c43fa9b8592b"
+    },
+    "read": {
+      "watermark": 1777477436011
+    }
+  },
+  {
     "type": "messageSent",
     "timestamp": 1777458262808,
     "source": {
@@ -10,7 +312,7 @@
       "id": "611742524503490893",
       "type": "text",
       "quotedMessageId": "611741140332576804",
-      "quoteToken": "Ha4ke_GlVvVK360-zVPEQqA8PSBY5hy0iTAQIvZ_SkfGnsCWNzRgNtvlzJE8M-TA2JvHTzsgJGLuWGGrkbmKGED6MuxQOtyvvnc17fra-awCuJpW_pt2rL8_FNLB7mpYftvrjLdK7xn700qFKo8csw",
+      "quoteToken": "-hekI2U34Wcnx0ZE2Jy7fQOw_v0bbRqusJ2nPYvBeExplUUXRAK1t9TSxCjhMDxQB7GxcQDARgn2DOlGJ1Qpn2AX-h0_VQPtztpwh3gw88cFgkIv_XKW8dVm9S_BPDg53xoP4zE6Cd104HZan0Hrnw",
       "text": "คิวผลิต4วันทำการไม่นับรวมวันหยุดนะคะ "
     },
     "sendId": "U17ad443fb83a4e5d0d29c43fa9b8592b_1777458262108_76688185",
@@ -26,7 +328,7 @@
     "message": {
       "id": "611741300655653124",
       "type": "text",
-      "quoteToken": "AL3RTKSTFXNpdt42Wa5-XIjg4ChueI-1rXQFezrjk9-xLq2nMfMknM7pbjB70fwJscO2K8G7QR7tfwluhxx7TqVeiweqiyJoFaQCcrRlPY0xDM_C-Hh0qm49iE4HUlU13HpB-5V-pndLlzJs9IwLzQ",
+      "quoteToken": "iZfDiCw11vWZVySHNnNPrE-l9uxn8h_tzUwyow9P-6Hw2D4BhVPs8oYYwRSU6-Uufrzekl18mZdHzTC-ozK_YT9xjklAnzC8IXR-N5Kp0TOJi-Adyul8fvxitZ2n0GoRzdR21jC9PbX514NXoZCL0w",
       "text": "รับของหลังวันที่ 6 ได้ไม่มีปัญหาค่ะ\nขอให้ออกในนามของบริษัทฯ และหัก ณ ที่จ่าย 3% ได้ป่าวคะ?"
     }
   },
@@ -41,7 +343,7 @@
       "id": "611741140332576804",
       "type": "text",
       "quotedMessageId": "611550999412473896",
-      "quoteToken": "IAtD_qBiuvhSr7xIW7crMy9vM4ZE3NzvNgbxBn1UmTMqbb6fXsWSj1LYIl9yb5WdY7a3xmuXbQrYrj7lHWhmmt9J3ME5jSZObnh8-9Yc7O8qbq5yRCO_VzY4QscexrlFqA-uZtxaxnRQherIwo2YWw",
+      "quoteToken": "m0IjK3fYLD_yqytMHiuJq6tICLSbxIlq3vaxECFg39Olj8KOCEB3TTRV1HnMXbE0ksPaSt8zZbKG9yjjtqMGKrP6N_Yedw8SZuiXbEci6vdHJ-0KtOOmmZxp5aohvt80BIlIuaSq4Km6uTDew-Qj3Q",
       "text": "สวัสดีค่ะ\nตอบช้าไปค่ะ\nงั้นขอสั่งแค่ใบปลิว A5 =200 ใบค่ะ\nส่งทางไปรษณีย์ ได้ป่าวคะ?"
     }
   },
@@ -66,7 +368,7 @@
     "message": {
       "id": "611551021407142046",
       "type": "text",
-      "quoteToken": "0ExrUck_i7XdwWfZgQOj2EaRH6Jl7Nq1pGfLTMmvt3GMn39zC4PLsb3FfJLYAwvQTrgwT2L2FX_mGHVDUNxs0nabkL4zqOZDuED9VvKcVAUYStK8-YGNh532UeqRKe6eYvT5OdSGcuRuyP1eTWU5nQ",
+      "quoteToken": "kMy5P278NAG-F5HyyH1FkdH1FU-qduxxJgmobvwuwoF3jTqStsG6ix4TjDynZHc5wBz9s3trgOZXRoyVMm3ZiUTrkBh408kgF568HYdxFk1pjCROQbBUHCZ8tYVn86ETsSa88kAzzPT7Tc6VS27dlA",
       "text": "สติ๊กเกอร์ A3 ขายขั้นต่ำ 6 ใบ ครับผม"
     },
     "sendId": "U17ad443fb83a4e5d0d29c43fa9b8592b_1777344117191_8082558",
@@ -82,7 +384,7 @@
     "message": {
       "id": "611550999412473896",
       "type": "text",
-      "quoteToken": "8jqR4pGGaHoBGMVqVuMdbBlU27J5m4N9F1IjBcrZmAFPRfiVdZ8fyzenOXQtXS8R_9SYRfCrTg1j6gtdox9-TF-wyq2iu5U-0uIIu8d3SCT9htPcNYMBp5uoVXhxmtOUROLb3nzULeYOJ7gZmIX25w",
+      "quoteToken": "AZSQVqtVMnelk3aOZSoYbNBTbpr92ay1dTnzSwm1Chqs0DTN-l8AT80MoNKbrTHhYRraSo_BXdnb7-SakJPA96bYnEd9ACm7vyFbGisWrab427j0m3Ki6L8ZMrU-bWRXbuPzx4X5R6aDcLWh2m2qTg",
       "text": "ขนาด A5 อาร์ตมัน 130 แกรม พิมพ์ 4 สี 1 หน้า\nจำนวน 200 ใบ ราคา 900 บาท\n*ราคาไม่รวมภาษี 7% และค่าจัดส่ง"
     },
     "sendId": "U17ad443fb83a4e5d0d29c43fa9b8592b_1777344104181_28229233",
@@ -98,7 +400,7 @@
     "message": {
       "id": "611547003750711746",
       "type": "text",
-      "quoteToken": "nA0cuMZ5ZVeRvqzoapxAWj0CSkTjENJThqTr5D13d84cCkWxYki08OwdTjsRC5BvKCfFJ0Zes3dPtdElrMxmpdvLceoj3WCf8i7jsekckYRrhQAx3Q9QLA9861cZcAItBvyrFbNjJ1hDBOTu-rgpbQ",
+      "quoteToken": "G1hoXaJevCcRb2Dss_4HfJKPyJA34icdsY80jjhhyjnLzdcEM02726N_j90DkcE0UfkA3nLigus8LW2_CgY--Aa0_j0DLDCvLS-WPmQnH1_uLLt35BP2V0kDvbHkjsj9Alf7HNfnh4eDeOBYhFn-sw",
       "text": "สวัสดีค่ะ ชื่อ ยุ้ยค่ะ\nต้องการรับงานวันที่ 6 พฤษภาคม\nเบอร์ติดต่อ 084 694 4942\nต้องการทำ \n1 ใบปลิว ขนาด A5 จำนวน 200 ใบ 4 สี 1 หน้า อาร์ตมัน 130 แกรม มี file ai ส่งให้ค่ะ\n\n2 สติกเกอร์โลโกสินค้า \nเป็นแบบวงกลม ขนาดเส้นผ่าศูนย์กลางประมาณ 5 ซม. ลงบนแผ่นขนาด A3 \nอันนี้ส่ง file โลโก้ให้ แล้วจัดลงใน A3 ให้ได้หรือเปล่าคะ?\nและสั่งแค่ A3 > 1 แผ่นได้หรือเปล่าคะ?"
     }
   },
@@ -112,7 +414,7 @@
     "message": {
       "id": "611544967449412063",
       "type": "text",
-      "quoteToken": "92J-RshylbsI1QKmEK01lHQTu-CmNzbDIrkf61rzdn5qObfKIEZ5d2EW6Ji4YO2FvqqWiMeSlA9SRPq0KqOy2QOya7Z_8hgOL2QQZr_kek2kXPS1L-YL1fQaZg7S_jolcFLMzegfZPGRlR9tLANhWg",
+      "quoteToken": "qXmt_6TJaKT3k-hikVBOGlgNHaqsiF36fYSbYgSAVwmXnWEHMooNJs1jgXVuq7p9EJYjRhQtZaG5cDrBc-WAx-5XQELOuDOtusgFCpEWajr4iuXhYwFghovCnMZYemO7FIv8Sn9jxGmOfXJwM--uFw",
       "text": "มีอะไรให้เราช่วยหรือไม่"
     }
   },
@@ -137,7 +439,7 @@
     "message": {
       "id": "611480422362644654",
       "type": "text",
-      "quoteToken": "m2rEw0Qu4TFh8ca0K5nJlofZieZtmD-lYskZTFhM5ZNBO6KY_jgwRYL-u-XzWLfsyHshlJaRWLALuW1eSqkjOXt06a3pOEGxMB1Kqvq--rSne7jma5YIKWJRpH3DWKewJE_1yKy7cvfaep7LOvagbA",
+      "quoteToken": "VlqG1TwkJH34z7i2vhfGm0JQEIiLj_OF8v16xL_-qrZwMJVlrw41HeW3JsayVQAetNGVOd4vnNR3iYH79GZFn5b4LyD9IqYfulLfrlRl2WAfL4nfpfCvFDu8O9Xl5WugkVBOcJsmHAjZv2Fo_nqbkA",
       "text": "🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\nสวัสดีครับ ขอบคุณที่ให้ความไว้วางใจโรงพิมพ์ของเรานะครับ 🙏\n\nสำหรับงานพิมพ์ใบปลิว 1,000 ใบ แอดมินแนะนำเป็นกระดาษอาร์ตมัน 130 แกรม ซึ่งเป็นสเปคมาตรฐานที่ให้สีสันสวยงาม ดูพรีเมียมครับ\n\n📌 สรุปราคาประเมิน:\n• ราคาต่อใบ: เพียง 1.50 บาท/ใบ\n• ยอดรวมทั้งสิ้น: 1,500 บาท\n• ระยะเวลาผลิตด่วน: 3-5 วันทำการ\n\nหากลูกค้ายืนยันสเปคนี้ สามารถแจ้งชื่อ เบอร์โทร และที่อยู่จัดส่งได้เลยครับ แอดมินจะดำเนินการจองคิวผลิตให้ทันทีครับ 😊\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏"
     }
   },
@@ -162,7 +464,7 @@
     "message": {
       "id": "611480416607797841",
       "type": "text",
-      "quoteToken": "oNHa9D79PNO5ESgxsqLbavSZgP_mqQlCIb-yHJFD4LYMpe-RftCtfMOFHQazhil5QQjExdy48dtT1KTp3HILPQL_lk-qdIVX5QnXF94LMiD-27GzIr8bwKkjxKr1r6OUR-fU-P9BuFdX2lziZ-z4fg",
+      "quoteToken": "0bPXlCPZsO57C1JnkBoT7oI6oG3GykDbNIym2RSm0cKx-dbNhQXYvLjtozpfVjAvsNWneTeTnt5iD-zXa21RBd5Ym19yrcRk6MTCUg4IgncjUJDYwWL5X7DHwsAVv5svY-nLD84UWn3_4E8uMkobvg",
       "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ YuuYui \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
       "emojis": [
         {
@@ -185,7 +487,7 @@
     "message": {
       "id": "611480416037634407",
       "type": "text",
-      "quoteToken": "OaRrpddFo3gFN2ZqyBdLrIK89hq1k-Hmo9tOa3hFiM0X5qmyWJXaai4FI7blI0VfZ3ikAmET3YESMU3LrmNGGV-X149-CZauGnlyPLiKe_YTLZpo89j_uaUW8f_5e7lVTL93LSulx1fpPvYqCxPcFg",
+      "quoteToken": "IIG4hWGlvV1N1BdV1Yyx4WTy2QLnFusS7qPEGsRRwFZhtQL5dwSthZfLwwhOcUoAIImwYHJcw7SpHO7xOQJD51oiHYfs7f2GAwRUI5H0hQmtud3WLV-EixTqDmucfDzAMIB-CzBzqf2O4xcmS0n2uA",
       "text": "หากจะพิมพ์ โลโก้ จัดเต็มแผ่นขนาด A3 จำนวน 1 แผ่น \nรับมั้ยคะ?"
     }
   },
@@ -210,7 +512,7 @@
     "message": {
       "id": "611478376851177628",
       "type": "text",
-      "quoteToken": "gtJqlg0jH01fwnBBQ37Cu-DXmeeSJNdtgO5o3iz07sYOGxVo2vYh7ruFGI_6nU04uvV-p4m-I6WsHzlXHJCJ4s7KjwnUA18i4pgBKCd0rbWRoGoviiY4qM8bY_KxwpQF5h0FjrVUTE1nuAdAwXfVEg",
+      "quoteToken": "Kuw8_Ma7Vkj4ZbMlHVA4zDulMey98q2JqbZSU1DFw0KgSHPucIF1BlkJV3klW1t75HglObQT4312LuS-SMNxImSYGDOJbKTalyPRWLslM4yJaokglFn8qG23hx1EBG7bwP9pUU7cboEIRZWgw9v7Gw",
       "text": "🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\nสวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏"
     }
   },
@@ -235,7 +537,7 @@
     "message": {
       "id": "611478369904623992",
       "type": "text",
-      "quoteToken": "uZJq1eyuWFKmyc1H4ms5ZAE4UTRdokcKU9WSbtVaV9UqyQzxTcpb_7S5IyMJ7rijA6HQcPeVPFYnfBqrG9OLcJvp3FA2zAN40yFxqpmL2I2cBzIreGQbcAGTK3n31Aa2cNcp9tBP6JHo-Fruf_ahgQ",
+      "quoteToken": "T7yJbxFEuTl7hZ1yZG6oJ7lJ_4VANJpyZxZD5TM7PmrwyhrDBVxGF5hCOUbgAZgO6SQHWfmR1sv0rV1JKXQV5JNsVxTy_vCVYuF3yIPDYj3AYGUqnMKxEFVe34Wj_xnms3UmRKr_qpmKFez8LAYZaQ",
       "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ YuuYui \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
       "emojis": [
         {
@@ -280,7 +582,7 @@
     "message": {
       "id": "611478368797589921",
       "type": "text",
-      "quoteToken": "dzGopZ1gni_MF5Cuqg1QAR9NErLfq1idhKiwzat7p-dOVRwUmmzToWZ4P5NnfU2FB1fnrDoaL32polIEdgFdhcyHxw7C54oFOnrt_Z2q_KeQgzDuUHHo_OQnnopFXgnY4kN9Zy5J22LA9PH0W_bHVg",
+      "quoteToken": "XQ2EDeZ8IJ4fjBaYKdjaRMzK-bZK08feuHyuhF0IUm-yGmTefSJ3RzehOhIluGvQlNAJFp9wu9KK_NKGmKLRxjpYsBVMRjzsrYlpb8_Bg8S12gHJGR6NOQJPhsQVZ3ALsvoiaBPQRJuUdfUu9_GleQ",
       "text": "มีพิมพ์สติกเกอร์ด้วยหรือเปล่าคะ?\nหากจะพิมพ์ เป็นโลโก้ เป็นดวงๆ อยู่บนขนาด A3 จะได้หรือเปล่าคะ?"
     }
   },
@@ -305,7 +607,7 @@
     "message": {
       "id": "611477555404603979",
       "type": "text",
-      "quoteToken": "Qu4Q81XoSold-pebv1aAbYCNdPDgs9MHqdpYWd-aB4wAVbQ8K6uY77X_XmC14fWWD6R6L0fBe34NOFWlY0jGBR_U3v8zRi0jeysE4SwonBWZx3rXOjSc9OT1rPpjsOQ1kp7g_wwxEdmyWLsi7-3XGA",
+      "quoteToken": "U6N9VtRPfyXy7RZGOQYVFyG0sR7nTViB7wmlqQ_vtC_ut9GkF4h1e2eDZ1ZJx1vWAWpwDeiCst950h-hP6T6TbqkMWv2Nif4Q314dktfftFgFqivk38PpyKGsBx4Svem2lkLq3g0aNl9pNLB_cDdCQ",
       "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
     },
     "bizId": "__AUTO_RESPONSE"
@@ -320,7 +622,7 @@
     "message": {
       "id": "611477555354272234",
       "type": "text",
-      "quoteToken": "-02CSnLL7qfkH7-QzObBpxTDj9__3i4hLVgBX7mT6tlKIlu13SBCjylq6KIJF1V5D8lHLRCcB8PvZShR9z5jvS5YGNkc5wqn3IliQJM5rQMDRhd0JhTK3z9sKL-PLlvK9NKHd-wB42ywdpVJEv4B3g",
+      "quoteToken": "nVPRSJCsrYB-OxukImzOcucgNzCd2T3aE6PlXcgNLbjaEwy1ohhVG40sQT1S_xRlMJJCtczFSMawQSBhtWK-cTfDvyZ0ehwPbk21Kqqxtmm0QWs1HA6TpoLkDx-wgxVVSCPLNHad2J1bKKnlwlnB0Q",
       "text": "สวัสดีค่ะ คุณ YuuYui BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
     },
     "bizId": "__AUTO_RESPONSE"
@@ -335,7 +637,7 @@
     "message": {
       "id": "611477555522044127",
       "type": "text",
-      "quoteToken": "UW9JXNy-gbMqzouybnN06sIHEAW-YSggBuraE9m75OeHyDEc8OsWrCXnONf80WownNwMsggiAt0RX754YnlluuIRp-M1UNoO5lNaKCmv_N8R5vXcpbVzIfjoQNxAO66cUURxlSgd6DsgXeRzLVQZJw",
+      "quoteToken": "P-E-lUow-ZqrsRfLzobC4bZYVCmWIWHkG2UbZaW4lIATK1SDVwEWclqNUusy7OutBs7PejG_NKgzOKa54HaurKJzXuS3YT7d5Co99D24DEHEDH6p3YrEGEf1qNemncWxsuFdGp0pM05jYEPDgHOBgw",
       "text": "STEP 7 วัน",
       "originalType": "flex"
     },

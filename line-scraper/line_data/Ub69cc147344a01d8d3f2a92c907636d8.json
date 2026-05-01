@@ -1,0 +1,107 @@
+[
+  {
+    "type": "message",
+    "timestamp": 1777544231704,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "message": {
+      "id": "611886756283023436",
+      "type": "text",
+      "quoteToken": "zI41AXOakm-aeEkcCi-TCJOwaxvptr1oMw_Td07XU1nZmwWX8MLpvfPJw_S-Dk6n1ivy1ycpDfI-sEpHrpfUbgdSRiW16lSLCxjCIXgeuTx6ME-HuRkxsAy_JloCoqzSzZsaSZzYKoLBVJbAS_-Feg",
+      "text": "ความปังมันเริ่มตรงนี้ \nส่วนลดจะเริ่มต้นตอนนี้เลย!"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777544164029,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "message": {
+      "id": "611886642801672478",
+      "type": "text",
+      "quoteToken": "4v0sysElXHS_sdpptGO1Dil_TgBp_M1vU5auPzm65-ydAb90sCDGyZF73Dvr6kDMEtS6XCC5IxB_uCcfQVa9k9ap84Q9wh5J88Kd3q1wwMAoJBzU7cfg_oG_leRJaHfc9pPCAp0seXZD6IzMa-H9sQ",
+      "text": "มีอะไรให้เราช่วยหรือไม่"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777544153336,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1777544153336
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1743601799294,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1743601799294
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1741054235029,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1741054235029
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1727750325625,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1727750325625
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1725418791659,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1725418791659
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1724125729065,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1724125729065
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1719891605971,
+    "source": {
+      "chatId": "Ub69cc147344a01d8d3f2a92c907636d8",
+      "userId": "Ub69cc147344a01d8d3f2a92c907636d8"
+    },
+    "read": {
+      "watermark": 1719891605971
+    }
+  }
+]

@@ -1,6 +1,280 @@
 [
   {
     "type": "chatRead",
+    "timestamp": 1777541405865,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U2c545e77654a57c9f12fb10060f5a9c3"
+    },
+    "read": {
+      "watermark": 1777541405865
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777541211441,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611881689110806711",
+      "type": "text",
+      "quoteToken": "BnC0v_xFGYnXwd-ERK0zBpoPTXDi3_zsm7l_XZYtbN7YvS60-8R7kURAadxBYvpJ-6vHvzkNYubnp_MHhGC0AJhq0HWX2Y35e7gVP6vaow48PBeURoPxuVzNTjpfKZNYC2st8UzTJ-3xWa_4UAx1fg",
+      "text": "📌📌📌 รบกวนอ่านทุกบรรทัดเพื่อประโยชน์ของลูกค้าเอง 📌📌📌\n\nข้อตกลงและเงื่อนไข ในการสั่งงานพิมพ์ ดังนี้\n\nไฟล์ Master = ไฟล์งานต้นฉบับจากลูกค้า\nไฟล์ Artwork = ไฟล์งานหลังจากที่ทางกราฟิกของโรงพิมพ์ เช็คเรื่องระยะตัดตก (หรือหากแก้ไขจุดต่างๆ **ถ้ามี)\nโดยลูกค้าจะต้องตรวจเทียบไฟล์ทั้ง 2 ด้วยตนเอง\n\n** คำยืนยันจากลูกค้าถือเป็นที่สุด หากผิดพลาดหลังจากนี้ \"โรงพิมพ์ไม่รับผิดชอบทุกกรณี\"\n\n** ข้าพเจ้ายอมรับข้อตกลง และยืนยันว่าได้ตรวจสอบไฟล์เรียบร้อยแล้ว\n\nลงชื่อยืนยัน ………………"
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777541210923_24975580",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777541209863,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611881686778773696",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "gtFrZ7I475KouXIZ2QT7NyvueBXyiLX0QuPGqqZLCmvnt_RYQGkZQcn92RUbw9N6R23KN7jwQncd9Ay-A2MTpABptxjb8-NUxZAPI0Pfw40LCXWDN4qgtCCskJu4RDoKdWH1GW1Hzzc1ZjJIrpDCnQ==",
+        "expired": false,
+        "expiredAt": 1935653149863
+      },
+      "fileName": "JPG6904-0337-1 หนังสือ STAR PRODUCTS.pdf",
+      "fileSize": 83381131,
+      "contentHash": "gtFrZ7I475KouXIZ2QT7NyvueBXyiLX0QuPGqqZLCmvnt_RYQGkZQcn92RUbw9N6R23KN7jwQncd9Ay-A2MTpABptxjb8-NUxZAPI0Pfw40LCXWDN4qgtCCskJu4RDoKdWH1GW1Hzzc1ZjJIrpDCnQ==",
+      "expired": false,
+      "expiredAt": 1935653149863
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777541195465_15446912",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777541198208,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611881667317203166",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "uQ2nDJveMplH8h5CtPaqA9zrkz8G0W7_U-_JDaanDEhn0GEkQmcmdwPu9jKMeoxfs3wVV7zc-JRvjMiHHVY6yyVsYW1lYTtoizIENx0QEGx7LnozRfwxslR-gLIBSXiLxjd32DvNFM_jZ_FnFQeU0g==",
+        "expired": false,
+        "expiredAt": 1935653138208
+      },
+      "fileName": "JPG6904-0337-1 หนังสือ STAR PRODUCTS.jpg",
+      "fileSize": 12339027,
+      "contentHash": "uQ2nDJveMplH8h5CtPaqA9zrkz8G0W7_U-_JDaanDEhn0GEkQmcmdwPu9jKMeoxfs3wVV7zc-JRvjMiHHVY6yyVsYW1lYTtoizIENx0QEGx7LnozRfwxslR-gLIBSXiLxjd32DvNFM_jZ_FnFQeU0g==",
+      "expired": false,
+      "expiredAt": 1935653138208
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777541195453_64097360",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777536631078,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611874004743749930",
+      "type": "text",
+      "quoteToken": "NbFed5GcgudoHQ_ar-StIrDHS92r-ywEdbJaM1Dvlh3QkZ4VEg2UhYIk5rg4kfvM4TpOSxp0-Vwg0Oz8ruLVqiDOO0OsUa0Yve7UsVu5FlJskUn0xmuaiE5aktQg0XBLn7ErNcV3VAI8KxmMdJkHeQ",
+      "text": "ไม่อย่างนั้นงานจะไม่ทันครับผม"
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777536632081_44044849",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777536619309,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611873984778076510",
+      "type": "text",
+      "quoteToken": "w_9pZs-RSFbemjBvwuD1fWT6Siq-y3Si50hUMF2iGv2-ISOT4HCbiUfKkccax3osVG_UZs4opSXhFwUwS710KIIf0DsrcfQmtKWM-QJ2p6OBz-nX7HeFj56DzU_d2fNe_xZTs0jM2Rw0m6R7KNLxLA",
+      "text": "รบกวนคอนเฟิร์มให้ทางผมก่อน 15.30 น. นะครับผม"
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777536620298_20329185",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777535895559,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U2c545e77654a57c9f12fb10060f5a9c3"
+    },
+    "read": {
+      "watermark": 1777535895559
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777535892633,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611872766148739159",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "QYkYSgHTCw0whxkDb9KE7NVeyK_uIbCCZCz-9G1jagPjdSMmgPPSfuSdT3gDZGyzh1CP_zE5CCSJi9AYTluP2fY0Kvc6pBXNPkeWtSzPmhvVZly54k_TKUqeu-cCwa4A6jNu5bRgUMkvYKl3YQCxcw==",
+        "expired": false,
+        "expiredAt": 1935647832633
+      },
+      "fileName": "JPG6904-0337-1 หนังสือ STAR PRODUCTS.pdf",
+      "fileSize": 83383009,
+      "contentHash": "QYkYSgHTCw0whxkDb9KE7NVeyK_uIbCCZCz-9G1jagPjdSMmgPPSfuSdT3gDZGyzh1CP_zE5CCSJi9AYTluP2fY0Kvc6pBXNPkeWtSzPmhvVZly54k_TKUqeu-cCwa4A6jNu5bRgUMkvYKl3YQCxcw==",
+      "expired": false,
+      "expiredAt": 1935647832633
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777535878140_50079891",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777535891361,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U2c545e77654a57c9f12fb10060f5a9c3"
+    },
+    "read": {
+      "watermark": 1777535891361
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777535887581,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611872757474656822",
+      "type": "text",
+      "quoteToken": "AfG0Go8zhGBNS33T5Ec1OpriyHnUoWlEFDhx23ovt7c6gO30pgEroizCFvb5MgMtIImB2csVsRjwazhFFEF0hihFTTtap9yHVV2wIs_831VqcwVtqHxZhhqesLCy-aFmlHWrKvhK3PCA0FcKgr60Uw",
+      "text": "📌📌📌 รบกวนอ่านทุกบรรทัดเพื่อประโยชน์ของลูกค้าเอง 📌📌📌\n\nข้อตกลงและเงื่อนไข ในการสั่งงานพิมพ์ ดังนี้\n\nไฟล์ Master = ไฟล์งานต้นฉบับจากลูกค้า\nไฟล์ Artwork = ไฟล์งานหลังจากที่ทางกราฟิกของโรงพิมพ์ เช็คเรื่องระยะตัดตก (หรือหากแก้ไขจุดต่างๆ **ถ้ามี)\nโดยลูกค้าจะต้องตรวจเทียบไฟล์ทั้ง 2 ด้วยตนเอง\n\n** คำยืนยันจากลูกค้าถือเป็นที่สุด หากผิดพลาดหลังจากนี้ \"โรงพิมพ์ไม่รับผิดชอบทุกกรณี\"\n\n** ข้าพเจ้ายอมรับข้อตกลง และยืนยันว่าได้ตรวจสอบไฟล์เรียบร้อยแล้ว\n\nลงชื่อยืนยัน ………………"
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777535888601_1874490",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777535880744,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611872745831268565",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "n_sM0HmqjK_edhf4MzEAWG9gIKeRdgphDdVUKknJJyf7kuJJ0RBX2bv0aGuTJBmJLecJaIoooQMKu8QCKEMDkW47VcYeiZ_KMcF0cC3uO0T_t6_K02ajcbqCrI3WKHr8z-l8wzGQwHLkU5ioxg2GJw==",
+        "expired": false,
+        "expiredAt": 1935647820744
+      },
+      "fileName": "JPG6904-0337-1 หนังสือ STAR PRODUCTS.jpg",
+      "fileSize": 21597504,
+      "contentHash": "n_sM0HmqjK_edhf4MzEAWG9gIKeRdgphDdVUKknJJyf7kuJJ0RBX2bv0aGuTJBmJLecJaIoooQMKu8QCKEMDkW47VcYeiZ_KMcF0cC3uO0T_t6_K02ajcbqCrI3WKHr8z-l8wzGQwHLkU5ioxg2GJw==",
+      "expired": false,
+      "expiredAt": 1935647820744
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777535878122_27106357",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777523232189,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U2c545e77654a57c9f12fb10060f5a9c3"
+    },
+    "read": {
+      "watermark": 1777523232189
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777523051525,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611851222055649981",
+      "type": "text",
+      "quoteToken": "o80yCTBSSc11Cj5c1Yg7j8jxzks7lMYBHKRZ5C4vFDSbdzB_W9MQ_wzS0jL8I1CC-lN4JvIyrdoTxlGcOT3IQfZ2ny7HsSNT0j2PZDZGrUL7H_U6jSD8sxSiBKTltzmzULNP9On8UeCawI3X4xjTLQ",
+      "text": "📌📌📌 รบกวนอ่านทุกบรรทัดเพื่อประโยชน์ของลูกค้าเอง 📌📌📌\n\nข้อตกลงและเงื่อนไข ในการสั่งงานพิมพ์ ดังนี้\n\nไฟล์ Master = ไฟล์งานต้นฉบับจากลูกค้า\nไฟล์ Artwork = ไฟล์งานหลังจากที่ทางกราฟิกของโรงพิมพ์ เช็คเรื่องระยะตัดตก (หรือหากแก้ไขจุดต่างๆ **ถ้ามี)\nโดยลูกค้าจะต้องตรวจเทียบไฟล์ทั้ง 2 ด้วยตนเอง\n\n** คำยืนยันจากลูกค้าถือเป็นที่สุด หากผิดพลาดหลังจากนี้ \"โรงพิมพ์ไม่รับผิดชอบทุกกรณี\"\n\n** ข้าพเจ้ายอมรับข้อตกลง และยืนยันว่าได้ตรวจสอบไฟล์เรียบร้อยแล้ว\n\nลงชื่อยืนยัน ………………"
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777523052807_7376963",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777523048166,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611851216603054205",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "TNxxBMdNNijT0lT5ixeuOfYjp01S8ttAhoSvxfAONWgYuHVM1GtlwQAIuFClQjYELIgUMwKtC-hlj00SbcPcgVfs3jj-HNgWz9ImOHQ-MQG_1jh1eUOhluJr66UCoLDZPGAWgRoNfwFFSQkqTkXAuA==",
+        "expired": false,
+        "expiredAt": 1935634988166
+      },
+      "fileName": "JPG6904-0337 หนังสือ STAR PRODUCTS.pdf",
+      "fileSize": 84554447,
+      "contentHash": "TNxxBMdNNijT0lT5ixeuOfYjp01S8ttAhoSvxfAONWgYuHVM1GtlwQAIuFClQjYELIgUMwKtC-hlj00SbcPcgVfs3jj-HNgWz9ImOHQ-MQG_1jh1eUOhluJr66UCoLDZPGAWgRoNfwFFSQkqTkXAuA==",
+      "expired": false,
+      "expiredAt": 1935634988166
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777523037144_17946658",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777523029719,
+    "source": {
+      "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611851185397694643",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "FrVeegSXXe_4W1xDXkAkaBLJJiJSmXd7tJinxJQVQOsoN5k4mHss7ibZymJL4X97Hc_Oo4P58eV0BqxCq_bReTajcg6e_qB7jEzsMtF6DU_reOmMxlXmyHKAJcIp6j1VQ0mGTKiMiK02azDH-NEk1Q==",
+        "expired": false,
+        "expiredAt": 1935634969719
+      },
+      "fileName": "JPG6904-0337 หนังสือ STAR PRODUCTS.jpg",
+      "fileSize": 21402386,
+      "contentHash": "FrVeegSXXe_4W1xDXkAkaBLJJiJSmXd7tJinxJQVQOsoN5k4mHss7ibZymJL4X97Hc_Oo4P58eV0BqxCq_bReTajcg6e_qB7jEzsMtF6DU_reOmMxlXmyHKAJcIp6j1VQ0mGTKiMiK02azDH-NEk1Q==",
+      "expired": false,
+      "expiredAt": 1935634969719
+    },
+    "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777523028061_59849492",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
     "timestamp": 1777445248132,
     "source": {
       "chatId": "U2c545e77654a57c9f12fb10060f5a9c3",
@@ -20,7 +294,7 @@
     "message": {
       "id": "611720688872718806",
       "type": "text",
-      "quoteToken": "4DUzsUewsTxw9xYx06UAIBRJ5VX3L45MT-h4xTqLsEJb-SWwQmkOwLVhOnmluszRUa4gBGUP1UDR8BN_fe2EJbI2lLy5rqYI7o0J0ZHrdWoAA7kzBCdvoB4FXhy7EFKty0X7KoXag8jtm6nLnZHfIg",
+      "quoteToken": "uLxhuTM_O0mstUDplydNegIFrZl8_oJ_sbeeFBGnnovo6flSwSjHdKmTo9d4MyOfbF2wDtz7n7XdbWDH5aAVfC_4OHLO0Q_S1dMstRkII2P9k47UqzR2Fx1eOYdsUleDmp6eOpzsnSNsXLSJXlMdTg",
       "text": "สวัสดีค่ะ  เเอดมินประสานงานกับคุณกวางให้นะคะ"
     },
     "sendId": "U2c545e77654a57c9f12fb10060f5a9c3_1777445247364_63516080",
@@ -47,7 +321,7 @@
     "message": {
       "id": "611720602385907930",
       "type": "text",
-      "quoteToken": "c57YPGqvA3EsWMDcvmVpdbB2CGlUElatf4zPgJPVf5xrbQAGhAtuYdgyq7eZUakUwHgPG1Yr_FGw4gVrVCB9LLL3yOs3CDKLelFjLF-xazfwKlbDUEfFft1Y1rZeQ0v-lsh3IMiqQ0eUVYuecYb42Q",
+      "quoteToken": "Y6jfFNYu4R--6oJW8xGWJ6qJ0J_V9Y3azIWB26E777VQG65oCYluqmcFDkwJ3nLKSBkuPbCTZEL1xXNBsJ-ZnUckofwkAhcJ5EViveKLhiHFQNgwt3KqM_6ia0zCTXZUbdlj2eLGjdlzI7AJX07imQ",
       "text": "สวัสดีค่ะ Book and Box ยินดีให้บริการค่ะ\nแอดมินขอทราบรายละเอียดที่คุณลูกค้าต้องการ\nเพื่อการประสานงานที่รวดเร็วที่สุดนะคะ (moon big smile)(high five)",
       "emojis": [
         {
@@ -77,7 +351,7 @@
     "message": {
       "id": "611719891569082392",
       "type": "text",
-      "quoteToken": "EGOJiCZy7sf_vE8znYmTwf9mI1POp4fIYkgOcoaRO2ZR69nszb_9A6LVVn5GQH5WHNXMGdT5ELE5srErIwXasbiILP0EsVqlakqKI5-eYE5nAx0okqDOygKp97aVYdBoS-zS3EyIExqj73SO5AntVg",
+      "quoteToken": "OSom_-lqgMUtAFb9MMfDcqh-qCN7n9TOcqftJd51QwQUi0tKQwPM2vHdlNuV6IRtbjJWwbPiV-CTRfJhHNklRe_2lSsOPbWzOENsZryyVZMXapBcqBb3-mw_giTdnQX7FZn6WbB7MlzVgaU3gmckpA",
       "text": "สวัสดีครับคุณกวาง"
     }
   },
@@ -102,7 +376,7 @@
     "message": {
       "id": "611719881402089576",
       "type": "text",
-      "quoteToken": "kMoBCi4PdRPPRn_f8L3u6zWfgq8E2XaGOY3AaDWQ8PzLu_y0WCyszGeHMLyjmZogqlv70GQi_SDbVJaOvY76NS9pCGEMMAK9Ve1i26UdibBgHNsHCbc503etnWNagU5qJJY8lzomdrz9-mWQh2C8gA",
+      "quoteToken": "TwpsystXA7q207yf2fXpfeVd_3xCYCQ-KM9iMUaY5ws0DqHJTU_eIRa_ZROMF4mIKDXa8IhYH64Xdoan_P5g2PyceYCnS1lrHEbBx4oYJdawVDXnUCjPoLD3votlEI0PMORVarUs30zZvinnF6h-aA",
       "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
     },
     "bizId": "__AUTO_RESPONSE"
@@ -117,7 +391,7 @@
     "message": {
       "id": "611719881184510152",
       "type": "text",
-      "quoteToken": "fZa3OJTzAFNLKc3M4rOQ8R0SKX5XmxCKA4MVZ_K3lUxfPIGo9asKaH4CJ4BhQ6FveQ_k3ddoxjuPJglQ9aCxHWzd7vwlMXVey-54QQeIKl5LSfyYhXF4tq_nArL2jf4psutm7rkgjE20Ufygu_assg",
+      "quoteToken": "X_KFX6DJ-xs9ucK1N3Xg6BMuZAvWCWpW5t9vrwTbYL8SQpJdZMNglH3TEZRwtdqiYj2BwTOxnAD_5hE0C1NItDtIvH_iM2GLABff7V_rYIquYkdddmEt1gmyqaaVZOMOtXnzE-_mwxHsFdWcSs0zkw",
       "text": "สวัสดีค่ะ คุณ Benzt 🪴∞ BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
     },
     "bizId": "__AUTO_RESPONSE"
@@ -132,7 +406,7 @@
     "message": {
       "id": "611719881402089575",
       "type": "text",
-      "quoteToken": "ci3q8TDtDFS87H-QDU3yGjgjol_HmHabpmzTE2jprbPWJ63W0y7GG4sTgiqZ8IPFv2sPUdrDzr7FRH1tp33V_qJ2_PJBfrN9blVZl_qisLD_wZkq8rjLPSS1MAN0M7Ut7vlswo_vxjNMCtPKlqKlUQ",
+      "quoteToken": "XGSy91zGnwpS0csGYm0zwcLsxOJshDGbpggIjZS4HGJD-A9nbU23adC58hFY-KXCKLWYi4VjEUxw2Mxw1lUcRBm-bSJWESjLm8MUUdsmyqX6qIO6zAySaIpf2GQivawupXBW-ZXfCNUoubyNhiUetQ",
       "text": "STEP 7 วัน",
       "originalType": "flex"
     },

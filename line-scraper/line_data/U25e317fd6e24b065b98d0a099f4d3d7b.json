@@ -1,6 +1,42 @@
 [
   {
     "type": "message",
+    "timestamp": 1777522688735,
+    "source": {
+      "chatId": "U25e317fd6e24b065b98d0a099f4d3d7b",
+      "userId": "U25e317fd6e24b065b98d0a099f4d3d7b"
+    },
+    "message": {
+      "id": "611850613495693330",
+      "type": "image",
+      "quoteToken": "6owzJyArb86AyrX4aaZpInZg50IOZF0kI9aTqS2TFXcwydIgtDWZv3UkJILrLCrTL1GcNOtddBwEiXAutQH89SpczqoiZm0xcZRuJCpHrorfTocyMpfbDnEbpNbKY_eECzrAODxjTWPg7aMVPbP9TA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "N_XM3GqHaASgtHl7ZOz6HsVM-6i8fV3siqJjTpb_gso99yaEW4tknpOGaxkBQQ4k8c4Sa0SZD11vfNnSAMwhh9CZ6HNHBVditanNdYQBDkJviFfJwRqdgzz-fdd28j3Wz-l8wzGQwHLkU5ioxg2GJw==",
+        "expired": false,
+        "expiredAt": 1935634628735
+      },
+      "contentHash": "N_XM3GqHaASgtHl7ZOz6HsVM-6i8fV3siqJjTpb_gso99yaEW4tknpOGaxkBQQ4k8c4Sa0SZD11vfNnSAMwhh9CZ6HNHBVditanNdYQBDkJviFfJwRqdgzz-fdd28j3Wz-l8wzGQwHLkU5ioxg2GJw==",
+      "expired": false,
+      "expiredAt": 1935634628735
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777522660810,
+    "source": {
+      "chatId": "U25e317fd6e24b065b98d0a099f4d3d7b",
+      "userId": "U25e317fd6e24b065b98d0a099f4d3d7b"
+    },
+    "message": {
+      "id": "611850566385008851",
+      "type": "text",
+      "quoteToken": "soG-ijBubyzGgnWTQ9ucgPwvBFpp2x_kQjPwfcaoaSKFapW41W1SjVpZXEh5eErkMvxdk_dekpyfov0pp6J3jfLgJmFWoNfKqWkRvCi93xAtxCjLJyjGdRjY52FnRRDpmt2dwTCdUSsVNDVPS8xZrg",
+      "text": "รายละเอียดเพื่อทำใบเสนอราคาค่ะ "
+    }
+  },
+  {
+    "type": "message",
     "timestamp": 1777449042520,
     "source": {
       "chatId": "U25e317fd6e24b065b98d0a099f4d3d7b",
@@ -9,7 +45,7 @@
     "message": {
       "id": "611727055524463206",
       "type": "text",
-      "quoteToken": "bBYWJNu8E8D0gbxU0nSIUQH8rVR7Grc3SkF8Mqud0GPc6pWn7luF73vbu-ETEZsW12JLXbeDCIqi8yBIBbQmgIjGyUg8qD9tU4_rvrrnrqtGbMvB0ypZzLAVEz0CX1wKNO0g1rtoPvZukN1CEgxN0g",
+      "quoteToken": "-yTsEp_wMGz4UmLsP_oAFVEYXewvyiZTFUWLeb2J1Hu9FiCdNFBDiWxcsfEQUya4OuAvwPamJpY_5gbb5zXnN3QsUmMOJSecM-bwEHD8Jkhygi3AkWEL1BNEwdz6EZC6VByckChgUQE3CcX5XgfWeQ",
       "text": "0644149266 เขมรัศมิต์"
     }
   },
@@ -34,7 +70,7 @@
     "message": {
       "id": "611726798615216528",
       "type": "text",
-      "quoteToken": "NMit6QZCan-lHajgeJSFkbVcEDMbpFGrhDJjmNdET_k1NSPK8AQDQith5OdHOD2RDmejlNsGPcTMPHkLJKNcZXjpu4xDJluYQlY7z6qvDsvQn7hBUq5yB9CTI3DZDhJ266KNxoMc8YdyJhpUbuN4kA",
+      "quoteToken": "H4MIU74h4Yrt9fFOk5ktaRUaNSItIPpGs8nnnjm3O0bjvr8-P0tWq3jHo_ekjCUZaCsHo22mN-b9v_l80nCKOeTTM2lSYEt2WNdXlZ_FXozjJBoaGHnzI5SwLmZwTndBvLOetUD7KItWKbzZtNreUQ",
       "text": "แอดมินรบกวนขอทราบ ชื่อ-เบอร์โทรศัพท์ ของคุณลูกค้า เพื่อใช้ในการส่งต่อข้อมูลให้เซลล์ติดต่อกลับนะคะ ขอบคุณมากค่ะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777448888977_80175800",
@@ -61,7 +97,7 @@
     "message": {
       "id": "611726738720293010",
       "type": "text",
-      "quoteToken": "qoqcM2rkogLBm4u3CFhZoW3yMjnfnNvgrYLEwbFm_gt2RpDsjrMIqRpKsASqqduShIMIP8ouscwCgNk4rKVi0c3-MR407dOgcSxM_ROWyFOShgWBSiXnBbC4cWvbl3hDBEnX6kYhdRt5Gitb5rRCYg",
+      "quoteToken": "4_3NPKb-h4plFnZSCH43R34CO1_erx4agHXMTTG5cIW6xXvtGGVrsSm0qxeFJVMzfUE1vwUiqrMPojSZOHFeSNnJ17dNeOCQEI0sjI-YXh0B9FcrWYiDyjjnoMqgvgM1yB8GYA8UqiDNhN6VYCW8SA",
       "text": "🙏 รบกวนขอรายละเอียดเพิ่มเติม เพื่อทำใบเสนอราคาให้ค่ะ 🙏\n👉 ชื่อ/นามสกุล \n👉 ชื่อบริษัทฯ \n👉เบอร์โทรติดต่อ \n👉ประเภทธุรกิจของลูกค้า \n👉 ที่อยู่บริษัท หรือที่อยู่ในการส่งสินค้า\n\nรบกวนขอข้อมูล เพื่อทำใบเสนอราคาและ ลงประวัติข้อมูลลูกค้า \nขอขอบคุณที่สนใจใน\n 🙏Book and Box🙏"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777448853275_52192249",
@@ -77,7 +113,7 @@
     "message": {
       "id": "611726688069877987",
       "type": "text",
-      "quoteToken": "N33k3gz32f2FnzDo6pAsPq183Q4UcQJYml2FVf2R_2KCj_FAPZcLPNN1uUDBI3DSFNDVwaFLIdx-jr4Dcow8T6u7TcDhM972EbQ7LK7gdxyo2AvCMPcN_3Tgkt781NDp3fRB3rCK39SjljAI2t5W4A",
+      "quoteToken": "fNVfFgtxN0LhprDM08h90fkrayN6mQb0RNI22DlRB80lmweHyGIh53Vv3y1-C1ek8O0ThPa8dylWbIivBOBgl1MTka2WtLT8Went3NaeF1prT2iRIBTrt5v_0xdw8_ABWoiAGa5rvCDEx_Y8lgXj9w",
       "text": "ขอเบอร์หน่อยค่ะ"
     }
   },
@@ -102,7 +138,7 @@
     "message": {
       "id": "611726667064803914",
       "type": "text",
-      "quoteToken": "adLwpAMPqYH0jQuUdjasQnVma-FMwT0jtWwyoKhWjfUxMAw3_A6JE_caRe7xCVo2TEcIHiZA1NmO0ceImaMCWHFb2e6w6J5c1AT7_UUHKaco0VMAiHIweq043FETADcceQI7Ge898G50MLWKvKz2vQ",
+      "quoteToken": "T9VnQfHpJAU5LVWCo9pI2KK4xo3PeKldHCmD07ZiCNIB7cBsvNgHsfIuQbAmFNIxg8Xxe9f-V95T0a4qOQzX5-YbuLiYTPF-slk6MhCrIdKjzGY-Sx_HE_AT1BnJnc09fbh0z3Ktb4P9AFuoLxi_gQ",
       "text": "ราคายังไม่รวมVat7% และค่าขนส่งค่ะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777448810642_18046199",
@@ -129,7 +165,7 @@
     "message": {
       "id": "611726611515441666",
       "type": "image",
-      "quoteToken": "yZsN9kaTTHFMwPri_Pqsd3-6KJTxwOaeswtq-h5oLiVEEri_McPh3W5NPX7QP4h7CHe-zo8fCDOmm3L-CZ903rUkzbMqAqUhR_xsPk6u5-LqWq6ptvCynDQlPO2ncE-MjRtvHl-9l4OGy5mhNa3R9Q",
+      "quoteToken": "lWvmGPWQm6snnF28qR6hvDjAv8N_CgMgWlNB8UA6BXY2VcEd91W8wpJaNYhiGram7Vkzzy9h9YIH8Ea2jxYmSe9SMVshUMIWh9XriXvTWbjG_TnIlpFYhNq1gmO--xSql-sZTh9Y4ulNHnIhB0HHAA",
       "contentProvider": {
         "type": "line",
         "contentHash": "1TNs2a5htgVlXoLa7zt-XxMlfZiWMi-SixIUz28MBe9L3Vx6iXAteRXo7X5t1_usawkLRsrQZyJeTWHUWVPtA_HHOj2r7r5HxEfxRK5nxhMbzgLCDk1HlVXAriZ7_v-hjgTjgTGATm1_gXXKFHhmhg==",
@@ -164,7 +200,7 @@
     "message": {
       "id": "611726595861774389",
       "type": "image",
-      "quoteToken": "Fh4Rp9mBwwZeAAGufnDaklQPz8SAT4l0mwtlAEfRT15yCYp84IbbNCzwE6Vo-HvySlcC5L_jja3exP_gLHjWsZbBeyRpb67-cfBBIfjiTITAplnjtmzH_3Oq7BeDGBdWQ982F9V1gQEoR_znkmjmFA",
+      "quoteToken": "7ypw3i6qA9NkbX-nm-2XsnPUb8ogpXoFXg1BGi1a_spqOhmqqkc7ledESz_rP_jEuYhDaimiD_SCCNh07B1jpj8adxFbSJOFxRuvgLhKAtKAU5mdOakNhvhKftHGEIx2Xu-uCGG96uvXDYVwA8d-oQ",
       "contentProvider": {
         "type": "line",
         "contentHash": "mBw7HSwW7E85IE87Sx6H_8SHi96h6Z32FopzP8BXrMZvZMPvIpvfcko1_2PtHbO1KltHK4t-00jP_VkRdhpaijl9VQ4Pi104UYgaif1820EnHrLrtHihXF9sIWjtEdmSQ0mGTKiMiK02azDH-NEk1Q==",
@@ -188,7 +224,7 @@
     "message": {
       "id": "611726391297704058",
       "type": "text",
-      "quoteToken": "8rkQoE-b0WD2xc-71lXPvEdlkigBrQKpM9DzIwBUPvuiM_2wAYvBmUUR_ep9d4Yx7oNSmp5iiObHbWA5epg6n0E2GJruM-gTdcim6h8r232ys16GpiJ1DZ5G1aRxRnw1KtNx773doppIc1i8E51XEg",
+      "quoteToken": "2t95OoqPapfG5F_9dbu8GBxKYjuvdOqVBaWeypiH3joc3nZUz4GXF1CJi5QrinKFYTKKuEep7xY5v6GiB_fnnVLBwf5J0kEIUt2KRnTnBezMowj-Zq4_nf1GpFMNdGhhBs7j1LCH-50B1hjP2ygRpQ",
       "text": "เราขอแค่รายละเอียดการแพคที่ทางโรงงานแพคส่งของ เพื่อจะได้รู้ว่าเราต้องมาคำนวนราคาต้อกล่องยังไงเท่านั้นค่ะ"
     }
   },
@@ -202,7 +238,7 @@
     "message": {
       "id": "611726269293265193",
       "type": "text",
-      "quoteToken": "Qj53pJu6LJcjR7GJXi-_grsbdvkZlti0fTRMrD3Ar081tcGNijdb63qHGaVUJEztUE5ud0Vz5zEhZVwiFNL-7k0HMPAD0iuN4Zvlp09BztndjaHTUmUMAO6TTaVZB5eMfwo_FUx2ek5ZUAVat2PAgg",
+      "quoteToken": "bloE3djzTnQGow6HGVn3Kd78u428ydJyKYQfJ6TOvSziyUxQCtZb4_bs-6nqxsZPFL3S4HHY4vaRBOcrrZ44iiKmGevlNcVxzZqXWsi9-ExDgJf4LTlKQbYm93MfGsHtjPsbPrBK-ZFoMbtijK9i6w",
       "text": "1 ห่อมีกี่แผ่นคะ"
     }
   },
@@ -227,7 +263,7 @@
     "message": {
       "id": "611725903214674226",
       "type": "text",
-      "quoteToken": "MlufToRYs5Pq1ebUP-c46AQIxV-NOIC5QPcgxRLYTSZG2bxRa8QE3s9jxTScHFrP-3qFQ3hNUP3RXI_Dbtp-w7sUB9ThcEw1SRz9xbCshnQRDuBsegjW2lCNocYTht6xi1qRpL56z24R5idgZVqLcQ",
+      "quoteToken": "m-byOAElkNwzmDvBdiPyuRye1ylgwAX6CQjMTC6vp1ZqSZUnRgfPBwC7fp2g47ABP2m4_jUlOvUcc6TvcKkI9wSZ4qBIFc7VDh6IVCpm-GxOrVLBXB3phqycEAitx14_QKfvhXWNLgf4jcy-Ql-Stg",
       "text": "ใช่ค่ะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777448355330_36177754",
@@ -243,7 +279,7 @@
     "message": {
       "id": "611725152401228155",
       "type": "text",
-      "quoteToken": "LEHmg9yN4XRMf0QvJMGbMJAIIx4vBp7m2GJwxq6CAIllU56p2TOj8YRpvesM0qFVimeQqrxwxvmgbycytyce28umv_ChaPqPFi7Wi1-7Y_VdodVIfW6DcDSMr8eKYhXmoxtEnsJzTpEtgGMIuTEFJw",
+      "quoteToken": "CEp4z-t2FagzYRYwF1hmLaX9uc4uYHCrF43VRq6YWcEu3Izk1uRRH3q-kyudREHI6PuXq_ekrGXK9MyUH6AGJI3q4afhEBAwLze9RtD61jkzFikbOwz5jd-OM8-kMQY3om6CPZAUqXeUWvygdUPj4Q",
       "text": "เวลาจัดส่ง แพคห่อกระดาษห่อกระดาษอีกทีไหมคะ "
     }
   },
@@ -268,7 +304,7 @@
     "message": {
       "id": "611725014089334992",
       "type": "text",
-      "quoteToken": "l_N5kFL4m1YALkVYFTffyo5sQZSz4eMDzdfZBuG1CEaPMV_27478hcbLce4VzxHvc5zIYi2H3WUHW3GYxDsEVTvu2gKUtIKiWc1hfFqHeGTz5m_FobQYkOaIJbOKVzOQZcyv9eERGVyeNb_GRe25hQ",
+      "quoteToken": "Qc7Y56csY7vmcbxArrbTZBtMaAfaNC075_OSG6tq1-LTR6xunkkflqKQbQwyObKag1t9Uh7pA06ftF0ecHHSQ2YcJPnzs2VFK9xVgDBmUgb87Hr0nsZiFbyqas1mhCVTKBkAvOVXOI2TzafSohLkJg",
       "text": "70 เเกรมค่ะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777447825314_69961142",
@@ -284,7 +320,7 @@
     "message": {
       "id": "611725007512404158",
       "type": "image",
-      "quoteToken": "WzgiGVdXZTVAv_Q5TEkwgDahuC9V_oycsX2V_3vgcGWgWvrx060yb5E6AZY_gd3pQWULuNVk-KuAI490TCtgk46dyl969xAxVvobvTbNIIhgppuD3PDrlOAYzqnm65jPimJptMUNT-5VJHX55fdK9A",
+      "quoteToken": "fnFulT4jlMB1F0FV4CnFkrKnJoTEmv2r8Z0jy4NW2W7QBYGX1kxRNDLP8Iy1wQ-Eyd007Gr_hFzVcRvQvnoP-5BRVdVi9cxk4qf-YDKU-ofJA1R2SLAi5laBrtRClX_68OR7Jq7PDDs9z4Kapy9K1Q",
       "contentProvider": {
         "type": "line",
         "contentHash": "OMv3I_ryLqQFuZkpTf0324Q1EYDv40rP_41qU5GYIoD0HaorY0zO0RhaFIriXZdWbZiiZoa494eYskCTmiIi3xKdx26squDaLhFyl_yd6YUajYPcFW9TWmSPV3A1LJJy-Y6RmCFYWj9R9NUu3GhWkQ==",
@@ -308,7 +344,7 @@
     "message": {
       "id": "611724976844439777",
       "type": "text",
-      "quoteToken": "AMiw7LEpV6ck0OaxqU4lrZRXh4RLjDfCzovo8HzbLhu2-fHdhFAZx-BV1Yh7r9Qv5WsW5M5ND5UbXySPZHb1Nvpf1ibSW4MK1f-v9K-7dNuXEJIATwcDz-UVM-97YU-k1YKBW-MSxGH_Esc4cQOPCw",
+      "quoteToken": "hff63GRUt1xnlU8LjY04IdgGLpZk2QF5qxS7TN7XK0QfDapnfLSIdadmhcVA8WNInU96oMGfYMfaQxCqbLpm-HVslzQZDR24JPCw-vmXQqV12g_Jf9zVBjI-YfBr9x4ADleGEXJBaX_nuOG44RIMIQ",
       "text": "เราซื้อเพื่อส่งออกค่ะ"
     }
   },
@@ -322,7 +358,7 @@
     "message": {
       "id": "611724953020268617",
       "type": "text",
-      "quoteToken": "LMHtltZRmBVYo907zfLcTR3JpQdhIPDqtqO3Mzb36xTcxeu2KQeVJ4VjtFwhA4f_VvPKsP2B00uPQ4NtbWvwi5h5CvQq8xbC-arc1PjDPKJxCn-KwMzvLDEozqmjl0qEfEMOuW7VpECsy6nFMZz0Jw",
+      "quoteToken": "YD2BpurqZvQMubPG4YvEoZdsJYyW-qhDg84f-EFizEeVtgdZfiwNoJxORXGhqtMa4Y4T_nzOqXHUfOp9XkLhBW3BUrnJJ4BFOvD4MfeZKT3ESL3Ua1bdx7iO-qitlp1gl87xSWCVGyVggW9de005PQ",
       "text": "Standard packing ของทางโงงานเป็นแบบไหนคะ"
     }
   },
@@ -336,7 +372,7 @@
     "message": {
       "id": "611724880559734956",
       "type": "text",
-      "quoteToken": "Rx0puzj3stH6UYxWS2Nah73VC41a7cKT7c2QOc5DdapVI6jECmOtYxvczSdB9GQqkk24gVDIG15Luhy37lMy1YAJIxKhhmr0SLBRmfe__ZEo4nD20KCGXy4oifgPPdqyEckYK4ZyAhSJSAltc-Dacg",
+      "quoteToken": "w53n3h_kaelJbyza2zduCnunybDt3gJzsDBhxwBp7nLqE2dCt9Pn56BS-NBw9N99qNudUYDn9KQXjNQf1SGC072gWB4ldZStIAJWrSphNjYVzJyMZrygZpzdiSV3vPSfwDqrS28_j7DWfqYNms3EYA",
       "text": "ขอราค่ทั้ง 70 และ 80 แกรมเลยค่ะ พิมพ์ 1 สี "
     }
   },
@@ -350,7 +386,7 @@
     "message": {
       "id": "611724822376087834",
       "type": "text",
-      "quoteToken": "28y3NIZuG3Y-YzQEk83UWkW0Nxe1IzXjLqgpI8nopBnpvhY5yBB33PQQ7bK0j9vzcC_A0a75VP6pZrTTobaqLE9TNwr9uTnjgHtywvXQ3F6wcl4ry-AOPlWRWMpxgIMKZWo2YwPH9cRb3j0nFVeyUQ",
+      "quoteToken": "A4wma-_HI8CSQH1QdokFV2-_H-7nLD787lnZuspCk5dew-yt-LLeM7JQfVfjmMZWwZy7qkhMgbWlTlf1QBrJbEi1hDU5yhxqEUC3-_2CKsa6LzDxQE6lvSF5WmlWazBmuRhVYGo4WHMzfxEg1kEXsA",
       "text": "ขอราคาเสนอลูกค้าก่อนค่ะ"
     }
   },
@@ -364,7 +400,7 @@
     "message": {
       "id": "611724798972395746",
       "type": "text",
-      "quoteToken": "X9i_WhSYTqOiDQU5fTVsyP2xZhNnIDT7HAia_m5TVkncpCyTX8vUBdxj0bmCzR3WhjnISeseos62-eo0EhdGPFvVtyZIFoyYG2-ihLafQDNpdXUggfiaCY4vrA4DBtE3KlsUSl8WTcRQ6VZTNvjygw",
+      "quoteToken": "-gOj-tb7YoPD6fYYPm4dZcc-pEwPb6bccTnAzFPeHQM_8T9jOmYxie7NVWHa35xicIRgRhje8wn9JA2IqAuQuF0LUTlYnnX5ZwPoNSMlArIVIbKQE6qw1CZmmHAbL4-DPwGJohpYfQ5eP8LAZ0-7hA",
       "text": "ไม่รีบค่ะ"
     }
   },
@@ -389,7 +425,7 @@
     "message": {
       "id": "611723431041565188",
       "type": "text",
-      "quoteToken": "87x9sA1yUg8R6Jtq0uwvZPB-ZtNEzxYrI-_zPqUv9a6W1beSxOlaQCV7LjK6FnxMBmFx6asWIB28laNuryfdvwMzidQV940ubwqM3zE0Pxr1JEGn-1rmvCQybQyp6J0-eyXVOZIgOE8bGFwqtYTgTw",
+      "quoteToken": "Q6nnBdraOQCswiGz1KUvmhcM-keAlAQofYpWbb07MXsKOTSTfx1pgRRNeel-lVfWf01ixFKyyPaCemoSuf5AAXL9xltkkYppcFF_E74zzU7GhMYpVxVh7BRd2VNZDlZdDmP8gyO2OFPXaz6iDb-uIA",
       "text": "ลูกค้ารับเเบบไหนดีคะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777446881715_66704005",
@@ -405,7 +441,7 @@
     "message": {
       "id": "611723410422628813",
       "type": "text",
-      "quoteToken": "gWKG3CzDCSm8h6Zxf01IiAsxjMba9DbXRpO78qWVA37Nn8PwF-7zHnjBlcc2VNhQfVwZ-owTcMcoxu-nnuEVg3mqiu7MeVX-rY7RGbCx6ehAYvJlkbRkB2diRz4BP_7B_pEuXj-W_ToyCG7GF-ZCQw",
+      "quoteToken": "UaJ21U1vureoCUjufnWtaATo4WS8v1JSFWy0IVgqomJT7mGHl6KIdhr8nQwAgpNpOiQ72FTy7BaNTAUFBD-MbF2trvSQgI83PqIWLwRIgIPJlg6MHH3YrvIgj_6Tgzq7vCkQBCGkYek7NuVuPZlVPg",
       "text": "ทางเราจะมีเป็นกระดาษปอนด์ 70 / 80  เเกรม ค่ะลูกค้า"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777446869427_79309784",
@@ -421,7 +457,7 @@
     "message": {
       "id": "611723362322350425",
       "type": "text",
-      "quoteToken": "J-Nr-ZaPYO4dG-kXhTUSDcn0GUsZ0gyxrnTuDUJ8BytNmzIJ52aYOLCJ26NT1-4xz-tcOg6wQ_SLriGrK4GcL8O_5XC5L9u3iLDJ1bn_Mf7t3JF727E7E_W4ojP2JwXSlhmai31gW5E2lCaOVI0UKg",
+      "quoteToken": "YqdFaYg9uwQD9Qwn0HtlzmOL-9xkx1svuqOLi9nsEM4CL1-1NizEiebFZ3As6MnoTBzn4TA_0YkXPW0UIZ8dBuzMKU-t2OEWpm2DYuU0yJKSn9qf6OljGrjTArgF4VU6iw6uho5OTeIRRyV1jtM0sA",
       "text": "มีเเพลนใช้งาน วันไหนคะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777446840883_3603952",
@@ -437,7 +473,7 @@
     "message": {
       "id": "611722986244014425",
       "type": "text",
-      "quoteToken": "egBKQwrK5og2vy1398OPFiaE3FIlMQ3EJuWIL5HDcA6adWzspoeaZUi8R5ao1HQ7mzmOYhu0iAwE4XTkmBULomYeecaJKY8BCLLtyf92e9V-_lp31PPBEA70_3Cmk3NJLSPwFwU-P3ofAY0xB56LpA",
+      "quoteToken": "KHiirdkfRHohsScwS7iz8DgEEElS6ncFUp0MRHAxRWriqqIkbMmOaVHvVW1xr4LrGvtYkMeMEtOS0WVh_zYIG9CTJ1P3wrWmbJ0W2RHbGpeKQHzQMZhmZMxnS1SHn5xkLdc76qy-3ThSD4NtY97S0A",
       "text": "อ่อค่ะ พิมพ์ได้ค่ะ "
     }
   },
@@ -463,7 +499,7 @@
       "id": "611722709084668593",
       "type": "text",
       "quotedMessageId": "611709832201765449",
-      "quoteToken": "YVHtOYgf8Qg9Kc5wNAD76cOHGeLZ7q1EbeYNr5HQF_olapLl-1fLMC8LdfrCBjQLJG-FF_UYxMGBBCL_HzIs2swtzRDztqAfzy5T9BpNYnl6fclPZxBFAHH8oonPcOyhQf1j99JlY_IdhARQtysPmQ",
+      "quoteToken": "g8a_m9Df7Cwd9eHWutkKEFOQna_JC1tjpUu8vQKokElVwtjXTt5IxV8lPUaOwoQ4DvWhI8_QciMGDLhV1YiwqkMBhPdqNM6qSEG1Oqk07PQ94t7xhUmoUTwJf0z_JjTODm0TMjwB_U_PGVWDryrkaA",
       "text": "ทางเราไม่ได้รับงานสกรีนนะคะ ทางเราจะเป็นงานขึ้นให่พิมพ์ตามไฟล์ของลูกค้านะคะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777446451523_11237105",
@@ -479,7 +515,7 @@
     "message": {
       "id": "611721488357392887",
       "type": "text",
-      "quoteToken": "RZUYNCRUTB2HyRHj-pC02vyYrwr5M_LPb_zVObJGv6-NEIZA7hiovl1QadgGGG3oZtIX9_KH1wyB9MO3OCFOqwliuAYovVb-o0DT3h3ldguKNyRkb-V0T8hAgqL9jq415b44PGDroEovnDu_6Dhuuw",
+      "quoteToken": "TJORE4UNTWXY4Ebe2VZ926zRsC5DuWFduIVzjKoziIwvam3VGo8HDN2TFse2IVHeMA4vv0gxsbsY_vy3VyamOt4cUEg-KvavIrkE4U5xpiB_NottVKB47S1WOI-Hb5SPGPvH-e9kA6nPHwM-3JedtQ",
       "text": "เลยต้องการทราบว่าทางโรงงานบรรจุกี่แผ่นต่อแพค และกี่แพคต่อลังคะ"
     }
   },
@@ -493,7 +529,7 @@
     "message": {
       "id": "611721393935483428",
       "type": "text",
-      "quoteToken": "YdKgABTvwvqElYpoWRqjY-Mj2l7IpoScSal_UNP-qdqfHfMN5lyVxO4gyxWDZDR8xZT771msuBTBK9oAp3oXF6twUkrz6p9C_FLUsKPTToge-5qr4ddAF3Ysr9uHkJxleMs0PT_2cBYNMw8iZW1QdA",
+      "quoteToken": "MQOOZE3l_Bj1wEQ3XldDLKNMMxRfcfh78ypaspFoz0xQqS7M05ey_otIQooBLKHxBV0r11NmnvrT_JyDs6XP3FANmpSFUuLuz8jJHiy1Pc66SFI5yz_rRMjExBZe--aWHjkRErX5LMt0jU4oonH2xA",
       "text": "ลูกค้าบอกแค่ว่าต้งการ 200 แพค "
     }
   },
@@ -507,7 +543,7 @@
     "message": {
       "id": "611721357595771171",
       "type": "text",
-      "quoteToken": "dw7QRAAzdHJjjBsC-5qSBPOcnX80KIuTN9Z0Ry7ZKVpejgYxGDzvNtNRTNDpxGpRTljMX0Di9_P-aoyc87fvxQSSTiBWwjKTWAz9pqvTLvtBG_VbCeRxZebkPHDuUyDNtfyYwVmKCR7Enbzm8b_RcA",
+      "quoteToken": "1P8hroK6iWgx38VL5sGCSy1tMyfLvWjBRI5h6ogJv3UcvInF0hMJPYs24uLzdLzTXy2CbqN7N3-KXMx_H4qZtsdCThhB0BFcSoeYJBV9826_ydvlAiI_1ZeJX4qja0wSK2Odico66PwMjUMDnvkMrQ",
       "text": "เราไม่ทราบจำนวนค่ะ "
     }
   },
@@ -533,7 +569,7 @@
       "id": "611719777098662519",
       "type": "text",
       "quotedMessageId": "611719397346115997",
-      "quoteToken": "guaCgwJtpOgbY5Cij4NWXBBFwdha3SNXf4S3gj9ymXjh2EIp2SohKrHzEVthus-5CqE9xSUDgncY2tjahyYJQhgX7KMKaOcWtn49EPj7tQP-YXtGJiGjYO17mUVO9oeL36q_xCdmglgXZ9dNH1Ndkg",
+      "quoteToken": "rg1U6DLIcu1rYZiEJ2Ppj-9V8EgmKdTTxpFV6Z__Sft66REQQaUsTRAFkV0J6g3B1lx9jubZlpIL-GRZJCXv4EpzW4VfV9EXNYoPOKGFfAhEAEsF--mRZe2JLtwPiDHRymHTBqAqA4Z5OqZexUeh2Q",
       "text": "ลูกค้าเเจ้งมาได้เลยนะคะว่าต้องการกี่ใบค่ะ ขั้นต่ำ 300 ใบค่ะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777444703796_8577042",
@@ -549,7 +585,7 @@
     "message": {
       "id": "611719422679449771",
       "type": "text",
-      "quoteToken": "5Zds87xXsI3acIONs_lcV3t6nMYxreKASs8B_Yp3jgJTzGnxnQEoiSzPbfOOoqHKgUrL1kFKj2AFQ79MCwM6T2OGwXcIdQEwBXWk8XnUJ2ScKGbFR8cgT2dr2uotYKXo4AlnsbOrend_X3HM-KR-Wg",
+      "quoteToken": "sYgRmA8GGPSYEsZBgmBniMwKRhIXuI6EaIdoBdokp07IR0hng1hUI6eta2SPkuf9wqcqh7sCWFW7H3RammefadrVxBnRKZUmQBFSdSfU8BNI8jUj8WxF4mcrPqGSxYDKtf4711cvvL2_JPO5uxByaQ",
       "text": "ลูกค้าต้องการ 200 แพคค่ะ"
     }
   },
@@ -563,7 +599,7 @@
     "message": {
       "id": "611719397346115997",
       "type": "text",
-      "quoteToken": "wR5Iq_QyXhgFGoW1fmJtw8iXaDMhBOlJ7WvR7imotcpvGJtZLYUgoZ0T5_WgS5lolLzT2Aez7XpRPw7wgHqGqzJAUP_EtrB36VEtoIY3KWNzSPqFSKQJEN-9i1L3jB9ufbxyqlK1fYkDFV1bdIx40g",
+      "quoteToken": "KS04q7R75Cou2sMcV6KW3xKJD5EXfIn1qUrxveMgGu4JLdzAZ9FcJVLtKgKrC68V2XxHNeUg0gfr0YAe3g-FmDZBPP6jrJNm0IBC1UvJsV8EYkomed_jiROB_cNNLbjQaavGWDhsqp3TKW35rDwt0w",
       "text": "แพค 1 มีกี่แผ่นคะ"
     }
   },
@@ -588,7 +624,7 @@
     "message": {
       "id": "611718121707536985",
       "type": "text",
-      "quoteToken": "AuG0xcLoQqJpmaCTbu6HhyrNH-duU-oMMarmCGEcwNHcq5envh4_vxrwdZ0uuR5m9ewYoC4HKLwz9vWE3zkHReV89TvgwJXIafBl8xOTv0OquFN_vG6mRUImRPqxQwVwUI6pZA1K5pw2Lbi9exSjNQ",
+      "quoteToken": "hz_vGIGGPBHduIV7M6C5f6eWxObcwkUAelFm3nwiaH3IOnXcda7quaWd6ESJRFkpGlM97yOIeGyeVFJEURXuvY01zea3XdsgW4O6IGbV58Auf42jv1OB5UVNt6iky-BTbxTAQAT99LiOcFvkDb2N5Q",
       "text": "ลูกตค้ารับกี่ใบดีคะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777443717188_16841631",
@@ -604,7 +640,7 @@
     "message": {
       "id": "611718093018497164",
       "type": "text",
-      "quoteToken": "lWY4ELaHLs7KJBBfzixrUef2Qk75wptCd1BAhNWhTThw2YQXE7TOCR2M3qclreMwyVlt_k_LVqu5VfNhTJpTvKFw1KZTDZSB87j22M50tnuo_5way3qsEtxjVFOc15Sv8UVQGTQQs8fZr1FHk1btIQ",
+      "quoteToken": "a0Sb1knjA1M4wI-SB9q7cgz4fddauP07MTt7Wuspo5CVJ-0zf3LoN5-Lx5-bRFIkM3VmRz4ZkEGa0-QbvHH_5ADKC0n1cogbWZcaiPBEr30E0pVi49BAa0unZBWOHBEHnFn9aznk0owFRer_EMaoxw",
       "text": "ขั้นต่ำ 300 ใบค่ะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777443700053_4237638",
@@ -620,7 +656,7 @@
     "message": {
       "id": "611716868247650466",
       "type": "text",
-      "quoteToken": "mvDO22qxIcCOW-0oGqpfcyXiU78J846LuHs-38Dm07wZS5arqPU68CmTfWOSZvl9iL-1PLAzWGN6nVci4VL67-1gIIwsxjO3N-vmEIOE1HU3J9tCdKKrp5EATovPwiVgKoLKoSvatox0clEBB5ZTlg",
+      "quoteToken": "YKtG5a28pkgr79lM85sFTiJkaObfdw6SXBaQxyLbAVc1QZujkmDnVMFSZtRnUlPk3BvxXTSfexvfUxg0ux9DD4um0Goo-VH-MPlwlkBU9yUDhMyWiVWjy7IpFmZBo7BUrMSoRRhRGwrE8mPSmrWlIg",
       "text": "แพค 1 มีแผ่นคะ"
     }
   },
@@ -645,7 +681,7 @@
     "message": {
       "id": "611716684201853106",
       "type": "text",
-      "quoteToken": "NgTlQ7VmLVlacfC1x6Va3oru4BROJGQKin8Ut9__IjQUt2XBD-qSbZvR6bBNHaodb8bq8YFZbiiDikbQ9vEnFbEdBqT36Mzf6mkdH46i450h0A97me4U_MjphA417HjExzV9my35Uzk0zPGPBtY23g",
+      "quoteToken": "7XpIm_65v0OEBjpM5hJh-sVivBumupnamTTR6bwOBUsXPhr2EH5JcqthDG1ljQ7DwIPPNWK4VPQM3ooT84jzeTE4YozAcGVY-RL4_p6LvNEjcoCbS6b56KLkj4kvLCRRfOTGSoHIMKNqRxRLIgeFOw",
       "text": "ลูกค้า ต้องการผลิตจำนวนเท่าไหร่คะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777442860405_10943127",
@@ -661,7 +697,7 @@
     "message": {
       "id": "611716607059690182",
       "type": "text",
-      "quoteToken": "T2lGmXZyDX9Rvre7IG0pFPKkPXMY6vvbjfaX9sRKeHJsbtxh2jAvaDGaTRhJ0tM2S5Oss6lVwtCPG32diLLfORkJy_SddBw0CBwS-FwAinNDCcRENscbdq5qJ02m9ujSAtq9Xj3fg86m7zJjydpm6A",
+      "quoteToken": "tk-Hg9gfyhcC-rB2WovLrQX5UvWQrUA2FQNCo3eFUN5-TQkqx161FxfMQYKyK9sJO4-0QnbGzf6ay--JSXqFSTseGQW20eRslsEmexjGEHRh9wrTeaIPfSQTMTxkuEun9rVcJL5zxkU5U44WEPsTHw",
       "text": "เสรอราคา a3 ก็ได้ค่ะ"
     }
   },
@@ -686,36 +722,11 @@
     "message": {
       "id": "611716557936001569",
       "type": "text",
-      "quoteToken": "0ipAMYEfEaV4wBoBfm75AyoWkT5vlBIq06s3p_MEpop0PsXxvB5dDI6e9N95HZ4KsW73fmnp_pgLesYmA_NIghgF4ra7pDMGZY4elvEi9WwY9ZD8Ev_--yF4HK7GMG5M7J_51YaCqIXZjB-yxDKrew",
+      "quoteToken": "Af8G-ahBWI-LdJH2---4odju7aeZhFds1VQAnzEA4nwhhp7xb9vrRo48TxndQKsKtNmEUBrJ7bKzzPY2RZ69aQThFGBQszfQm7VFBpULrIGOMIxCfS2kFIaZ3Xd7oOyiWz3QPd2D7RF7_CbLanoFZg",
       "text": "ไม่ทราบว่า ลูกค้า มีไฟล์พร้อมพิมพ์หรือยังคะ"
     },
     "sendId": "U25e317fd6e24b065b98d0a099f4d3d7b_1777442785078_88761875",
     "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
-  },
-  {
-    "type": "message",
-    "timestamp": 1777442755659,
-    "source": {
-      "chatId": "U25e317fd6e24b065b98d0a099f4d3d7b",
-      "userId": "U25e317fd6e24b065b98d0a099f4d3d7b"
-    },
-    "message": {
-      "id": "611716507805941866",
-      "type": "text",
-      "quoteToken": "nUXEOjOyvDgxzD7rt0O69n2lLQ6mI1tbF2RO6JvtIMD_O5N9grziSdMLu7-GICMn6eJby5RG-K4jW7J2CQzaFv90nkxbkZH-jZ0_WMYRIgaP3jUhHkPEdwc8RppGLAxDC6yV_DubjqPXJzDC9SdMVQ",
-      "text": "อ่อ มีแต่ a3"
-    }
-  },
-  {
-    "type": "chatRead",
-    "timestamp": 1777442738140,
-    "source": {
-      "chatId": "U25e317fd6e24b065b98d0a099f4d3d7b",
-      "userId": "U25e317fd6e24b065b98d0a099f4d3d7b"
-    },
-    "read": {
-      "watermark": 1777442738140
-    }
   },
   {
     "type": "message",
@@ -727,7 +738,7 @@
     "message": {
       "id": "611709832201765449",
       "type": "text",
-      "quoteToken": "QFod6DPSWAU_wpv13ENFD_BTgw9e8in_5Frapcs_zB3g6FaFIPWHGbtHljZdy60whUjX55iFCw-YQv3NMCEgGVbh-5wUD_zzo5TafXOZXb5Z6Z9jrAx4yMXS9q9wlusFdojEdmiZkYwcB3vZNl_EfA",
+      "quoteToken": "-6uzDvhRLQygPmhXqmqjSxGJhZQjXVafoMRaJ-pjJVJidLAizNoTXwDuJMDo8rE9eBuLl6zw_iHYRqMF2uZn1-toAnf1qKvF4X8TXucP0I7mRwK-yyFNHOOWJInp3JQWX_PdAD9_PvGp8FFrzMSdRg",
       "text": "สามารถทำ placemat A2  สกรีน 1 สีได้ไหมคะ กระดาษอาจเป็นสีน้ำเงิน / สีขาว "
     }
   }

@@ -1,0 +1,821 @@
+[
+  {
+    "type": "message",
+    "timestamp": 1777539930981,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611879541023441697",
+      "type": "text",
+      "quoteToken": "fUBQYsWmMQ5BgGeW3an0l3ouRh0VjJn6MFsZ5-fVhNwdZoR56gRY3ABZvsK63D-Yb5_SCr9NeU_ffLIaViLRMfxlcXEiH51TJ_o-3u6BMLvI_G6RkuW5AMa2y8Psuka9oT1I6J6MITn4AP3Vq-o5gw",
+      "text": "และขอตัวอย่าง"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777539925019,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611879531007705329",
+      "type": "text",
+      "quoteToken": "wJS9ZTmMdTK8x6Qkzt-12Ez9SnJkrBltBqSSmdAfY0tO7JCgcDFgHUW1npkXquJaJr2Zb0KT5ld1uyR7nbxqcyUEcCWRYrItZMv3iKZcFN0rK_bIg-KadyJX0F-CrF6D3gK0YUB8kHGYFR6uXgNC3Q",
+      "text": "ขอทราบเงื่อนไขการทำงานก่อนโอนครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777539906501,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777539906501
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777539850858,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611879406486422115",
+      "type": "text",
+      "quoteToken": "UFGchlgAvAuSR3v4691lD8SKi-qJBgU7l0AuYIfQQaDjTHp3J7PgWY5a5FEOa-FFhV3ZamEE-Gj1CNOKdR3Tz0vzIqL9bCmPdfr86akoFRR3ABKrfsRJOaoWRKs3V-YWmmY8iXeig7UaKaSt2n4xGg",
+      "text": "♡ ธ.กสิกรไทย ♡\nชื่อบัญชี บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี\n\n0788919247\n\nหลังจากโอนชำระเงินแล้ว รบกวนส่งสลิปให้ทางไลน์นี้ด้วยนะครับ\n♡ ขอบคุณครับ ♡"
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777539851808_69504806",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777539844007,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611879395111993359",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "AYs5y-CtnGEZtf3b0womWhEfYgLMgVQhgJhENdp2XuOKlLDh44pSQRiqAciIKoX_d8tus_R_ReuWEJsonCcZpP-iqvyHAlaEBV-pSxEqq1S69Axt9eqZ6JZJVS1wMyyXCPs1Dl06N9VAVlxHgFo47A==",
+        "expired": false,
+        "expiredAt": 1935651784007
+      },
+      "fileName": "QTG69-02914-คุณประสิทธิ์ ขำชู.pdf",
+      "fileSize": 93821,
+      "contentHash": "AYs5y-CtnGEZtf3b0womWhEfYgLMgVQhgJhENdp2XuOKlLDh44pSQRiqAciIKoX_d8tus_R_ReuWEJsonCcZpP-iqvyHAlaEBV-pSxEqq1S69Axt9eqZ6JZJVS1wMyyXCPs1Dl06N9VAVlxHgFo47A==",
+      "expired": false,
+      "expiredAt": 1935651784007
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777539844500_1522210",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777539002798,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611877983644811849",
+      "type": "text",
+      "quoteToken": "db3HJKV1kI1X76z_wVMi66MbXV1_rFHui9e-Di61_LsinCaq06xujM7Q3mqiRFfl3P0bdZ416w5MYfwJhX8UHoSZmAeTq8bp9ZszTFtzRmpaKXyAv-Kcm80qcLgMPm9qZEy1U6MetwS0NHAYeoB6tQ",
+      "text": "ขอดูตัวอย่างสายคาดกล่องขนมที่เคยทำก่อนหน้าหน่อยครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777529989752,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777529989752
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777529821757,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611862580634058807",
+      "type": "text",
+      "quoteToken": "66A7b1VYIkF__YN3kFG2oZj-gD8BFIs3qr0F7XakjBPgtuI2-uR6IsHUkxDF1ml1pCKWjUT810RrXsABLOtzwhQ7y_NoVL8HnBEn_-89yGKymXzAnW3hc6EMPl4el1wzMwIafYLFkQLNNnAKZnyMtg",
+      "text": "สักครู่ ส่งใบเสนอราคาให้นะครับ "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777529820941_50995296",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525462726,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611855267378495677",
+      "type": "text",
+      "quoteToken": "yPyXCFk4hqGvLmPAm3XH3ZLPdV1jo2YiYnomfPleok1K7eMhmPWQiqmzMYPAOsylWLKAMmE-JcyQbUC6VUv56bzyiHn0BlOt-xcqEeDNeASByXkDsLYY2zrtA3DzxFpjtm9BLbGsNMRXPQAhRAqzdg",
+      "text": "*ขอดูตัวอย่างสายคาดกล่องขนมที่เคยทำก่อนหน้าหน่อยครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525306226,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611855004680585558",
+      "type": "text",
+      "quoteToken": "HSXYeVcNgaelMJkGtWjnNMLSvQySp03YmXGAHudBVsTyDdKJtrTDjzCXxHobvb4GobIv0UuclRaekUjo8-Te2MYwH-mg--AMAc5SsPxO4BbGZ3HJdYr9FGr21ST5S_9VnL_jP3jfGnshMHu-pS55dw",
+      "text": "ลายน้ำบนกล่องขนมอยากเพิ่มเป็น \n1.รูปขนมถ้วยที่อยู่ในถ้วยตะไล \n2.ไม้พายทำขนม\n3.กะลามะพร้าวสำหรับทำกะทิ\nแต่ไม่เยอะเกินไป"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525218211,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854857124708460",
+      "type": "text",
+      "quotedMessageId": "611854377380479266",
+      "quoteToken": "luF8B0lMPd_GIrbIBt2GDSdZFNCXm6XEhSnEpmnXPCEaDlUDv8DJEWFfll1F7zer-cq1DryPDAr66s7gRVZd1iUxnbCqqwy1Rqmnq-mrpsa-t94W_N3muduQd8-Ujdf5NrfxuPPiY4Lx7HhsCdxBdA",
+      "text": "นำไฟล์ ai ป้ายร้านไปออกแบบเป็นสายคาด และเพิ่ม Logo นลินขนมถ้วย เบอร์โทร 0949146546 "
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525044606,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854565855461719",
+      "type": "text",
+      "quoteToken": "mBQ6RN30TdVNY6DfAdM6Kp8Uk8RSmjYjYP3SL0cUTwdRtd1zECFJaPL0ngOhi1_DSbaf_gX-L4rdEEpTFpO3IjSx16QagTqHzYszObhuDWEOos99OElywqadq5g3SuASx2RSsj9KtwoFHkzq7Wds-A",
+      "text": "ไฟล์ logo"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525040551,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854559128322101",
+      "type": "text",
+      "quoteToken": "yipzuJNnHpwelq10YHm2WX3BPO7B_yrxQ6anKeOn7H7B_QOM1awIu0LdRl8b9CQPxtY5B-gv8blJX8UQjUAmq7jXUEmjnPctR1fw0nb4EA6Zj97nCaT5mwQU4OaDW90UJanCzekWeG1NHQEwWTHorA",
+      "text": "https://mimotech-my.sharepoint.com/:f:/g/personal/prasitku_ais_co_th/IgBIPXMvGbetToZ_BY-4UMf6Ac7w_DDbB9Sz75lF-Yafsyc?e=rAW3hU"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525038064,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854555017642257",
+      "type": "image",
+      "quoteToken": "2GRtVlbhGrbUyM-fSsiaS59-vM7o-3py1eYCkTionVqSmE34g32IzodYHvYU4zTegfWynDU8qaUloMyralgwV3ZF1IreGMsZeumzRaCmvii5TL2MXzK4fWwwEmdaZs_kdw8IdewPykqk3i2-qh2VFw",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "kG-TZvqy7elAdavNnzL8m_msV42o5STU4e1_KmxOQVaNQWffBrKY6E1diIohEugBR-AnvjTHc5PNeLfbRbBXVinIMFlj57eUs1XR162-FWTVPRsT-QEHSskMN8t3euGxPGAWgRoNfwFFSQkqTkXAuA==",
+        "expired": false,
+        "expiredAt": 1935636978064
+      },
+      "contentHash": "kG-TZvqy7elAdavNnzL8m_msV42o5STU4e1_KmxOQVaNQWffBrKY6E1diIohEugBR-AnvjTHc5PNeLfbRbBXVinIMFlj57eUs1XR162-FWTVPRsT-QEHSskMN8t3euGxPGAWgRoNfwFFSQkqTkXAuA==",
+      "expired": false,
+      "expiredAt": 1935636978064,
+      "imageSet": {
+        "id": "320897E99292C958350BB754D8D7C32BAA1CD68731E3771392E7E1C7B5CF3BF1",
+        "index": 2,
+        "total": 2
+      },
+      "imageSetId": "320897E99292C958350BB754D8D7C32BAA1CD68731E3771392E7E1C7B5CF3BF1"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777525037687,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854554380108066",
+      "type": "image",
+      "quoteToken": "EmFW2DxUYizjvXThJUDBM0DKOZuGCunFrOMCR9dJHBUuR9Dg65T5X60m4zwcw9FwSskF18tunYirwkoh61cJXZvMFt429q-XyabC4u3ZWqteEl-zQLFq-Ktcr7PWH62gD1Vrw6h43vN7uHAxEwbpJg",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "psXTvro2CzvnKxiBhFti2vFH3V191wb1X6eGvO3AK2ozXpwHI_mQ6s1eJepDU2TyXzteWRl0qRGNtCHJw_WrFinFHWDtS_8Mg9B9Qs3vUHqyyny1wgHQRKVOVn-K8eYHr6fRbKROf4YksHppMo5QDQ==",
+        "expired": false,
+        "expiredAt": 1935636977687
+      },
+      "contentHash": "psXTvro2CzvnKxiBhFti2vFH3V191wb1X6eGvO3AK2ozXpwHI_mQ6s1eJepDU2TyXzteWRl0qRGNtCHJw_WrFinFHWDtS_8Mg9B9Qs3vUHqyyny1wgHQRKVOVn-K8eYHr6fRbKROf4YksHppMo5QDQ==",
+      "expired": false,
+      "expiredAt": 1935636977687,
+      "imageSet": {
+        "id": "320897E99292C958350BB754D8D7C32BAA1CD68731E3771392E7E1C7B5CF3BF1",
+        "index": 1,
+        "total": 2
+      },
+      "imageSetId": "320897E99292C958350BB754D8D7C32BAA1CD68731E3771392E7E1C7B5CF3BF1"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524946150,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854400533299783",
+      "type": "text",
+      "quoteToken": "YoBAkmN3rWS_St812eawd7-DF-00n12X8ukN06E2ggjKhlJQWPyHI65pqGcOgpgcyl8_u1myTh2XT-mVTxsnHopZh3Vt_smlb-JYXYkcqwEVhVxb9Pbqngeyp8TeT4nlXIlmo0LSyyscEriDJ1kmNw",
+      "text": "ไฟล์ ai "
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524932186,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854377380479266",
+      "type": "image",
+      "quoteToken": "ykGdSxWWsBqnurr4ld_-UOb4ngYU1gtB7XXtxxfngH3eSDjVEiQ22v_8VQCbz9WwENFbh-MoUbdE242GWnyaVZxzon-6kOTgYgDt6lhoubGDm_I2y9K-HPzK_nSwm0mjaNhHZCPRB0ZUAAdpL41qbg",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "GN-E1ZhIm7HgQGk9dHOZiFrt_UBKtVIYEPvqGnmgg-fub0h80S3QUplJDilpAC0c3t5-yEvXiG7ZauvuQbQGUttAZvrOR2CyScf66qqz73dk3OA3nQiNJ2XlR1sQY4MJkpngZXezwyv0UN-p8nCI8Q==",
+        "expired": false,
+        "expiredAt": 1935636872186
+      },
+      "contentHash": "GN-E1ZhIm7HgQGk9dHOZiFrt_UBKtVIYEPvqGnmgg-fub0h80S3QUplJDilpAC0c3t5-yEvXiG7ZauvuQbQGUttAZvrOR2CyScf66qqz73dk3OA3nQiNJ2XlR1sQY4MJkpngZXezwyv0UN-p8nCI8Q==",
+      "expired": false,
+      "expiredAt": 1935636872186
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524913625,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854345973006721",
+      "type": "text",
+      "quoteToken": "uA4TzbHFsQqsdZ7TR0R_3YfyjA587PtbfMm_1Q5IrRre94WeLosPB4AMUDpZ7fUpgx-ZJV4r-9ZYhEnTdGlsnlrh6rg_NFqWH1uDmlDtTUV1a736bk1lvKcgjDO0AQEHchMjd2D_wflxcwdZmt6R5g",
+      "text": "https://drive.google.com/drive/folders/1S9IXM8oLP3fO0k2NJ6CRhqHHcGqRktyd?usp=sharing"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524888595,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854303913312807",
+      "type": "text",
+      "quoteToken": "CvpL-EBV-No_LitJe_6-x9uLzAnDKy2QqK4Xh3YGEvmFT_T8ga9UFSbPJTTn_QVvNG5FS_neguplzKArfLhZlpw4SQbVQKMxRxfDGtPY2llbRSTgFI0wgImLW-_6_7RprvefiTNHLEL4j0fUWzEs5g",
+      "text": "ประสิทธิ์ ขำชู\n65/430 หมู่ 1 \nหมู่บ้านธารทองวิลล่า 7 \nซ.ธารทองเจ้าฟ้า 13 \nต.วิชิต อ.เมืองภูเก็ต \nจ.ภูเก็ต 83000\n094-9146546"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524858903,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524858903
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524856554,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854250444062994",
+      "type": "text",
+      "quoteToken": "shw6YUh_aMe83UcLtCeq7FQzbOxBnMnOY7iRsy46Dde9Lt-y8o7cDl7qA8NZ3CT9U9mdLWg7RUHwM7vannJPhw98e9HRBQfX32DsmV9diFXfw2-cSYZoaxJg7sf_uUpWJVDUOZ4PH5sOE_NjvnTZ5w",
+      "text": "ขอทราบ ชื่อ ที่อยู่ ในการทำใบเสนอราคา ครับผม "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524855688_22300934",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524851384,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524851384
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524848943,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854237509091792",
+      "type": "text",
+      "quotedMessageId": "611854209910309311",
+      "quoteToken": "0nshUrBnn543kvfR7n4LZkVWEAlzUZADdShI556QkdI7nPuaquniQPtRr_M5ERxemhFp3IvU9yLckHbPB-yZgI4hEHoO-UuwFjxihRa3X8221w06z3vatfvp3kc3lGo0NlRGeaD2He-QVqgiM3qdDg",
+      "text": "กล่องพลาสติกใส่ขนมยังไม่มีให้บริการ ครับผม "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524848071_75011515",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524845092,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854230949200148",
+      "type": "text",
+      "quoteToken": "qEV_LFOuaPP1mafdwGXGiYIeFI9GKAr-LfO12sO28N-bbFV5TVmmYqGKcypdJOVTeLxk8D9cOanqq5vIk6C7Q8W1ogWA3LwvrXLjy1Oy0wfBJ6PTsdjsIT1KNZky3zcViW23lCQtvh4wqo6I64I-0w",
+      "text": "6*42 "
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524838872,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524838872
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524836490,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854216822784596",
+      "type": "text",
+      "quoteToken": "lgHZEAQLRsXt9RzLb0iZjzye7by6GnkcgnaootB2KfMEWCGd_Pe1GtbxcYSwti2RiMw1Vy5AKhV22CvK9R_1JnlWNv9P08dtEr-rKbUPVDn7pQYhFjAomsYCDLX6UZ_PLIAxfWX7VEP-NPnF44NLPw",
+      "text": "รับเป็นความกว้าง เท่าไหร่ ครับผม "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524835623_39841936",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524832397,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854209910309311",
+      "type": "text",
+      "quoteToken": "zs-wVZ4MH_QTwKfLJXay0R4zgBF-m0MSMjL0H6unX5634CoraMpTmDZu64RMEzoXzn9Tt5aT1QzZlobFT5MP54MRTCdYJ_iDvoYnSdsgvu2_AHC_vK_CRCVmWjBIoP9Xo5ZJPiYIe6hBMmj8zZk2kA",
+      "text": "โรงงานมีกล่องขนมสำหรับเท่าสายคาดของโรงงานด้วยไหม"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524813647,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611854178469544095",
+      "type": "text",
+      "quoteToken": "BW_WcWoUZDKPB2Iil_m8mTlsEcZ6viXwrAs2zX9cqNmpQNVeb1xSxKKSPpHTWYlWD-FnfUDo4W1BNbQ32lwran9jTkdJ2rZoeNZUMeF97d3D18h_jCQz7Z8ztyWnWdHju0bjwR6ERPoiP2vqBhrv7g",
+      "text": "ได้ครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524810246,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524810246
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524807943,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854168621056383",
+      "type": "text",
+      "quoteToken": "ZafQffaTWP2lxifYzZrvggWdR1cdZpv75urujcW3WBeLVRpntKk_tv6Ab8lpMycqVDUrGUtZqnUA6EAEyX9phdHTStLxxJc3qgD5ze8hlQ6D9iWepcPeYiusCpgiwPTuqbjgZ9_9RLiIMXAJ789e3w",
+      "text": "สะดวก ส่งกล่องมาให้ฟิตติ้งไหมคัรบ "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524807071_99360142",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524803480,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524803480
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524801098,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854157296960035",
+      "type": "text",
+      "quoteToken": "tOWsENuBx-XjNoMOnpxwTW-i9OMGizc-uG9v_dBrrEJSObzbPfzdez1myephFoRguyfeYzLr9TK59lHC2teKQTaLTcEGyGtv_V47y92G9QIqjb3JUb5qLlK2DS25AHTLcSsQL9ODzLPgc7QJi1VjKA",
+      "text": "ลูกค้า ต้องการให้ทางโรงพิมพ์ปรับไฟล์งานให้ ให้ได้พอดีกับตัวกล่อง ใช่ไหมครับ "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524800015_82489540",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524789636,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524789636
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524784122,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854128960504489",
+      "type": "text",
+      "quoteToken": "RZFL_OCi4m__WFQAHvS2O8ks1Yk3SygmD6A0FVTYzOuNnBTrhsxhwgNpu4sk7gFCJTpLIvlqxsi40dY_tWFuN-LPp0UGhce9sbO86EHH-FyizFt-dZ2DVckNMu9aTkaYmnTROzf5Z-sGCABPrSlLMQ",
+      "text": "6*42 กับ 7*42 cm ครับผม "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524783247_34288757",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524761513,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611854090976362652",
+      "type": "text",
+      "quoteToken": "0yA2Y1VLtv0DBe9UfVSH7Kh42b8fUBaAUg9gdNySzcjKZcFIe7tf1ZnTFDyh_bsntvdAt2KQwQNL4cqm7js4ExZ2JplnfYv8StqTHReeHmdGAcYNyM6TNHOYbTL4XisWBxwzoPQ9CSM4bxmGrzd3pg",
+      "text": "ขนาดตามโรงงาน จะเป็นไซด์ขนาด ที่อยู่หน้าเซ็บ ครับผม "
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524760600_95759909",
+    "bizId": "fd8f3c00-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524587400,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611853798767592197",
+      "type": "text",
+      "quoteToken": "Hov3pOr_M7g19IiyzPVGAMlZ5mwqN8HVczDv_9ctkyx6KkMhxz14tGbeMRKEeBqLnFyiAEaORJaRmGOdroYdA97FubBymdR1lHgJ2xE-4Avd546vuEGTsnfCI9_2PQ6wYWSDg8Ys-_GZ7cYizj4gFA",
+      "text": "สนใจสั่ง 5,000 ชิ้น"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524441163,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611853553300144560",
+      "type": "text",
+      "quoteToken": "AUFRFcxY27SiHNORnoaGfQwCoD3OMvhawAIJE9hUKQF5J8TJ1HkxRDiCLsCkFD-OgLC9pOgwQEYzQBXswJ9NhWqlUgVpRX5FpiP3wrlgr5VkGvqlazrfdBxizRFA2fDvGPeV5yjRZw87hZrdP73mYw",
+      "text": "มีตัวอย่างขนาดและการวางตำแหน่งไหมครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524417807,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611853514394042607",
+      "type": "text",
+      "quoteToken": "OLdxh3BlJOAWZcRntnT22riv2TuPzVo9aDTpP55P3FPhSU_eioRw0RxciRXUMTwPfJK8f9cCzjmdHrFUS6iQtPmjOxjFDxrZoWU0y_0XXj5kUrWHe0gUq7iII9s0F8_LvXwJ3sQncXAvudP8_lRsrg",
+      "text": "มีไฟล์ ai สามารถนำไปปรับตามขนาดของ โรงงาน ได้ไหมครับ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524365305,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524365305
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524364956,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611853425441505896",
+      "type": "text",
+      "quoteToken": "XXs-tpTWy8i0CzwgpDHO4hsPp8QgkQA8YTQTZ4uyUBTy0bbrLMcg_pzbTXABB-nyebAth3GBL-pfnhvXXtSoUdPx9TrXSZpOzdq4z1R2PKA1rYYgeLDGv3qV4WT-AzlTz5dCBIFGVzJaNSwTIIlRyg",
+      "text": "ไม่ทราบว่าลูกค้ามีไฟล์งาน หรือยังคะ"
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524363560_39923061",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524330211,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611853367408328999",
+      "type": "image",
+      "quoteToken": "uKNtuYD0hSr80DbFHbZJ0_BWKbvjyI1DHOXgUlGVu-6tNj7MqThKZFLbDN3EitBQeytEhRi4P0eljniISu_OIbZD_GueEgltShVmCVhzbXBzf8Sm2kIN6N_8tSyb-v_fzCbY6fzonYoQGmqNENJZEA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "kfSTJinWrJu1FJ6e3tSKfii3jjPV0LFi1RCuT6bMaUu4E2plUmThIP96QNu_JDaTg5zembBejhhv3xo7mjquYqgFqP8rLxy1ntsCZLO5XKy-4-ZnybhhAgOZ49fVpzJN6jNu5bRgUMkvYKl3YQCxcw==",
+        "expired": false,
+        "expiredAt": 1935636270211
+      },
+      "contentHash": "kfSTJinWrJu1FJ6e3tSKfii3jjPV0LFi1RCuT6bMaUu4E2plUmThIP96QNu_JDaTg5zembBejhhv3xo7mjquYqgFqP8rLxy1ntsCZLO5XKy-4-ZnybhhAgOZ49fVpzJN6jNu5bRgUMkvYKl3YQCxcw==",
+      "expired": false,
+      "expiredAt": 1935636270211,
+      "imageSet": {
+        "id": "D577CC4F529ED1D907EFF1264D68CFC4CBAFB6F8674CD8613E60E74CF543323D",
+        "index": 2,
+        "total": 2
+      },
+      "imageSetId": "D577CC4F529ED1D907EFF1264D68CFC4CBAFB6F8674CD8613E60E74CF543323D"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524329875,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611853366552690962",
+      "type": "image",
+      "quoteToken": "865OtsNJxOl7wL7mnu3zWK5qz9piBgSgzDcvdPzDvmFGmaZKrdHuVINgCEJa-PG0j2EEMXSgDuSfh4gAWGCBPUNMjVRnFPsIH3jQWZXMEsBFgtPocCmgUyv2oUNuqqvZK2GirQh1nKwE88Quj5nEww",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "P9i183SAbKYaeKXxBQvWvna_qpVqkrc5-uTklmJBnMGFxVTf11O_vb0Rjggd0rentLMpJxHxN4NDQ4whXAueyyiWqnd4ABbLJwx9NYyK4-v9NYoptokYOwBl2tJvI_7y6jNu5bRgUMkvYKl3YQCxcw==",
+        "expired": false,
+        "expiredAt": 1935636269875
+      },
+      "contentHash": "P9i183SAbKYaeKXxBQvWvna_qpVqkrc5-uTklmJBnMGFxVTf11O_vb0Rjggd0rentLMpJxHxN4NDQ4whXAueyyiWqnd4ABbLJwx9NYyK4-v9NYoptokYOwBl2tJvI_7y6jNu5bRgUMkvYKl3YQCxcw==",
+      "expired": false,
+      "expiredAt": 1935636269875,
+      "imageSet": {
+        "id": "D577CC4F529ED1D907EFF1264D68CFC4CBAFB6F8674CD8613E60E74CF543323D",
+        "index": 1,
+        "total": 2
+      },
+      "imageSetId": "D577CC4F529ED1D907EFF1264D68CFC4CBAFB6F8674CD8613E60E74CF543323D"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777524329512,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611853365948711511",
+      "type": "text",
+      "quoteToken": "e1KFm-Hl5RUbL_WtT0pmyp2ETatThIeT36qCJCLlQXgIfT2NRMzKfdgzT4GqOUDt5Rbnd-KM7e9zZ-FPz5fTs0WHlS0t2P1KVfgquTYAnnbZ8JewehJzW4-d1_emtArz3Bnk-rC1rvAHHcs_BKk-MA",
+      "text": "นี่คือกล่องขนมของเรา ช่วยแนะนำเราหน่อย"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777524307980,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "read": {
+      "watermark": 1777524307980
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777524291533,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611853302548398132",
+      "type": "text",
+      "quoteToken": "SJXTMUzPmKr_fWXpqbjL4njryVLm8eZb6L42N8p9_iZKq44YuenrYjRlzIiOHiLukCQTsc6sHdpeo5YbfwsINu7zkMpe-dazaubUCP5ZBndZGMgxB6xB6yCo7k5hfvpVyjA63oz7LLlIyY1U3zmf8Q",
+      "text": "สวัสดีค่ะ Book and Box ยินดีให้บริการค่ะ\nแอดมินขอทราบรายละเอียดที่คุณลูกค้าต้องการ\nเพื่อการประสานงานที่รวดเร็วที่สุดนะคะ (moon big smile)(high five)",
+      "emojis": [
+        {
+          "index": 121,
+          "length": 16,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "009"
+        },
+        {
+          "index": 137,
+          "length": 11,
+          "productId": "5ac21e6c040ab15980c9b444",
+          "emojiId": "037"
+        }
+      ]
+    },
+    "sendId": "U2a54a510113f0d36a9feb3432f6fa46b_1777524290176_73218783",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777523842930,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611852549720637941",
+      "type": "text",
+      "quoteToken": "9qU6704waxYu1oXRgeU1NmcFSbPGVhNNmu_6hWU9YdCJqaYa2VZNn7kbc5xwXlgFpLXNN2KSpWbGHS9NwA9HGoXQeOQocLpjxdOeyN8uE_RPLjFujSZdGXZ2y40f8981wPQB0D0pTKISmuctPUY5Tw",
+      "text": "นี่คือกล่องขนมของเรา ช่วยแนะนำเราหน่อย"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777523825847,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611852521065677074",
+      "type": "image",
+      "quoteToken": "YfRH51uB0hmwanQto2s0eWLwKzlnwVHo-0mWoJrl703KS4-lSOzpaS8ylvdJcgQnvba9eqbJ4xbE1kAW6DoO1YB6USaQUTWNVdjUWJ3UzW_HJRTKFZsBQppvFoMdDRYlNFT9md3b16QXUTw5dOUU5Q",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "9unlcb9PuaAzMiaLoI9qwInM2dMD7djkjqzTRLT-0BIoWgWP0Z7CfwSVT0B1OeZLkSSmJ7JZZrSzXlxERQaPgjM9XJee73TL0QeNozPA7MRpmjk8ON5lXjj8ywg8kLqNkCPUNF5rJUTpUxwFl42Qjw==",
+        "expired": false,
+        "expiredAt": 1935635765847
+      },
+      "contentHash": "9unlcb9PuaAzMiaLoI9qwInM2dMD7djkjqzTRLT-0BIoWgWP0Z7CfwSVT0B1OeZLkSSmJ7JZZrSzXlxERQaPgjM9XJee73TL0QeNozPA7MRpmjk8ON5lXjj8ywg8kLqNkCPUNF5rJUTpUxwFl42Qjw==",
+      "expired": false,
+      "expiredAt": 1935635765847,
+      "imageSet": {
+        "id": "8AAF307EFDC175CF83B2C6916E2D7B2FBD997CBB3F9EBD4C5C7B0F9117F7A83B",
+        "index": 2,
+        "total": 2
+      },
+      "imageSetId": "8AAF307EFDC175CF83B2C6916E2D7B2FBD997CBB3F9EBD4C5C7B0F9117F7A83B"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777523824155,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611852518414614700",
+      "type": "image",
+      "quoteToken": "Ts7TYJtaW1y_O6XFh117EMpGv9LjXZYcbZtJJrFg8afvibexqjeWxVZ60K4phqmkiVoD6cv9mX7vnukEAIJqHkm_bkoVYp-xv_CDiqZWxiTr71wjmrKtbu2x7_kuiwDjp4IeicvcnRctF6uLaNDrGA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "3X4GLwsUIhjper9tUO9I46pOtJcbhRB1HrvOB2m5XNGFqym1xLkGjl7JN3j0zgFWMWbfTK19gIjruxzB6NnWDdm1n4TwQCs0ZxMxA0j3o2sm5mcL7ScTTPj6C0k4-oXRCPs1Dl06N9VAVlxHgFo47A==",
+        "expired": false,
+        "expiredAt": 1935635764155
+      },
+      "contentHash": "3X4GLwsUIhjper9tUO9I46pOtJcbhRB1HrvOB2m5XNGFqym1xLkGjl7JN3j0zgFWMWbfTK19gIjruxzB6NnWDdm1n4TwQCs0ZxMxA0j3o2sm5mcL7ScTTPj6C0k4-oXRCPs1Dl06N9VAVlxHgFo47A==",
+      "expired": false,
+      "expiredAt": 1935635764155,
+      "imageSet": {
+        "id": "8AAF307EFDC175CF83B2C6916E2D7B2FBD997CBB3F9EBD4C5C7B0F9117F7A83B",
+        "index": 1,
+        "total": 2
+      },
+      "imageSetId": "8AAF307EFDC175CF83B2C6916E2D7B2FBD997CBB3F9EBD4C5C7B0F9117F7A83B"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777523798666,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611852475481981202",
+      "type": "image",
+      "quoteToken": "vP4EBblc0oun9FcxrToq4VoNlT90j2EbarQaPswUYhk5nukAbD7QYoA2aCB7G816mJ7CQRsIWkyhJOq4kD28AEcRKDszWGNXpykQK7a0S0YmFq1VitVPJxiCVtjlPs9Cmwp1m2i2suK9WQ13pwplFA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "Ta-BSMCZeHmMWnlqjZDvux8Qaf5b0YYbAjrwrrbjTJv4Cgihj0xwYpQqs51RdIxuUCHbcKuoVTa7Pv8O_fC9JvfCqW4bO9gcmcv-teAeRm6rHySRwNlQOMXIwq55dB6Mz-l8wzGQwHLkU5ioxg2GJw==",
+        "expired": false,
+        "expiredAt": 1935635738666
+      },
+      "contentHash": "Ta-BSMCZeHmMWnlqjZDvux8Qaf5b0YYbAjrwrrbjTJv4Cgihj0xwYpQqs51RdIxuUCHbcKuoVTa7Pv8O_fC9JvfCqW4bO9gcmcv-teAeRm6rHySRwNlQOMXIwq55dB6Mz-l8wzGQwHLkU5ioxg2GJw==",
+      "expired": false,
+      "expiredAt": 1935635738666
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777523794806,
+    "source": {
+      "chatId": "U2a54a510113f0d36a9feb3432f6fa46b",
+      "userId": "U2a54a510113f0d36a9feb3432f6fa46b"
+    },
+    "message": {
+      "id": "611852468837941578",
+      "type": "text",
+      "quoteToken": "DUo5V8ckCySRKD0DM40onSM-10o_KI32J-zxmRA9BCEyixgTOI52b5i_rFitS_lGnVWqfEOdSaXCHlKYYyIghrc-fRR5NatRipsgIblBFl-3bHWvDug3En0RBCb-3k_bCZUGzY-J_sQsWfFKWxvbGQ",
+      "text": "สนใจสายคาดกล่องขนม"
+    }
+  }
+]

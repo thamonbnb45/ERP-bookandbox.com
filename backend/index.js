@@ -379,8 +379,9 @@ app.get('/api/chats', async (req, res) => {
         
         // --- BULK FETCH (OPTIMIZED FOR LOW LOAD + BYPASS 1000 LIMIT) ---
         // 1. Fetch messages with pagination to bypass Supabase's 1,000 max_rows server limit
-        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-        const { count } = await supabase.from('chat_message').select('*', { count: 'exact', head: true }).gte('created_at', thirtyDaysAgo);
+        const daysBack = parseInt(req.query.days) || 365; // Default 365 days (was 30)
+        const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000).toISOString();
+        const { count } = await supabase.from('chat_message').select('*', { count: 'exact', head: true }).gte('created_at', cutoffDate);
         const limit = 1000;
         const pages = Math.ceil((count || 0) / limit);
         const fetchPromises = [];
@@ -388,7 +389,7 @@ app.get('/api/chats', async (req, res) => {
             fetchPromises.push(
                 supabase.from('chat_message')
                     .select('*')
-                    .gte('created_at', thirtyDaysAgo)
+                    .gte('created_at', cutoffDate)
                     .order('id', { ascending: true })
                     .range(i * limit, (i + 1) * limit - 1)
             );
@@ -1954,6 +1955,212 @@ app.delete('/api/customer_quotes/:id', async (req, res) => {
     const { error } = await supabase.from('customer_quotes').delete().eq('id', req.params.id);
     if (error) throw error;
     res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// #2 Chat Analysis — AI สแกนแชทหาเสนอราคา/สั่งซื้อ
+// ═══════════════════════════════════════════════════════════════
+app.get('/api/chat-analysis', async (req, res) => {
+  try {
+    // Get all leads with their messages + quotes
+    const { data: leads } = await supabase.from('lead_contact').select('id, original_name, erp_alias_name, sales_status, tags, line_user_id');
+    const { data: allMsgs } = await supabase.from('chat_message').select('lead_id, text_content, sender, created_at');
+    const { data: allQuotes } = await supabase.from('customer_quotes').select('lead_id, type, total_price, status');
+
+    // Group
+    const msgMap = {}, quoteMap = {};
+    allMsgs.forEach(m => { if (!msgMap[m.lead_id]) msgMap[m.lead_id] = []; msgMap[m.lead_id].push(m); });
+    allQuotes.forEach(q => { if (!quoteMap[q.lead_id]) quoteMap[q.lead_id] = []; quoteMap[q.lead_id].push(q); });
+
+    // Price keywords
+    const priceWords = ['ราคา', 'บาท', 'เท่าไ', 'กี่บาท', 'ต่อชิ้น', 'ต่อใบ', 'ต่อแผ่น', 'เสนอราคา', 'ใบเสนอ'];
+    const orderWords = ['สั่ง', 'ยืนยัน', 'ออเดอร์', 'โอนเงิน', 'โอนแล้ว', 'สลิป', 'ชำระ', 'จ่าย'];
+    const productWords = ['พิมพ์', 'นามบัตร', 'ใบปลิว', 'โบรชัวร์', 'สติ๊กเกอร์', 'กล่อง', 'ซอง', 'แผ่นพับ', 'โปสเตอร์', 'แบนเนอร์'];
+
+    const results = leads.map(l => {
+      const msgs = msgMap[l.id] || [];
+      const quotes = quoteMap[l.id] || [];
+      const allText = msgs.map(m => m.text_content || '').join(' ');
+
+      const hasPriceMention = priceWords.some(w => allText.includes(w));
+      const hasOrderMention = orderWords.some(w => allText.includes(w));
+      const hasProductMention = productWords.some(w => allText.includes(w));
+
+      // Extract numbers that look like prices (4+ digits)
+      const priceMatches = allText.match(/[\d,]+\.?\d*\s*(บาท|฿)/g) || [];
+      const numberMatches = allText.match(/\d{3,}/g) || [];
+
+      // Detect price quotes in messages (admin sent messages with numbers)
+      const adminPriceMessages = msgs.filter(m => 
+        m.sender === 'admin' && m.text_content && 
+        priceWords.some(w => m.text_content.includes(w)) &&
+        /\d{3,}/.test(m.text_content)
+      );
+
+      const status = l.sales_status || 'i';
+      const hasQuotes = quotes.length > 0;
+      const hasPurchases = quotes.some(q => q.type === 'purchase');
+
+      // Issues
+      const issues = [];
+      if (status === 'c' && !hasQuotes) issues.push('❌ ลูกค้า C ไม่มีข้อมูลราคา');
+      if (status === 'c' && !hasPurchases) issues.push('⚠️ ลูกค้า C ไม่มีบันทึกซื้อ');
+      if (hasPriceMention && !hasQuotes) issues.push('💰 พูดถึงราคาในแชท แต่ไม่มีบันทึก');
+      if (hasOrderMention && !hasPurchases) issues.push('📦 พูดถึงสั่งซื้อ แต่ไม่มีบันทึก');
+      if (msgs.length === 0) issues.push('🔇 ไม่มีข้อความ');
+
+      return {
+        id: l.id, name: l.erp_alias_name || l.original_name,
+        status, tags: l.tags || [],
+        msgCount: msgs.length,
+        clientMsgs: msgs.filter(m => m.sender === 'client').length,
+        adminMsgs: msgs.filter(m => m.sender === 'admin').length,
+        quoteCount: quotes.length,
+        purchaseCount: quotes.filter(q => q.type === 'purchase').length,
+        totalSpend: quotes.filter(q => q.type === 'purchase').reduce((s, q) => s + (Number(q.total_price) || 0), 0),
+        hasPriceMention, hasOrderMention, hasProductMention,
+        priceMatches: priceMatches.slice(0, 5),
+        adminPriceCount: adminPriceMessages.length,
+        issues,
+        lastActivity: msgs.length > 0 ? msgs[msgs.length - 1].created_at : null,
+      };
+    });
+
+    // Sort: issues first, then by message count
+    results.sort((a, b) => b.issues.length - a.issues.length || b.msgCount - a.msgCount);
+
+    // Summary
+    const summary = {
+      totalLeads: results.length,
+      withMessages: results.filter(r => r.msgCount > 0).length,
+      withPriceMention: results.filter(r => r.hasPriceMention).length,
+      withOrderMention: results.filter(r => r.hasOrderMention).length,
+      withQuotes: results.filter(r => r.quoteCount > 0).length,
+      withPurchases: results.filter(r => r.purchaseCount > 0).length,
+      withIssues: results.filter(r => r.issues.length > 0).length,
+      cStatusNoQuote: results.filter(r => r.status === 'c' && r.quoteCount === 0).length,
+    };
+
+    res.json({ summary, leads: results.slice(0, 200) }); // Top 200
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// #3 Sales Matching — ผลงานเซลแต่ละคน
+// ═══════════════════════════════════════════════════════════════
+app.get('/api/sales-matching', async (req, res) => {
+  try {
+    const { data: leads } = await supabase.from('lead_contact').select('id, original_name, erp_alias_name, sales_status, created_at');
+    const { data: allMsgs } = await supabase.from('chat_message').select('lead_id, sender, created_at');
+    const { data: allQuotes } = await supabase.from('customer_quotes').select('lead_id, type, total_price, status, quoted_by');
+
+    const msgMap = {}, quoteMap = {};
+    allMsgs.forEach(m => { if (!msgMap[m.lead_id]) msgMap[m.lead_id] = []; msgMap[m.lead_id].push(m); });
+    allQuotes.forEach(q => { if (!quoteMap[q.lead_id]) quoteMap[q.lead_id] = []; quoteMap[q.lead_id].push(q); });
+
+    // Extract sales person from alias (format: STATUS-SALES-Name)
+    const getSales = (alias) => {
+      if (!alias) return 'ไม่ระบุ';
+      const parts = alias.split('-');
+      return parts.length >= 2 ? (parts[1] || 'ไม่ระบุ') : 'ไม่ระบุ';
+    };
+
+    const salesMap = {};
+    leads.forEach(l => {
+      const sp = getSales(l.erp_alias_name);
+      if (!salesMap[sp]) salesMap[sp] = { 
+        name: sp, totalLeads: 0, withChat: 0, withQuote: 0, withPurchase: 0,
+        totalMsgs: 0, adminMsgs: 0, clientMsgs: 0,
+        totalRevenue: 0, avgResponseTime: 0, responseTimes: [],
+        statusBreakdown: { i: 0, o: 0, c: 0, nt: 0, na: 0, al: 0 },
+        leads: []
+      };
+      const s = salesMap[sp];
+      s.totalLeads++;
+      const msgs = msgMap[l.id] || [];
+      const quotes = quoteMap[l.id] || [];
+      if (msgs.length > 0) s.withChat++;
+      if (quotes.length > 0) s.withQuote++;
+      if (quotes.some(q => q.type === 'purchase')) s.withPurchase++;
+      s.totalMsgs += msgs.length;
+      s.adminMsgs += msgs.filter(m => m.sender === 'admin').length;
+      s.clientMsgs += msgs.filter(m => m.sender === 'client').length;
+      s.totalRevenue += quotes.filter(q => q.type === 'purchase').reduce((sum, q) => sum + (Number(q.total_price) || 0), 0);
+      const st = l.sales_status || 'i';
+      if (s.statusBreakdown[st] !== undefined) s.statusBreakdown[st]++;
+      
+      // Calculate response times
+      for (let i = 1; i < msgs.length; i++) {
+        if (msgs[i].sender === 'admin' && msgs[i-1].sender === 'client') {
+          const diff = (new Date(msgs[i].created_at) - new Date(msgs[i-1].created_at)) / 60000;
+          if (diff > 0 && diff < 1440) s.responseTimes.push(diff);
+        }
+      }
+
+      s.leads.push({ id: l.id, name: l.erp_alias_name || l.original_name, status: st, msgCount: msgs.length, quoteCount: quotes.length });
+    });
+
+    // Calculate averages
+    Object.values(salesMap).forEach(s => {
+      s.avgResponseTime = s.responseTimes.length > 0 
+        ? Math.round(s.responseTimes.reduce((a, b) => a + b, 0) / s.responseTimes.length) 
+        : 0;
+      s.conversionRate = s.totalLeads > 0 ? Math.round(s.withPurchase / s.totalLeads * 100) : 0;
+      delete s.responseTimes;
+      s.leads = s.leads.sort((a, b) => b.msgCount - a.msgCount).slice(0, 20);
+    });
+
+    const salesList = Object.values(salesMap).sort((a, b) => b.totalRevenue - a.totalRevenue || b.totalLeads - a.totalLeads);
+    res.json(salesList);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// #5 Dashboard Stats — สรุปยอดรายเดือน + Pipeline
+// ═══════════════════════════════════════════════════════════════
+app.get('/api/dashboard-stats', async (req, res) => {
+  try {
+    const { data: leads } = await supabase.from('lead_contact').select('id, sales_status, created_at');
+    const { data: quotes } = await supabase.from('customer_quotes').select('type, total_price, status, quote_date, created_at');
+    const { count: msgCount } = await supabase.from('chat_message').select('*', { count: 'exact', head: true });
+
+    // Pipeline
+    const pipeline = { i: 0, o: 0, c: 0, nt: 0, na: 0, al: 0, q: 0 };
+    leads.forEach(l => { const s = l.sales_status || 'i'; pipeline[s] = (pipeline[s] || 0) + 1; });
+
+    // Monthly stats (last 12 months)
+    const monthly = {};
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(); d.setMonth(d.getMonth() - i);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      monthly[key] = { leads: 0, quotes: 0, purchases: 0, revenue: 0 };
+    }
+    leads.forEach(l => {
+      if (!l.created_at) return;
+      const key = l.created_at.substring(0, 7);
+      if (monthly[key]) monthly[key].leads++;
+    });
+    quotes.forEach(q => {
+      const key = (q.quote_date || q.created_at || '').substring(0, 7);
+      if (monthly[key]) {
+        if ((q.type || 'quote') === 'quote') monthly[key].quotes++;
+        else { monthly[key].purchases++; monthly[key].revenue += Number(q.total_price) || 0; }
+      }
+    });
+
+    // Totals
+    const totalQuotes = quotes.filter(q => (q.type || 'quote') === 'quote').length;
+    const totalPurchases = quotes.filter(q => q.type === 'purchase').length;
+    const totalRevenue = quotes.filter(q => q.type === 'purchase').reduce((s, q) => s + (Number(q.total_price) || 0), 0);
+
+    res.json({
+      pipeline,
+      totalLeads: leads.length,
+      totalMessages: msgCount,
+      totalQuotes, totalPurchases, totalRevenue,
+      monthly: Object.entries(monthly).map(([key, val]) => ({ month: key, ...val })),
+    });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

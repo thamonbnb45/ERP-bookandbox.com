@@ -1,0 +1,314 @@
+[
+  {
+    "type": "chatRead",
+    "timestamp": 1777519256247,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "read": {
+      "watermark": 1777519256247
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777519171758,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611844712814870533",
+      "type": "text",
+      "quotedMessageId": "611844423894172334",
+      "quoteToken": "DtsChmWWH4xviIZOrX7B5tt4pMaNgxJIx2oZYuT3HaOnuqqCoqqgjPIwnI6MPZ46xC8G65c7c-N8bPhdbjsmO0imP4Dg9XI2xaupA1n7SHHVeE823EStHX6PAcTMGNY7YJ8krDDm4NsnCTd7LkVgPg",
+      "text": "ส่วนใหญ่ขนาด จะเป็นขนาดสำเร็จ a4 a5 ค่ะลูกค้า"
+    },
+    "sendId": "U3e63b67d86774e7d4db9097f36e3d68e_1777519170491_64246777",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777519054865,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611844516873240594",
+      "type": "text",
+      "quoteToken": "ZhmGkeAZMix9EWN84ZpwnWpFPEQ1AHtOeUSNbGaTTHO4fJ0s3GMs0yZM20LO4o3cbxZsJfODyP5zfIa5VX6tymqkM9j6XPpYQv4_JZM_gZc_PMdBi9gBGkRPOoYVKzf0ML5xKSF6kxNM5ZFgIj2T2A",
+      "text": "รวมปก"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777519052326,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611844512444580134",
+      "type": "text",
+      "quoteToken": "bhD2eaHCsgNiCMVbbEMFnrRssIFCYWPGEBl3ZYlhjKwg340AAdpGxqQKwyV-jzBVr0auKBM2KNrdhYlQs5fulS0I_1JmGwbtWHqsRe5ekIWWrGgLrbIEDOqqKhcFKG3sMX61tB3HO5h27zdCikOGxQ",
+      "text": "อ่อ 36 หน้า ได้ค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777519037497,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "read": {
+      "watermark": 1777519037497
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777519033585,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611844481037893710",
+      "type": "text",
+      "quoteToken": "3P3jGD9vS4V11hKx0uy_LKq6UUqEWyKpfN_9VPUMtv245nx2KX4MTuexvJuXameMHWXFK-D1z4sqj9ryQCOoWUSoHdHGkwckD4cfwqxs0g5YJ7LjkTfXo6buJ__o3kUNEK4Phk63i1Qet1whNokuxQ",
+      "text": "จำนวนหน้ารวมปกทั้งหมดกี่หน้าคะ\nจำนวนหน้ารวมปก ต้องหาร 4 ลงตัวนะคะ\nเช่น 8 / 12 / 16 / 20 / 24 / 28 / 32 / 36 หน้า (รวมปกค่ะ)"
+    },
+    "sendId": "U3e63b67d86774e7d4db9097f36e3d68e_1777519032347_58045427",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777518999541,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611844423894172334",
+      "type": "text",
+      "quoteToken": "-C6nSeAMXZGGEUs4i42QV2iHxTrofcMPJ3v9Pc18MNzlSDVsXfhcaKsmQw1S_Mps8Ged8OYY-E6P6_S6zZ9HvdcgU2piD_5iUKvG3DXIh7YacLrAzz3DWcJ4m9CytsFubj7BlVUj-aBy591EghtyTw",
+      "text": "ไซส์หนังสือ ยังไม่ได้คิดเลยค่ะ เป็นหนังสือ ภาพเมนู + บอกสูตร"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777518907819,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611844270080917812",
+      "type": "text",
+      "quoteToken": "bSio5S2P_8z4dKm0c6ZGkm4BDmnAlLyyJf-DSEXMxgXBPcP7YPGk9WXqLZcSMf1tlvfyZd5B0RXLPbUm_tMzIVpcS2-foXIQtqu5oo5POeGJ33G-bausk-cUDTHcrkC1KUn7s4UHbBOvn3gFWUJz-A",
+      "text": "จำนวนหน้า 45 หน้าค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777518822910,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "read": {
+      "watermark": 1777518822910
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518813840,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611844112492265783",
+      "type": "text",
+      "quoteToken": "gfsM2ZPvObqR6ygjXjMAw_EgRSE-imzMSUhrnDz-k69SoK2JsBmBENgqnSxKZ3yeXdyPeP3bXSDbNiqGfC5tMbupTGHrt7Ufhq-dc1Lk6QRET1DqLMgpei8KSPsc5wydNRJmCfq0EKuT2hlu7mHNDw",
+      "text": "สวัสดีค่ะ ขอทราบสเปคงานค่ะ"
+    },
+    "sendId": "U3e63b67d86774e7d4db9097f36e3d68e_1777518812586_1222704",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518738929,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611843986696962427",
+      "type": "text",
+      "quoteToken": "uDE7W-ObQwReEtFYQLF4V4ui3Mlzo-4VVkndlSLEqzVKwhMAlM2OppjGg1srpLlYitu7DEHwZtmxPB_Yel7wheLD9vG-6TwIP0BffqE5u_lVGmj44nrHlr7TKYuojwttJ9on4TCg17PKsiKfLJ9Q0A",
+      "text": "สวัสดีค่ะ Book and Box ยินดีให้บริการค่ะ\nแอดมินขอทราบรายละเอียดที่คุณลูกค้าต้องการ\nเพื่อการประสานงานที่รวดเร็วที่สุดนะคะ (moon big smile)(high five)",
+      "emojis": [
+        {
+          "index": 121,
+          "length": 16,
+          "productId": "5ac1bfd5040ab15980c9b435",
+          "emojiId": "009"
+        },
+        {
+          "index": 137,
+          "length": 11,
+          "productId": "5ac21e6c040ab15980c9b444",
+          "emojiId": "037"
+        }
+      ]
+    },
+    "sendId": "U3e63b67d86774e7d4db9097f36e3d68e_1777518737676_75799983",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777518613659,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611843776645693789",
+      "type": "text",
+      "quoteToken": "qRoOIucnaqzUoH_vID_3k_C784BDk-RIB9DlOx5jO5woK_a6wpjQkP48788CE7d8EEQ1jGZBkZTIqUzMFYTBGV_hSI1LRUvExtsH6IzQdjCZnpD4RN48FKGdHiWQAfjGhn2oexekEfJ6L66jc08elw",
+      "text": "ถ้าเล่มประมาณนี้ ราคายังไงเหรอคะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777518591575,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611843739601600564",
+      "type": "image",
+      "quoteToken": "nL9axgxsl7yn52Wjc12nUS02399CFs9O7XQZIIb9Bg6k-Y1RuVyENEEfiXRobWBTFBEblFd56JVn0YnXeos8eh4G_geFbrJM1BZiSm5oaPArXmsm-tlX_BQLAxkEKmtpNCP0XNBWYg2dQQ1pzqDNkA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "vA2jywFe3Wh3mENFTRWdqE0cwsWMO170ZLjm-e23l4CxeQWNLWnBcPv4JAja3IdQEM7zEmjPwFE_Q2clkWyw5eN-k79Guq0HiE2lnT3Q4OGwg6iuX0CwNFEap9YA7bgf-Y6RmCFYWj9R9NUu3GhWkQ==",
+        "expired": false,
+        "expiredAt": 1935630531575
+      },
+      "contentHash": "vA2jywFe3Wh3mENFTRWdqE0cwsWMO170ZLjm-e23l4CxeQWNLWnBcPv4JAja3IdQEM7zEmjPwFE_Q2clkWyw5eN-k79Guq0HiE2lnT3Q4OGwg6iuX0CwNFEap9YA7bgf-Y6RmCFYWj9R9NUu3GhWkQ==",
+      "expired": false,
+      "expiredAt": 1935630531575
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777518588322,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611843734048342598",
+      "type": "text",
+      "quoteToken": "bz-EAK7PYZevN8Cm8An06fEFhZ_TtuA_Bpgqo51TY6Av5cICymd_Buo6GU88rkj8m6zry35meUs3CmLMDRY8cZ7G9kBIxQWxqPVUJhMWBxw39fYSp6_6XQlWAgL5ZFUsnE8vySk7my0a5eCQQ33sSA",
+      "text": "พอดีอยากทำหนังสือเกี่ยวกับสอนเปิดร้านกาแฟ + แจกสูตรกาแฟ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777518562878,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "message": {
+      "id": "611843691417698620",
+      "type": "text",
+      "quoteToken": "5ruU7ciPMgQSb3rOqL3CkcpU7tcKVmG7p1Yef9DFXUWaSSy-3FBfIL1yeJ1fm1Cb5SuMuDQEzHZ3wW89g00oKp_hcQkwGV4SWAEGAIqFZ0d_iTg49QdDI4Kyyiif78Z3tUJDtY_j6NkZC_X5YqZaCg",
+      "text": "สวัสดีค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777518557759,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    },
+    "read": {
+      "watermark": 1777518557759
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518556193,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611843680160186805",
+      "type": "text",
+      "quoteToken": "JgwBqCbDXn5pYWKO4H_KNQkg0u16HFrAa-ggfiD7iVB8Lqca8_IqGt9GI6cND4lacTCb0lLoH_J8T6e0GoTUhE0s1nApjrh7BPTnmRQJ6CPlh3DJbaKAJxrp9rgkoPvnkI-CSrz3mWosiM-9EjUYrw",
+      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518556192,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611843680193741266",
+      "type": "text",
+      "quoteToken": "N-j2Onw-Dw1CyMAPCmUQ0Loy_v6S-e6KQjwyCXYHU-yEhifOuTeNLDHoSKRPHcU1mqTAkP5EXWB-MLhIw1vj3bgCG6WwKKYJxFIVTq6zwNGop1eIi7ZJ9h6qvwL15UTSDcZYBTzDV_UX2xUtrPnJIQ",
+      "text": "สวัสดีค่ะ คุณ May BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518556191,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611843680193479094",
+      "type": "text",
+      "quoteToken": "uhXOnZydsnVOYA4S-ZGiFecaQldr8VR_Jh4cFfJigV6ETKKnaEYHlZcRmxeUuuwGWfI6Krns2yWtx0gMEEnE0WpHc3ivxs6KfhXSB4bkZ0kL-95SO0N6wnfT0nbcEPdw3tV8FwCYiY8hk_kpfeJPaA",
+      "text": "STEP 7 วัน",
+      "originalType": "flex"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518556190,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611843679975637123",
+      "type": "text",
+      "text": "ขั้นตอนการสั่งซื้อ",
+      "originalType": "rich"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "follow",
+    "timestamp": 1777518555443,
+    "source": {
+      "chatId": "U3e63b67d86774e7d4db9097f36e3d68e",
+      "userId": "U3e63b67d86774e7d4db9097f36e3d68e"
+    }
+  }
+]

@@ -1,6 +1,147 @@
 [
   {
     "type": "message",
+    "timestamp": 1777520680260,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "message": {
+      "id": "611847243691458717",
+      "quoteToken": "NH9SEwaabuPecpYGgtPeDs9-VSIPMtZuAmIFW-vlGkSG6-rvW6x8GrlCsrHBvyIU_QsgZ-zUUIukZ63-QsqDU3do0-twGzKLQtmbclGVkb-VGDgoAIKPLFvubOE6wq2KMUTXC1c3NfyWLaW_E3Plsg",
+      "packageId": "11874175",
+      "stickerId": "315706160",
+      "stickerResourceType": "STATIC",
+      "type": "sticker"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777520522340,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "read": {
+      "watermark": 1777520522340
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777520520031,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611846974685053273",
+      "type": "text",
+      "quoteToken": "-SAvXVqVi_Tn-O7eCE2HZK2RsirxV8uB3tOdzQWFyFYjoYgC2Fd_DeGkZrH9nkMw1KZwS1O5HaUrSJLquOIfhQjDMFkfQxenPX1Yv7wTSRhCiCAbAqvP_muQmUoZrZFA3AYuz3wrInPJwypW5uCOHg",
+      "text": "แต่ราคาจะสูงขึ้นครับผม"
+    },
+    "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777520521362_29629560",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777520499358,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "read": {
+      "watermark": 1777520499358
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777520497077,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611846936433525113",
+      "type": "text",
+      "quotedMessageId": "611841149283336420",
+      "quoteToken": "QSft9I9lSLFqus1Jg0VZ-yLqeEEW53DgdUinNGpiIdGxd9XZMEp7wJPnHN0KhmKKrybfdr9LHW20hhq0niESP-W0t-jnZSqh6KowlCLlC4FliHXrsuRxS3mwWSHc9UKrYYiCXjYsSgw5yk3BadXUlQ",
+      "text": "จะเป็น 210 แกรม และ 260 แกรมครับผม"
+    },
+    "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777520498402_77622574",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777520486896,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "read": {
+      "watermark": 1777520486896
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777520471680,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611846893836173520",
+      "type": "text",
+      "quotedMessageId": "611841113565430254",
+      "quoteToken": "6YSvBqQiNwaQzFOAM4BCrSFqNcSAbBb5-TVCGiSecM33Y50aJB9b6yNZDwL6Xaon-RrnbH8862BBoJd4Q-fFAGnsBTa5p8c8K4ZlUEr_19VzMBZ5H2r4fnB1AWXZhlQ7kJCCP2L5gTigvrABFgWn0g",
+      "text": "งานพิมพ์ Offset ครับผม"
+    },
+    "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777520472970_42825504",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777517047746,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "message": {
+      "id": "611841149283336420",
+      "type": "text",
+      "quoteToken": "ysI3_Y7DvKqMZBeiroT8DoqwLFEj0vs8Wx7i2tAqGevSThBhLKhyRMV2eS5FjgEvZw2ebKmHePGQmpMdoFqcIelWTOhNZlu_5teiT0mDTapY-LHn1u-VFs2md7YP78ONI-Fmk6kFmCBtOo6vDQXLnQ",
+      "text": "มีหนาสูงสุดมากกว่า 190 แกรม ไหมครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777517026343,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "message": {
+      "id": "611841113565430254",
+      "type": "text",
+      "quoteToken": "PeF0jxovHv_xx78HcAeTHjUnbSvv_IyM-I-MzGMLxi-G8V4nmPRVyvNS9L1dAJ5gRagVf_mL3wVL3gqQAo_83VeJSzoB59RMIIq5McUsG5nuzDIDdQAbBdbiAVpeiPmeYKUFYpJiq49MMFKVdcY0Bw",
+      "text": "การพิมพ์ตามที่เสนอราคามาเป็นแบบ Digital หรือ Offset ครับ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777517000356,
+    "source": {
+      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
+      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
+    },
+    "message": {
+      "id": "611841069978222712",
+      "type": "text",
+      "quoteToken": "zYz_4hp1ADKoRw2y5TSN9CwqfsCOTwxauF9F5YW1n-9Y2PG0Gq8LM-8OthIrgDao-aPblqql9FfQbxjUaOYkDAS0QBUGnY3N-ZpUKq0CxS53ZeEaRLcUuFTurZDteBEaLM--52H2X9F7Wha2Lm_2CQ",
+      "text": "สอบถามครับ มีขนาดอะไรให้เลือกเพิ่มบ้างไหมครับ"
+    }
+  },
+  {
+    "type": "message",
     "timestamp": 1777444982267,
     "source": {
       "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
@@ -8,7 +149,7 @@
     },
     "message": {
       "id": "611720243572113427",
-      "quoteToken": "Q2wIMc20NvZo3AwGY2-GL4Lvyss-wT7LBVqP-CwIfAGKl5MsU88ngT8MW3wmMN0BXpByEvWOAEESygLdAiIcsNN_vk9JrWSU7bTCzWkpcTIf4oaPEyuXNWD73mqPS3jPWl5VzmpqLhRFyC4_DXp5lg",
+      "quoteToken": "frn9HbAjiqSWyC_6Y4PF3HDgmZ8R7OMuz6b25VlVsG-VaOaB6E7qM70q3Iu7VtorESsKa9cjzeXEi8Ki24BDhxNSjZD_2Fz1nZc3YYabR2e9pahuqZQNuu0zFCGjAarGBLtkq1sCtqOmS8oHpA9zNQ",
       "packageId": "11874175",
       "stickerId": "315706160",
       "stickerResourceType": "STATIC",
@@ -36,7 +177,7 @@
     "message": {
       "id": "611718406249119921",
       "type": "text",
-      "quoteToken": "_wDMCT-A3S2mXZXdLIVJoGSrLxVPElI065AHp-nc4YFnHANwghyTnsQiaTG53j0pgVzum2NMmrv-K1hcbctwCNfgOGLYnIcXzfl-S2z5c2lLDbRs5bMcsY-dv1KbELIifaQfu5s2fTscphq6JtDqxg",
+      "quoteToken": "q26n3P8AIzJnGePp3Hp_JR7tMRjd4JetAb3Hfc2kapvJ6hNrPDZAktLE1zwQhEs3nruYWOLNzFrfWBMHCfgur7wBHqya5kytOq2uExZLpMT55HXgPZntGxIRlCNKjiD5QBWkdekTryf8n41e5Iry0A",
       "text": "ขนาดกางออก 21 x 44.4 cm อาร์ตการ์ด 190 แกรม2/S พิมพ์ 4 สี 2 หน้า\n+ เคลือบ PVC เงา 2 ด้าน\n+ 2 พับ 3 ตอน (สำเร็จA5)\nจำนวน 500 / 1000 / 1500 ใบ\n\n500 @25.60.- = 12,800\n1,000 @ 14.80.- = 14,800\n1,500 @ 11.10.- = 16,650\n(ราคายังไม่รวมVat7% ค่าออกแบบและค่าขนส่งครับ)"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777443891598_76648769",
@@ -63,7 +204,7 @@
     "message": {
       "id": "611718070721315276",
       "type": "text",
-      "quoteToken": "C5dGuGl9MSQGNXYtrAo0EOe_6XjlN1oKgGnK8o43FklmOdD3o3rpgo1xFIGfjSAsanoehQL8SJTNkkCsdU7H-5q313kQ509OHyhWGilwjKaDRROZ69BWHoURRUctVUKPFf8ZMbOgy1aEJcO_5SQDMQ",
+      "quoteToken": "7mX__wunVSYTpAM3QivQDOrhsDl9FvueXv47qFNPzDZ3ColaUW1VkyKkUxIDXCkCqFMiNueaEnffAR6CcujncUQX5716_EM5fdmZ35LbeFyTAr5pOmbCQDdwhqD_iIwlszBpeyfPq7OZnKOxjK0nnw",
       "text": "ได้ครับผม "
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777443685292_72737627",
@@ -79,7 +220,7 @@
     "message": {
       "id": "611717449545155139",
       "type": "text",
-      "quoteToken": "7LG1ui9cr_WbbxZJmApW34cK2_ZwoI3hgFDeVyTee9dX4EIKbndLusPuXl4H_ZaJYsosYBkZNFpAqRbsQzWpamr9WnophoYno0tUOTf2Ffxszm48ynDCOgz8rX909j3jAfirYd6XFy4831Vtuzts9g",
+      "quoteToken": "WsI6F4HOUh0petmuIWeP_hq_-sEzbH8OV78xQRRjOW6wAm7JLUmlHpcwsXIhZP-N0JeJ4iSJB-RDvkyiuYiptDBDkc0YahxMyBkzOGGgY3z1VBaEQUXg0SgW_Ui27JKK-QPGHG4VVUKcupbBfTVxyA",
       "text": "วันนี้ได้ราคาไหมครับ"
     }
   },
@@ -92,7 +233,7 @@
     },
     "message": {
       "id": "611699244319375654",
-      "quoteToken": "2mcr9LdwKOjaZAPtgRgYPmJlVuLZ38oLDRTNL-09yzNQjwRNsd5jfV8bdz8usISxowomZ83fxsIADXxXrqgrMPlwKBhZoBPL_WsVgpA-xDTgHsq3ZZpcq8d1wwQg80SySpnlOrOhtb4SQmJGqEkIyg",
+      "quoteToken": "KweHtMY3buFp8_QKC16gPq95ta5aiU0ZZu75CW8RZdzQoyhWq_jUq_Ax-b-ZR6JvF57xaI6zMnKCayR0d0UA2GmZyqt3YdEWbiVvwjWFu9nuxdX9sJ9JDhI6e20zpmDoRlHb5wT7eV4I03jVb18IJw",
       "packageId": "11874175",
       "stickerId": "315706160",
       "stickerResourceType": "STATIC",
@@ -120,7 +261,7 @@
     "message": {
       "id": "611699230612652665",
       "type": "text",
-      "quoteToken": "KFgwoFWancUlUZfoDaKSD2ud1UnQ7T2PtPsbmZSXG1EuztANm7rPrOSinvvKM88qd3AOZhEuPSwh_Lc_4G5g3TrE_GdtoFIQnWaM_v05WxIYNiuVJTO8oOmQU4cJl7GG8oEry4jTjek7EAIfZw99SQ",
+      "quoteToken": "whEsdz1H4xkojNVTO9E3utddSpMDa_sKfo92HWA0hCYqIelDhKCcYRVyJaOygfO0OSxSjE5mYV2vY48cTbz54OAkJMdkXy5urwb5cn2tFZBqMCuI3o4rjTCGVNqwYbdprqXwtT8gfJv3chaoXsINjw",
       "text": "วันนี้แจ้งราคากลับให้นะครับผม "
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777432455599_41953450",
@@ -136,7 +277,7 @@
     "message": {
       "id": "611696702487528105",
       "type": "text",
-      "quoteToken": "AhLCwB-_RdJBW7VSHZJOLjDCjqaUkeBgQ66dwJ1c0nXMawT9-KGHyvhlD-sQjGiDdy9SvuIXuIAHvUJm4AEu1Hdz8Wby-Cc3aEG9eUfqwrSWNhTnMrHMyBtjmo3ZxFeuRx40tqCbEEWmH4wgnMrtpA",
+      "quoteToken": "g37OZFmMSq9R_Mugo-Q-O7MLjtoenMWOjAMo_HR2c211E8eevlVq_GbXMFVqK0rJixDSUzjE9aNtvQrdtl1p664n0QjJNLQztaTcwX4GEheQ8U8t0Zz2dXndfudE_CCOUwOmtEVWfLJxVC0liEe3fg",
       "text": "ได้ราคาไหมครับ"
     }
   },
@@ -149,7 +290,7 @@
     },
     "message": {
       "id": "611596630386278556",
-      "quoteToken": "Tt0IGJEUKNmCdMO8PU1lIhTumKNl0xr-0LVF81sJzfCEx1EYw7jzEXOuZtagr03fzn5kB5mjASVtb6W-gg9Q_XvF1xC2bGgtyTUMgAue-BmDcHJfJ9JSgHvkMzXjzkTgrLGOzJlysY2TelLqkOp0sQ",
+      "quoteToken": "mXezvvLrpYrhfaQ95kQwD2Fa770r-hhvmko0YPZ0GnPInDy3M7L9DKdqu6sj4Sf4ZO4KOxiuiI1PLXKi5GsAIGNPmOB38mOw0QnnGsLkNTFtXWd0mQMvqAv201HfOU17VaARR6K-Opru8I8GRy2d7w",
       "packageId": "11874175",
       "stickerId": "315706160",
       "stickerResourceType": "STATIC",
@@ -177,7 +318,7 @@
     "message": {
       "id": "611596610438693072",
       "type": "text",
-      "quoteToken": "tryNonzlSyx3QplhZmnJuU_DB4GgwB061vef_nROYDRLwusuGCGLLwmwYXxOEnhxj8bxNoKyRcyzcnLDxMU5fKptEadGS_cNsSbqe1fWVHkjJEfz_mTozJgdNyWInhxUvUkhKzcX8EhQnt_iIC9y-w",
+      "quoteToken": "X-aXUObaoUZ6dGmD5fHh0ltYz4due36mj8psWqrgQmnBsCuvpSDY0pTjUmOGEhiw_KQ_-y1OHtEMjzwJPj9gY8gDBPLeJc38LmgKl06uL85jfxDmgX2DkvXEJBnhYePWaW9NvGhD6atSNQAuLEh4zA",
       "text": "หากได้ราคาแล้วผมรีบแจ้งกลับนะครับ"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777371292462_90251417",
@@ -194,7 +335,7 @@
       "id": "611596455416955448",
       "type": "text",
       "quotedMessageId": "611596419966697716",
-      "quoteToken": "VjwCH3hqbb9DM2k6Om5QzZZQKgxAl6pxgLUYP7Y1h7ghcqamLGYfQKvhUT1RXCvqBFcpHY5uVP-XUcdOg83ktZmWxqg1n4_dgMNQAOvH_fmyeghy024LHQyxOJngVwdLcRknffCexFFNfZz_xkTMqA",
+      "quoteToken": "Y7aIxWeaohxamfi6b8p6e2lkz1QmW5aIT1oYxUGCj2DgmdaRhi21AJ_nDEpcpvG2kWKtiDjfxrkt20fba9ZZy161PWgxDlb34sapoR7T3g7mRCE8BRW3XUoWZSFMfaw4pF21zJtQTrxVat6IxE-PQQ",
       "text": "ได้ครับ"
     }
   },
@@ -219,7 +360,7 @@
     "message": {
       "id": "611596433069441123",
       "type": "text",
-      "quoteToken": "feVJ94xunb0hgGl0mvEsrW7CnjfnVbxN2HqOGikwJRfDxZbw3aJvQYInAQQuKMsaajnninXlq39lUNrQ9Uvk8TZNSjW8HRqdnV9_WZE-Xo651An7L4RlzvLXznfQqTv4xyLM90ro1C-Lmsf7y2ceBA",
+      "quoteToken": "VuZMjbgBV3aLpL_Br2oPVQH7zvfO8g4ZUfjdNzilIv9SKOS5ZbIqzlF4UZhe9gGSJ6ZyXWwRCMUxcn6_bJS4K7cNfrM8sxDDaiEwkq3fRVQP_qC6YTTB9EHr_jfai3MwU5C-g-sKy7WRIcA3dxY_qQ",
       "text": "ผมส่งทำราคาสเปคนี้ให้ก่อนนะครับ"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777371186791_28263953",
@@ -246,7 +387,7 @@
     "message": {
       "id": "611596419966697716",
       "type": "text",
-      "quoteToken": "lSvEYB8bmP8NBrfb3xbX8pZtESSV313KGicN1A1LJSgCDAoWfNYybt3xYdPJBipcgDXF7XJe9gm_tvDOqZiW2_guUC-F2zEbyXkco4emALmmNhdKYWG-TEUVMDB_ChVTV5AKXttzOKHmqvrtWvfz-A",
+      "quoteToken": "kDQBCUEpZZWPAcgHa6wvwTNux0pLbzNHGGeSwuV1-qvyS9Sx1Vyd_Odklio_4Zu7JvD13kaBcHz3gFsJoUfROke35pnS5Mf0LK0xuFKGe4hk45YTjH_uvrOK2Ge5FpKY10GCNSMUMdezoRzV6sWBSQ",
       "text": "ขนาดกางออก 21 x 44.4 cm อาร์ตการ์ด 190 แกรม2/S พิมพ์ 4 สี 2 หน้า\n+ เคลือบ PVC เงา 2 ด้าน\n+ 2 พับ 3 ตอน (สำเร็จA5)\nจำนวน 500 / 1000 / 1500 ใบ"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777371178944_70812475",
@@ -273,7 +414,7 @@
     "message": {
       "id": "611596407048503563",
       "type": "text",
-      "quoteToken": "lO4CooIVul7KyDW-7hlyOLC9lYd_8oiEL0WucITtL2HEUMEnKZWoIAFWGK0jbFzeXjP5hcqCgVGGA5Db6mDX8hszU-TDNTHPbCwUYDMEQZrC63cy1T9Z0cnVATzfgelEcKMSgQvJ3wpfaAbsTMUIGQ",
+      "quoteToken": "JZ2Kv_RBmczr9SCGqmz0LOylYaD-hMUa_aMTtF90szJirYSGQzJD25KEQWf5RV9JIYkfDRfnd0KQ5JbdUQVCkhIt0-7VVHDWLpRe5iUZgS5xftgG76zB2N5Sft16qD6aPt3i_KlZvAH7zNRPlCt6Jw",
       "text": "แต่ราคาจะค่อนข้างสูงมากครับผม"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777371171328_97369764",
@@ -300,7 +441,7 @@
     "message": {
       "id": "611596391731167672",
       "type": "text",
-      "quoteToken": "PXvTmS3u6rzNrz3nxgOUeNlmqzTLoAcb5LkgoODCjn1W1IGMIiEPo6TVTHiIdM4l4RBnkgrRk79cxw8yn36Pmmhb88WQJI8sdgkjIac8DiKaQTFAJc3RBdjKRV8yzYWm6CReRP7clHjwmU8GOOsPtw",
+      "quoteToken": "hDWEBStVuFrjHuCl0FIFm-xBUkWDjfB-fryhxIIKnUXLhSV93DPGRfjUoFJnVJJLC0wGwtY7GLkBC6GBZgGcTUtME4vW1eiZrgYAOzIwlpTTPcLmnxkfSN0NUjPfQyQMqtiVgVWgfYk4S_3fT7QNng",
       "text": "ถ้าต้องการแบบสวยหรูดูแพง จะแนะนำเป็น เคลือบ PVC ด้าน และเป็น Spot UV ตามจุดที่ต้องการครับผม"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777371162248_45838045",
@@ -316,7 +457,7 @@
     "message": {
       "id": "611596325930401854",
       "type": "text",
-      "quoteToken": "qY25cppg8r9iGq9XwDAIUYttEHFZFpCipcvqW1HGNqani1LDTyeSERNOv369Z6MqhkA9R3xReV5A_f3rkCVnHJIEdc0z6yVg_clllDn12vjvkutYDFAxfgkGgYkIeEYdnXmPTc9mOdTTOOFmOnP2qQ",
+      "quoteToken": "SLXZgIWRDPz1dstVMP4KBkS0rPgp--ZgjXoazcvcVuep5FEQ-PFQI3akjF5GPdwsu5wIE9aNpOTUzF4rNnyu7sf4KGvweT5oetWMkJLaaRjZ3ITDqfppw3IRD0O2godsX0J_4MY-nM5soM_X6reCjw",
       "text": "ข้อมูลสำหรับออกใบเสนอราคา / ใบกำกับภาษี:\n\nชื่อบริษัท: บริษัท เอซีออโอโต้เซอร์วิส จำกัด\nเลขประจำตัวผู้เสียภาษี: 0105558085109\nที่อยู่: 56 ซอยประเสริฐมนูกิจ 29 ถนนประเสริฐมนูกิจ แขวงลาดพร้าว เขตลาดพร้าว กรุงเทพฯ 10230\nโทร 0934920738"
     }
   },
@@ -330,7 +471,7 @@
     "message": {
       "id": "611596117742453030",
       "type": "text",
-      "quoteToken": "72xLmpJAIRc6D1meS3GH0BQ9vwTAtFYIpu87M_OTkbKHFM1U6i0m9ilbsIPTYE2ZwCPU95iOxtZcRYwI7j7KfdLBc9t5M4RGMRaJiSOJq5GfnjsJcdd1XL_aSfBDZ0b1QzKfvYR7jmTiAf7sDJB57w",
+      "quoteToken": "Gw0O2Oefv7MpO6rN9gN9lleKPisKMjgDM0AI7SPR5KdKQWLch90poEm3D-f0kxjP-gCmhZ2e59BBbYnf6FeU4WlA8TH8AitbRFckYcVBceNeGuURhri3iSpGplUYgPxcJfZgXh0FJVaBSU386YUn7g",
       "text": "ต้องเป็นแบบไหนครับ"
     }
   },
@@ -344,7 +485,7 @@
     "message": {
       "id": "611596084372570524",
       "type": "text",
-      "quoteToken": "MLymXGgdqeaknhcL5WEjQ4jyuUetbwMAiCp32jWxIXqR6KORl-59e5463xPwH5QmkB9P7pfWWajeoXgBAz2BfIE1RDKK81UvfJsYcAiZ17YFb99HiHeD5lpyl4loVsQdjvbrc5u3hstjAE896PgWkQ",
+      "quoteToken": "ZYcQttkc-q8rNbJPshFC2XIhPzDxkOD6B91o2wU9N4woMEB39fvBfzXs3PdHbDJOcf1jyBN-a8zC5zyQVmHepdhyxwxr_ZYv67FLMJscoRPAaYOWShp_DYWOCmjZ-C_E2Yo5zpbdRNMJzFSlfWvofw",
       "text": "ที่ให้มันดูสวยดูแพงอะครับ"
     }
   },
@@ -358,7 +499,7 @@
     "message": {
       "id": "611596057042223489",
       "type": "text",
-      "quoteToken": "YmCg7-q8pn3d7bCeS34vk2tdIeDdugGxrTT1fq36V7oK8XbEQ9I8LJ7bRon3du_kIMCEIrp7XVNTL_Ulw3WrXZtfUqLhMVxD2r8s1svkppl0FP4cusK-N409_33ZsD_F_l_NKXJXhtW5nq5Bqcv9xQ",
+      "quoteToken": "k_uxRM18wErXhqD-pUoms4vSBloulv-4_2GMaVFG22cESpkTMhVu6YdulLHBjK02xfZyMyX-hQltNmECH_delCej1sZC8zoI28pLcTixHMqSJC8uIY2cwvuO2E5I8pK95jMXWEijNhii-4psE9cHIA",
       "text": "เงา ครับ"
     }
   },
@@ -383,7 +524,7 @@
     "message": {
       "id": "611596047177482314",
       "type": "text",
-      "quoteToken": "ZVfc2UMVXIznYRi5qlQh9wX7ez25t0QngWblnBsdLuDf2FNo6g7CFDmlC_HP6wYpOyiUMJL7jlLwST46NM-qxMtpQ2PjkcIog6qW7n9K8gN5PZdarvNDeCfYFoXPEbZJk1xEAZzXJ9sCeGcH6eDEpQ",
+      "quoteToken": "M5HvIfnbFIe6-2KChQisWlceDfbM4DNc84IQYxwzEGkf86I-ejGVPi1U8NcoIIlxs--_Z3e_LEmHIk0wAx_gMSzrAMIVEulzibP7VknW6AyjXOYiFmIeocM7Mk67Ru7saSpr5Gwk6mIQCSTNrazxsQ",
       "text": "รับเป็น เคลือบ PVC เงา หรือ ด้านครับผม"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777370956697_39102977",
@@ -399,7 +540,7 @@
     "message": {
       "id": "611596013019070891",
       "type": "text",
-      "quoteToken": "ClFKseaZ-PX0JiWhlDp36hS9lteySmtueSxtwxNCMTN83Lhi4h2SnZeDEN4SiTLTR2hvFwBbp72p51wKLDrBW5q-fIEryjUXnh5M796K1IWhLla2kd4oHX55eB-ACAqmWIZyc65aTHOFxBbNmqFUSA",
+      "quoteToken": "81l8QrSHNaJxdlEqBLi9qNDkkHDtVYm9oFS9rBsdTgZLq_wOIlKz9z63h7CL6kbEXfIGEnqivN_V7ZCnrovaCwnjPzm6ycCgSPt3hFdMagNZRysBEt2zd51nZJaaK_zGJ4pDaNAud2JTpEJhfVBfJg",
       "text": "ทำแบบเคลือบ pcv ด้วย ได้ใช่ไหมครับ"
     }
   },
@@ -424,7 +565,7 @@
     "message": {
       "id": "611595986728910849",
       "type": "text",
-      "quoteToken": "eA_JiqoPPW7mvyl6WAm39Zo03e1eQzHiPQ2DhtSb0ihiSCgvFoQlapqaDq0YcNCdm1iHdR4uJdkUwWzsx0i1nI_P7TAYgOVWTth2wpSVZ4G21Xb3r7sC8VAlkfjk2CQ46VRIGUOFMUFg5UmxopvU0g",
+      "quoteToken": "uI9AX-YRqYetp4qLrfycU7PDWQWf3gkZBP0zi8QtjEBvZ0uYberpuE9BS4yhjvmTp0WVchGftFUFvMrVaIG72RtaAasIcNCIz2cSXRh-2zYMUhO3sUiboaLo04MxnzWJtBRl5PDq_yw62isknD66bw",
       "text": "🙏 รบกวนขอรายละเอียดเพิ่มเติม เพื่อทำใบเสนอราคาให้ครับ 🙏\n👉 ชื่อ/นามสกุล \n👉 ชื่อบริษัทฯ \n👉เบอร์โทรติดต่อ \n👉ประเภทธุรกิจของลูกค้า \n👉 ที่อยู่บริษัท หรือที่อยู่ในการส่งสินค้า\n\nรบกวนขอข้อมูล เพื่อทำใบเสนอราคาและ ลงประวัติข้อมูลลูกค้า \nขอขอบคุณที่สนใจใน\n 🙏Book and Box🙏"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777370920642_43444263",
@@ -451,7 +592,7 @@
     "message": {
       "id": "611595968642547825",
       "type": "text",
-      "quoteToken": "TDrTaTK6NFGGXswVlEonZb2axY4qCi6RgNtQsaVUfJvrkbvu6Q4ThJtixGXdDf4RnYFagUHTI3N2FO2RHVYOKU-SuT0hAiRVeny4A0RqhDshcoFeDWckXim-qS4749HcfHwB3NyQCXcfHRrR9T-nzw",
+      "quoteToken": "X_qsFKSxkqIAdrp--RlrzQvxxYNvVFOYtFkeC93ok_1F3X220OMu1t54eqWjEQq3JbNYeF5cixtFy8f3qXy78WNHYoX-i-KeArtMvlQ-bKzMCorvjv5BMGGLXMV7XgRqHweR0hhnbsagD2Sy9nahZQ",
       "text": "ผมส่งทำราคาให้นะครับ"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777370909994_98286495",
@@ -467,7 +608,7 @@
     "message": {
       "id": "611595733291761776",
       "type": "text",
-      "quoteToken": "vn50SuvHVHOM3rF4JXo20ALDooufec0kEsqPHi6lXP-i2ZVHgAeTIM7r_RpqjPIqGishTACoo4mRO6VtH_6xIJnfo-xDrVuqptJsl1tGZsSKauL7vvoxLGim02y6uI13J5xP_jiXVFxjkufSTxcU8g",
+      "quoteToken": "6KIZHTnOcrviShJmTuBIzudk0VFRR4Plh7OS82Epj8L6Apm7YQT-KtNPszdAc2sRGTJQeQu5Eo0BhxhUaPzN8IHl9nZAz68Gc7jg5yKjxTG_K3sK9tTdM_pOemNnMrPpWOYza3WKhoL8j7zDkegLzw",
       "text": "500\n1000\n1500\nคิดราคายังไงบ้างครับ"
     }
   },
@@ -492,7 +633,7 @@
     "message": {
       "id": "611595604493074809",
       "type": "text",
-      "quoteToken": "sEMw8HaIQecf09yUryFza2BDuAlaWu92v43K5MDR5UOzdc_zhTUMLKMFbvBAFezIHjrkbj5W6JkVxvevLISOuKwwitG58d5D7ndRksM9KuJA7G2U3H3NQblXxJtGJI_9e13Ch03pYIUGPk1GGg_PFA",
+      "quoteToken": "9sA-kHggKMM_PDb-MyaipR4fW4If1f0amSiE47gqLfpLIXttoSdYDAB8hQCkfhvfnwJwKVE3brUetJCbmb195D45GBPOsbYxG9cAOsPwWCdtYmzMvqOoq_zpI3hVeF7Ae-rhIzUmVTSyeRddqm1Qqg",
       "text": "ไม่ทราบว่าลูกค้าสนใจผลิตจำนวนกี่ใบครับผม"
     },
     "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777370692934_75460208",
@@ -508,7 +649,7 @@
     "message": {
       "id": "611594669600276873",
       "type": "text",
-      "quoteToken": "A4Nme634u583_FZ0j3gc9QlM4Um4f9N1JO5wnKVI5kxkdpf96cKI71SIR9B1TddPASRceYP4ndTz_lCeVO_Zi2Xi_zOLoax3RgdTi7Kh79bum1-rawRmPKMNM0mBwpb2yuBGiGE2wjMMgMN_1YpsYw",
+      "quoteToken": "xUXja3MJY0Ju30ys5sfcfebbUDA0l1mSMubnKXwaDDapsU04Q2t42bWCzPODqPyX-vpukxlPuCwaQ_eQwWViNWBfoAGprZcFI46xUBhi9sM6do_XS1oybTVlQmTIde3nSS3aawIfoVbpFViyYJij0A",
       "text": "ขนาดประมาณ 21 x 44.4 ซม ครับ\n"
     }
   },
@@ -522,7 +663,7 @@
     "message": {
       "id": "611594648679088606",
       "type": "image",
-      "quoteToken": "inlJSaIPJ2krNQMi6d7FOzSxi4aCVW744AocSgzAcOEhIgT36QoNp1OAE1LQt27Dd4fpi991sv7b6nftITWBREILo46aQnQ8qiVN2pybk3K16zbXmyvF8JijTsnp5m8tKnYvqGgEkfCQfIowPZ94ZA",
+      "quoteToken": "wsOs1qZ-5BRSuBWl-MOckRB0cXSUXJV457BFI3fQXoQopDipMB9AmWBomO2wFuYRASRinOSKfyT_dJ1_HUfEX5MqE05YJzd5ct8-a0T2uZ3HVFQMQ6zTERq1pW-7ReGlCsqpSZC1BmrHF6iAexhxfg",
       "contentProvider": {
         "type": "line",
         "contentHash": "6d9diigkgJiVc04pcljyu7kEiPX522whPrYwC2347mRj1HotoVcbP3C4F9FbhTHD1yW3OhTQKMRn9Mc57WzIlDBjQ-OheZvCE9JO6xx5TE9WhC-_xHnHODmwvtmyOHlekCPUNF5rJUTpUxwFl42Qjw==",
@@ -544,7 +685,7 @@
     "message": {
       "id": "611594549928132916",
       "type": "text",
-      "quoteToken": "jPEapKaWPGydfhZh_8PJqWEvWp9Xq3xisi-H35Hsu8p7USNaV0z2dktJpKswUk2Oisfqsh04q2SSkF0R5UAQIo_VUgW-REIprbYK8gNg3RnCXRgjPtWrzX-0zkCiIPGukwJL1v6TiOI_0ou1A5Zcaw",
+      "quoteToken": "Q9RugbYSupAXGf3k4_bbIYvG7XrgW1cJm7CAR0cXarfzad88SY76U95xcG-oQ4lSgOHjXRIoEMXaUMf8Bt0sXhVsF4_nQbkylHpOBf82B3kj8gr_btht6fW5UU-L_f6GeI6z2I9R-jWm2D0_42anFg",
       "text": "เคลือบ PVC"
     }
   },
@@ -558,151 +699,8 @@
     "message": {
       "id": "611594522027622933",
       "type": "text",
-      "quoteToken": "hHrcsC7kcfXcONDV_jcCoSAFoUWof81VgJXz3vkKlCUq_XCmFthNoKrUEe0dQsLAOEbR8fhvTsOEd_gYAKyAef3aBD0xkmlg6MJaE12kCYKmgBLNEU8-p06R8iFVoQyReYtALyQmWLolteKWFLrvAA",
+      "quoteToken": "wIVtlE28AW_bjuUqSMXirz2geMyG_LXm9f2ogzxUKX99TuwCwP5wqsHTxRzRJS1NUzTZZCKa6sor_Rb9UZOVudLL9XdcFukENhF_sAZjZAURIGgL4UMEepoEKH2kV6eObNZVBSBgmT5q4iQ2TCLDVg",
       "text": "แผ่นพับ 3 พับ กระดาษอาร์ตมัน 190 แกรมขนาด A5 เคลือบเงา พิมพ์สี 2 ด้าน "
     }
-  },
-  {
-    "type": "chatRead",
-    "timestamp": 1777369949955,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
-    },
-    "read": {
-      "watermark": 1777369949955
-    }
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1777369945279,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "611594352493855197",
-      "type": "text",
-      "quoteToken": "BdY2pnxV4wiM-WyPyBrjYS_KtwPK8RRjk2Dj7G3_yyXQ_NwQpy3Erf4JFRZDC8827Esy2huUU1W7wUkM-MLsPTrKN17YDo04BO4nDSBPVvn-tcMZXKQMzmyd8GVI91-p2x4o0JZ8t1RqyHMvLLgFmQ",
-      "text": "ลูกค้าสามารถแจ้งสเปคงานและจำนวนที่ต้องการผลิตได้เลยนะครับ"
-    },
-    "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777369946588_18380703",
-    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1777369930567,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "611594327814570123",
-      "type": "text",
-      "quoteToken": "7GiwjtyzpQs2JHbsnqJadZNTxNryQe5GwVmW8_80JgVEbw1Fxx0_Fnvv8ZQjtFlhqcN9zFPQ932YVUIv8e1umZ-lri4lDvniY0-SNcO6pTp-FP3xeqH785nQsMgTfmE4-QCoCTbmZ2z7Xj8K7X5Gjw",
-      "text": "สวัสดีครับ Book and Box ยินดีให้บริการครับ"
-    },
-    "sendId": "U9ec3e530be4384cc94dc72b0f03cb699_1777369931852_54343210",
-    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
-  },
-  {
-    "type": "message",
-    "timestamp": 1777368360734,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
-    },
-    "message": {
-      "id": "611591693875544462",
-      "type": "text",
-      "quoteToken": "_Gj_Ndm1XN8xX1Mgd0ZTJCkiAZ6uRA9LxVzakXSp58kOChL7PcyduDRYPiKqN5U8Sw7gH_RC9fbKCprPgdswTZG5yooEcXTrqlOAZoyxbdClnuI2x2D6rCp91NarX4A6rcRn5giYo4abyB9l_rTtNA",
-      "text": "จะสอบถามสั่งผลิตสินค้าครับ"
-    }
-  },
-  {
-    "type": "message",
-    "timestamp": 1777368351739,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
-    },
-    "message": {
-      "id": "611591678826381319",
-      "type": "text",
-      "quoteToken": "y6tQpZ_V19m7l2nIkLL4GVa2hzgcA72jxQ_TPnYGvDk0YQc5qWB8XRr5uLUxmQDAMBe0ITv6noIhN1ktOUIXMT_SNJbVtFdNvkiaK_CDikZxKublGZMVUeX3JAJcr0M8E37VL29dBLWDEAeIaSRrXA",
-      "text": "สวัสดีครับ"
-    }
-  },
-  {
-    "type": "chatRead",
-    "timestamp": 1777368335971,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U9ec3e530be4384cc94dc72b0f03cb699"
-    },
-    "read": {
-      "watermark": 1777368335971
-    }
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1777368331446,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "611591644835218017",
-      "type": "text",
-      "quoteToken": "PvDdRPxHnlZPeRp5VHabTJrOFqK96OhxLTqS4hquNos6qKAHeMQFHCvWTMKKYB9qBIv1o1avI-PpINbXhX3dy8ydS9pkSfILoWw95xPUnS17iO3kqBjudNwLVRZtterCdmvLGze1sn143osDprF-oQ",
-      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
-    },
-    "bizId": "__AUTO_RESPONSE"
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1777368331445,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "611591644936405556",
-      "type": "text",
-      "quoteToken": "lLM_1DL0GddwXA1eVNmohBtTHux6NYDNUiLB9jLHb4CnFqSEigeHdb31H-TgAgrFw2l08Uq0Znf24Tv8bJpqTHAH4mSdfayNWY3rtEQtZl8Mdr5_rRpxAryCYfHklp5YKbqWCOEnC6JqVfNlC3tKng",
-      "text": "สวัสดีค่ะ คุณ Tom&Jerry BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
-    },
-    "bizId": "__AUTO_RESPONSE"
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1777368331444,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "611591644936143196",
-      "type": "text",
-      "quoteToken": "nQJwRRtv5q_3ow5NtQmPw_wL7wAbrBWJTt9sjM8OBixhCgSmUTv_QlIMMwAY19zjH6W2N8cL7o1wCvEQrfnX3Lhvqal54pjWkitFjorA6JHhYtEimWeQsoROJQ5175qd0JyrGSj9tZGgsAD7Qln1wA",
-      "text": "STEP 7 วัน",
-      "originalType": "flex"
-    },
-    "bizId": "__AUTO_RESPONSE"
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1777368331443,
-    "source": {
-      "chatId": "U9ec3e530be4384cc94dc72b0f03cb699",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "611591644819226695",
-      "type": "text",
-      "text": "ขั้นตอนการสั่งซื้อ",
-      "originalType": "rich"
-    },
-    "bizId": "__AUTO_RESPONSE"
   }
 ]

@@ -1,6 +1,33 @@
 [
   {
     "type": "chatRead",
+    "timestamp": 1777512388469,
+    "source": {
+      "chatId": "U9a19b645f451a48f1261a27607944e64",
+      "userId": "U9a19b645f451a48f1261a27607944e64"
+    },
+    "read": {
+      "watermark": 1777512388469
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777512171249,
+    "source": {
+      "chatId": "U9a19b645f451a48f1261a27607944e64",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611832967975141770",
+      "type": "text",
+      "quoteToken": "A8iqAB_kyiZEuL_k4JlRMVBAWUfN0Wu5U-I-ifGN3z3wJFOBaexhfCi804W6uKtQi37PhuyFBOmZocQvaUoRTzKJeHUVGv5xw7zA5ZfqnveqRpYHnuy4uXsy5CZemt6hmNa4QXnyHa_Tq4Mkex2vKw",
+      "text": "หนังสือ\nขนาดสำเร็จ A4 21x29.2 cm จำนวน 116 รวมปก\nปก : อาร์ตการ์ด2/S 260 แกรม พิมพ์ 4/4 สี 4 หน้า\nปก : เคลือบ PVC ด้าน 1 ด้าน ( ปกหน้า,ปกหลัง )\nเนื้อใน : ปอนด์ 80 แกรม พิมพ์ 1 สี 112 หน้า ( สีดำ )\nเข้าเล่ม : ไสกาวด้าน 29.2 cm\nจำนวน 50 / 100 เล่ม\n\n50x170 = 8500\n100x160 = 16000\n(ราคายังไม่รวมVat7% และค่าขนส่งครับ)\n"
+    },
+    "sendId": "U9a19b645f451a48f1261a27607944e64_1777512200862_28711107",
+    "bizId": "fdb8e410-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "chatRead",
     "timestamp": 1777465107388,
     "source": {
       "chatId": "U9a19b645f451a48f1261a27607944e64",
@@ -31,7 +58,7 @@
     "message": {
       "id": "611752570649575770",
       "type": "text",
-      "quoteToken": "7wzgkCd10ZhrdIzlUfv93FzGF_5_MPvGK6otVowN0jIe446lU7yxBdLe3zquJIXrQSzoB5BIQ-i_XloJf6RSc0AXKAdVVdDWveq-32ds2Sb6su1VhvSAS83zqfzkSoO0bDPhTGQWQ6w3mqxsemAuoA",
+      "quoteToken": "h38fbq1Ah5XsPRU9eYf6uEC-5B-MtJgNdqMCLmICY-LAcdhDYA7Jw23eJNadzrxkwY3X-ePQBqg20zWJVk1TxmG92Ma2gE0P8zL2VX7UyrcHZq_CM7kblTcFAS4-zXIkS7wYI2J7ctfB-SXzXJcucg",
       "text": "🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\nสวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏"
     }
   },
@@ -45,7 +72,7 @@
     "message": {
       "id": "611752568636834218",
       "type": "text",
-      "quoteToken": "FTBreFM7BGPYX9FTwQGNyg5QSv_bOfTWJV3UNHxwrmh1lm6f1lJKYlXS7J0cdJq2FPxZmsu4r3VIjPg6rtqFLp97W2wsGbJoh0MyHeqkyiawtxxv34LZ1uCjAI5k8gZCV34j9pFl5Luii5WY1ebUuA",
+      "quoteToken": "Yi7pO_K58ZJsHSI7nhEpwwtIdFWOo09ekBhje2TI8lbVBTsmM2JMEJfdwRO2LaURZRoe2hEKnyYOI36sCqUY2tipAfJO20QP2i99uDe8y11Sp0vUJH2YVH8g6GNRXFBJ36V4XNZZIT3TT3OYxrVLQg",
       "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ Joy burin \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
       "emojis": [
         {
@@ -68,7 +95,7 @@
     "message": {
       "id": "611752567647240315",
       "type": "text",
-      "quoteToken": "V1X4fjDfTYM9k2c8LdyNhfGorRUDW1kEJFXuew7NHK9PDHUDPtov4jGCC3xhEWwTduuy85MwnJMNYj3S0QX52r9iFKWiuo46RBo_48ot-Q9rgg0aw5i5pKGi3q26wPWUSKsciiZuxWZ0uX4KtBYdiQ",
+      "quoteToken": "Kf9PEEg5jmmge9OkD9I1c7MbpJXKR5Z1eMCXI_ktMxSd8JkroOmtRCF3CUVjacCmFAYZylBsOM-zlUmj8rebk6d3oa0HVALVEU3DKJvsk-yf0nvo5ZJki88-hofFOqDBteIcvrapnyIy84IG1FW5Cg",
       "text": "ราคาได้ไหมคะ"
     }
   },
@@ -82,7 +109,7 @@
     "message": {
       "id": "611589018898923925",
       "type": "text",
-      "quoteToken": "4NMw2XWh8AEfYnScZj5Wdkllttc074Oyq5tRe1CyDu4aWgCdJvjOBjhvktnyXOcKBIN6jSvgb8nPH4SuQFJJP9eIcB4A7GjiILjFd2r68NBZnocF_-m1ofJBVSzRFFqR3qJnbBmzad6YCzJis177ug",
+      "quoteToken": "7d1P7aDxXjecmH-motsOBsVgQkUrotde8MzUPxA9vixHmvZ6nIw3PFFaKR6Bql4Fzk3LfGl871uqaxYaFricWpHJPWaAvrntZHmeUEkkCAyryNgmPdC0rNoYJcoVOI6EQIsLGqp1EfC7_bV6V8w8Xw",
       "text": "ขอบคุณค่ะ"
     }
   },
@@ -107,7 +134,7 @@
     "message": {
       "id": "611587312690135246",
       "type": "text",
-      "quoteToken": "XlGdpvaWDI48XaShlaiiyP9r-AzyNP19sdf7minAo7fWTlaRQB3AdvX_mEIhmDDPJGkCPbNRB_--56BLaSLWODWU73blecp7nQBB2eOKYQVNZdSrd99HJ0ezJJbbZdPpAjkHq8BSD6KzKicENck_CA",
+      "quoteToken": "-72m68Bk1VMcqyXyRAPu2kLzsMEMwEpLme_4hYbRaiUVjXYrpHUlqmKsUC90yXyJlBV8ImYya3b4NvyUOI6BpYvt8R_CRreLVHd7mjcALVI692e1px39ljScrmasYU-Ado0qwLnDExu7lMq6ZT7XxA",
       "text": "ขอราคาสเปคนี้ให้ครับ 2 จำนวน"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777365774214_10332077",
@@ -123,7 +150,7 @@
     "message": {
       "id": "611587305274605756",
       "type": "text",
-      "quoteToken": "MEo1gTuHpTmYzLRsrcdBtmWUqMaKsRDXA0AiT2t93Bqmf2pfPUn_scNJYqeFwXm5GqT4gOC_hO_EVhc5RVuYuypM0hV72PneG3oNLBKwhjlfwMOvGULJAcbMeK2QM85ARfb7_ie84ViUESsqkfRseQ",
+      "quoteToken": "C4WnbLv3-zrcTLWQKwg0nzNwGp0MuWSVVztw6PebbqKn6YwCsaPNiY0EKfYduHGmGHl2uFVR24xsYIX8HPkW7S39yc908ujNLwEaAo7Ca2bq2hoBa1hOlO2eNOb-2cKEWP3ENHyeWmRiL6iviKKK9A",
       "text": "หนังสือ\nขนาดสำเร็จ A4 21x29.2 cm จำนวน 116 รวมปก\nปก : อาร์ตการ์ด2/S 260 แกรม พิมพ์ 4/4 สี 4 หน้า\nปก : เคลือบ PVC ด้าน 1 ด้าน ( ปกหน้า,ปกหลัง )\nเนื้อใน : ปอนด์ 80 แกรม พิมพ์ 1 สี 112 หน้า ( สีดำ )\nเข้าเล่ม : ไสกาวด้าน 29.2 cm\nจำนวน 50 / 100 เล่ม"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777365769746_84036324",
@@ -139,7 +166,7 @@
     "message": {
       "id": "611587168590364696",
       "type": "text",
-      "quoteToken": "PSuHJ7IXyV80D-7F-ilTOR45snd8buYL5z8h1t4yE_ARDgSC6ON3ID1EJfoMaSbkcAJIFBIlCSWc2Gw9M8tNjFOIV3goAGXLxu3OstuyQ9XejWJEbx1ZBEfzfPv4ac91VTNoE2Svz9ruG9eLJUaYSg",
+      "quoteToken": "3t_LRK-EUju2w-dPveA3BXlj0DldsZEzn1XFH2fWUd4q5jHhcFsUWMRz9zH0LLMEim6mdCz3V6UQDGyfbk1e7ZPgcNfeSu1NFeEeInDnT60NXY0vrSjLb_LbhUxU0Kq3jqM5n5cx_6vtSgjZ1V12qQ",
       "text": "ส่งทำราคาให้ครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777365688529_7954280",
@@ -155,7 +182,7 @@
     "message": {
       "id": "611587165487104446",
       "type": "text",
-      "quoteToken": "yEeiWoqIX_MAgo0X-640YiwkMcQYgq9rcm-lerfh8em0f_U1S8iGZaGvx1xhzicIHNeyWNt1vA8sye1a_PXEvpdoVNxzzWOPXYeRgXOlGMO8m7NITV594k4xAYbW-DH29A9K6vw0EbMFBsTxfEmkcA",
+      "quoteToken": "t8RDV1E8jNeEiCUkzp5tXuWYsT19y_xZNQ3RKOrx_W2tRLlrK14aR0eDDqx5JTxiox7t8ErSsFbXI5rkYJXj_waFGDIBYscEjZfwRgCV7AuXcLccZI8VmYfE_mxBL-d2hgr_9L4Hxi5ZkzKD74jOjg",
       "text": "ขอบคุณครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777365686266_83000480",
@@ -171,7 +198,7 @@
     "message": {
       "id": "611586725420728850",
       "type": "text",
-      "quoteToken": "jPxXPDXwB-d6WCljPkeCA3XC1z9egGKbguV6H2-k2enyuMLGiwcKRQLxG-dXdpxJDwhV5ZnKMMbLaxr7seu2tv2cEwcZ8-8qchee2MSTWr0LEUGAr_SQ7_ojlbR-xA6OevMtzqhpYkAd8nkhZc-DgA",
+      "quoteToken": "MB-4ErBFVztszfKobSpQGzxTmKcFeYFak1UWYpxpWmRb_gKZ_F4ppb_lS_iSTbtLe8lHcNIqn1z5ECoAzJIbeow8vGej8ro5KCMJWL0Ozotu6mrMip2rVWJxILIgS_6z6srB7BkbdgPJtlycCFopNQ",
       "text": "ได้ค่ะๆ"
     }
   },
@@ -196,7 +223,7 @@
     "message": {
       "id": "611575941243863218",
       "type": "text",
-      "quoteToken": "563ESbtoNdOpZtuDOM62kPsR9FwNJD-M1YuTJ8xNqXO9QtTrCU_lSAgvioUYKv2szcfWxY64S-7rxspco5DBIGoMb2ao8pL-UE5qrfwC-1mT6Qw4_tQSplPkr6Kfhjq1Nj3KL6HcXSx0RgpB8KAx6Q",
+      "quoteToken": "9jvQgZiXRauMFJ3GhbiTRLsZc126Ayhopu6m1fQULvCy2FFDI914B19MBYlUn2rQyeYgYUgds9AQNCIQBAoXs1N1TvBeWlouIiddOy2K4L9NmprvjjNPwCcG4nqrTaiLGPYu2aoixjjSJEGXv1tGVA",
       "text": "เพราะต้องเข้าเล่มแบบไสกาวครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777358995976_5808509",
@@ -212,7 +239,7 @@
     "message": {
       "id": "611575931345568460",
       "type": "text",
-      "quoteToken": "es4xr0zuz1rz9AeMWh7YFtfS1ZYcg8NHDjKQDPVUPIwwyTm0YdAtav93f2hiWH5RU2-zpVBIx5GG_8C3IvXk-5ofN_G_z2vBMs3a_pgQR5tySohZTfUPCNaju33Z1qmWvZv2UXq5GGLTOKAzT5W8tA",
+      "quoteToken": "kd8Mlua-gQr63RAJtsaW_XHFwx8Ld0BuPfwPJ4f89eFbfkX3xWgChI3O8v1ZNLt25DOAJjSvwboUVrF6ukckZ9qnzgZY9xHvDYvSZptpq4Ys3El8v76_YdYWOeyVHONmvP85zmMEzGEj6gD8HaWVvA",
       "text": "และปกน่าจะต้องใช้อาร์ตการ์ดนะครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777358989956_945695",
@@ -228,7 +255,7 @@
     "message": {
       "id": "611575920608149987",
       "type": "text",
-      "quoteToken": "pGLSeEZQvTiRkVh3ag8F8v8oHqHU6PYjSTRijRP4D2VVtoIIsACUYQ0aOSWv9Od8pa7NGAo434iyNVMGJAowXXtdB8LiT8q2weR9_vw0rTRnAWlMd2zJAFat2_eEhqtfJYuUPrXRW41-cFmKuEcAYg",
+      "quoteToken": "jIoWUoBIJJ0XOCmgbwFwyONGdfNjpERDwNW-cr1Faz0eeOZbyBCTUwzRASKoFUqcd58hrod_Nwy9TrdjtzzIb10HnSl-WK_oIAUjX6vWkX38TE7APkgLgefdUXN_-cqeIF3z3tbDrngBBAN4nFNUTw",
       "text": "เป็น 116 ไหมครับผม"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777358983737_73982908",
@@ -244,7 +271,7 @@
     "message": {
       "id": "611575915239178492",
       "type": "text",
-      "quoteToken": "5v-TzOTDsZmBCTh_qFvqk4U3EDWISV1Bdunc2FHQ441sYYqV0Fsz52ADE2GT6pLq8Xe8dkOhNdanAXzp9mtJOPMymO3ND-RK7ngpDsXvFspjqww3FUtDhY4kyVvqKoQZ4cnN7E-6RYpWhJTZhqVtBQ",
+      "quoteToken": "OCrLB7bDgmZHkzS0cgEAQ5VfTvLrlmYNUtj0ovS3qKItYnY25sjMMVAkwQjHAt-bNq9arAvXeWTvJivf1zJSKIrqkFiSmRc_vbnQw8888mmdCT63_JUl3vSa_0jNamdUVZdP3G2ecJAOonettmyN9w",
       "text": "115 เข้าเล่มไม่ได้นะครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777358980373_53693639",
@@ -260,7 +287,7 @@
     "message": {
       "id": "611573180099985717",
       "type": "text",
-      "quoteToken": "FF5MKUHTfH0eiLE2DAr2vZ9laJCn9lk-8ohVaRt69y6kLRdj73yBSGaMwjAS_Y_b-Ekt_2S6_YLS_UC5uhYjMDV9ye-73MYYlT_cXIyVVXEERHLbyx1TbSQWU6cnG-uUO7ojzo4APx6Eu71KWrLJLA",
+      "quoteToken": "WCvuVfASNGH5ArVOfzpjrlzsqo5VwOBL7nMXuU3l2KGi931VyrmSCrjg3XimGRe7HUWmlkKYIQv_YtggzOEDoNCwXxquWDnjUrBoP8MN7wWpjTTPQP1vsEsaeHuDsGWdhdUaZwQ0xuZjQ3hFhd7GxA",
       "text": "รวมปก"
     }
   },
@@ -274,7 +301,7 @@
     "message": {
       "id": "611573175385850147",
       "type": "text",
-      "quoteToken": "EyPYF4lGOqWm5kgjJ6aT04B9A5aKSNQ_276MZZztWJLLn5eBer5bA72HHHdVDyEHxo4gZek8dsUD1wqn3Z6B1vlBJwrQzPFDSnb8A5iXdVONLyJnpkUfb6JnR70Ubmn4JpVhua-DjpbAuCPvb7uSFQ",
+      "quoteToken": "9c_8TLcuEi3iXQQS9gPyvBSxMv5MInJHnIKXKlsJVKSQ2-lQi2SyYK9mHbZqazdPdD9z6DeoK9-twPDrDgPCBCCk-Up_wW5iwGr5OjBF0yIpqvGBvWr7BP18uwP4J-JGJAI_mkJRki7CeU3gzhVB1g",
       "text": "รวมทั้งหมด 115 หน้าค่ะ ขอโทษทีค่ะนับผิด"
     }
   },
@@ -299,7 +326,7 @@
     "message": {
       "id": "611573135304819231",
       "type": "text",
-      "quoteToken": "CV1Rhe-aPJwMckx0AS02c_HcgA5IxJR6xSdNwhb5ab5sajI88MS0Z-632M3wPbD7BaQCOggK7k00anJ-lya6jGJfUvlmhzHZN3lrVM9H75zMBfRItwWbG_tCX9zq2S6y04-OAZfAymu7vlEpAFldZg",
+      "quoteToken": "YlPMhGNaEPu4puMA35T4-WX2SPWsk4seyibamV3aHZCA-4UTWvSwYnz4tD3u16rqckNXx1GsjwVCHARy0VsuuaR27IfhihMzoVKyfMb4D7GFqrSc07MCs1mkHhnEdQwZyVjeo4CGgwmLmnEXUkhU4g",
       "text": "50 เล่มทำได้ครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777357323432_63862807",
@@ -315,7 +342,7 @@
     "message": {
       "id": "611573127939883588",
       "type": "text",
-      "quoteToken": "xWZYIDfkhnhdhqMxyRNqXAqYOBwgWkae4MvnKKsjdJ4hK3cEwyw3bxQvqbsPwmaU71PSXMoPRqJtp-Gb5fz7bkHaFAN8jfXm-lYDKEM96zbQyjxDMf_EAKopriEdyxuRhMlWwnLai4URkjuDro-6-A",
+      "quoteToken": "aQ5UBlF194ZctFNECdN55AOmRAhYZCOhbfECCenI2j6I1GQGiVSSsZyeTUr81nuhjKhAUG_9N41RgS2oVM8QIebHd9dwQPIYQqbvOZNJoP0RzUA3gsYLnBMTJhiAf749XU70CyOCQc2fVsHW_5DsXw",
       "text": "จำนวนรวมปก 104 หน้าไหมครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777357319005_93765846",
@@ -331,7 +358,7 @@
     "message": {
       "id": "611572859840233850",
       "type": "text",
-      "quoteToken": "naNdwET6lxgSo3ahu_PsqXSo78hBnytDypdmQjGgacxLef0z1-uHeD_hng438lftc2Hq40BdUJLWvrfVqur5r6r4ErkUjqAfhsQELyTbmnE7ID247Bc8kz4gq0ZK1Dz70TyG5_17lQQM3udcMxAbZQ",
+      "quoteToken": "q8yOuiKp5yAv4NuBwLmkyCueAzh9cnUcrtIQDKzqeHc0Xfus4mPjOWxP7dyrcSSqxeBfmmKZgIWu4u7G3uBOF7RQZ9Jzc3zvgpU2_hA1nWhL0yyr-gwDTH_JC058JSkQzGNZl063ouZ6X6SRVuSQyw",
       "text": "ขอสอบถามรายละเอียดค่ะ\n\nพิมพ์หนังสือสวดมนต์\n\nขนาด A4\n\nชนิดกระดาษ / ปกอาร์ตมัน ด้านในขาวดำปกติ\n\nจำนวนหน้า 100 หน้า (หน้าหลัง ไม่รวมปก)\n\nจำนวน 50 เล่ม  \n\nรับทำไหมคะ ราคาเท่าไหร่คะ หรือร้านรับที่ 100 เล่มขึ้นไป ราคาเท่าไหร่คะ"
     }
   },
@@ -356,7 +383,7 @@
     "message": {
       "id": "611572726142075428",
       "type": "text",
-      "quoteToken": "WHeBRCnPq1VGyaO7zYHxAwqKUM1m1oY6oQHm4wpMolZG4hHUkcKu43xRFapLZY2iRKFmZtR-axJLe7EYYXChjsLEeDJqN4DJ9AZc4wOG33pUjacA-C920hG-vR5IVnE8DDy0YK9lSB95rM3kAJKD-A",
+      "quoteToken": "WOIYhxAddkWR0HPNv5vtADofam3yfRMHBQz7JCAsAfqt7DMiClh62Ahj4DpygrBS8w7kwOMiEzUbmE1wzg_OgWi65K0BS3ISD4HqB7dHplt0j_snJrsp6Rn8o7f5Zsw21NtDv3gBgfRrqZIs8laDCw",
       "text": "หนังสือขนาดเท่าไหร่จำนวนรวมปกกี่หน้าครับลูกค้าครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777357079644_62330617",
@@ -372,7 +399,7 @@
     "message": {
       "id": "611572713038807205",
       "type": "text",
-      "quoteToken": "2T1iam0yck5psMOVsrtcRqxBem9Kg8icMIM31CBgnfRCIMF3pnNbld6GtXCJykG1bNVmFHyl8CwNuKUBPoB35l-JctYPOARIskGGaCsOsCkknibV-YSkOW-stHmI6LcApx7TC5O_8rtTBNEgWVOy1Q",
+      "quoteToken": "AAEQmAG28nFP4n26FSRbqxw4uYfX50WWLt6hiZxxHT8coJMStOQsztmFWsOF3I6yRWWjWaGNURkYaJOQG1CSLegdEJCxujWwL8G5k-5KUJByeYjzR-JV_m7wm4gdVAgfRJkK7tyySiim8Ab3brIL3w",
       "text": "สวัสดีครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777357071796_75244981",
@@ -388,7 +415,7 @@
     "message": {
       "id": "611572708945166445",
       "type": "text",
-      "quoteToken": "YMTP1J80lREU90onB6hcm8olv4cZFPku7n_kfYmuCXTUOgi3GwYkGDXkVzSX7nhrITPxu4nagTcrWVAL9qQCKRou0pEbGq4WzuMzrEw7RV4UgRQxSRaSlUk5Ut0qKHxOm46VOcKtbl5eAW3X06V12g",
+      "quoteToken": "htkdaN8JBq_tkDGafw8xpsBq92e_AMjkqd_jo93GZ7gin5Wkjeki4gJb7Y5LpU3OE_WuptHuNqGDnPvK-e7gjqlBjTMkGBdwYMeFsil4UyV6vayFJJpAwyb3bNsY9LfeXs9QdXMwOwpHEzJ6KuKBLQ",
       "text": "บุ๊ค แอนด์ บ๊อกซ์ \nสวัสดี คุณ Joy burin ครับ 🙏\nผม อีม ยินดีให้บริการ\nแจ้งรายละเอียดที่ต้องการพิมพ์งานทางไลน์นี้ได้เลยครับ\nหรือต้องการโทรสอบถาม📱 086-422-6694\n*รบกวนคุณลูกค้า 'กดปุ่ม เพิ่มเพื่อน' เพื่อรับส่วนลดนะครับ"
     },
     "sendId": "U9a19b645f451a48f1261a27607944e64_1777357069414_37115482",
@@ -404,7 +431,7 @@
     "message": {
       "id": "611569208212062481",
       "type": "text",
-      "quoteToken": "u34IxlKcssQYLUUOW04HlmVV06wZLek6m5rnJTIp00jpVNW_5IxXrqZQAjBIXYuVSTvxy57T2xRcj6547zZMMFQvPPaYQOn1OjeVOx1InD1lkGsouinPEdCl91f9xgGaUa9eeF1m5251B-dMzuGswA",
+      "quoteToken": "a2VTY3wVC693hIRwarCp9cY1zsIM8HiDvfxm7LyaZYpJDWkINw4cjQtentZL5mFWLZRXNNx5SQtKh1dcXRGiSI9YQcUfOT9liNzQqfTVT8_QQR9-jzaFz3xHD3m60QbiV0wX2xZMkFhT9FEEMmycTA",
       "text": "สวัสดีค่ะรับพิมพ์หนังสือไหมคะ"
     }
   },
@@ -429,7 +456,7 @@
     "message": {
       "id": "611569161889383042",
       "type": "text",
-      "quoteToken": "9D6KDeXHTko-uTLnya1RY7XGgAQ5RvRJ4hsCvmkQ_sz3_betQmJldchEP5eMkmGyWsLnh3WZbAREShZA3XuZ0qm0Vbmzsjmvz3-M4kfna-0_8gzwwCN7hQhfynV_STNf0KxlAiyHMIXKW8Ls1c1Rqw",
+      "quoteToken": "xt2zudv_43HXIBb3LPR839PVerTAE4L18Uas-Jm6SF4gRrZVMD8XcTONGJa3-lS5KmMRa-zAlAYmL-X13spyGTv1SVHsnW5_OeZsLCCanbf_s-mbtuUNu47X5A9mUpuA-FCgbRUStX97oJdSFrnZCA",
       "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
     },
     "bizId": "__AUTO_RESPONSE"
@@ -444,7 +471,7 @@
     "message": {
       "id": "611569161722134608",
       "type": "text",
-      "quoteToken": "nnsC6ScqFi8rG3m-bG3VzCsKGwYElPsULN6TlHeyAfYBr5X8m6fGaX2lujsOZ0bSy7IPvy_CHZLY0npkqkVNj1NtqZLiTOr41CsCECHZZHFRhWrEKiYpfvmoifExr-fN6ww_e8O_IETF_pYAjWLbvA",
+      "quoteToken": "7rB71YGzMqJ6mvwV15cLnEbz7_dZdM5hM7qDnpNQFQd4BSvZVYXrfrqVxvLtrV1QaAqpeZdztRSK1zOSNYW8m7Z_MmW0eDscxZc6d6JlLDTIOiv7xx_89PYFeFsTHUOb6qkqJq0BTtIA0Y2O6go77w",
       "text": "สวัสดีค่ะ คุณ Joy burin BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
     },
     "bizId": "__AUTO_RESPONSE"
@@ -459,7 +486,7 @@
     "message": {
       "id": "611569162040901786",
       "type": "text",
-      "quoteToken": "XbN2lIppWlzjXmFLb_sawn3SY0LzZBG3yvjOOS1ySTXWSTP0vh0uCYpaj01aykw1FMwfrgfgragHCgS0-VSAQt9lDkOGewyBCDV7CYMw06C54oMZuSUyMcgztl3w83fcqoW6yhaJUgertGIVC2ZYoA",
+      "quoteToken": "x17GpqB49nQP_WyFnmeY8A6HYMZcndcAjl1f-VfirC-pwWN6tT2CwD_RFVFm22letETukKaU29EFSVz_t3RkgbHur3NDqAzH5ZR9QSic13wsZaIIjuDSbraDcsyGODrccyXz_8EQBXVKGNtTvm5oVQ",
       "text": "STEP 7 วัน",
       "originalType": "flex"
     },

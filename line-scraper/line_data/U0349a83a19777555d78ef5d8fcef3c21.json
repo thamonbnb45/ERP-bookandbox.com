@@ -1,0 +1,317 @@
+[
+  {
+    "type": "message",
+    "timestamp": 1777533469864,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "message": {
+      "id": "611868701213327994",
+      "type": "text",
+      "quoteToken": "7jBiJx__wnPku5gGkBrvTiD2f4hpD7VeChlZ4YbRMGqEKR6dypB92EwNIqgvJOemybKn0V0NITCEQS7RicjiATTl-RkdBzkTIXK3TvAuruW1jX_uLW6Tc2pYJw66KhMF5tXEuTbCF_-efI39g3H2ag",
+      "text": "6x9 inches"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777533461871,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "read": {
+      "watermark": 1777533461871
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776746305882,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610548059201602178",
+      "type": "text",
+      "quoteToken": "j8m7dtGJYiUiZuAdeYMfyRjG8RqYtkoKRJZaKzYoT4haQhj0kgb91Em_kNOPPAOOHCR0xIZV368wZew0AqJcXfpLwdFC6rIbA24owi97tZk7DQ6vBA4vxFJJMo7vAaDxAZ7UoI6LYoTdf0GfA7rc4A",
+      "text": "What is the finished size?"
+    },
+    "sendId": "U0349a83a19777555d78ef5d8fcef3c21_1776746306628_94514797",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776746281058,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610548017308893346",
+      "type": "text",
+      "quoteToken": "REFse72mn38H2U2GsHQpmRfuWFC4oCwrlarNSyES5MGXmgjk-sOJO1yF5def821hBkMxdZiD_YqhIyeq3-BVL1FY9ffhnsZif_XEzhMqzEFm7kXrFEq_Rt9i3cqdyRYnkTlM9xBYqj9cyl6Gy3_AqQ",
+      "text": "Please provide the specifications for the required work."
+    },
+    "sendId": "U0349a83a19777555d78ef5d8fcef3c21_1776746281796_63587700",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776746102808,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "message": {
+      "id": "610547718507200582",
+      "type": "text",
+      "quoteToken": "ePwirM80ewI-LwDl84jgRijefv3zcA8XPwsIUyvMOzVtZrGzomUciuc2t68oFe8snJe4L4H_JTlFEbtazmEU17-0tdwOiADvHgvVns44i5Coo-bO5G9weuahfcAF2Zo_QOyivzKDBRCyrjrZQ7Rdeg",
+      "text": "I would like to know the rough price for 3 books printing "
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776746060119,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "read": {
+      "watermark": 1776746060119
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776743054884,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610542604794462278",
+      "type": "text",
+      "quoteToken": "3MU_r1oBIfWc3iAzRAe-iuY83JCDG82DDGya_0TyfEh9GFn8NrTNBpq9mtw6p907Jn1LqR6AhKxzdd4kduYwSoK1N8z7DrJkBLd2YTtdzQNXkBoLRX3uIcgi7NoHsN8_WE1jmVId_gLurdn11Phrxw",
+      "text": "When do you plan to use the .....?\n"
+    },
+    "sendId": "U0349a83a19777555d78ef5d8fcef3c21_1776743055623_34397640",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776742685587,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "message": {
+      "id": "610541985329054396",
+      "type": "text",
+      "quoteToken": "J2bJkAHp_pWWx0UIGV7Uvx7q47OQvPojwePHNDMsUTaxxk6mn3fGn3DAQG6JS0r4UtLlHJmHGm877-u7FsGDoXuyRkJLGaKoX8Pi8u4iZ7V6_KqYja0CJ-hoEkX0-rRwAyYee2glEWRw4DbZTJWG2g",
+      "text": "I want maybe 2-3 for a start to see if I like it "
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776742656848,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "read": {
+      "watermark": 1776742656848
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741984780,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610540809279766795",
+      "type": "text",
+      "quoteToken": "4ZXTcMKdx9Uwq1DjgDZvf5jfvuIrrwW55z18bcNi5NeGqSDq266sOmfuRwi8zC9jB-NuZ7HBG8_MVwL7aLiBW8ibVlYzawpLPDAmBe4QuFfSs-FgewB2LCmMue9jxcpiRZ-sWBTYCOdIUpP1rpfJEg",
+      "text": "How many do you want to produce?"
+    },
+    "sendId": "U0349a83a19777555d78ef5d8fcef3c21_1776741985543_27183913",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776741661442,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "message": {
+      "id": "610540266838819214",
+      "type": "text",
+      "quoteToken": "TyNzR5jUeznaRmRJ3gZjdoOdIMU7Dvnz8nGnnUCx-Qv4EU5s5F-6GwMp5p6IbCwGqrYyVIK1g2y5gi0vCGQMtUGGGyJnr3QZMsi2ny-_TPk4YTdRPkggeT8ztA2fcVVBH8klHnjjB_9oIj00A0v47w",
+      "text": "How much would 6x9 inches non fiction soft cover glued book would cost to print? "
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776741578922,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "read": {
+      "watermark": 1776741578922
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741576072,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610540123863908746",
+      "type": "text",
+      "quoteToken": "L3qqFb24ja38dvCD0S1h3f6b8mc-xqPem_4q7VtWD6qHmYMs9Utr-U8A3d3_G5vjC1jHko-3H2a44YkX1mQUf4ffTs9ly92-71MT-A2Xx9buq0hqt9i0FPvk52CCC3GBhuoRQ3mj15JXiWlrT7e9og",
+      "text": "*Recommended file formats:*\n- Original Ai or PDF files (CMYK print colors).\nFor initial file submission, please provide:\n- Create Outlines / Link images.\n- PSD files (CMYK print colors), Resolution 300+.\n- Canva files; share a link to an editable file."
+    },
+    "sendId": "U0349a83a19777555d78ef5d8fcef3c21_1776741576855_5510527",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776741481799,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "message": {
+      "id": "610539965587653040",
+      "type": "text",
+      "quoteToken": "xPJTsvx7vvOYO2e2EYdwe3jKl1_FtKzgHO-RbUZeYash2YgwYhRgrBqTsdWZNMSEPfmI4VAUbJsAtgTcTpKjUlZvcBOokl3agrcqjn_kDE_tp9_2fAyX-WjzY-7Wh0YDYnWknThqvfN476vyTphD0w",
+      "text": "Not yet, I would like to ask requirements what type of file do you need?"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776741450315,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "read": {
+      "watermark": 1776741450315
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741446776,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610539906699886895",
+      "type": "text",
+      "quoteToken": "sfoNVGbKG8Sv8RmoX4hGXYeunkfVrHElBWzGXNmb7VbhFF88Np6jL4w3UnTjVmWLmuR9K1QMPC_1pYdkW3wqzjgO_9QhcFIIKFQTq_HLRJv6hB-NH49GG3Vv73ZqyDMkRz3nDcI6FIK51MXA9KzkFw",
+      "text": "Good morning!Do you have a print-ready file?\n"
+    },
+    "sendId": "U0349a83a19777555d78ef5d8fcef3c21_1776741447527_78716352",
+    "bizId": "fdd21160-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776741241964,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "message": {
+      "id": "610539563269751075",
+      "type": "text",
+      "quoteToken": "vTXEaVK1Gv8Xx9QYXftLojshtcnslX0Znjw-PDzuZWRmgm8NaCKNqaksuYvqEsDiFPNDJa5GShLYv1f7_EJBZRhJTH24mydV-ltSQpneUajncDaSOav1KxshFUH8eswkTEe13a6rbahZqV1L0o84zA",
+      "text": "Hi do you print literature style books ? 📕 "
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776741217391,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    },
+    "read": {
+      "watermark": 1776741217391
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741216173,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610539519968018606",
+      "type": "text",
+      "quoteToken": "YbogY5sXqmiIBz4vaLQIplaco1Tcs9wEZUo1WWHmY3Q0OU_bnGTynDMfR9mfXT2GRDFm6PjcbgH1ATDq7pIdP5mwg8-WZceoaIhTMeNu5AXwZkbCma39K7nmgy52Z2r1ijYrWlm8683ersGIpvrmMw",
+      "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741216172,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610539520118751407",
+      "type": "text",
+      "quoteToken": "IBJdRInBnj78I5L8K6k_L1_vTMzPz-gVcfXV9Fpk9886bXdxQyYGjh2gSDE4Uvr-hcL9Lx5hYll9aK6JEFCS3EkD6Z4Gtmzoc1wyQ1Wzu3-S4whvJ46qwhlOUOP3Dht00dLTu9QPlw3jYB1ajDrgBw",
+      "text": "สวัสดีค่ะ คุณ Zhenya Karchewski BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741216171,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610539519951241376",
+      "type": "text",
+      "quoteToken": "7cUH6uECOX5_W1j1agq3Ow0LK_JQEeSUtyNsIDVPOPRDVLwORiewFTnCXdW2VVIANk8-ftOSOa0tL4p2M2_O9oSjv4X0JKAswK_68An6HRf0jiTXjjdRslbhFE-1PZ_bx9ZXytb2r8ntsKjL3uTTEQ",
+      "text": "STEP 7 วัน",
+      "originalType": "flex"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776741216170,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610539520001049190",
+      "type": "text",
+      "text": "ขั้นตอนการสั่งซื้อ",
+      "originalType": "rich"
+    },
+    "bizId": "__AUTO_RESPONSE"
+  },
+  {
+    "type": "follow",
+    "timestamp": 1776741215422,
+    "source": {
+      "chatId": "U0349a83a19777555d78ef5d8fcef3c21",
+      "userId": "U0349a83a19777555d78ef5d8fcef3c21"
+    }
+  }
+]

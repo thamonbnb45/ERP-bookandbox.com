@@ -1,6 +1,36 @@
 [
   {
     "type": "message",
+    "timestamp": 1777538777105,
+    "source": {
+      "chatId": "U1bdd58d6215cf67b20966908a5090fc3",
+      "userId": "U1bdd58d6215cf67b20966908a5090fc3"
+    },
+    "message": {
+      "id": "611877605134303235",
+      "quoteToken": "JABKm-TvDS2WyN_Ol2KlFSrvh7qwtBOi_kjaDzsdPOKaQENGN44zwV611RIyx_35RcUEHg5kqdAZ5Vs7YPh9E-lmeBvBf1iElyW9pQYKHqsfQ-i-mEDD2QijA98V4P52llGVrF7yqx2C3O8PYiRIQA",
+      "packageId": "14197742",
+      "stickerId": "373339137",
+      "stickerResourceType": "STATIC",
+      "type": "sticker"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1777526454239,
+    "source": {
+      "chatId": "U1bdd58d6215cf67b20966908a5090fc3",
+      "userId": "U1bdd58d6215cf67b20966908a5090fc3"
+    },
+    "message": {
+      "id": "611856930956116123",
+      "type": "text",
+      "quoteToken": "4L4dpXMsSZM5DjJIJmiW7uveMuxvQM_oob-PIcqOIdzY0qpZmBAC4mUiyvvcJBkGTv4H0Cio2mF-0hPEfmpzjGgwJ5QZYQ81Shy0DqOppXI3hHWDQeV0lXEU0BtDjUNW_IWuIRxVOLvWLxE3pULoLA",
+      "text": "ตอนนี้ได้ราคาหรือยังคะ🙏🏼"
+    }
+  },
+  {
+    "type": "message",
     "timestamp": 1777448998770,
     "source": {
       "chatId": "U1bdd58d6215cf67b20966908a5090fc3",
@@ -9,7 +39,7 @@
     "message": {
       "id": "611726982174474464",
       "type": "text",
-      "quoteToken": "3NvFo7C4po9rtKdYzn_C0Mvj8FKGuk0sdwXd3XW7-Qjd9No3lrRyPfKYWW9lZ-QtIqazlSrME3OVGOlGwnqWJd4xxOYGzTo_qboJ0TtHgaOpgcsGpcSJ3eE6kYOd4x-eRHS3scLZ1CCd_QLHvz07vQ",
+      "quoteToken": "15qsHRUfH1TWIjMultvtuWaoUcAEpA3edTzMpjiJLJRqj2ChAMrZFn0Z8MBAxD3GMHtzK41V7otS1TFVgmKd9sE_iVZ14kGebsJsHH1wrUKydhX79GITi_VNQk1ZSVmSEnGlV6wmiZhyBPuo6kO-dA",
       "text": "โอเครค่า ถ้าได้แล้วรบกวนอัปเดตนิดนึงนะคะ"
     }
   },
@@ -34,7 +64,7 @@
     "message": {
       "id": "611717692495757337",
       "type": "text",
-      "quoteToken": "4ofXy5DbLNWniVejiku-J68NUzvl9Grna0IFIdAP41AEXNdHESH_iDVtdNJTILdd8Gd1Xbz1E5y7JhafwB7ZQuBvO4QWpJy-Xe9CC8c_JD1QzPrhHjmkx0SVYFxXds5PQdDoKX13p0jNVumNe9G0WA",
+      "quoteToken": "TdiAD_Zh6k2J463eDdfkrsOha3jKTcDgBFOGDJp9PjSS5Udk6tZ-negotZF4mLmXDzDg90-ZxJLa45uEo2LK8-gmrhcTKFupiUZJYvpg-lZWrnxgrIOzIgKsXi7muTGELe_PRoRNI5M_AQ_iqa6QpA",
       "text": "เช็ค ราคาให้อยู่นะครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777443459917_80054391",
@@ -50,7 +80,7 @@
     "message": {
       "id": "611717247664914605",
       "type": "text",
-      "quoteToken": "gf8l47u996EgCAaM8jLMpGchfE69-SucSBInNuECn0eMDaE72jTbnsxJF71TIo_axLqbptkQiUubP5mYf2gHk7Brcy2LxCgeDm9zbUiqgkIEfqIN4dV_ckgfOY83hOzTC7M2Hrsea9rFCGgSnAuX9A",
+      "quoteToken": "8Ngmm4xcKxEp0yg7DhrLvnrFXu1rk84FDiM3SfSx5l8wq5g6OBg9TMHGbvwHXdp4xcSFiVMvggxq-oSMW-RPu1o-mjT3VqQA1mevkeDBo-MPHaqb9ImRWI8a-Pd6nbO2-By__1Gfjey2Jm4Q_uAXLw",
       "text": "ขอทราบ lead time + ราคา ได้ไหมคพ ปริ้นท์ หน้าหลัง ตามไฟล์ค่ะ"
     }
   },
@@ -76,7 +106,7 @@
       "id": "611717037614170736",
       "type": "text",
       "quotedMessageId": "611435410416992796",
-      "quoteToken": "ke2vJ6UwdkwzoMpD0-70wkhgYz-ORVMK8mxs0JSvB6ITXjlnY0_DjtRDSCFj4SAxMcHPi095hvI0xLZp4OOBkpTrznJUqNQJACoW3GleECyo2dMAkWvrLjZnSUOGozRTQMSuQW00_0kj92Jf63kV8w",
+      "quoteToken": "qKlPVWJCQv73YVlf-WNGOb_csJ9CC9RwWG9Nt14Gsjj3CjykG9DooJY7Xd61v7DnVarUEpy-MXjv3UA53G47XmXwurnEMMxWbUWrvIcBy_LFaEw5A9VVZkuPphS3uzNUFUltuZ5fbKE5Gdql8H0PoQ",
       "text": "ครับ เป็นบัตรคิวกระดาษครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777443069716_65544905",
@@ -92,7 +122,7 @@
     "message": {
       "id": "611716929216315513",
       "type": "text",
-      "quoteToken": "LiqZ9RfzU2MpbBt7xLE3j_grPOQS05BcTSFlM5-gCnpUeIeBRaWeDRALZnQmcGzV7TGoNMqG1_D5dFndZ0MF19hqb8LaOlSWtw-5TeEDeonAoCdJ_KgO9PwZiwhBH_GoVmAxDVxfOKSjfe1zN6WyHw",
+      "quoteToken": "Y0mhhJRXsgWCfn4Mv8r_n3slnDXqNmhtq30FsPKdQAv2lUXbFL7WMif9-Apqus-4042O1SKc6zT6Ku5DqiFB8B_pwYjsgt7PhPbrLeuyNASAYBHyM86wsvhcfZnQVWm7t-_LMAfxOa_J-XXJZ2awBA",
       "text": "ปริ้นท์หน้าหลัง"
     }
   },
@@ -107,7 +137,7 @@
       "id": "611716905341812907",
       "type": "text",
       "quotedMessageId": "611435680546947468",
-      "quoteToken": "tOuxeErE2ipVscoCl1xxx3DT7lr9ZQPnyorK7cHhqaRl0tVckVnXG0kQypW3W9E4WBysk7hbYrFvIzfAnMLS-KVJeMrT9LMT13z0gWBJwkaN4hYAJMSBrOqi9ZkGRhMx67qRt78e-1ryfFHFB646kg",
+      "quoteToken": "thDKsiV33cBa3-4TV0rQYg0bb8ta_SHtksJ0C9EYJ5Ypc73ijcAFrBxvRSufQBx-h6hsQc3DSOnvlXGIVKCZUvE_YfZFtjSCuQKffPnvAxxno8He5Fseu1dKd5gab5yBkthcGRi-mQjgFywV2I8hug",
       "text": "เป็นบัตรคิวตามที่แจ้งไว้ข้างบน ค่ะ"
     }
   },
@@ -132,7 +162,7 @@
     "message": {
       "id": "611716844273533190",
       "type": "text",
-      "quoteToken": "S_1dqBy6ZqrN2ryMiRuZIuOEPJmTrQ_lGnS4l8NiBTZAssTBI1GTj2aSmhhCfG4BMww92tey0sov3Sz7V4cJd6L2ivUQAYJ7JCw6DtjbOFQNU5YRSPDZ-D7rIgM9QHWSa-PnubpuwqH-nqouJumOKg",
+      "quoteToken": "OmPl2SM4q5_U87TOtj0VTNYCD9y3pxc-e0vDGfDIJ_il2ClcCbl_w6D1ZGDS_mtZTUZTN26jRW0RhChnpRkHaU4sakk7YzrJnoTWMyHSHuBdsuf6K8nIxUa22y1Do9BESN4XK2UJgnmfzenz0PJ5Sw",
       "text": "รับเป็นงานใบปลิว หรือ งานรูปเล่ม ครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777442954405_82549856",
@@ -148,7 +178,7 @@
     "message": {
       "id": "611714649259508042",
       "type": "text",
-      "quoteToken": "LeFhTC4CABF_1JLpytPWvT4jRpW1iY6lGBTu9rOhvVjnqatrTBUGuCITu93cdeKQOqtipHXlKSkHrlg973w0rF8t4EYQEABE5prS49kR-YvgJply0avZW0QoVSWoljF4Aujk6S9MHb-6TqcbODr9EA",
+      "quoteToken": "ID2RrrGpf4jg9uHICwHnU5k3ovYaQ32x7yWb9SI4g8PMqGHPj9wRIE0WXhoQvUQyDDGz644mJ2j1LNk7qCFD53hSweESxovWA7uHyjAJ5eU5w78Ci1LfPfxTXXYjlmHAIImvpm5r0mZqj2LMbi3FJA",
       "text": "https://drive.google.com/drive/folders/1u53bACqIWB6Ut7axACLBY8u6d1ValjQ4?usp=drive_link\n\nตัวบัตรคิวจะหน้าตาเป็นประมานนี้ค่ะ \nต้องการปริ้นท์ จำนวนประมาน 10,500 ใบ\nรอยประขอเป็นแบบฉีกได้นะคะ \n\nขอทราบราคาต่อชิ้น + รวม ค่ะ\n\nออกใบเสนอราคา\n\nบริษัท โยโกลว ฟูดส์จำากัด (สำานักงานใหญ่)\n188/13 ถ.จรัสเมือง แขวงวังใหม่\nเขตปทุมวัน กรุงเทพฯ 10330\nเลขประจำตัวผู้\nเสียภาษี0105568019117"
     }
   },
@@ -163,7 +193,7 @@
       "id": "611711018149609542",
       "type": "text",
       "quotedMessageId": "611600664115544636",
-      "quoteToken": "EjsPYLMuGLoE3tUSTiI6piZfB2L7ZhmW7FcfMwGZmEB9bXImFoRLCw5v5Ad08mXWlgH3Xlj8a_P59F1P5RGhzES6h6aOiuKOmDDN8iz3tcYoonFPnv7mZ1w-TvUFdINUheSPvl_3lAVubhkf4RdM3g",
+      "quoteToken": "00AwN5jueMclcC83pl6j9cGKBGKu1SkccabnxDJS7I1D0VVhyH9LItSe59bJ-UpH1Yo9pIvPv-UPTsIgLKaqV4-DB2j9z7E82LpEwjIJ8588vuVkufF2oVebV-d9lpyrBtXz94hNb-TyAYIBc6a02w",
       "text": "สวัสดีค่ะ พอขอทราบราคา+lead time ตัวนี้ได้ไหมคะ"
     }
   },
@@ -199,7 +229,7 @@
     "message": {
       "id": "611600668142600626",
       "type": "text",
-      "quoteToken": "0haglikgqQkstTZj2IEEwgxHankChYialQ2SmOHHASWULV89ROy4BshGBfjkTUnYfgmXDwGP5PhS-Ay1oMouzobrEbjRxjilmAEH8FzsQcTNV9tOSjTNzusts6PtekVtQ-vQfiemb1O9h1EF8KpPmA",
+      "quoteToken": "YICtqApnjBfP-1DisdXCmu5C10CKPq7CYqpqiPLmShsOVod-oQjaqVW9JahnbT6Ok8vaqiTG_cKkeHxq0SFR1ZxTFFSUxUj-4gYGsaXQuO706tMcFL6Y1aQY_lj6guE1zWdEshoeRu7wBfu_W8EgRg",
       "text": "🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\nสวัสดีครับ ยินดีให้บริการครับ 🙏\n\nสำหรับสติกเกอร์ไดคัทขนาด 3 ซม. แอดมินแนะนำเป็นเนื้อ PP (กันน้ำ 100% แช่เย็นได้) ภาพคมชัดกาวแน่นครับ\n\n📌 เรทราคาเบื้องต้น:\n• สั่ง 1,000 ดวง: ตกประมานดวงละ 0.80 บาท\n• สั่ง 5,000 ดวง (คุ้มสุด✨): ตกประมานดวงละ 0.50 บาท\n\nงานผลิตรวดเร็ว หากลูกค้ามีไฟล์แบบแล้ว สามารถส่งให้แอดมินเช็คความคมชัดให้ฟรีได้เลยนะครับ 😊\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏"
     }
   },
@@ -213,7 +243,7 @@
     "message": {
       "id": "611600665105662161",
       "type": "text",
-      "quoteToken": "Hmc2LtHYc53CVXCD4SRPLg4PyrA1N0nspBXbYAbgjLzw8XWJpucFN2nUYk9-491XHnvT6Nf9APhaUUxY4FjOyy1IwaQLJW7wWY8lD9fOGlQkYtOHQ31mAWcv6XCuRDtSFroR0pvN-AKVL2sMSINctA",
+      "quoteToken": "FSZQpNRHdneJZGJZQ4UtIVQIlO88dmb--RFfVLwTMJMXQa9kf0aWqoI1gmEc5YLrVhTyFMZzeaf4M7P9dzM3lMsJG_5iB1u9jNmo625frsrCCdMPX177hn1Cxbrdg_4OQ71d6i8R9xtuQ_Eh-yck2Q",
       "text": "Bookandbox.com สวัสดีคะ 😊\n\n🤍 คุณ HERMIONE \nขณะนี้บริษัทอยู่นอกเวลาทำการ\nคุณลูกค้าสามารถฝากรายละเอียดงาน\nเรื่องที่ต้องการติดต่อ เช่น ชื่อ เบอร์โทรหรืองานที่ต้องการสั่งพิมพ์\nทางฝ่ายขายจะรีบติดต่อกลับอย่างเร็วที่สุด\nในวันทำงาน วันจันทร์ -วันเสาร์ \nเวลา 8.30- 17.30 น. \n✨หยุดวันอาทิตย์ และวันหยุดนักขัตฤกษ์\n\nช่องทางการชำระค่าสินค้า\nธ.กสิกรไทย สาขาท่าพระ\nชื่อบัญชี: บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี: 0788919247\n\nBookandbox \nเรามอบงานพิมพ์สวยสุด\nเพื่อคุณลูกค้าที่เรารัก (cony kiss)",
       "emojis": [
         {
@@ -236,7 +266,7 @@
     "message": {
       "id": "611600664115544636",
       "type": "text",
-      "quoteToken": "keavkNDhFY0JxLOPUOoV7vSQO_xaEJN3EoD0uUKSozAo-EOhcmR-_2xlF_k1s-YJJ_akTXBUWRMyhSNvLOJlc7FaZERIhEUIadxVVu93IwPe1pmh54_ZsjitLSbyzyZ7OU2ZSgU49badiyBNiRiYiw",
+      "quoteToken": "XzdgXlsiuoOwmWa8rLBlc5mowx-woL-tXHNbovOxYDAeT-Y6yG1NedKtUpiFkHHXX80Rr7MjMvTActV4VveGqF8-5LYKnXM43ryPd2KaYQSwsmuNqHudUT0YnG7dooU26j5WiUER4QBkNF5LleTnRw",
       "text": "https://drive.google.com/drive/folders/1u53bACqIWB6Ut7axACLBY8u6d1ValjQ4?usp=drive_link\n\nตัวบัตรคิวจะหน้าตาเป็นประมานนี้ค่ะ \nต้องการปริ้นท์ จำนวนประมาน 10,500 ใบ\nรอยประขอเป็นแบบฉีกได้นะคะ \n\nขอทราบราคาต่อชิ้น + รวม ค่ะ"
     }
   },
@@ -250,7 +280,7 @@
     "message": {
       "id": "611450571097899170",
       "type": "text",
-      "quoteToken": "KivVdJtefbFa3Dc99Ym4XVYpBkHQO3bd3_bhiVr0y9QyIHpNQTl3nt1GX0t_b2K9QJ8fTF9zmc6kKA3WPGZXqh_M1sbqD6-SkYPn0dAeR_hu8BXH1O7ZOymJrpfTHyigidsNY4e2UVvSapiOjy57WA",
+      "quoteToken": "pJyrQqT4jj-PqOn6MnP564HmekONyrPBOop0sEelApElfiOFX86k7REQIJQHydTvFGHw4hFRAxyz1CSQ6gLGHWJj5m5bwZZ74lKzHzW3FxdmsFI2I0HDHzdtTIwkE2iuYCt2WBTVZxno-GmqhFtdhg",
       "text": "leadtime น่าจะกี่วันนะคะ🙏🏼"
     }
   },
@@ -275,7 +305,7 @@
     "message": {
       "id": "611448345214583113",
       "type": "text",
-      "quoteToken": "V0tKjPovgtPwzljCk2DM-LR1Bqq8jBVGvM37sMdo050jd055SKt2IA2ZZpW-BTqSiZjfKtzzH6r054opfCwqBstDhpfXiHSqNoP5XgM0Ydg3j9ZDczoxTEGA5-nKTLfwA0iRUdA0waE084oMLfgFSQ",
+      "quoteToken": "E211pIAt4bpIxuFkO3UwPAJl_49DACxpHs_exVKybnLoGAmFDYnK57LRAPkh_1B5vfg6fAo6hkA4Iy5dx8JPuRrGXBVLbZHUCC3AgEmWrHx6e6mtf6hit40lWjA2Z7X3VIycyjD9ozpVGRTKa-kmQg",
       "text": "ขอบคุณครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777282918506_31029493",
@@ -292,7 +322,7 @@
       "id": "611443070340169763",
       "type": "text",
       "quotedMessageId": "611442943185912378",
-      "quoteToken": "7nJmixQEgbzDNKT4spoacoZtGPrnUCdkBMJ5PmJsPxhS5xArEN1Kah-f9383m6M9rvR3d1IhEbGHEAZdyWApTJqnpRwknrs2no_64sounQofiQjwWpEEvS6Y4wHEul2lGfqmghw1wbAxn6HHM8cIKA",
+      "quoteToken": "E0gtr9e8r030qVJMSbtFkHmK9NzVD-eD-8TKa1D1-BIH7mWYxc7J9YV4qsOwvzqGVt8TFeVlusxlvuejO2X4qx2S9MFBBjJzXeSJhfmGLdH_14wTlch6P3x9tVC2YbhnfokwZftM_OlZF1DWKNxhbg",
       "text": "เดี๋ยวถ้าได้แล้ว จะแจ้งไปอีกทีนะคะ lead time น่าจะประมานกี่วันหรอคะ"
     }
   },
@@ -318,7 +348,7 @@
       "id": "611442943185912378",
       "type": "text",
       "quotedMessageId": "611435833555156993",
-      "quoteToken": "Gd340OFQ0c8O1t1B3qCwIC1E-yEf4G5Aiq-wAOdajF3xaqy4Te7IHIPKl3uPpKW9j5k28cp6AM7c_nNZLbL13z44TYXYuvn4p8q5X1dxY-ivWkJg_A8Zf0rKOBVjA7eWRviSA9RczNbSbxTkSUEBhw",
+      "quoteToken": "E_0CegW5mZkVV2O_8aMQbvsYoqM9CJdEOpJdrt1r9udAoq8IZLUzAZXsG3U2Das3aw7_cbitOUP1fKqBf3VPnNCTLi2s5bihIToBIem7xXmtWHrLTbAvdJ3eJKINzNyrpmkU4PACtDuM0OK0nOIw4g",
       "text": "บัตรดิจิตอลผิวเงา พิมพ์ด่วนได้ครับ\nลูกค้ามีแบบไฟล์งานและจำนวนที่ต้องการแล้วไหมครับ"
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777279697965_70527037",
@@ -335,7 +365,7 @@
       "id": "611435833555156993",
       "type": "text",
       "quotedMessageId": "611435250849153476",
-      "quoteToken": "K7HLvm7qm1YZKBV8Tkf0o611lYlbVNA84cZca1-kCEYFq8ZgyelfQFX1QWhWIZddYX4oWvb1C3RNKHo4qICUpDLgTW-PsaYoQgst4oRl_5kD3OidyyWOHYxTZq92lqaAq2QaibC5q211DfXdnbuzeA",
+      "quoteToken": "WnNcYvGNutLs7hcNrbD_ICnnR08thdIFpMEnBv4djdcs7671_znCQ7GquBpIaglnORNyu4cEhNorB33zrqf-dmm_ZLorVy5cSH7gUVGdt8Tja6fBQjzKZVUO5F6FPEVLwKz5Q0yeLB6tGllsHLoIdw",
       "text": "บัตร แข็ง PVC มีปริ้นท์ด่วนไหมคะ (teardrop) เป็นไปได้อยากได้ภายในวันที่ 11/05 ค่ะ",
       "emojis": [
         {
@@ -357,7 +387,7 @@
     "message": {
       "id": "611435742622646802",
       "type": "text",
-      "quoteToken": "Vs-gzRWlVHi9qw-47FMMumyPmBQNjGp_CklMp8yER3OEaM_vGq8usilbq3l0gacfA9Pnf9n8cNaWLwIRqFCtYIHaVQSQMkLK3oLzkuSjTtJxNnTtQBAcAPciht0nC0AjhdXzW1f87IsCITPJNz30mg",
+      "quoteToken": "7--d9YOJnq0chx4Y_WHxJuse6VUc0Wt0BfTZ3L2NOyjf49-CpGJ2S-LXVexiXrHBlA7foxNHXhh8i1n_yTTg9BbOwZ12mp9e2S16uv3mTcYIBt-sZ9n3xJSB6_vEnfKl5iM4vPIym2XPl--Cwl9yAw",
       "text": "ตอนนี้ยังไม่มีไฟล์ไฟนอลค่ะ แต่เป็น print 2 ด้าน"
     }
   },
@@ -371,7 +401,7 @@
     "message": {
       "id": "611435680546947468",
       "type": "text",
-      "quoteToken": "CWP6z-kBhXorW-MWPTGn-rGz0ht6CN9AdikH3wKUmyDvz-m-4eOwWdOT4kNBbxGeaiyded-p7U7z7eLb46Xz61aayr1HGetGQ9Zh0N8uUaOCVQCHOXcIn3xdIZlTA6hq7Vn5iegmmvR3HBPJMacrEw",
+      "quoteToken": "4vIYmJkbHlLWTXM8lmQNcgMy46Ag4IBtyz_De6bpmwZUWj-ZZFwOz4n55mPS6_PpRrECFIlMfBa2IElUzeXcRRFmifKisgOZyE1U0INVhZGg8XV9ZQsGtpLwSaJAywU4pz0xt_Bcq1BIpyFg8CuplA",
       "text": "เป็นบัตรคิวแบบ ฉีกได้ประมานเหมือนตั๋วหนัง อ่ะค่ะ "
     }
   },
@@ -396,7 +426,7 @@
     "message": {
       "id": "611435630718877804",
       "type": "text",
-      "quoteToken": "m2lMxLQ3wjyCceYDqQjaIkaF0XPktfXNuDZjgpioD9nHxvPHYz0PEOIy_Zc8XPOuPFI_OwLqtzxATY2xPnspkMhBQS9AmSN2EwDvMkQv5nDCDfgOiQwIQyhO2ZOcwZIIFBcu8Mw3Ja6c6wb2i6dz1w",
+      "quoteToken": "km3pDff8CNi7jmf-Cvi_XFAGq3TjPnAvnkEwYLRZdsDPP444sjOjAtj95eXYn9p5aH6dJbWgmqhtYetVLl265F4dItGmm_-XU7cm8AERUTXRKU5YckSt2qeLnvMvkO5eK_kHREM2MRzWI6ZQRTCNFg",
       "text": "มีไฟล์งานให้ดูไหมครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777275339896_8674581",
@@ -423,7 +453,7 @@
     "message": {
       "id": "611435619394519078",
       "type": "text",
-      "quoteToken": "Vfm77DPeb4k4bt3m1dRU3uTxivY5DCajm3mZuIUyA8X9lHqwBTCV_T1MXmvqWGxVq8FAn9fA7TwvaOTcXabVT8NaCwhA9luN09u1_z__iKViPajgbLz1eUs5qmZtmvF-RKthRBrOGlepyLf0wFB1kQ",
+      "quoteToken": "aku1FA5cXn1Z8k0c4eQiwaLyethSmrgIEUwRTQnj_6yKyQGKjf4R5ydfzlL1iH0Sxwmahh5kDwuPwkdTuZeWkLatPvcuzZCvN20lV6fA9KmgsmSZVnnJDk2hh6JvaGrYyLWlTqHGqDpwoK6CrRDZbg",
       "text": "บัตรคิวเป็นกระดาษรับผลิตครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777275333072_15304444",
@@ -439,7 +469,7 @@
     "message": {
       "id": "611435410416992796",
       "type": "text",
-      "quoteToken": "6MGsukj1G6_Vp6X2BQusarSmrS4IlCs1nO59o_cjR6_LdeTR3PEJQV-voBntHQc6aACv9OPhp4t1uEPZrJkA9xSDwcSrHlfuPJzEvrAsS9EO7Bmq5eCrdhlrMBkAfwNxXpoc4lFx5Pq29WBCcNZLtA",
+      "quoteToken": "QJgdr-bglU11UxSuLe3U-Ij3jWIY_v7BboavPtdRstXUpOVJGiLPdAAs8S1rUlLT1SCKE8gqM2eF2Tq8BcxRYWRVbQQ04d62Uf6kd7OwTWkG6yBBufSn0AT5CwnMgHyxaxFPHr_ztHDa07E4hSABug",
       "text": "แล้วตัวบัตรคิวที่เป็นกระดาษไม่รับทำใช่ไหมคะ"
     }
   },
@@ -464,7 +494,7 @@
     "message": {
       "id": "611435250849153476",
       "type": "text",
-      "quoteToken": "2sYYINx45kfilDjgRR_rW3s6DCUjEnQfj39iNULTXcm0HP6KOc5C2mipRJWKpyPhYjSIMLrC_eXaKAwg2BWaj7QKExfwOd0KjifSxh8royzx6aeaF2Z0yFwHOzxm1LtaYfAxXWFXh2m_JGBQFqB89Q",
+      "quoteToken": "-11vONEPdBtPQJJ0u6BTAYGQ2ohCFrmYkbxis3qqlya8D9mzhiH8HKqBQ9KAJBEHncun63oE_G0NCxGfkFmMQ-kqURJrRsSeGzlXj_I9NqN2L6EV1EnhvHfrxDLJYT5B35clguJwgzhNH0loyw2xPQ",
       "text": "คิวงานผลิต 30 วันทำการหลังจากคอนเฟิร์ม ไฟล์.าน ครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777275113513_3508872",
@@ -480,7 +510,7 @@
     "message": {
       "id": "611435231706873915",
       "type": "text",
-      "quoteToken": "n8IM_8Bcd-unfc3dj3if854ZpeliEmq8mw0jzC6la_ZXMVGuGUblKveGYg5neAzP0D7crDlqtp-pHjTAOW1oi1imJ41xQgmW6BNHz_rAjY1dFsunf4khcmFyozOPYyfqBQ4VyZkFKWLdqDjxod5cdQ",
+      "quoteToken": "4ZNF-G0wWqA0UVrjYZ9mhZ64SnYrrZDE4lCSSIdnAoLqDqo6ha2Uj9FQ0RueGeg2sm-1pBtt06J1RlqktrGsV-7WnWVw5thfITWKiD-aD_9E6dGynJ3om_5LXPOqnTQhoagzqlUZhxBC4jqdFtezZw",
       "text": "มีเป็นบัตรพลาสติก pvc ครับผม "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777275102097_25791829",
@@ -496,7 +526,7 @@
     "message": {
       "id": "611435222227485260",
       "type": "text",
-      "quoteToken": "V6unyHLMHA47L5OTCm_XUBpUYbKxb3DfhDLiDDU77UqIbgV1ZCqkUfkfPdk34Rb_H0NOweisPP-E5eqWyfc4ArIzjaF5werwinz0nRzNbfinXItWYdWs1ND-bOpd66Ad6G-O5URjHgAUgw7ut63r-w",
+      "quoteToken": "fFn0A8Fa069AKAAdbqaYqbF14PGr13_K0F8Fwa9uWuQz2NPGrzs4UmmKa_Tokxwry4JEIR1w5m3ovSwuLMkTxv2Q-XEH8QkCGKPGX4KEK5sgMi_ZfWVcqcwaFHk84G29qqZmHMhqXzbt18ej6CP5ug",
       "text": "สวัสดีครับ "
     },
     "sendId": "U1bdd58d6215cf67b20966908a5090fc3_1777275096440_85166554",
@@ -511,7 +541,7 @@
     },
     "message": {
       "id": "611435085995966775",
-      "quoteToken": "5Co32R_AWxkqfCGZ4mQh-YzngDWmvtVJrG7gROD1bICciemMmOLH08kyYjFVyksnWmJWLgguu80wxiElyn9n5l09GoiTyBvIew3_z4_f1U-0UNgplcDuehNIHfxa_jJVZnLaAm1a3vvWIiZQnGLYYQ",
+      "quoteToken": "ACO51Ud_AIRN_HNkrHSAI5xeGVbuQgLGTrDPFtEZXHZ2gotyY9uBtglqqBnr4WeQTc96Rkpjze1fmrayXKJW20lFmbn_cysTUAqp2lJ0Q0i9kGa_ybUYULfW1j64wvsDaLOCo8KONWpQhgVJrZ69rw",
       "packageId": "14197742",
       "stickerId": "373339137",
       "stickerResourceType": "STATIC",
@@ -528,7 +558,7 @@
     "message": {
       "id": "611420600497864758",
       "type": "text",
-      "quoteToken": "k3d52kzOmOXqs-QbI--uNVJP78mmdct08AlLSq4n4nOiNP34DLf9tH6UJB8syb3zLTRnmhdqyPDbjZ0xklX0jq5dXbXycyvG_eKGayXo-8WsKKLsvKL3qYbQeQdkPNS4DTcpeZWxwxj0ZeCX4T82Jw",
+      "quoteToken": "8zDhCqoI3FLBH7Y9-roEhEG5ffvh9_DgZ5GeasTzGlKm_IvO_sq_IfyrnOauhK-xa-QnKEdBfU3yMLtyu7-lH7FoByv1ReHlOE3-27-JjaoY64vXZgi528Z568UfGPlp7YgikkI1gSb8YbJPYUaLBw",
       "text": "สวัสดีค่า อยากสอบถามว่าทางร้านรับผลิตงานบัตรคิว งานบัตรแข็ง PVC งาน plastwood ไหมคะ"
     }
   },
@@ -553,7 +583,7 @@
     "message": {
       "id": "611044779601953178",
       "type": "text",
-      "quoteToken": "mYeFYHLcCdkkp1u08zMZ9JdtR1lYxaf0OAKN4tdEN5GCvo0mL99D-0UfrtdMZS9jqvgBQtzw5eACGya8G9yJEM9gpXUVdI51Tj3r5zLST4ndxyKF2QVuXP4xzqkMxvpV4uYkJYl-5WpSN5kedLXtEg",
+      "quoteToken": "s6Ygzq1MLG9Pp2iQGm75lvk0ElAep-XfjH31SQzMXZd2bYt2HzTMm3oaaCPFr-Ym48Bu1caZg4LeX0Ui3Ih0xSEHDuaf9LXrfAXntVs3ec_HbxkcBWPJbRe0ubaTN2akO9ueQzMu0QLDt2wLtPl9lg",
       "text": "🩵รบกวนคุณลูกค้า \n*แจ้งประเภทงานที่ต้องการ \n*วันรับสินค้า \n*พร้อมแจ้งชื่อ เบอร์โทรติดต่อกลับ \n*E-mail\nเพื่อความรวดเร็วมากยิ่งขึ้น \nในการประสานงาน \nคุณลูกค้าจะได้รับงานเร็วขึ้น!!\nสวยงามที่สุด ตรงใจคุณลูกค้ามากที่สุดคะ"
     },
     "bizId": "__AUTO_RESPONSE"
@@ -568,7 +598,7 @@
     "message": {
       "id": "611044779752686002",
       "type": "text",
-      "quoteToken": "RYUHBOlxvv2EJvPmoj8PPY6yPU3b7PDweTqpQm6nNzEm8Ogsk_y94ghma0kOrX6jQf6PNk9Kncs18SiIcqYsEh2kmeYZfQGNC5GelmCr4b8zyp_cO9nq80ptuOiIX-W4YYsv6TfI_8uACkc_j3pZMA",
+      "quoteToken": "m6z3stvG48VNKD7hOg4ztHCoxzWrXWWdmvutM_w5wWYuWpVo7QcxTTTnJtIpeYFv8Cnf-kqvzxcNmwENxAWPnKoSgJTEg6fMXdU6dnbSqPJaWkgbWNvUh-p0lz-6UT9Yj5mMhP481d-4FdrY3TzASA",
       "text": "สวัสดีค่ะ คุณ HERMIONE BOOKANDBOX ยินดีให้บริการค่ะ\n--\n📌ขอราคางานด่วน 1 วัน\n📌ขอราคางานปกติ 1-2 วัน\n📌มีไฟล์งาน ส่งมาพร้อมพิมพ์ได้เลยคะ\n📌ไม่มีไฟล์งาน แจ้งรายละเอียดที่ต้องการทีมงานเราออกแบบให้ได้เลยคะ\n🚛 พิมพ์เสร็จ จัดส่งภายใน 1-3 วัน ทำการ\n✨💫งานด่วน จัดส่งด่วนทันที 1 วัน\n.\nพิมพ์ด่วน โทร\n📱093-954-4914\n📱092-464-9914\n--\nหากคุณลูกค้า \"มีภาพตัวอย่างสินค้า\n หรือ Files ออกแบบ\" \n.\n>> ให้แอดมิน เพื่อประเมินราคาผลิตได้เลยนะคะ\" หรือ คุณลูกค้ามีราคาในใจ แจ้งแอดมินได้เลยคะ  เราจัดให้ทุกราคา \"_\""
     },
     "bizId": "__AUTO_RESPONSE"
@@ -583,7 +613,7 @@
     "message": {
       "id": "611044779752685624",
       "type": "text",
-      "quoteToken": "qxt7wDThJPrtSpb956nTXN6LnEMVkeiBQLUZgbJFZB_PlKQlAJrSUkBrbKItWDZJ5tBYK-GzFLWrMAOz8vioCBQAwEn-16lnXoablEyLlsyebiiTYXt-e9FzZmvo_psiMExjKoPfAXvlr5xreTluUA",
+      "quoteToken": "W26Rw7YZUyC2vG9EIEmkzjZOzmQSiIg30yJ7C5UxEQjKN_36TMd4tiY2dp3CHIVZROrnXpG2RHvL9Ye2GHbW5iK9Rcr4MnHnMjHWN9XoZ4009QjI3Sf8i7GPjBwjtzCKf5UyO2KZzu3qd81d8eJS7w",
       "text": "STEP 7 วัน",
       "originalType": "flex"
     },

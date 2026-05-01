@@ -1,0 +1,690 @@
+[
+  {
+    "type": "messageSent",
+    "timestamp": 1777519413944,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611845118990745767",
+      "type": "text",
+      "quoteToken": "HAF5Gft-stNOWxq9CDZ8eR3pep6mStdLd0M56Zm7e5KZfd1jnjwYDdPf9_-jUL4k46yULVobDj14tlem-osyGbgiGMevwQmGn2bYxfh_3tBs4-00RAr5uhSZIK7M-clg7uwiKhqdFdQcsns_Old-fg",
+      "text": "ขอบคุณครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1777519413637_13163658",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1777519273271,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "611844883036242297",
+      "type": "text",
+      "quoteToken": "_X07uZy8Zsu2JCKHzNDIvXnNeqL129SULxon7YDXI7fvbMtm0Rt9GSXF3MT7X9eaGEZzNPdOGNnHP8WYuj081OrMpMcHaah9hGo51qdWaFelG2OyrtKeeFvfLt2aRwBnIqC6R0QsJHYj6XsviCT0Tg",
+      "text": "จัดส่งงาน + บิลใบกำกับ\nเลขที่118 ถนนพิทักษ์สันติราษฎร์ ตำบลมุกดาหาร\nอำเภอเมือง จังหวัดมุกดาหาร 49000\n0815447847 คุณ จิราภา พิชัยพิทยาธร"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1777519224332,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1777519224332
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518150513,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611842999559389348",
+      "type": "text",
+      "quoteToken": "DGzuZJZG1Ao0goAhPA38I8be_psScsROHJeYqa-_SNrU36udx426e5tzLJB4iEBlmxkLIHZXkU77ougQ-62PPjgdTtTTPC2-m0ZPT1P7K-x718cds5g17xyof5uRYSDprBkseR4RqqmtBmbO1W-nNg",
+      "text": "จัดส่งงาน + บิลใบกำกับ\nเลขที่118 ถนนพิทักษ์สันติราษฎร์ ตำบลมุกดาหาร\nอำเภอเมือง จังหวัดมุกดาหาร 49000\n094-9709934 คุณ จิราภา พิชัยพิทยาธร"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1777518150261_85002485",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777518150142,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611842998921593009",
+      "type": "text",
+      "quoteToken": "AkgkvBKQnZbPOS4hzVh8WAlPblBs2SOWhmTfWptmOFjcMmJySzAsrYuNX-i57Un8-iZbLrNkYlYC20upw7oUsQUA90BfYGpfYYpctWO_-c9YdOrFXN-sMp60EwRae42yntm_SlQW_aFS-UY4Z5Fzpg",
+      "text": "สวัสดีครับ ที่อยู่จัดส่งงานตามนี้เลยนะครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1777518149846_10193382",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776929922399,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776929922399
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776924956030,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610847784283406633",
+      "type": "text",
+      "quoteToken": "-r6e9IGNFrC7WANTR1ljDFAoDrTZ_Se4dYXoeWV18MTc61ElL7P_q-YvZBH9ueUiaofuabNuGpnoKmkIrYzV0y1miko_WKn4IL7r4g_dRSsNYqAwMb3WDqTB26OmiM0CzgI6-_crGXWzkvZQmVIxwg",
+      "text": "ขอบคุณครับ\n\nระยะผลิต : งานผลิต 5 วันทำการ พร้อมส่งในวันถัดไป ( ไม่นับวันหยุดทำการ / วันหยุดนักขัตฤกษ์ )\nกำหนดส่งงาน : 30/04/69 ครับ ( ขนส่งเอกชน งานจะถึงหลังส่งภายใน 2-3 วันทำการ )"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776924955570_77865227",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776921946297,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610842734861484291",
+      "type": "text",
+      "quoteToken": "wQtUW_emqDH9lvRBeI-BtHZw26OhzoJ9KyXFJBk_a1rpZCSFHOlht4NGUBNaRl3jwHcZTfQ2mMErZ6lixzPAF45dNa9LPc1wWn7yWCTa8eTadVWt8QGETh_c2_cdsyaD6wzwpPg5OkG5iBZMF3dqGQ",
+      "text": "ได้ค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776921940799,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776921940799
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776921069030,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610841263130279937",
+      "type": "text",
+      "quotedMessageId": "610840520519843978",
+      "quoteToken": "aSms41W_AJPD0muB28ZwxZflqWzx_gumdgazpkh8o6UfSg7BR3Bw4wIIWwTfnHv31w60XdR0T_u8ErAGF_JY-6XbMf8rFciZUYG5z_4Uq_jinhTd0MHU5m2n1wkIVcrljWyMAJcildunoXukhBmoYQ",
+      "text": "ใช่ครับกระดาษตัวเดิมเลยครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776921068571_8360869",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776920626436,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610840520519843978",
+      "type": "text",
+      "quoteToken": "_1Z8-yBd2LsU35G6o3HxhNpX6ygtficprY31e76zzF2yOLKRObdAn3yXPc4wZDTNRVhCr7-NZ-7nCqanlsxyLYPyyn18X-KKehyDhFXgvljJbBZJAI-0EJfYwE4Fm3JwBdV0BE1Xz0iN8ZMx4roAZg",
+      "text": "ค่ะ แต่เป็นกระดาษอาร์ตมันเหมือนเดิมใช่ไหมคะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776920526758,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776920526758
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776920106440,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610839648087834915",
+      "type": "text",
+      "quoteToken": "0Afx0K1KOr6LCuSqmWM-Pdd698dI6eJL9sLylJHc2MLPKU8GB1jOo0OZOOi1dmShIuskTcoQgBfcIpJKws7rDXxdRhk-5odIl_dyMS0hgzIxAH4VPeblXLHOaaOopz9SbrgkAg2W9YFXO1r9_6ApxQ",
+      "text": "ขอบคุณครับ ผมขออนุญาตแจ้งเพิ่มเติมในส่วนงานพิมพ์ครับ ( พอดีผมเช็คข้อมูลเดิมสีงานน่าจะเหมือนกัน )\n- งานรอบก่อนผลิต 100 ใบ * เป็นงานพิมพ์ดิจิตอลปริ้น *\n- งานครั้งนี้ 10,000 ใบ จะลงพิมพ์ * ระบบ offset ปริ้น * งานเครื่องใหญ่\n\nสีงานของทั้ง 2 งาน หากนำมาเทียบกันจะมีโอกาส + - กันอยู่ 15-20% เนื่องจากเป็นงานพิมพ์คนละระบบนะครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776920105995_49845661",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776919359201,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610838394343260300",
+      "type": "text",
+      "quoteToken": "Xzl4wvl9SY1v56KmohhCHteH93u6w9P_VmZBjUTrABRjvHWN0S3Gen2pZFjNYfkPJa3q8ZHGI9Sg12JX6s3_kkl7kuhYIVrNAzgXukeVItQHi-ybEuEsjl-sRNu64atsWqMOzjo0lqcWVC-j-AB3IA",
+      "text": "คอนเฟิร์มค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776919277069,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776919277069
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776919148170,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610838040160239845",
+      "type": "text",
+      "quoteToken": "PG-2QOVCIXaS4yFuP4vVaUMAz8gn1gQpsDz4sCCm-gIBV7IwHEaDkBXQzHs0qnytvg991OiZ0mS1iYPmfAbDjUdu8I8Zg2FEkr36QS_z2I6ZqHuD3RYD25mE7pyuDA5Ok-AsdFlFgJR3D82xWECZDg",
+      "text": "*** รบกวนอ่านทุกบรรทัดเพื่อประโยชน์ของลูกค้าเองครับ ***\n\nข้อตกลงและเงื่อนไข ในการสั่งงานพิมพ์ ดังนี้\n\n- เส้นสีเขียว = ระยะปลอดภัยของงานครับ\n- เส้นสีแดง = ระยะตัดขอบงาน /ไดคัทครับ\n- ไฟล์ Master = ไฟล์งานต้นฉบับจากลูกค้า\n- ไฟล์ Artwork = ไฟล์งานหลังจากที่ทางกราฟิกของโรงพิมพ์ เช็คเรื่องระยะตัดตก (หรือหากแก้ไขจุดต่างๆ **ถ้ามี)\nโดยลูกค้าจะต้องตรวจเทียบไฟล์ทั้ง 2 ด้วยตนเองอย่างละเอียด\n\n** คำยืนยันจากลูกค้าถือเป็นที่สุด หากผิดพลาดหลังจากนี้ \"ทางโรงพิมพ์ไม่รับผิดชอบทุกกรณี\"\n\n** ข้าพเจ้ายอมรับข้อตกลง และยืนยันว่าได้ตรวจสอบไฟล์เรียบร้อยแล้ว\n\nลงชื่อยืนยัน ………."
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776919147787_11682280",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776919147094,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610838038398107765",
+      "type": "image",
+      "quoteToken": "cgjosbxgSiM03AClKu7m-F-SiaQk0kWK1RTnMToVFlMY05rzgXyh7k8aBqXil3BXKP3PvAwcDSbzRGKPL8h4GNN0uz-pKSdxDqkTGtFHr86ES8I2s0eAAXnwhxR6GsvnFbiA6-7kWhzN4ayfpGMumw",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "qNSApCKC6GJ8MFyPM_8OJmJys98HftphdSzS_HtE3i4cGWaZUCQqJb_3S0KyJLEpl-YV1rvBb2oD5UY1k1bc1xSs_8b1m1e-UplcKQfFESLylhgHefcakyXcFa76aFkIyoEYSNdl5TIBu65cFcBv0A==",
+        "expired": false,
+        "expiredAt": 1935031087094
+      },
+      "contentHash": "qNSApCKC6GJ8MFyPM_8OJmJys98HftphdSzS_HtE3i4cGWaZUCQqJb_3S0KyJLEpl-YV1rvBb2oD5UY1k1bc1xSs_8b1m1e-UplcKQfFESLylhgHefcakyXcFa76aFkIyoEYSNdl5TIBu65cFcBv0A==",
+      "expired": false,
+      "expiredAt": 1935031087094,
+      "imageSetId": "3362E420CB9D6306D98ABCF566D5225C2EFF86558EEFD122CD05A62299AF2C18"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776919142831_37836704",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776919146815,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610838038062563502",
+      "type": "image",
+      "quoteToken": "1WXLoeUwd-lYpJgVx7LgwNQf5SZe3mGBDCgIFLxaXrC7m5iOjWBNJYNSymJ0piOuHsc2vggfC0sPwel5k52IDdyDVRsBSiHACeRnG6SQZ2mtnTbx0b-bpHeHl68swvj1Cdm8k6O8X_ZpjL016LzPnQ",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "KKwfkHvqUPC157JcjVnC2Jmwxkc5LYyGd8LsOzXP0TjLKjFT38YIFP1S4dQ2VHUD3SBkZLqUb14OP6QU1LN5G_-8v5DdbCX4ViqVf4J95HE4JN1gU8K7tkES9T8-ViBpPGAWgRoNfwFFSQkqTkXAuA==",
+        "expired": false,
+        "expiredAt": 1935031086815
+      },
+      "contentHash": "KKwfkHvqUPC157JcjVnC2Jmwxkc5LYyGd8LsOzXP0TjLKjFT38YIFP1S4dQ2VHUD3SBkZLqUb14OP6QU1LN5G_-8v5DdbCX4ViqVf4J95HE4JN1gU8K7tkES9T8-ViBpPGAWgRoNfwFFSQkqTkXAuA==",
+      "expired": false,
+      "expiredAt": 1935031086815,
+      "imageSetId": "3362E420CB9D6306D98ABCF566D5225C2EFF86558EEFD122CD05A62299AF2C18"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776919142806_55501241",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776919146453,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610838037660172340",
+      "type": "image",
+      "quoteToken": "pLWv8yEDppaCDT9eZE1L3qxXXhJvsoQD2v3ReM0a-XBbzRzQXWPjpAEqKtv5W83IFFRcgMkZlESDy37W9Tz-5BFjNJQJ1XA50Cwy89WwdpxQp8s2jf35JP9q3W9np0U_rCbwTLJDi-s5bYf-1kDvuw",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "8cK_kZxaVjQIRJaLhjQsBOhh00ZBrlcpBYAYGnZxU-4VTW369GiV_vs5K9DO9_ektCKNUeBd3lhGxu5CvBpkLa1v4FJDtMnjV3Vhh8x5df2Ok4odYX-TCRwVOYsoylEMhQ7XXNlMIvOKyR-Uke5ipw==",
+        "expired": false,
+        "expiredAt": 1935031086453
+      },
+      "contentHash": "8cK_kZxaVjQIRJaLhjQsBOhh00ZBrlcpBYAYGnZxU-4VTW369GiV_vs5K9DO9_ektCKNUeBd3lhGxu5CvBpkLa1v4FJDtMnjV3Vhh8x5df2Ok4odYX-TCRwVOYsoylEMhQ7XXNlMIvOKyR-Uke5ipw==",
+      "expired": false,
+      "expiredAt": 1935031086453,
+      "imageSetId": "3362E420CB9D6306D98ABCF566D5225C2EFF86558EEFD122CD05A62299AF2C18"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776919142792_21464004",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776912479800,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610826852776804829",
+      "type": "text",
+      "quoteToken": "FMLdLvb8ijtSNNPpx5cROfotP5rK48RlEW4SA4CV-5bQ9MUDvdh6ZR41E3qsCg_mKb2mzIxD2w43A5e8XMzbmiW5pPUuUfOcjZA4Pblvg2BO4HDZzDLi-SPaq1nsc80f5fsboxNFkRxrgEd-QApEaA",
+      "text": "ขอบคุณครับ ส่งไฟล์ขึ้นคิวตรวจเช็คให้นะครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776912479515_27748497",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776912368165,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610826665341747460",
+      "type": "text",
+      "quoteToken": "GQEFTM5e4jezu6MNuKCIVBrv398Xkih3wfx4uJx9tr6Dzw5zgjkf_Cpw5IGxak74NaPu7adOcTQqjHje_mGiIvySOxdKnKTMXsweheT36xfhG-rw18n8TA5Iu3FOu_NdsIFueq0BbvDRvyT8dm2jHA",
+      "text": "เรียบร้อยค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776912362685,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776912362685
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776912359730,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610826651148222911",
+      "type": "text",
+      "quotedMessageId": "610826539780800616",
+      "quoteToken": "1Jnyo2fwSHkV5cbK58qOjrBZ9plTPHFMRfhAVZ_yduoYWjYw2JeCE-4C45_6KS331DJIwU58WMxorbCx3bprDL7aQvTfslHjOdctnBW-hVc6FQpEXdsnFlqYwGf5nC5EXmMHw2ABsfjVgWZHhNNC1w",
+      "text": "ผมมีกดขอสิทธิ์ไปนะครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776912359434_15278018",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776912352160,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776912352160
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776912351592,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610826637608747215",
+      "type": "text",
+      "quoteToken": "6mfKG4C_UicLan-spCfRerz5_lEkzH6ixMuHWGXc8Q5tw5PZ1MRyf9YRzKIK_7ZDf_-_6KwtWKLqK0Fp5KVNvgHLlYuPJuYNg2uRR_KoWJPyCGmN3O-fP8YLqr0qFCl-NuoKOnEEfvWiLuTM0N99sw",
+      "text": "ขอบคุณครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776912351323_40487475",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776912293344,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610826539780800616",
+      "type": "text",
+      "quoteToken": "FpQBYXsj5X2o133zUU-zDMZgYdqPRzZddMa-K4NNFQ1wcanahTqiCDYNCLpqpfu2DKa7Y6apHiNpdOLD-ZyBFyRYv4-aNhjPAgX8b8p-Zz1wY3diYXJbJIaamvJVlRm1RecoGTAoKhzVdhZQPheUjQ",
+      "text": "https://drive.google.com/drive/mobile/folders/1hGEAcYmq3WoVdLKgd4iMe-oH5y3FQ22j/1s2s-HavOBcm2lNr1ymHaSC73346J4xHP?sort=13&direction=a"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1776912185798,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610826359391912381",
+      "type": "image",
+      "quoteToken": "4XA5quGUxiR0HBwNnLX4izWfQ9kofvZ97wEjMYa9uQGqQzaIxHcy6ibo04GQJ9iSGm-NbpS4iZ7D-3GKdW2CuQOk5vpVhlF9NyIpwgeZWZVTjdOfUWCXuWOqcfyryTjaPTfIW6w_cw7lH-abbLDPhg",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "j_Znsqjg-bFVBjVIV2LTxXTR1lzu2FkDYI7xlXT1VrBNq6vGFsBBi2BaBJbNqcWpcBwOq5DL-FrkhD_rVqoO2Jmj-1qccpzyWU6wm2K91n44jepmlmXuZLdeT03gk0q5OObrIXWDvj3wvVZWXR7TOg==",
+        "expired": false,
+        "expiredAt": 1935024125798
+      },
+      "contentHash": "j_Znsqjg-bFVBjVIV2LTxXTR1lzu2FkDYI7xlXT1VrBNq6vGFsBBi2BaBJbNqcWpcBwOq5DL-FrkhD_rVqoO2Jmj-1qccpzyWU6wm2K91n44jepmlmXuZLdeT03gk0q5OObrIXWDvj3wvVZWXR7TOg==",
+      "expired": false,
+      "expiredAt": 1935024125798
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776849070430,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776849070430
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776845210036,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610713992847425996",
+      "type": "text",
+      "quoteToken": "dywtzO3M4a1AcJGmW0JytZMwsNymysYly17Brzmn5jEbKYRgB26zSCdvzvhtN1gnKVSCcaJGXV1l8cc6Q0TTvY-s0Fs-opJaMkX3oJmfLfNALNnwYejgUYkBWwsklBciuPUDjTva556PeQCpwcP_Pg",
+      "text": "♡ ช่องทางการส่งไฟล์งานครับ ♡\nEmail : bookboxprint001@gmail.com\n\nแบบไฟล์งานขอเป็นต้นฉบับ Ai หรือ pdf ครับ ( ค่าสีงานพิมพ์ CMYK )\nในส่วนไฟล์งานเบื้องต้น ต้องรบกวนคุณลูกค้า\nCreate Outlines / Link image เข้ามาด้วยนะครับ.\nถ้าลูกค้าทำไฟล์มาจาก ลิ้งค์ Canva สามารถส่ง ลิ้งค์ไฟล์ Canva ที่แก้ไขได้มาให้เราได้เลยครับ."
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776845209803_66000789",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776845200590,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610713976724258926",
+      "type": "text",
+      "quoteToken": "wq3Df56gCog6_a_wGc0X14ta3wkm4tt6rMLwQTSAtQZkeG8JLVFFRlJI_Zx_9BXKkazZ8Oyz2eVVLIBBnUHn1JDOiTa6lyNgG9Q9riV4Jd_8ub4LVLGiuMuo4XXjO0aS3ud3qOn2q3D3IOZrVNErBA",
+      "text": "♡ ธ.กสิกรไทย ♡\nชื่อบัญชี บริษัท โกลเด้นไทม์ พริ้นติ้ง จำกัด\nเลขที่บัญชี\n\n0788919247\n\nหลังจากโอนชำระเงินแล้ว รบกวนส่งสลิปให้ทางไลน์นี้ด้วยนะครับ\n♡ ขอบคุณครับ ♡"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776845200348_92499055",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776845195443,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610713968453353711",
+      "type": "file",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "TwgvMykC8r8a7gYdT8sNklitohk4ayzn1mqQQneNK4Dyzsoi5IG2Ay9FhpIccPGHO701llx7Hhslg8zh58Rk2PpO8TMPkU52KZ8jLLEkaQtRolnoIHfEh_02k_4ZOkUAkpngZXezwyv0UN-p8nCI8Q==",
+        "expired": false,
+        "expiredAt": 1934957135443
+      },
+      "fileName": "QTG69-02685-คุณ จิราภา พิชัยพิทยาธร.pdf",
+      "fileSize": 94273,
+      "contentHash": "TwgvMykC8r8a7gYdT8sNklitohk4ayzn1mqQQneNK4Dyzsoi5IG2Ay9FhpIccPGHO701llx7Hhslg8zh58Rk2PpO8TMPkU52KZ8jLLEkaQtRolnoIHfEh_02k_4ZOkUAkpngZXezwyv0UN-p8nCI8Q==",
+      "expired": false,
+      "expiredAt": 1934957135443
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776845194618_7921625",
+    "bizId": "fda42390-cc0b-11e9-bd9a-fa163eaabe5f"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776842669783,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610709730914730139",
+      "type": "text",
+      "quoteToken": "VHSWssvFPFGpO0sgWOKiTvgpCnlp7wxWBVQE-ai1TFIkIVgMYRuxOkQMavguLtgLzh70ErVs3UcjnUqy1M7Fvetl-EtPILlmuEvcqfAZc4fM1uBve6CZ1hZCDAAcPQl7SaV1XpxBqLq0OMc2uEwO0A",
+      "text": "ค่า"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1776842666078,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610709724656566360",
+      "type": "text",
+      "quoteToken": "n_3wQknk2bJjUnkO6B5qGixeF9Fzva_qTq7vp1DNxvtt8UP1b1mFLlUl6lfd9uP2W2H-Wb2utfyaWfCXh-zuyMKAqUfo34_nA5FgDfcY_-XX7chAEdmSPdMLgvmDa5kC3RDaVw2IF_4Ee0pB8Lu6Lg",
+      "text": "ต้องการซื้อสินค้าและสอบถามโปรโมชั่น"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776842664378,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776842664378
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776830434004,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610689202715361793",
+      "type": "text",
+      "quoteToken": "HDf27xrv2I8AfrFzXLIQz1hGJyFObieik2-eM_tZFdk5Dism8bYlWoDb49MFVMPdulZUB6Sb2M0zGPMWheJ_BaN8zwnTWwQ4XPurduQeof7QV_SJd50vMON0mQbB0hlS4dDuYQOkr85DTr5XCwhijQ",
+      "text": "ผมทำใบเสนอราคารวมให้สักครู่นะครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776830433632_71077957",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776829980878,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610688442288308877",
+      "type": "text",
+      "quotedMessageId": "610687784588149402",
+      "quoteToken": "8oTv9XTuT3Cj_0WqMT5ilNb-_WE12eW7zJcVgd-ODF7JqN5p8qzPV8I96_MjHAO9TAjWk7OGP-yiIA422KjUi9cPmaRXAv1UZA9KLiuR3xtUaOy1xLqZemexvdJWFIaUDVIIWHC9a9sMJK2aF-iPUA",
+      "text": "5*42 10,000 อันจะ เป็นเท่าไหร่คะถ้ารวมvat และค่าจัดส่ง"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776829821958,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776829821958
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776829733653,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610688027790409848",
+      "type": "text",
+      "quotedMessageId": "610687784588149402",
+      "quoteToken": "bzkU7HPFkxo-_JD8AzwAxl9TYmBtrycjLMReHQeh0xlCtIAq-dq9CqHs75MSw2LoPAGk68Z7KSdC2ho5v248jmMBhfUC1i98lR2KUZY2SFxKQu3DtS605vUYsrQ9k64-mG-ATe1Yr_DTSBjpBV5TZQ",
+      "text": "ตามนี้ได้เลยครับ ราคาไม่รวมภาษี7% / จัดส่งครับผม"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776829733312_62374883",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776829593716,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610687792708321508",
+      "type": "text",
+      "quoteToken": "zb5y8US9D_DwYaYyCKcFGe916AxvWMFw98rdFFe50OeleOIA3HXMUfi9JtZzJj8qT02IX-54pb2_7g8Qr2IVWPNWCJ7vDPrvHJ2O36RSsCktTwHhcRjjcypa0VO9de3XdDPyfCt_HqCv_HIxFag7oQ",
+      "text": "ตามนี้ไหมคะ"
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1776829588857,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610687784588149402",
+      "type": "image",
+      "quoteToken": "Z_wAkxBU7yiM7stHnb62Fblb3V-rsMRfAnvXRH-fhg_smuOxdmAbpwNBgTwBOSRFT6dn2yEp4-a1Wb3wG5jNUfvZea9SIuD4Z3I8ocX8sOgB1CEFsLSiyjNnRzacqzkp-dtetKtTrbI3gmEcn3dXkA",
+      "contentProvider": {
+        "type": "line",
+        "contentHash": "6Dofp24xDZuCEr70e0HKY4Jl_5mE18ZIZWtEW5lCMEO0DsKrZ_qfgsJBUtZ2F9_R6cjllNgloddnV-R__y0ebElCaiRdjjSrJ0MizubfbMjCVWseeCDzI2yj889OzHJ1yoEYSNdl5TIBu65cFcBv0A==",
+        "expired": false,
+        "expiredAt": 1934941528857
+      },
+      "contentHash": "6Dofp24xDZuCEr70e0HKY4Jl_5mE18ZIZWtEW5lCMEO0DsKrZ_qfgsJBUtZ2F9_R6cjllNgloddnV-R__y0ebElCaiRdjjSrJ0MizubfbMjCVWseeCDzI2yj889OzHJ1yoEYSNdl5TIBu65cFcBv0A==",
+      "expired": false,
+      "expiredAt": 1934941528857
+    }
+  },
+  {
+    "type": "message",
+    "timestamp": 1776829570842,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610687754338304352",
+      "type": "text",
+      "quoteToken": "OLiZY0Nj_4i3fD3yNQlPD9kGuLvSGDvCFmw4nH8KC7kraZh4JuopTL03p7esXwU0ZLycCw1SjWr9L4KU28sY3YBqP3nPrLpsii6gEHx4fmGAZWvcWwma7peEUNSII8h0dlNTL4IjAtFqqfDP4Pg7uQ",
+      "text": "ขอเรทราคาอีกครั้งได้ไหมคะแอดมิน"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776829483558,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776829483558
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1776829483070,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "610687607084679295",
+      "type": "text",
+      "quoteToken": "Xwa4yhROUIXRjnEXSMgIXL8KCKeSGuJ8dJUErjoA_0Ss5IhHr8DKA9fXqDCEHxrNDgp6cjUdJzVU824AX3bOoKlGMf8JuOJHSz_O68zFS_fZyc1DtDZTyicE8GVgzQNWn8wdg6bay_AQP68H8tTnxA",
+      "text": "สวัสดีครับ สนใจงานจำนวนเท่าไรดีครับ"
+    },
+    "sendId": "U417f2d960397a67a66b77b811518f546_1776829482737_72556233",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
+    "type": "message",
+    "timestamp": 1776829354339,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "message": {
+      "id": "610687391330206242",
+      "type": "text",
+      "quoteToken": "YRqF3XdeTK4ZAeVnEDoXhj_FbGusEm4SprfZ5fLWn6IaiDpSj03Da5OQIcvHjBhNQShM5HTzvx-t_k_hlR7OUb4AWhNI7Syi-5b-NfghXt3qkyv3sgqQAm8cuYqdjRLJgbLvFUGXq5LkMSie8hRIlQ",
+      "text": "สั่งสายคาดกล่องค่ะ"
+    }
+  },
+  {
+    "type": "chatRead",
+    "timestamp": 1776769283350,
+    "source": {
+      "chatId": "U417f2d960397a67a66b77b811518f546",
+      "userId": "U417f2d960397a67a66b77b811518f546"
+    },
+    "read": {
+      "watermark": 1776769283350
+    }
+  }
+]

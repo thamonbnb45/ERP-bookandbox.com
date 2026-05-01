@@ -1,5 +1,32 @@
 [
   {
+    "type": "chatRead",
+    "timestamp": 1777536022609,
+    "source": {
+      "chatId": "U999321e8f83a55267f83d58d1c91c5fa",
+      "userId": "U999321e8f83a55267f83d58d1c91c5fa"
+    },
+    "read": {
+      "watermark": 1777536022609
+    }
+  },
+  {
+    "type": "messageSent",
+    "timestamp": 1777535719580,
+    "source": {
+      "chatId": "U999321e8f83a55267f83d58d1c91c5fa",
+      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
+    },
+    "message": {
+      "id": "611872475449655872",
+      "type": "text",
+      "quoteToken": "do3lKBXehNUu1zk81HXKngWvd1imosohzyv6-pmqsW3zqzqDsdbasuG2Ym5Em5Nueo5cUQX0qJ8va5UAeY1C9HgHUJafh-5MKqb1EeobyBp5lCIFTrePKlEM6i_lQ_VN8TObWYEb6pYROeBQ5K04EQ",
+      "text": "สวัสดีครับคุณฟองเบียร์ อัพเดทครับวันนี้รอบส่งงานจะตัดช่วง 15.45 น. ครับ หากชำระก่อนเวลาจะส่งออกทันวันนี้ครับ"
+    },
+    "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1777535719614_15748168",
+    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
+  },
+  {
     "type": "message",
     "timestamp": 1777432261626,
     "source": {
@@ -8,7 +35,7 @@
     },
     "message": {
       "id": "611698901661516179",
-      "quoteToken": "snBadP-dQ1VAtQ7P6PvwnPze2gf7akUZCaN0Jhjlq96BDtLxOSHzKxaOn6s5kOjFy6xidMufZP61P3zwAnkNzkPQ2QhhIScftqbe3juoIXuuQJipn_a_-ybwzcw2xiK4pj5rJ4ae-GEO-YVVXLXi6Q",
+      "quoteToken": "5IFYus_T53Geajcir5KqZ_-lpa6j1IuGyv6f0yBEAGcqSQd4W_O05neZB6jj502z82TMq2B1l8O1IOvM6P-zOQvf8uTStTBhF-RzDejQ2g_21JED4oZBVP9B6qa9Lydhxq3noFF2H6L42_zDQZXRNA",
       "packageId": "4892552",
       "stickerId": "91601118",
       "stickerResourceType": "STATIC",
@@ -36,7 +63,7 @@
     "message": {
       "id": "611697689255739729",
       "type": "text",
-      "quoteToken": "4n9m2QCjfxqHV1rRhRJk9JK-9b_wF0eHJFomaffzDLaPDcaR5OUHCP5KFJPuJAS0mA72sNYJOhziZ9RKtXa0mVoCX74k_clZAFFyEMIGKynAaLPfzT5CQW0HNopQU8_vbc2qZ1k-neFPBY8M9O0i8w",
+      "quoteToken": "m2ERy2vWqzLWaMqX0IugqDWTOOxboeVp2RWeebLcsXd16uyro6hjn2kO5JS5Q6zq7aJ8eG1M0OtSzSkoyvH-Gk55t8oVGu4mwV0UMzTjNUBMEXzcIGo4aJFN__-jrlR1-8DWOIpmDWtH0STXWWyEWQ",
       "text": "รับทราบครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1777431536201_23211852",
@@ -52,7 +79,7 @@
     "message": {
       "id": "611696529665163660",
       "type": "text",
-      "quoteToken": "zK2c9U5A0n_aW7WnTpyWxoqNek_WC7JxpYfq8Od46q1MmLP05Tz30RtmhyH8VD-S7CvImYnjZ3LcLy1DzKUdaLzuEaFyOICpDzorq2zuDpWbrqv3C-Ld0EHJElo47e1itwc7j3k313baSYBK_z6VaA",
+      "quoteToken": "wNx_Q76ed5ziLkkAvp7BYNvkpCpuzn4pMQu4vdjeEw2QnA_LonAuoTxFp4OZF3b9VDbwvSMJf9lvPW8plDZ4EQ0UTvMTKQVgFyGCW4jUpaa-sNT3dxN_x8QLPdx-C_oEyPDct9SPh7JZvea_lSihSw",
       "text": "จัดส่ง\nร้านฮิลลารี่ 2 \n(เข้าซอยประมาณ 300 เมตร อยู่ทางซ้ายมือ จะมีสัญลักษณ์กีตาร์รูปนกฮูกหน้าร้าน)\nเลขที่ 19 ถนนสุขุมวิท ซอย 4 \nแขวงคลองเตย เขตคลองเตย กทม.10110\n\nโทร.080-694-8813 หรือ 02-656-7125\nคุณฟองเบียร์"
     }
   },
@@ -66,7 +93,7 @@
     "message": {
       "id": "611696313909641243",
       "type": "text",
-      "quoteToken": "FGUQ1o-uay8KxFFRDcu_ZudmpghQuGOMQDDYp89mKyU97ISKK1935vv8AUVHoYw6stMcd4lkp0H6LHFdlVe9YzJs7ux9R6hCw8lbK3yelekPnmpLMTF_9LCChicPECkr5HgBpnU0J-KdA0bgxcAx4w",
+      "quoteToken": "N-BBFm1rFxy21cDY-CrtQ2IHQV04xjQJ5Mf0RLf2gkbUJ940vMKnIMq63JMsXLIb7gSDJxECnqO2EsyDP2tSaJ02c6LA4A6vbAsgvTMpq4IZl2Oda1CxKUoR1mWXx-mfcm35ItTsgVF6mL399VN7Mw",
       "text": "ขอแจ้ง ฝ่ายบัญชีดำเนินการโอนค่ะ"
     }
   },
@@ -91,7 +118,7 @@
     "message": {
       "id": "611695828091798092",
       "type": "text",
-      "quoteToken": "Sa0ff7sSShl0nOO_QQRLQHydsxyhIpOBq6MnSoNDGt8X_lOB1385J31vMqVbEOUwjfBI7kDF2Uhg3Wc5ksTrB_CSoSm3xD245rHZNcnlay1WaYpfurSmDoOXhZGq37Q-cjwRMyKzRh6L2AXqOxYfFw",
+      "quoteToken": "XHsEBMJMEhOSiznv374d64u9KyP2kEMz_z-slTq-HOB9pFKqgSXbg4qlBnwueEt7jcA3ZJnxSvbutQTcma8A7klAvY0Ol7bltz6woTX6Wlii0hMISz3g74y6dwy8NBPMD8_331OmyP1qkNgdSkKVOg",
       "text": "วันนี้สามารถส่งได้เลยครับหลังเวลา 14.00 น. ครับผม"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1777430426921_23501106",
@@ -107,7 +134,7 @@
     "message": {
       "id": "611695554036236741",
       "type": "text",
-      "quoteToken": "-b4IFVQ1p8YqqGYPJ3_tvwC91QZaREsnnz_GXRcoh1RyYLbx6_sP4p7791BWul27SqxjQej_s74JiywathwIB_iHl1ZhU1tlOED_5acdjSzWtOHTYU8laIiI_bDXD0ZdAEecZHe3GEPYYDmOTj_k8A",
+      "quoteToken": "UkKIqbYhuhlHT_OzefFJVMLTodMZ_MkrL1F7SxGStDk9Uwif62DwJdgyQzIvUFJ6YQng975Y4i-pM5WG-iL-zLZcHuo5QB6Rasy3F25XIsM2aEHI-pc0nAmI2ji-MSBR0Zr1jnn9YMG0lRHGMnantQ",
       "text": "พร้อมจัดส่งวันไหนค่ะ"
     }
   },
@@ -132,7 +159,7 @@
     "message": {
       "id": "611693359878897857",
       "type": "text",
-      "quoteToken": "yRGHgfZL69muYpPvOmG9zLD-KM1oo6muYewT5BKT8nIHMS_qbC-yPqwS4A2vY6tKw7UzXkB9sPn9iPWR1nMksF4GAkfftXpAiTy_qltviYoJ2iAg4hJ3rbQc8gu4OV_ZS8PraRuI3rb7n066vWN4pA",
+      "quoteToken": "QuFoqUXNbcOvnfvmCfh2QcImuO3ir0x2wHAQR5HCpN-aTqXT8JEW8G4qaxVK2PJyMKH9zI6d3_S5mQI6MbOuHoU13UakaCYfrQN3JqXyCcERg3Ul3eDCk8JtTC_K-7IkEZinmwwlkDM74YnczbQiBA",
       "text": "*** ยอด 2 ชำระก่อนจัดส่ง = 11,876.80 บาท ***\n\nเลขบัญชีสำหรับโอนชำระค่าสินค้าและบริการ\nธนาคารกสิกรไทย บจก. โกลเด้น ไทม์ พริ้นติ้ง ( สาขาซีคอน บางแค )\n\nเลขที่บัญชี  : 0788919247\n\n* รบกวนคุณลูกค้าแนบสลิป หรือ เอกสารการชำระยอด พร้อมแจ้งกลับครับ *\n\n*** กรณีมีการทำหัก ณ ที่จ่าย รบกวนแนบไฟล์เอกสาร หัก ณ ที่จ่ายเพิ่มเติมทุกครั้งครับ ***"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1777428955771_28634327",
@@ -173,7 +200,7 @@
     "message": {
       "id": "611693337028329833",
       "type": "text",
-      "quoteToken": "Q2mzCB9iBmrBMCWY0FggD7dcTqb8jVhM6uTUf1juz77iRfnzLg7b0wE0_TaG0CQlQPQZEUm0Xizc4yVlF6byiwWcjSIPMJWrlromWhlYVaUoB2ZjEQMlQ2nYGnp9YI-ybMgrtimP8pTj0eSxwGM8kg",
+      "quoteToken": "vXOf2ULSvd25HFEZiAKLUnss_3RCK5M7dKvmuORrfSi7qikCGijY8K4IfbpQ3wt3TpTsDMMuRX5c101ztRSatGz9Hd6mBJ0ogX5H1d5d5dIU-VZrCjkoBt6KJXdb46vN60ZsKgHqsMhhu9AsVQeuOw",
       "text": "สวัสดีครับคุณฟองเบียร์ งานบัตรเสร็จก่อนกำหนดผมขออนุญาตแจ้งยอด2 นะครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1777428942026_14388237",
@@ -210,7 +237,7 @@
     },
     "message": {
       "id": "606944225912946766",
-      "quoteToken": "ekSSmMLuQfsmkkYfoimYXMIyeO5XqgsudjvouAB6ePUgqpoYzyaLVORBHjDaXPZjwhnQWV9n-ibNLUiQieueGlMFL35wGv6cDUbRexxRerGQv7VQ8an4ftBLrfABG8XRFDy6jYG3vbVgYiUptpsVFQ",
+      "quoteToken": "7gFNysfOZb7FFvJWZVprJFug66j3wc8PnF2HbNpvqveSfZzoV2IJ7w-9PcY4QO8mLdLyKy7IzM9LR90cYzyuLkwHPi_sM8xk63BCHu2rTHNzZBL-IbLVHVxJRL8DllHcyQntBhguedxXHMelrFpyhw",
       "packageId": "8522",
       "stickerId": "16581271",
       "stickerResourceType": "ANIMATION",
@@ -229,7 +256,7 @@
     "message": {
       "id": "606943958652158719",
       "type": "text",
-      "quoteToken": "ofqztZUPsq__LXG81QvaR1v8Zrei07vHoXSD8CeTmp8iHDM6X_ZB-F7IVKj5uzTkIPXfQTCSh3iJ9QtUQAI8enwkSC1Og2C7STcz4TMU1eYqgTxrpUq83MRaCtciUfFI9JhbQsRJQB01hnrxQyKQaQ",
+      "quoteToken": "jChnAiV7fAejXrrBEC-jusqfu3eAZlM5bn6vFPxvnk5lEyNYfOzm90CxGpbKQJZyiq30Yl7dEtUEYO-l0NY1ZHyYW9-5byptTElVEDmWETEUYqjRiAq53b4KPstTvpAZjDTNlg3AWA1VT7j7jXQsXQ",
       "text": "ขอบคุณค่ะ"
     }
   },
@@ -253,7 +280,7 @@
     },
     "message": {
       "id": "606942508210979175",
-      "quoteToken": "YY8-WH-osKimogIR8HcbngNHneTHwU574GP8fBSHe6C5SySBteZWH7-MwaYeFluWsBY01-L1UHfRmKI8lxovRJNoZEY33tKD7Hm18L20_BOPIUoPWUo0lwTLrbW1H8CS7eHfeMaqMt10medOqihD-Q",
+      "quoteToken": "M5edQ5AIltLN3hgTyFOuBkma653Pdn5kBY5kEw0vqkh2lUTZYMur69OAZ150drPzYrCygOrs6TPow7nF_JxvEU0H4OFAqJIC29JX4CfpATw_W_bD34h_XRouPdDIO9ZocVNZDOcDL_WmawxbNYqn0g",
       "packageId": "11538",
       "stickerId": "51626520",
       "stickerResourceType": "ANIMATION",
@@ -272,7 +299,7 @@
     "message": {
       "id": "606942502020448421",
       "type": "text",
-      "quoteToken": "42XdEdWGhf4LTqFbk5mX9NmnQLTksZ-R89sWVoli60mUbC_a6Rb4kCHcQDozRZc-MFTYdfzk8_sQmsfT6boEJCIw_pBQxk84E6JlZJSHozAseQZLziv19cNQUlBs_1dAHo48CkJfOaaDwbHoekKX1w",
+      "quoteToken": "YRUjJu0RIOOBjKr62W30nPMOYIEy8wCR21BPn1zi_bravyK9DX2VvBpODNheGBXaFtyKS3zujLbDJhDcYFwRODGhm5QfM7-U73L-1ZUPzVgDpH3xTf_Vtlu7g7GMrHI5Gen8wQdMxtkwsRUtpiJUOQ",
       "text": "ขอบคุณนะครับ\n\nระยะผลิต : งานผลิต 30 วันทำการ พร้อมส่งในวันถัดไป ( ไม่นับวันหยุดทำการ / วันหยุดนักขัตฤกษ์ )\nกำหนดส่งงาน : 05/05/69 ครับ\n\nงานจะมีช่วงติดหยุดสงกรานต์นะครับคุณฟองเบียร์หากงานเสร็จก่อนกำหนดอย่างไรผมแจ้งนะครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774597225604_68213761",
@@ -288,7 +315,7 @@
     "message": {
       "id": "606941641399861816",
       "type": "text",
-      "quoteToken": "HoOTsVpLfqnJ3NMWNSx9bO7VRoM-5UUWTE8WPl16NiUv3Qfkc3cN6uL5Be2vxDqRPLuyaZSonmAetJXj9oR7Dqr9oYDCbIcYQnN4hluwOY-Z7OdfOjpyCOOTGpdWaDnIKWpaB5WDUxv0-z0RIKwpZA",
+      "quoteToken": "P6n3RVgY_2QGwiQDqf_T5y7p80pNmhBVRMRG_M-tSz_7ly76DluY63_jtaJsi4XAaB3x2IKLQwUKMGSPEVjYMA2N8IzimN_JRGEcCDgoPlpvUfjsFlz5V7dSWUt38f1Hm4hGt0O079N2crmQELcL4A",
       "text": "คอนเฟิร์มค่ะ"
     }
   },
@@ -302,7 +329,7 @@
     "message": {
       "id": "606941629806280914",
       "type": "image",
-      "quoteToken": "JFRFGV7HMMEYix_wbZfSLgc-xef594hx0Dq_P-q3mwQWoB7QyIRG1-WXKB79gn4FnzMuHNVxUeYJM_sUCn_kHrfAAtHiXE32Y-XAFY8jA0wJM81ukURfkBFaDO1ft-ZWR3Ii6EHPaffEYnvmVD4yqA",
+      "quoteToken": "GXzZTF_LI-B8l6w_j2BVOGftoS5d9VMgE-7xEO-HeHNAnjQol-1ABoibN6mRDa0NDna-gUP3z8LttBX614H9L6RbYK9YkzeoM0aC4flHzS3AJTDh8fRHIHH6xhGyDJo9e2fxqJ1SftEMWmdSLn-C8w",
       "contentProvider": {
         "type": "line",
         "contentHash": "vZDOFAGgA5lFbs7vDXaj1bn1LJeX1pvKFhfj3Q3-2RaTQslF1AxS_CkJiNp45cJlsIcA28kqf8G2aXFpHFHxnqQoTfcCd_AUbPwXElp5bEdG-g5HFsR3UQcQPUiwIbaZQQq1-WG3eFy_I7uXKcbEYg==",
@@ -324,7 +351,7 @@
     "message": {
       "id": "606941578065346841",
       "type": "text",
-      "quoteToken": "BrXg3E--rblixxCgeMDTe6KlpHN0pAvy0oZD5_U0WYvtCReqAwcxPLbtv23CIIvKubb7rVPzREZjMvbJ9hPDHQHEQG8fbMx0KP9JcrYwPrIV9X8IKJoQ3pzehDXG-kYpE7Wze_q3sZw7SiJQzDpIzQ",
+      "quoteToken": "XQvMB-j_CO3Xb1Iun4FMyj50qOI21z_RZUlaTdvm_PR2jhflZhANWWxd03h9fzVhSzPQElhxV0OQWxQyoQ4NMLqvO51XhMMFzqA8YphCkVLmG793rCZtlDgYFFFbDABjbh1aWeKk-DHcXL7JSCwFOA",
       "text": "สักครู่นะคะ"
     }
   },
@@ -338,7 +365,7 @@
     "message": {
       "id": "606941570331836489",
       "type": "text",
-      "quoteToken": "4Yu7OewK215imYpfKkGodcloL_lX3iRZfDEplA7R01wFBW79uV7TOnUcccMt3zbmmyq5W6Z1kkzHqcPfxa2yn-FqLeucI1T5gFoLTwquTz9P3_e1Q8rP_GL_tNIOHkBXIopk2R_WrakDm9ZBAvM2wQ",
+      "quoteToken": "cf4yXt2tz1NqsRmtLABs5SOrWWXvP1DXi8z7h8AaA5Ow_RZUmxOee3HEU_gLhDpQwLHDwYYB98cPqbatz78pP21Qx5yMNGGErxFsIukrbxzoHSQOCiqQvH48opGjGHC4uFRu4SCx20mOTT4fvoWcjg",
       "text": "ลืมส่งแจ้ง"
     }
   },
@@ -363,7 +390,7 @@
     "message": {
       "id": "606939027744489680",
       "type": "text",
-      "quoteToken": "zk5gl7FSVKixuj__J7jpLkpkmXPErrCfZZIXzLxV490eIlAlAOCVe-SR9PFf9Xgi97Z2uwAExrIlnvI8UE1mfT50W5xBTWy90I2ojZWp7FJWyn0NBcY7RlXiT_KqChywkjunABzVFjR1FCMoMhb07A",
+      "quoteToken": "wWr9L5s1JPHpTJjNdg02DkaTKQQZMs1WgJOI1-zYidv-V73tXkV11X3HoGxK4SCXitUZ1VvUpyiUD_boYPpZ14LcxGBrKDwkLYcjcRxscbNCq-fNezICHh3yqLmk_mx8QDU806z0FtJsDXloOz1IYg",
       "text": "ไฟล์งาน CF ไหมครัล"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774595154850_82466443",
@@ -379,7 +406,7 @@
     "message": {
       "id": "606939019506614298",
       "type": "text",
-      "quoteToken": "nwpEfMDaWlDtjiZ_CZsqOLDAZY33q4MMlLl6JUQMYmeIxC4oiMdClJoLnfypYfUubVfoG1CLoU0zpwt2Q5PPLtw6u3rBw9695vxXU1Anl-4CHKikSTzjKjDcuu3nnf3k9UGir97gxnWoSckq6lRC0g",
+      "quoteToken": "rYi4bUWK7AJ_D3RN4167d0G-pGoCCQndUWlRCVhBzHc2oVBjEXmMeX84wqHJbMoJbMoaTACI5kUNHKgJDJETY96Gb8fiODm3RNTDAmDsspzTV_HGWesIglRDcDradE5EorLWDxDEn1qdQ3P59-KikQ",
       "text": "สวัสดีครับคุณฟองเบียร์ ขอบคุณครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774595149955_38190524",
@@ -395,7 +422,7 @@
     "message": {
       "id": "606938722281193596",
       "type": "text",
-      "quoteToken": "tDVFFZdzMQAKhbRPGheEyia4s3SJuKT-2hqvpNl9vVesuLPLdduvC_0CPZBM12GUh5m2RxjXezpwWRCHM7FTUMassa0hfkXIVYw8-8J2cpqWsVMbPYRS5otGkVuKKRpZ6ZhIDBASgZLJ9DZtoN0ltA",
+      "quoteToken": "Ep51KNZuRoS4RztxFX6KAtC3pU3fNiWGLTreSalsIKrn5xKejtumCDdFuzVSBTSONJqQyI3_Iw9VueZJSriHKPA1BGfmObwT2ulCsvxaZ5b8wZ1z3br7lsFhv_BrP_L3a5ACmWulRwfoHdHihJV3ng",
       "text": "โอนมัดจำค่าบัตรส่วนลด ค่ะ"
     }
   },
@@ -409,7 +436,7 @@
     "message": {
       "id": "606938707299664079",
       "type": "image",
-      "quoteToken": "js1eDzYCB-hG0bVZpapVzhAYbarUycWRXOXbrNQ0QAGfcRvocMPzMG7nsm6iuGcnlrUsyUyA3ciN2MyRjVlFOz1deJ_3iSOdLiGHU4Ov6A75nfWoP7-x46CJ8m2QWS5ItpucrQ5JT9y0T3xgWbdtug",
+      "quoteToken": "-iBmu8n9d2ncj1f59apwWQW-RZh_zn8A4Kwegr3-1fp9XEZrwsarTwVqPLyRKlQbHV66MvmExSxav0JmjwqOijlWchsS215BK0M0Z7lzMp0doNnP-mfO5Xy7qOVEVt3ttdjpwOfxer13WL0MhPwSYg",
       "contentProvider": {
         "type": "line",
         "contentHash": "mXwlzbbuXS1EYnVF3cgAiPqkgce8kqwP6Jt0CkYnJ6OMqq___YKFHhUPZrNu7lfvZgo5_8hGfhlhS70FgbJhwR51EUChsMP4C8HkolNdZr2BOcyE-EUkxb06kzXA21COkCPUNF5rJUTpUxwFl42Qjw==",
@@ -431,7 +458,7 @@
     "message": {
       "id": "606938701679296855",
       "type": "text",
-      "quoteToken": "Qc-9irYbAej2is9NoEb429fHzrkhYe6QD4jUf9XVHE0HViSNcBqhfbayQ49JMqorj04TETqo5gUWC7cc_Eb3UGvEm4R-krO-BX3fWCf4El0sfAfnyLDDwcOtXAb9iH4I9FEFHDEKebeRyRh7IPLKzA",
+      "quoteToken": "6BxotIcZb7ghnVHSL3z2Znxmk6XALdrEYSedDLaA-30shIKniVMYIOVEGP5rpLzSL_LSuCWcNkxv8f0eKk3zwtb7wlUxD3VW5NNzixwyX0rc7IX2ydZ_f7XWSS0iOduyEroFnVBX7UEtUhQ6nUZBpQ",
       "text": "สวัสดีค่ะ"
     }
   },
@@ -467,7 +494,7 @@
     "message": {
       "id": "606506274792145293",
       "type": "text",
-      "quoteToken": "byqLpLT_g4BJlG7mdvF5_oywQx6GjgsAG-Bm5ZVkJkV6RXY7PU4ZbAs-TvgKpTgTvfEBrFldjjQwg3vGz3NZX85ZYYAq36BS_Dod5jm9hcwwUvlUPe5fHaIQg2YIZIjo5k0TDg-r8rvEVf6j3g7LMg",
+      "quoteToken": "l-JQHed7jKOKBdDumG98WhFjWZr2Pn5pcKi7X3mkLG3nVXWixmXeu2afmk0-IKOljMjSmxLw2HcC7V3BFGekaTPQ9xAYN9h1A3P7nEdNNvzC3_oHHJcv1xDUA9t9VwmKpTHRJBjnC-x_b4DumMBk3Q",
       "text": "รับทราบครับผม"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774337213156_46728776",
@@ -483,7 +510,7 @@
     "message": {
       "id": "606505869252756093",
       "type": "text",
-      "quoteToken": "nKGtMLnvFXAbSA2iiIMLpZQd1Jm9g_8H10dMfviZJW6cNJVPRm_9J7r4weK6YxLuebhYjurHYwhjursAEt1ivI5lOBg6WIlTzmIkKArvta3L2dHJRPj7o2KFp1faiqnxZ8RgS8NhBy_FtqWZe-q4DQ",
+      "quoteToken": "mul1EwTA1xWqQwGIheVHDYnlzNzULxbM6g4hhihBOKpqS4T8dkWhw471dLRvSR39IV83ZSwhT67c4jrmVLAzKFqnogPmIoQWvPdpy-ijVSzkVrGhiTGHGpmEw39niI8-7maifm7npBjO-Zt_lW4F_Q",
       "text": "ไว้จะแจ้งกลับไปนะคะ"
     }
   },
@@ -497,7 +524,7 @@
     "message": {
       "id": "606505858314011130",
       "type": "text",
-      "quoteToken": "kDVqDGjJxw6Ozdbb0A4Ut4COcqWG8dvQ0ladOFdjVqZlx4JlBvHN-6U11_KtOSBMcfz_4Dk99YatCKS2tx9_QkNUILhDWYjCPltrU7kgQjhBBl5CzURojpS5kbG_OTjuRQGq23IKy_oPMgiiQshLJQ",
+      "quoteToken": "-sj2BLDLBGrl7c1JTQrKlO8gciblmJsGwL3bY5tMisEqj8-akQvv917bjyN4S4V43MhpK-BbTm0eNISx7_MVJZT9paJnzksqwt7xRUw8-1tEqpbTxRRvc8BfjTpFKPGBP8Gb5zX3gcuw3YV--YFF8w",
       "text": "ขอตรวจงาน แล้วให้เจ้านายดูอีกรอบ "
     }
   },
@@ -522,7 +549,7 @@
     "message": {
       "id": "606475681639170377",
       "type": "text",
-      "quoteToken": "Gy53QaoFi9jSXhqs01ty8g-MFm0kcLOdN_lQrh3vVJXonV0AY-V7FSixHLH-Nlye8SDzJOwcBp8QirmiiFfd8UrE6Cm3acD3kVM5dEiCHHHxtLd2MUlkl7XZeOyrmBbhh6ZPpQF6S77cL4UWgA3CFw",
+      "quoteToken": "gAuTGPbvUIe_E9Xn8TvDJXIISREOHxa17rkj5Pvpktm_VzmwW0V9oMJL3m8lz7wVxcBItJNZvjFQFFMk6lJ0e_4aOE_zLaggvPJTttI098MRaLa_27_gzC6T_XFt5a51eZ3S7TioX4U782CS16GIfQ",
       "text": "ไฟล์งานรีปริ้น ( งานพิมพ์เทียบเคียงสีเดิมได้ 75-90 % ครับ )\n\n*** รบกวนอ่านทุกบรรทัดเพื่อประโยชน์ของลูกค้าเองครับ ***\n\nข้อตกลงและเงื่อนไข ในการสั่งงานพิมพ์ ดังนี้\n\n- ไฟล์ Artwork = ไฟล์งานหลังจากที่ทางกราฟิกของโรงพิมพ์ เช็คเรื่องระยะตัดตก (หรือหากแก้ไขจุดต่างๆ **ถ้ามี)\nโดยลูกค้าจะต้องตรวจเทียบไฟล์ทั้ง 2 ด้วยตนเองอย่างละเอียด\n\n** คำยืนยันจากลูกค้าถือเป็นที่สุด หากผิดพลาดหลังจากนี้ \"ทางโรงพิมพ์ไม่รับผิดชอบทุกกรณี\"\n\n** ข้าพเจ้ายอมรับข้อตกลง และยืนยันว่าได้ตรวจสอบไฟล์เรียบร้อยแล้ว\n\nลงชื่อยืนยัน ………."
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774318979545_56439876",
@@ -538,7 +565,7 @@
     "message": {
       "id": "606475677528752203",
       "type": "image",
-      "quoteToken": "CFKtPW7JZetZuJTFpaXVcPInUodjnNrZ2_msA_bTrFyaiBPa-Ke5ysotGJx4B1vOZvu6rHnkETB46baOHA0U5IDW2wufkeOvsXroOfTVkKNg3mqQhna7VC67V2RkDGgiS7-1Rbtpw-lLDVZy3I_m8g",
+      "quoteToken": "9ba7o-giCp0DEs746GiS9GbU1ItLZIs67YWFP4IFV5ybhpsKdgQtzrOsm1BOxzMD8kbVIbu0fxbmF900c5fIgHTrqFqbxzLfIns2sci_GBknpEsJ0XEE3CLgrvfcJ5Azq19q2rVKTxJp9qdm-G8lQA",
       "contentProvider": {
         "type": "line",
         "contentHash": "4lOBAC0-X4Fpq9FJgpxo8X-6cg_PXCBGRu9i2mtsuIX21OjBdRbSrmtoFKocSLXzOSHFeweaNkED8fP-VJSBci2uqw4DM0vM1z3Qx1SNvd707354UcQt7_nBfxjU7teyjgTjgTGATm1_gXXKFHhmhg==",
@@ -563,7 +590,7 @@
     "message": {
       "id": "606475677109060041",
       "type": "image",
-      "quoteToken": "-vt-53KBvYKct3ZJscRvWma0c3f6d11lGMONjTfJEfhgk2u81iTxXNGkiMRhcS1pB2o6JJqdVJhoTFfZrUjoERdA6QqqcaGeEa_uWqewzEbR7Z9WeZdWKzE5WpaT-knyMALFReKwylg1Xtg9vAeZqA",
+      "quoteToken": "SsY_nwEusX3xkKllyxb1hbqA5g10wyLQsLUTIU85JQrgMmT0n9tgqH6gXNzUv6zVCKSjptq-4n8FoIb7Dq1B5rcsgFGVOpT15Jg9UwGCTSK7uJ--WaxZlzUf2wRK-5w5mp1ITsJLx-rJo3xFIsG_UA",
       "contentProvider": {
         "type": "line",
         "contentHash": "Kv1WF2AA9ud-SVHqUZZMWefppsM2-SlzuWp5UNKyLSPv51ZPefFJ034gkH2BHNNlzlBHVU6kdDt8OJYdegSqc-pl7Vt0Ai8CF2Mv4H19PSXCrcveFfuki-gMP5DEViTjz-l8wzGQwHLkU5ioxg2GJw==",
@@ -588,7 +615,7 @@
     "message": {
       "id": "606475676304540251",
       "type": "image",
-      "quoteToken": "2AgNXt6XcQ2fVpS2HV4sl49tS2YUHbLIYx5SED9QH_qU4bX_s_CNZf1T5JpG0h0vRI06rzau1WrRkz17fOAFXUu9zvDyfMigrkkwvAx8taOroJxuF81JdyySHbH0IGoujTRRhEY-MTmbKJMbWHf5Kw",
+      "quoteToken": "feoX5fDoEwJSViPdBEFPPb71swsJ-Zw2W1Iyr8ec1llyZcvZkAVwHQTMkLMY6AqD_GvQzdaHm_PmgGIdbaybEdh5Gb8h0Hywb8J-4MNx2WrnxGVb-wNz5h5oJ7ljVBH9dJteWTYhpfF--D_wnDcdKA",
       "contentProvider": {
         "type": "line",
         "contentHash": "vq-xC_iz4NMFCGYIc16Q2EpMAhB5N-yxuBAikGMyDtOj484P76s0j1Ks8HJRUuNdn1jDI8EECV6CyZF0B6JjDMxo3YzB5wWTTqPBxVV3q4-tbCCYmVAPe-_KAgq8fuOeOObrIXWDvj3wvVZWXR7TOg==",
@@ -613,7 +640,7 @@
     "message": {
       "id": "606475660550734431",
       "type": "text",
-      "quoteToken": "nsBcAgocuaJcqUB8zlNYt5NsPBMGgYJD3uG6rcagpJa6Ozi2-2Icr3CsQ4d_3p7JFaCVA9--cWXm5KOYxWtAROtVlRc5TtDaG-nH6c0yjXZMaOGxAOpsnql7tuWSurIxgybMxDnMX9V2DhASAMLu3w",
+      "quoteToken": "icWXCzo-KPEqVvRWa6gN1JkV-WRUXgD4sc5GXFeKvPDVyLnipYmmNNrcH-RodsNGNHFu9gfZG2sAoSqI7yW2fecnGYw5gpJGzv9Tr30Cq4B36WTZYGJsYzVB9jed07DPnrDXJh1ditJcPAgjypyNMw",
       "text": "สวัสดีครับคุณฟองเบียร์ ส่งไฟล์งานอัพเดทเลขรันนัมเบอร์ครับ / คุณฟองเบียร์ตรวจสอบก่อนได้เลยนะครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774318967002_88599410",
@@ -629,7 +656,7 @@
     "message": {
       "id": "606381903981576876",
       "type": "text",
-      "quoteToken": "RdMU0O06H30c3OX3d8UupfZbdVtZMvdWaQOo_kbagiOPLWvDCTeySYkugBZ28wMn_yUCU0EfnzrxNqv6ZhtYflCOXkd3z3zo14FUZWKDPTMB_GrWv-zEAUZRBpfLPeOgh5h-s9-RVAqZpbVqxpaOqw",
+      "quoteToken": "CeO-EBihB0vVtlFwL4YiXWXFrUcfhc5iVPsfFaUr_JyuyVFGq-ZLit_stFM_Syf5DLRfg6z-BT8MRBqWEpL64c8i6EZ7MKAWxcKqkX0ccUQJPxMh81J31RcIHmNI7XeckwmF3TX51Cdc35ePMeZAcg",
       "text": "ได้ค่ะ"
     }
   },
@@ -653,7 +680,7 @@
     },
     "message": {
       "id": "606381843096535109",
-      "quoteToken": "OAD2PMtl2nbSA2TJPYtGMYaxpzbdZg23gHCq5GqxoT62EkcvdabwSRhdm22147lEBMZ07XJEj3DldOz3OFmxt1CTHAUvtpzL_Dx9ZgBhHq3cngpDr3ONxKd-uIIfPVdX62KHpB5hjd0rcJ06gbd8EA",
+      "quoteToken": "vquObZbbEii0NOdM8m8SeUT7dke_yLr9UV1q_xU7-ITkjZZ8PK2B4Jn4BFwIy87QYLjfCM3lcSM7aqKUqJvDciahTNgMwMmnJgW6IRCSGKvAPM2BejVJcKEwyn0GjxIN-dM8O5bZjOSpqfE9XVC5_Q",
       "packageId": "11539",
       "stickerId": "52114115",
       "stickerResourceType": "ANIMATION",
@@ -672,7 +699,7 @@
     "message": {
       "id": "606381838365884847",
       "type": "text",
-      "quoteToken": "ymaHLAWZzIEHzb2FS6EMYkANbZLkNyDNW90pv4F8fhwKO-j3UQW9r5Ttbf37zcBz8til7N-72vhlKl1EyMdxxxxk3SMK9udG9dLdhGOZUWY_spK-sFy6J5gsaC1wqBb3yBzu6pQIvJweUUKDlDgpaw",
+      "quoteToken": "GgT91evIWDji-xYSDkpOaXrykw7u2rQauhe_Nb8zxg7CYCnPz5qw75vRI2B-XXUazvgCNhhortDfohwNIsxRGX1AMXD0rnTCdwl2SN-OemnfHEvpSq3ctiydBn0qutNLevU9A0MS9Wu9TyQbpAHkGw",
       "text": "วันพรุ่งนี้ผมให้ทางทีมอัพเดทไฟล์ + เลขรันให้นะครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774263044187_19422970",
@@ -688,7 +715,7 @@
     "message": {
       "id": "606381800415035497",
       "type": "text",
-      "quoteToken": "Bos_LFLrYkibYRdbe5OQuCcLNVCtl_8QhaHzhGMX9GTpNglDacHbKYNg0uyV2cGCd1fRc4vNdBQggdpD-pXXrgabScrxrZzOkSatmDjEktHRYCr1qSDNZXhniKnOzOUb5QHqyUCiEGFy0XHT5cZr_w",
+      "quoteToken": "LpOqjz2oKnBaigt24k5JEDdPlf2vFlyOv1r_vKLGaGqsQ7SvbJKvd5gzeuqhuaJRDQ0llbC3p_mrR8rBwYp_oSCHCCOgNqD_AccimjjRq_TmIUWhaWWhW_q8VIxP0xTrdV9pG4VVwZvpGMIkbT4pSg",
       "text": "ค่ะ"
     }
   },
@@ -713,7 +740,7 @@
     "message": {
       "id": "606380253170107142",
       "type": "text",
-      "quoteToken": "eARQX_eF1aKPuXhulw4xOUfhiZK3SeFdJArPcDLH2sZZNTQQj_YesfpouEHEHP57ma2X6PVwyWzx216kx0JB53TgofdvYJ8ZQshr_IWkrOBw-I_ShIOwMxE0hwHgOFVfGB_FHaKqtE4BFfEmAwhhNA",
+      "quoteToken": "i9MG1yPFuVezOeAhwQDmBFH8M1JhPQLeOgZMMxhRMxDR6dIGOwLKehB5YacH_ApnnArXo_8nfThMKIF-XKqH7m_H6_LAg1Fr5ez1gzYMGnghzAa0aDY_wz7IYGlCo2OemU3d6Jk8_Njl2z-7Mk3Yvw",
       "text": "เรียบร้อยครับ"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774262099145_61667398",
@@ -729,60 +756,10 @@
     "message": {
       "id": "606380245570027875",
       "type": "text",
-      "quoteToken": "yiW53fDBRozvNKnc5X-M2AaYCimcHIZ7HkBJgK0eTmt2XDXVDJzgn81d5cKUhNre1UC2IO6dCrWWiFID-LUKiLOM5o6FnMPOH4YdeLEANoqZ6hUnHrZGsgLqzIcK4H0n49HLS6Anm3M55w7ebxsKzA",
+      "quoteToken": "rbFTWY-UighG-_69zg7I5qOuCsM8hLFFiypLzp8THltHMrdCxLWrN2Xh5NVezIpjJf1w9D2JhpeCRkwY3MblPd835AJ7VQPFhQs7SwBB7vGaoCnnskbrpoUJRDiAGhRQ5N4Oh6TN5xi9yt9eZcbNAw",
       "text": "*** ยอดสั่งงานรวม = 23,753.60 บาท ( ราคาสุทธิรวมภาษี )\n\n*** ชำระมัดจำ 50% เพื่อเริ่มงาน = 11,876.80 บาท\n\nเลขบัญชีสำหรับโอนชำระค่าสินค้าและบริการ\nธนาคารกสิกรไทย บจก. โกลเด้น ไทม์ พริ้นติ้ง ( สาขาซีคอน บางแค )\n\nเลขที่บัญชี  : 0788919247\n\n* รบกวนคุณลูกค้าแนบสลิป หรือ เอกสารการชำระยอด พร้อมแจ้งกลับครับ *\n\n* กรณีมีการทำหัก ณ ที่จ่าย รบกวนแนบไฟล์เอกสาร หัก ณ ที่จ่ายเพิ่มเติมทุกครั้งครับ *"
     },
     "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774262094633_94974478",
-    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1774262086734,
-    "source": {
-      "chatId": "U999321e8f83a55267f83d58d1c91c5fa",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "606380231175176210",
-      "type": "file",
-      "contentProvider": {
-        "type": "line",
-        "contentHash": "ZgAImu7MXcTyGE3AbrRDmws4g-IdY92efrStKdRTaXQY0cnPkxRQwU-qH4Xi7u9HMrZTgLYZfPZv0RN2mYhIXa76X6V8qQSFIZruJzH-0rtPWdZP3FNlZiKHr2oDhiJSxjd32DvNFM_jZ_FnFQeU0g==",
-        "expired": false,
-        "expiredAt": 1932374026734
-      },
-      "fileName": "QTG69-02149-บริษัท ฮิลลารี่(สยาม) จำกัด.pdf",
-      "fileSize": 141348,
-      "contentHash": "ZgAImu7MXcTyGE3AbrRDmws4g-IdY92efrStKdRTaXQY0cnPkxRQwU-qH4Xi7u9HMrZTgLYZfPZv0RN2mYhIXa76X6V8qQSFIZruJzH-0rtPWdZP3FNlZiKHr2oDhiJSxjd32DvNFM_jZ_FnFQeU0g==",
-      "expired": false,
-      "expiredAt": 1932374026734
-    },
-    "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774262084860_51733214",
-    "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
-  },
-  {
-    "type": "messageSent",
-    "timestamp": 1774262086226,
-    "source": {
-      "chatId": "U999321e8f83a55267f83d58d1c91c5fa",
-      "userId": "U16260c786c1f65a17489d30e8a7b4fd3"
-    },
-    "message": {
-      "id": "606380230000771424",
-      "type": "file",
-      "contentProvider": {
-        "type": "line",
-        "contentHash": "kNOb7IKKKNfROG--tlUueIKuI8TJ9717LKPh8hXTKETT6RoRC1r0N1hvzBRvjdRNWSzXJeFyGktJDi8S5nJPA--zXOocZFBbDbArYxKu5RwdVR0ZJBrVHFy1qa-oLEqjkCPUNF5rJUTpUxwFl42Qjw==",
-        "expired": false,
-        "expiredAt": 1932374026226
-      },
-      "fileName": "QTG69-02149-แจ้งยอด1 บ. ฮิลลารี่(สยาม).pdf",
-      "fileSize": 70356,
-      "contentHash": "kNOb7IKKKNfROG--tlUueIKuI8TJ9717LKPh8hXTKETT6RoRC1r0N1hvzBRvjdRNWSzXJeFyGktJDi8S5nJPA--zXOocZFBbDbArYxKu5RwdVR0ZJBrVHFy1qa-oLEqjkCPUNF5rJUTpUxwFl42Qjw==",
-      "expired": false,
-      "expiredAt": 1932374026226
-    },
-    "sendId": "U999321e8f83a55267f83d58d1c91c5fa_1774262084779_58311653",
     "bizId": "fd7cec80-cc0b-11e9-b5ee-fa163e3af8d6"
   }
 ]
