@@ -60,13 +60,15 @@ export default function VirtualOffice() {
             color: '#f59e0b',
             bg: '#fffbeb',
             stations: [
-                { id: 'print-sm74', name: 'เครื่องพิมพ์ SM74', type: 'machine', capacity: 1 },
-                { id: 'print-sm102', name: 'เครื่องพิมพ์ SM102', type: 'machine', capacity: 3 },
-                { id: 'cutter', name: 'เครื่องตัด', type: 'machine', capacity: 2 },
-                { id: 'diecut-1', name: 'เครื่องปั๊มไดคัท 1', type: 'machine', capacity: 1 },
-                { id: 'diecut-2', name: 'เครื่องปั๊มไดคัท 2', type: 'machine', capacity: 1 },
-                { id: 'foil-1', name: 'ปั๊มฟอยล์ 1', type: 'machine', capacity: 2 },
-                { id: 'coat-1', name: 'เครื่องเคลือบ 1', type: 'machine', capacity: 1 },
+                { id: 'print-sm74', name: 'Heidelberg SM74 5สี (2003)', type: 'machine', capacity: 1 },
+                { id: 'print-sm102', name: 'Heidelberg SM102 5สี (1999)', type: 'machine', capacity: 3 },
+                { id: 'cutter-1', name: 'Itotec 115 No.1 (2000)', type: 'machine', capacity: 1 },
+                { id: 'cutter-2', name: 'Itotec 115 No.2 (2000)', type: 'machine', capacity: 1 },
+                { id: 'diecut-auto', name: 'ปั๊มไดคัท Heidelberg Auto', type: 'machine', capacity: 1 },
+                { id: 'diecut-cn2', name: 'ปั๊มไดคัท จีนตัด2', type: 'machine', capacity: 1 },
+                { id: 'diecut-cn3', name: 'ปั๊มไดคัท จีนตัด3', type: 'machine', capacity: 1 },
+                { id: 'foil-cn', name: 'ปั๊มฟอยล์จีน', type: 'machine', capacity: 2 },
+                { id: 'coat-1', name: 'Guangming 920 Semi Auto', type: 'machine', capacity: 1 },
             ]
         },
         {
@@ -78,9 +80,9 @@ export default function VirtualOffice() {
                 { id: 'desk-video', name: 'โต๊ะตัดต่องาน', type: 'computer', capacity: 1 },
                 { id: 'odm-1', name: 'On Demand 1', type: 'machine', capacity: 1 },
                 { id: 'odm-2', name: 'On Demand 2', type: 'machine', capacity: 1 },
-                { id: 'stitch', name: 'เครื่องเย็บ', type: 'machine', capacity: 1 },
-                { id: 'fold-1', name: 'เครื่องพับ 1', type: 'machine', capacity: 1 },
-                { id: 'fold-2', name: 'เครื่องพับ 2', type: 'machine', capacity: 1 },
+                { id: 'stitch', name: 'Muller เก็บเย็บตัด 6กอง+1ปก (2005)', type: 'machine', capacity: 1 },
+                { id: 'fold-1', name: 'Stahl พับ No.1 (1998)', type: 'machine', capacity: 1 },
+                { id: 'fold-2', name: 'Stahl พับ No.2 (1998)', type: 'machine', capacity: 1 },
                 { id: 'wire-bind', name: 'เข้าเล่มกระดูกงู', type: 'machine', capacity: 1 },
                 { id: 'drive', name: 'พนักงานขับรถ', type: 'zone', capacity: 2 },
             ]
@@ -91,6 +93,7 @@ export default function VirtualOffice() {
             color: '#6366f1',
             bg: '#eef2ff',
             stations: [
+                { id: 'ctp', name: 'CTP (Computer to Plate)', type: 'machine', capacity: 1 },
                 { id: 'post-coord', name: 'ประสานงานหลังพิมพ์', type: 'desk', capacity: 1 },
                 { id: 'post-press', name: 'ฝ่ายหลังพิมพ์', type: 'table', capacity: 3 },
             ]
@@ -137,13 +140,12 @@ export default function VirtualOffice() {
             { id: 22, name: 'โต้', role: 'Operator', avatar: 'ต', timeIn: '08:00' },
             { id: 23, name: 'โจ', role: 'Operator', avatar: 'จ', timeIn: '08:00' }
         ],
-        'cutter': [
-            { id: 24, name: 'ปอนด์', role: 'Operator', avatar: 'ป', timeIn: '08:00' },
-            { id: 25, name: 'กอล์ฟ', role: 'Operator', avatar: 'ก', timeIn: '08:00' }
-        ],
-        'diecut-1': [],
-        'diecut-2': [],
-        'foil-1': [
+        'cutter-1': [{ id: 24, name: 'ปอนด์', role: 'Operator', avatar: 'ป', timeIn: '08:00' }],
+        'cutter-2': [{ id: 25, name: 'กอล์ฟ', role: 'Operator', avatar: 'ก', timeIn: '08:00' }],
+        'diecut-auto': [],
+        'diecut-cn2': [],
+        'diecut-cn3': [],
+        'foil-cn': [
             { id: 26, name: 'ทองใบ', role: 'Operator', avatar: 'ท', timeIn: '08:00' },
             { id: 27, name: 'ปู', role: 'Operator', avatar: 'ป', timeIn: '08:00' }
         ],
@@ -161,6 +163,7 @@ export default function VirtualOffice() {
             { id: 31, name: 'รัตน์', role: 'Driver', avatar: 'ร', timeIn: '08:00' }
         ],
 
+        'ctp': [],
         'post-coord': [{ id: 32, name: 'พลอย', role: 'Coordinator', avatar: 'พ', timeIn: '08:30' }],
         'post-press': [
             { id: 33, name: 'ปลา', role: 'Post-press', avatar: 'ป', timeIn: '08:00' },

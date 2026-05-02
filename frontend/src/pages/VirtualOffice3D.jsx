@@ -273,25 +273,30 @@ function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
       ))}
 
       {/* ─── เครื่องจักร (ฝั่งขวาของ 200) ─── */}
-      <Machine position={[7, 0, -4]} name="เครื่องตัด" status={machineStatus['cutter'] || 'running'} />
-      {ppl('cutter').map((p, i) => (
-        <Character key={`cut${i}`} position={[6.8 + i*0.5, 0, -3]} name={p.name} color={gc(p.id)} role={p.role} />
+      <Machine position={[7, 0, -4]} name="Itotec 115 No.1" status={machineStatus['cutter-1'] || 'running'} />
+      {ppl('cutter-1').map((p, i) => (
+        <Character key={`cut1${i}`} position={[7, 0, -3]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
-      <Machine position={[10, 0, -4]} name="SM74" status={machineStatus['print-sm74'] || 'running'} />
+      <Machine position={[8.5, 0, -4]} name="Heidelberg Auto" status={machineStatus['diecut-auto'] || 'running'} width={1.2} />
+      <Machine position={[10, 0, -4]} name="SM74 5สี" status={machineStatus['print-sm74'] || 'running'} />
       {ppl('print-sm74').map((p, i) => (
         <Character key={`sm74${i}`} position={[10, 0, -3]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
-      <Machine position={[13, 0, -4]} name="SM102" status={machineStatus['print-sm102'] || 'running'} width={2} />
+      <Machine position={[13, 0, -4]} name="SM102 5สี" status={machineStatus['print-sm102'] || 'running'} width={2} />
       {ppl('print-sm102').map((p, i) => (
         <Character key={`sm102${i}`} position={[12.5 + i*0.6, 0, -3]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
-      <Machine position={[7, 0, -1]} name="ปั๊มไดคัท 1" status="running" width={1.2} />
-      <Machine position={[9, 0, -1]} name="ปั๊มไดคัท 2" status="running" width={1.2} />
-      <Machine position={[11, 0, -1]} name="ปั๊มฟอยล์ 1" status="running" />
-      {ppl('foil-1').map((p, i) => (
-        <Character key={`fl${i}`} position={[10.8 + i*0.5, 0, 0]} name={p.name} color={gc(p.id)} role={p.role} />
+      <Machine position={[7, 0, -1]} name="Itotec 115 No.2" status={machineStatus['cutter-2'] || 'running'} />
+      {ppl('cutter-2').map((p, i) => (
+        <Character key={`cut2${i}`} position={[7, 0, 0]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
-      <Machine position={[13, 0, -1]} name="เครื่องเคลือบ" status="running" width={1.2} />
+      <Machine position={[9, 0, -1]} name="ไดคัท จีนตัด2" status="running" width={1.2} />
+      <Machine position={[11, 0, -1]} name="ไดคัท จีนตัด3" status="running" width={1.2} />
+      <Machine position={[13, 0, -1]} name="ฟอยล์จีน" status="running" />
+      {ppl('foil-cn').map((p, i) => (
+        <Character key={`fl${i}`} position={[12.8 + i*0.5, 0, 0]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <Machine position={[15, 0, -1]} name="Guangming 920" status="running" width={1.4} />
 
       {/* ═══════════════════════════════════════════ */}
       {/* ═══════ โรง 100 ตร.ว. (กราฟฟิค+วางแผน+หลังพิมพ์) ═══════ */}
@@ -337,15 +342,15 @@ function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
       <Machine position={[-5, 0, 7]} name="ODM 1" status="running" width={1.3} />
       <Machine position={[-3, 0, 7]} name="ODM 2" status="running" width={1.3} />
 
-      <Machine position={[-7, 0, 9.5]} name="เครื่องเย็บ" status="running" width={1.2} />
+      <Machine position={[-7, 0, 9.5]} name="Muller เก็บเย็บตัด" status="running" width={1.5} />
       {ppl('stitch').map((p, i) => (
         <Character key={`st${i}`} position={[-7, 0, 10.3]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
-      <Machine position={[-5, 0, 9.5]} name="เครื่องพับ 1" status="running" width={1.2} />
+      <Machine position={[-5, 0, 9.5]} name="Stahl พับ No.1" status="running" width={1.2} />
       {ppl('fold-1').map((p, i) => (
         <Character key={`f1${i}`} position={[-5, 0, 10.3]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
-      <Machine position={[-3, 0, 9.5]} name="เครื่องพับ 2" status="running" width={1.2} />
+      <Machine position={[-3, 0, 9.5]} name="Stahl พับ No.2" status="running" width={1.2} />
       <Machine position={[-1, 0, 9.5]} name="กระดูกงู" status="running" width={1.2} />
       
       {/* ─── ขับรถ ─── */}
@@ -357,8 +362,9 @@ function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
       {/* ═══════ ตึก 63 ตร.ว. (คลัง/จัดส่ง) ═══════ */}
       {/* ═══════════════════════════════════════════ */}
       <Room position={[12, 0, 7]} width={7} depth={7} color="#6366f1" label="ตึก 63 ตร.ว. (คลัง/จัดส่ง)" />
+      <Machine position={[10, 0, 5]} name="CTP" status="running" width={1.5} />
       {ppl('post-coord').map((p, i) => (
-        <PersonDesk key={`pco${i}`} position={[10, 0, 5]} name={p.name} role={p.role} color={gc(p.id)} label="ประสานงาน" />
+        <PersonDesk key={`pco${i}`} position={[12, 0, 5]} name={p.name} role={p.role} color={gc(p.id)} label="ประสานงาน" />
       ))}
       {ppl('post-press').map((p, i) => (
         <PersonDesk key={`pp${i}`} position={[10 + i*1.3, 0, 7.5]} name={p.name} role={p.role} color={gc(p.id)} label="หลังพิมพ์" />
