@@ -793,7 +793,7 @@ export default function AdWeb() {
         </div>
 
         {/* Chat Area */}
-        {activeLead && (
+        {activeLead ? (
         <div className="chat-main" style={{ display: 'flex', flexDirection: 'column', width: '70%' }}>
           {/* Profile Header Block */}
           <div className="p-4" style={{ borderBottom: `3px solid ${pConf.color}`, background: pConf.bg }}>
