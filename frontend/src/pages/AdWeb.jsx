@@ -528,10 +528,15 @@ export default function AdWeb() {
               l.messages.some(m => new Date(m.created_at).toDateString() === todayStr)
             ).length;
             
-            // Pending = client sent last & not replied (count as people)
+            // Pending = client sent last & not read (count as people)
             const pendingCount = leads.filter(l => {
               if (l.messages.length === 0) return false;
-              return l.messages[l.messages.length - 1].sender === 'client';
+              const lastMsg = l.messages[l.messages.length - 1];
+              if (lastMsg.sender !== 'client') return false;
+              
+              const lastRead = readTsRef.current[l.id];
+              if (!lastRead) return true;
+              return new Date(lastMsg.created_at) > new Date(lastRead);
             }).length;
 
             // Waiting tags counts  
@@ -1383,17 +1388,17 @@ export default function AdWeb() {
             
             {/* LINE OA Features Bar */}
             <div className="line-features-bar" style={{ display: 'flex', gap: '0.8rem', padding: '0.5rem 1rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', alignItems: 'center' }}>
-                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem' }} title="สติกเกอร์ & อิโมจิ">
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="สติกเกอร์ & อิโมจิ" onClick={() => alert('ฟีเจอร์ส่งสติกเกอร์กำลังเชื่อมต่อกับ LINE API กรุณารออัพเดทในเวอร์ชั่นหน้าครับ')}>
                     <i className="fa-regular fa-face-smile"></i>
                 </button>
-                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem' }} title="แนบไฟล์รูปภาพ/เอกสาร">
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="แนบไฟล์รูปภาพ/เอกสาร" onClick={() => alert('ระบบแนบไฟล์กำลังอยู่ระหว่างการพัฒนา ให้ส่งผ่าน LINE OA บนมือถือไปก่อนชั่วคราวนะครับ')}>
                     <i className="fa-solid fa-paperclip"></i>
                 </button>
-                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem' }} title="คำขอการโทร (Call Request)">
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="คำขอการโทร (Call Request)" onClick={() => alert('ระบบคำขอการโทร (LINE Call) กำลังเชื่อมต่อกับเบอร์กลางบริษัทครับ')}>
                     <i className="fa-solid fa-phone-volume"></i>
                 </button>
                 <div style={{ width: '1px', height: '20px', background: '#cbd5e1', margin: '0 0.5rem' }}></div>
-                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#0f4c81', fontSize: '1rem', padding: '0.2rem 0.5rem', fontWeight: 'bold' }} title="เลือกคอนเทนต์ / Rich Menu">
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#0f4c81', fontSize: '1rem', padding: '0.2rem 0.5rem', fontWeight: 'bold', cursor: 'pointer' }} title="เลือกคอนเทนต์ / Rich Menu" onClick={() => alert('ระบบ Rich Menu กำลังพัฒนาให้เลือกส่งแคตตาล็อกได้ทันทีครับ')}>
                     <i className="fa-solid fa-layer-group"></i> เลือกคอนเทนต์
                 </button>
                 
