@@ -19,7 +19,7 @@ export default function VirtualOffice() {
             bg: '#eff6ff',
             stations: [
                 { id: 'desk-sales', name: 'โต๊ะเซล', type: 'desk', capacity: 4 },
-                { id: 'desk-admin', name: 'โต๊ะแอดมิน', type: 'desk', capacity: 2 },
+                { id: 'desk-admin', name: 'โต๊ะแอดมิน', type: 'desk', capacity: 3 },
                 { id: 'desk-graphic', name: 'โต๊ะออกแบบกราฟฟิค', type: 'computer', capacity: 1 },
                 { id: 'desk-marketing', name: 'โต๊ะการตลาด', type: 'desk', capacity: 1 },
                 { id: 'meeting-1', name: 'ห้องประชุม 1 (รับแขก)', type: 'meeting', capacity: 8 },
@@ -48,6 +48,7 @@ export default function VirtualOffice() {
                 { id: 'desk-prod-admin', name: 'ฝ่ายผลิต', type: 'desk', capacity: 1 },
                 { id: 'desk-pricing', name: 'โต๊ะคิดราคา', type: 'desk', capacity: 1 },
                 { id: 'desk-account', name: 'โต๊ะบัญชี', type: 'desk', capacity: 2 },
+                { id: 'desk-hr', name: 'โต๊ะ HR', type: 'desk', capacity: 1 },
                 { id: 'desk-logistics', name: 'โต๊ะจัดส่ง', type: 'desk', capacity: 1 },
             ]
         },
@@ -72,11 +73,12 @@ export default function VirtualOffice() {
             color: '#10b981',
             bg: '#ecfdf5',
             stations: [
+                { id: 'desk-video', name: 'โต๊ะตัดต่องาน', type: 'computer', capacity: 1 },
+                { id: 'odm-1', name: 'On Demand 1', type: 'machine', capacity: 1 },
+                { id: 'odm-2', name: 'On Demand 2', type: 'machine', capacity: 1 },
                 { id: 'stitch', name: 'เครื่องเย็บ', type: 'machine', capacity: 1 },
                 { id: 'fold-1', name: 'เครื่องพับ 1', type: 'machine', capacity: 1 },
                 { id: 'fold-2', name: 'เครื่องพับ 2', type: 'machine', capacity: 1 },
-                { id: 'odm-1', name: 'On Demand 1', type: 'machine', capacity: 1 },
-                { id: 'odm-2', name: 'On Demand 2', type: 'machine', capacity: 1 },
                 { id: 'wire-bind', name: 'เข้าเล่มกระดูกงู', type: 'machine', capacity: 1 },
                 { id: 'drive', name: 'พนักงานขับรถ', type: 'zone', capacity: 2 },
             ]
@@ -98,12 +100,13 @@ export default function VirtualOffice() {
         'desk-sales': [
             { id: 1, name: 'กวาง', role: 'Sales (KW)', avatar: 'ก', timeIn: '08:30' },
             { id: 2, name: 'อาร์ท', role: 'Sales', avatar: 'อ', timeIn: '08:30' },
-            { id: 3, name: 'แบงค์', role: 'Sales', avatar: 'บ', timeIn: '08:30' },
+            { id: 3, name: 'แบงค์', role: 'Sales (เซล)', avatar: 'บ', timeIn: '08:30' },
             { id: 4, name: 'อีม', role: 'Sales (aem)', avatar: 'อ', timeIn: '08:30' }
         ],
         'desk-admin': [
             { id: 5, name: 'ตะวัน', role: 'Admin', avatar: 'ต', timeIn: '08:00' },
-            { id: 6, name: 'ปูเป้', role: 'Admin', avatar: 'ป', timeIn: '08:00' }
+            { id: 6, name: 'ปูเป้', role: 'Admin', avatar: 'ป', timeIn: '08:00' },
+            { id: 999, name: 'ใจ', role: 'Maid (แม่บ้าน)', avatar: 'จ', timeIn: '07:30' }
         ],
         'desk-graphic': [{ id: 7, name: 'ยุทธ', role: 'Graphic Design', avatar: 'ย', timeIn: '08:45' }],
         'desk-marketing': [{ id: 8, name: 'ฟ้า', role: 'Marketing', avatar: 'ฟ', timeIn: '09:00' }],
@@ -123,7 +126,8 @@ export default function VirtualOffice() {
             { id: 17, name: 'อ้อ', role: 'Accounting', avatar: 'อ', timeIn: '08:30' },
             { id: 18, name: 'มินต์', role: 'Accounting', avatar: 'ม', timeIn: '08:30' }
         ],
-        'desk-logistics': [{ id: 19, name: 'แบงค์', role: 'Logistics', avatar: 'บ', timeIn: '08:30' }],
+        'desk-hr': [{ id: 102, name: 'ซ่าส์', role: 'HR', avatar: 'ซ', timeIn: '08:30' }],
+        'desk-logistics': [{ id: 19, name: 'แบงค์', role: 'Logistics (ประสานงานจัดส่ง)', avatar: 'บ', timeIn: '08:30' }],
 
         'print-sm74': [{ id: 20, name: 'น้อย', role: 'Operator', avatar: 'น', timeIn: '08:00' }],
         'print-sm102': [
@@ -146,6 +150,7 @@ export default function VirtualOffice() {
         'stitch': [{ id: 28, name: 'หมอ', role: 'Operator', avatar: 'ห', timeIn: '08:00' }],
         'fold-1': [{ id: 29, name: 'จักร', role: 'Operator', avatar: 'จ', timeIn: '08:00' }],
         'fold-2': [],
+        'desk-video': [],
         'odm-1': [],
         'odm-2': [],
         'wire-bind': [],
