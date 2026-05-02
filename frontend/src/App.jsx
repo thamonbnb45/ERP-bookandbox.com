@@ -18,12 +18,12 @@ import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
-function Sidebar({ isOpen, closeSidebar }) {
+function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
   const location = useLocation();
   const { user, canAccess } = useAuth();
   
   return (
-    <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
+    <aside className={`sidebar ${isOpen ? 'open' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header flex justify-between align-center" style={{ width: '100%' }}>
           <div className="logo">Book<span style={{color: '#5b92e5'}}>and</span>box</div>
           <i className="fa-solid fa-xmark menu-toggle mobile-close-btn" onClick={closeSidebar} style={{ cursor: 'pointer' }}></i>
@@ -142,9 +142,19 @@ function Topbar({ title, toggleSidebar }) {
 }
 
 function MainLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const closeSidebar = () => setSidebarOpen(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Mobile
+  const [desktopCollapsed, setDesktopCollapsed] = useState(false); // Desktop
+  
+  const toggleSidebar = () => {
+      if (window.innerWidth <= 768) {
+          setSidebarOpen(!sidebarOpen);
+      } else {
+          setDesktopCollapsed(!desktopCollapsed);
+      }
+  };
+  const closeSidebar = () => {
+      if (window.innerWidth <= 768) setSidebarOpen(false);
+  };
   const { user } = useAuth();
 
   // Protect all routes with login wall
@@ -154,7 +164,7 @@ function MainLayout() {
 
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
-      <Sidebar isOpen={sidebarOpen} closeSidebar={closeSidebar} />
+      <Sidebar isOpen={sidebarOpen} closeSidebar={closeSidebar} isCollapsed={desktopCollapsed} />
       {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar}></div>}
       <main className="main-content">
         <Routes>
