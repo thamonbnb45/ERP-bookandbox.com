@@ -6,6 +6,7 @@ const fs = require('fs');
 const line = require('@line/bot-sdk');
 const { createClient } = require('@supabase/supabase-js');
 const compression = require('compression');
+const multer = require('multer');
 
 const app = express();
 app.use(compression());
@@ -14,6 +15,15 @@ app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public'))); // Serve React Frontend
+
+const PUBLIC_URL = process.env.PUBLIC_URL || 'https://erp-bookandboxcom-production.up.railway.app';
+
+// Setup multer for chat uploads
+const chatUploadDir = path.join(__dirname, 'uploads', 'chats');
+if (!fs.existsSync(chatUploadDir)) {
+    fs.mkdirSync(chatUploadDir, { recursive: true });
+}
+const chatUpload = multer({ dest: chatUploadDir });
 
 // Supabase Init
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -133,7 +143,7 @@ const downloadLineMedia = async (messageId) => {
         return new Promise((resolve, reject) => {
             const writable = fs.createWriteStream(filePath);
             stream.pipe(writable);
-            stream.on('end', () => resolve(`http://localhost:3001/uploads/${fileName}`));
+            stream.on('end', () => resolve(`${PUBLIC_URL}/uploads/${fileName}`));
         });
     } catch (e) {
         return null;
@@ -471,6 +481,69 @@ app.post('/api/chats/:id/reply', async (req, res) => {
             });
         }
         res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/chats/:id/reply_media', chatUpload.single('file'), async (req, res) => {
+    const leadId = req.params.id;
+    const file = req.file;
+    if (!file) return res.status(400).json({ error: 'No file uploaded' });
+
+    try {
+        const { data: row, error } = await supabase.from('lead_contact').select('line_user_id, fb_user_id, platform').eq('id', leadId).single();
+        if (error || !row) return res.status(404).send('Lead not found');
+
+        const ext = path.extname(file.originalname);
+        const newFileName = `${file.filename}${ext}`;
+        fs.renameSync(file.path, path.join(chatUploadDir, newFileName));
+        
+        const mediaUrl = `${PUBLIC_URL}/uploads/chats/${newFileName}`;
+        let msgType = 'image';
+        
+        const isImage = file.mimetype.startsWith('image/');
+        const isVideo = file.mimetype.startsWith('video/');
+        const isAudio = file.mimetype.startsWith('audio/');
+        
+        if (!isImage && !isVideo && !isAudio) {
+            msgType = 'file';
+        }
+
+        await supabase.from('chat_message').insert([{
+            lead_id: leadId,
+            sender: 'admin',
+            type: msgType,
+            text_content: msgType === 'file' ? `📁 ไฟล์แนบ: ${file.originalname}` : '',
+            media_url: mediaUrl
+        }]);
+
+        if (row.fb_user_id) {
+            await sendFbMessage(row.fb_user_id, `ไฟล์แนบ: ${mediaUrl}`);
+        } else if (row.line_user_id && channelToken !== 'DUMMY_TOKEN') {
+            if (isImage) {
+                await lineClient.pushMessage({
+                    to: row.line_user_id,
+                    messages: [{ type: 'image', originalContentUrl: mediaUrl, previewImageUrl: mediaUrl }]
+                });
+            } else if (isVideo) {
+                await lineClient.pushMessage({
+                    to: row.line_user_id,
+                    messages: [{ type: 'video', originalContentUrl: mediaUrl, previewImageUrl: 'https://placehold.co/400x300?text=Video' }]
+                });
+            } else if (isAudio) {
+                await lineClient.pushMessage({
+                    to: row.line_user_id,
+                    messages: [{ type: 'text', text: `🎵 แอดมินได้ส่งไฟล์เสียงให้คุณ\nฟังเลย: ${mediaUrl}` }]
+                });
+            } else {
+                await lineClient.pushMessage({
+                    to: row.line_user_id,
+                    messages: [{ type: 'text', text: `📁 แอดมินได้ส่งไฟล์ให้คุณ: ${file.originalname}\nดาวน์โหลด/เปิดดู: ${mediaUrl}` }]
+                });
+            }
+        }
+        res.json({ success: true, url: mediaUrl });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

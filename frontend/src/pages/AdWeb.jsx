@@ -134,6 +134,10 @@ export default function AdWeb() {
   // AI Feature
   const [isAIGenerating, setIsAIGenerating] = useState(false);
 
+  // File Upload State
+  const fileInputRef = useRef(null);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+
   // Price Request Modal
   const [showPriceModal, setShowPriceModal] = useState(false);
   const [priceReqCategory, setPriceReqCategory] = useState('ใบปลิว/แผ่นพับ');
@@ -290,6 +294,35 @@ export default function AdWeb() {
         fetchChats(); 
     } catch (err) {
         alert("Failed to send message: " + err.message);
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !activeLeadId) return;
+    
+    // File size limit 10MB
+    if (file.size > 10 * 1024 * 1024) {
+      alert('ไฟล์มีขนาดใหญ่เกินไป (สูงสุด 10MB)');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setIsUploadingMedia(true);
+    try {
+      await axios.post(`${API_URL}/chats/${activeLeadId}/reply_media`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      fetchChats();
+      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 300);
+    } catch (err) {
+      alert('เกิดข้อผิดพลาดในการอัพโหลดไฟล์: ' + err.message);
+      console.error(err);
+    } finally {
+      setIsUploadingMedia(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -1388,11 +1421,12 @@ export default function AdWeb() {
             
             {/* LINE OA Features Bar */}
             <div className="line-features-bar" style={{ display: 'flex', gap: '0.8rem', padding: '0.5rem 1rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', alignItems: 'center' }}>
+                <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileUpload} />
                 <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="สติกเกอร์ & อิโมจิ" onClick={() => alert('ฟีเจอร์ส่งสติกเกอร์กำลังเชื่อมต่อกับ LINE API กรุณารออัพเดทในเวอร์ชั่นหน้าครับ')}>
                     <i className="fa-regular fa-face-smile"></i>
                 </button>
-                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="แนบไฟล์รูปภาพ/เอกสาร" onClick={() => alert('ระบบแนบไฟล์กำลังอยู่ระหว่างการพัฒนา ให้ส่งผ่าน LINE OA บนมือถือไปก่อนชั่วคราวนะครับ')}>
-                    <i className="fa-solid fa-paperclip"></i>
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: isUploadingMedia ? '#3b82f6' : '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="แนบไฟล์รูปภาพ/เอกสาร" onClick={() => fileInputRef.current?.click()} disabled={isUploadingMedia}>
+                    {isUploadingMedia ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-paperclip"></i>}
                 </button>
                 <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem', cursor: 'pointer' }} title="คำขอการโทร (Call Request)" onClick={() => alert('ระบบคำขอการโทร (LINE Call) กำลังเชื่อมต่อกับเบอร์กลางบริษัทครับ')}>
                     <i className="fa-solid fa-phone-volume"></i>
