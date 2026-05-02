@@ -287,14 +287,10 @@ function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
         <PersonDesk key={`mg${i}`} position={[13, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="ผู้จัดการ" />
       ))}
 
-      {/* ── ODM machine + Meeting Room 2 ── */}
+      {/* ── ODM machine ── */}
       <Machine position={[7, 0, -3]} name="ODM" status={machineStatus['desk-odm'] || 'running'} width={1.8} depth={1.2} />
       {ppl('desk-odm').map((p, i) => (
         <Character key={`odm${i}`} position={[7 + i*0.5, 0, -1.8]} name={p.name} color={gc(p.id)} role={p.role} />
-      ))}
-      <MeetingRoom position={[11, 0, -3]} name="ห้องประชุม 2 (ชั้น 2)" width={3} depth={2} />
-      {ppl('meeting-2').map((p, i) => (
-        <Character key={`mt2${i}`} position={[10.5 + i*0.6, 0, -2.2]} name={p.name} color={gc(p.id)} role={p.role} />
       ))}
 
       {/* ═══ Factory 200 machines (right block) ═══ */}
@@ -323,6 +319,21 @@ function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
 
       {/* ═══════ BUILDING 100 ตร.ว. ═══════ */}
       <Room position={[-2, 0, 9]} width={14} depth={5} color="#10b981" label="โรงงาน 100 ตร.ว. (หลังพิมพ์)" />
+
+      {/* ── Meeting Room 2 (ชั้น 2 เหนือ ODM) ── */}
+      <group position={[-4, 1.2, 7.5]}>
+        <MeetingRoom position={[0, 0, 0]} name="ห้องประชุม 2 (ชั้น 2)" width={3} depth={2} />
+        {ppl('meeting-2').map((p, i) => (
+          <Character key={`mt2${i}`} position={[-0.5 + i*0.6, 0, 0.8]} name={p.name} color={gc(p.id)} role={p.role} />
+        ))}
+        {/* Floor support pillars */}
+        {[[-1.2,-.6,-0.8],[1.2,-.6,-0.8],[-1.2,-.6,0.8],[1.2,-.6,0.8]].map((p,i)=>(
+          <mesh key={i} position={p}><boxGeometry args={[0.08,1.2,0.08]}/><meshStandardMaterial color="#64748b"/></mesh>
+        ))}
+        <Html position={[0, -0.3, 1.2]} center distanceFactor={10} style={{pointerEvents:'none'}}>
+          <div style={{color:'#fbbf24',fontSize:'9px',fontWeight:'bold'}}>↑ ชั้น 2</div>
+        </Html>
+      </group>
 
       {/* ── Video desk, ODM 1, ODM 2 ── */}
       {ppl('desk-video').length > 0 ? ppl('desk-video').map((p,i) => (
