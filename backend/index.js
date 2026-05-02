@@ -381,8 +381,21 @@ app.get('/api/chats', async (req, res) => {
             return res.json(chatsCache.data);
         }
 
-        const { data: leads, error } = await supabase.from('lead_contact').select('*');
-        if (error) throw error;
+        const { count: leadCount } = await supabase.from('lead_contact').select('*', { count: 'exact', head: true });
+        const leadLimit = 1000;
+        const leadPages = Math.ceil((leadCount || 0) / leadLimit);
+        const leadPromises = [];
+        for (let i = 0; i < leadPages; i++) {
+            leadPromises.push(
+                supabase.from('lead_contact')
+                    .select('*')
+                    .order('id', { ascending: true })
+                    .range(i * leadLimit, (i + 1) * leadLimit - 1)
+            );
+        }
+        const leadResults = await Promise.all(leadPromises);
+        let leads = [];
+        leadResults.forEach(res => { if (res.data) leads = leads.concat(res.data); });
         
         // Filter out seeded mock leads (keep only real LINE/FB/TikTok customers)
         const realLeads = leads.filter(l => !(l.line_user_id && l.line_user_id.startsWith('U_SEED_')));
