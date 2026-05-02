@@ -15,6 +15,7 @@ import PrintFlow from './pages/PrintFlow';
 import SalesAnalysis from './pages/SalesAnalysis';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
+import VirtualOffice from './pages/VirtualOffice';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
@@ -104,6 +105,9 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
                 <Link to="/hr" className={`nav-item ${location.pathname === '/hr' ? 'active' : ''}`} onClick={closeSidebar}>
                     <i className="fa-solid fa-users-gear"></i> HR Workforce
                 </Link>
+                <Link to="/virtual-office" className={`nav-item ${location.pathname === '/virtual-office' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-building-user"></i> Virtual Office
+                </Link>
               </>
           )}
 
@@ -174,6 +178,7 @@ function MainLayout() {
           <Route path="/print-flow" element={<><Topbar title="Print Flow Plan" toggleSidebar={toggleSidebar} /><div className="view-container"><PrintFlow /></div></>} />
           <Route path="/accounting" element={<><Topbar title="Finance & Billing" toggleSidebar={toggleSidebar} /><div className="view-container"><Accounting /></div></>} />
           <Route path="/hr" element={<><Topbar title="HR Workforce" toggleSidebar={toggleSidebar} /><div className="view-container"><HR /></div></>} />
+          <Route path="/virtual-office" element={<><Topbar title="Virtual Office & Factory Floor" toggleSidebar={toggleSidebar} /><div className="view-container"><VirtualOffice /></div></>} />
           <Route path="/logistics" element={<><Topbar title="Logistics & Transport" toggleSidebar={toggleSidebar} /><div className="view-container"><Logistics /></div></>} />
           <Route path="/settings" element={<><Topbar title="System Settings" toggleSidebar={toggleSidebar} /><div className="view-container"><Settings /></div></>} />
           <Route path="/estimator" element={<><Topbar title="Smart Price Hub" toggleSidebar={toggleSidebar} /><div className="view-container"><Estimator /></div></>} />
