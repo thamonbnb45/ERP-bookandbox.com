@@ -179,7 +179,17 @@ export default function AdWeb() {
 
   const fetchChats = () => {
     axios.get(`${API_URL}/chats?t=${new Date().getTime()}`).then(res => {
-        setLeads(res.data);
+        const safeData = res.data.map(l => {
+            if (typeof l.tags === 'string') {
+                try {
+                    l.tags = l.tags.replace(/^\{|\}$/g, '').split(',').map(s => s.trim().replace(/^"|"$/g, '')).filter(Boolean);
+                } catch(e) { l.tags = []; }
+            } else if (!Array.isArray(l.tags)) {
+                l.tags = [];
+            }
+            return l;
+        });
+        setLeads(safeData);
         // Auto-init: first load after version upgrade → mark all as read
         if (!autoInitDone && res.data.length > 0) {
           const initTs = {};
@@ -293,7 +303,7 @@ export default function AdWeb() {
   // ★ Waiting Status Tag Toggle
   const toggleWaitTag = async (tag) => {
     if (!activeLead) return;
-    const current = activeLead.tags || [];
+    const current = Array.isArray(activeLead.tags) ? activeLead.tags : [];
     const newTags = current.includes(tag) ? current.filter(t => t !== tag) : [...current, tag];
     saveWaitTags(newTags);
   };
