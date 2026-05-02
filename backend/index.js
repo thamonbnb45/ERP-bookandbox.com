@@ -409,8 +409,8 @@ app.get('/api/chats', async (req, res) => {
                 msgsByLead[m.lead_id].push(m);
             });
         }
-        // Sort each array
-        Object.values(msgsByLead).forEach(arr => arr.sort((a,b) => a.id - b.id));
+        // Sort each array by created_at ascending (oldest to newest)
+        Object.values(msgsByLead).forEach(arr => arr.sort((a,b) => new Date(a.created_at) - new Date(b.created_at)));
 
         const data = realLeads.map((lead) => {
             return {

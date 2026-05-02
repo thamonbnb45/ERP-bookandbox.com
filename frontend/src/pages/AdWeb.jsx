@@ -206,8 +206,16 @@ export default function AdWeb() {
         });
     }).catch(err => console.error(err));
   };
-
   const activeLead = leads.find(l => l.id === activeLeadId);
+  
+  const getWaitTimeText = (lead) => {
+      if (!lead?.messages || lead.messages.length === 0) return '';
+      const lastMsgTime = new Date(lead.messages[lead.messages.length - 1].created_at);
+      const diffHours = (new Date() - lastMsgTime) / (1000 * 60 * 60);
+      if (diffHours < 1) return ` (${Math.floor(diffHours * 60)} น.)`;
+      if (diffHours < 24) return ` (${Math.floor(diffHours)} ชม.)`;
+      return ` (${Math.floor(diffHours / 24)} ว.)`;
+  };
   
   // Filtered leads by platform + search + sales
   const getSalesName = (lead) => {
@@ -730,10 +738,10 @@ export default function AdWeb() {
                         })()}
                         {/* Waiting status tags */}
                         {(lead.tags || []).filter(t => ['รอราคา','รอตรวจ','แก้ไฟล์','รอผลิต','รอขนส่ง','รอบิล','คืนเงิน'].includes(t)).map(t => (
-                          <span key={t} style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔴{t}</span>
+                          <span key={t} style={{ background: '#fee2e2', color: '#dc2626', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔴{t}{getWaitTimeText(lead)}</span>
                         ))}
                         {(lead.tags || []).filter(t => ['รอไฟล์','รอโอนเงิน','รอตรวจไฟล์','รอตัดสินใจ'].includes(t)).map(t => (
-                          <span key={t} style={{ background: '#dbeafe', color: '#1d4ed8', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔵{t}</span>
+                          <span key={t} style={{ background: '#dbeafe', color: '#1d4ed8', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>🔵{t}{getWaitTimeText(lead)}</span>
                         ))}
                         {(lead.tags || []).filter(t => t.startsWith('นัด:')).map(t => (
                           <span key={t} style={{ background: '#f0fdf4', color: '#16a34a', padding: '0 0.25rem', borderRadius: '3px', fontWeight: 600 }}>📅{t.replace('นัด:','')}</span>
@@ -944,7 +952,7 @@ export default function AdWeb() {
                     padding: '0.15rem 0.4rem', borderRadius: '6px', fontSize: '0.6rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
                     background: active ? '#fee2e2' : '#f8fafc', color: active ? '#dc2626' : '#94a3b8',
                     border: active ? '2px solid #fca5a5' : '1px solid #e2e8f0'
-                  }}>{w.icon} {w.tag}</button>;
+                  }}>{w.icon} {w.tag}{active ? getWaitTimeText(activeLead) : ''}</button>;
                 })}
                 <div style={{ width: '1px', height: '16px', background: '#cbd5e1', margin: '0 2px' }}></div>
                 {/* เรารอลูกค้า (Blue) */}
@@ -959,7 +967,7 @@ export default function AdWeb() {
                     padding: '0.15rem 0.4rem', borderRadius: '6px', fontSize: '0.6rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
                     background: active ? '#dbeafe' : '#f8fafc', color: active ? '#1d4ed8' : '#94a3b8',
                     border: active ? '2px solid #93c5fd' : '1px solid #e2e8f0'
-                  }}>{w.icon} {w.tag}</button>;
+                  }}>{w.icon} {w.tag}{active ? getWaitTimeText(activeLead) : ''}</button>;
                 })}
                 <div style={{ width: '1px', height: '16px', background: '#cbd5e1', margin: '0 2px' }}></div>
                 {/* นัดวัน */}
@@ -1412,11 +1420,30 @@ export default function AdWeb() {
                 }} style={{ padding: '0.8rem 1.2rem' }}>
                   <i className="fa-solid fa-paper-plane"></i>
                 </button>
+            </div>
+            
+            {/* LINE OA Features Bar */}
+            <div className="line-features-bar" style={{ display: 'flex', gap: '0.8rem', padding: '0.5rem 1rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', alignItems: 'center' }}>
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem' }} title="สติกเกอร์ & อิโมจิ">
+                    <i className="fa-regular fa-face-smile"></i>
+                </button>
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem' }} title="แนบไฟล์รูปภาพ/เอกสาร">
+                    <i className="fa-solid fa-paperclip"></i>
+                </button>
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#64748b', fontSize: '1.2rem', padding: '0.2rem' }} title="คำขอการโทร (Call Request)">
+                    <i className="fa-solid fa-phone-volume"></i>
+                </button>
+                <div style={{ width: '1px', height: '20px', background: '#cbd5e1', margin: '0 0.5rem' }}></div>
+                <button className="btn btn-light" style={{ border: 'none', background: 'transparent', color: '#0f4c81', fontSize: '1rem', padding: '0.2rem 0.5rem', fontWeight: 'bold' }} title="เลือกคอนเทนต์ / Rich Menu">
+                    <i className="fa-solid fa-layer-group"></i> เลือกคอนเทนต์
+                </button>
+                
+                <div style={{ flex: 1 }}></div>
                 <button className="btn btn-success" onClick={() => {
                   setPriceReqSpecs('');
                   setShowPriceModal(true);
-                }} style={{ padding: '0.8rem 1.2rem', whiteSpace: 'nowrap' }}>
-                  <i className="fa-solid fa-file-invoice"></i> ขอราคา
+                }} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                  <i className="fa-solid fa-file-invoice"></i> ขอราคาใหม่
                 </button>
             </div>
           </div>

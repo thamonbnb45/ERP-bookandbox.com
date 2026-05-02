@@ -185,6 +185,11 @@ function MainLayout() {
           <Route path="/" element={
             user.role === 'Driver' ? <><Topbar title="Logistics" toggleSidebar={toggleSidebar} /><div className="view-container"><Logistics /></div></> :
             user.role === 'Operator' ? <><Topbar title="Production Board" toggleSidebar={toggleSidebar} /><div className="view-container"><Production /></div></> :
+            user.role === 'Production Manager' ? <><Topbar title="Production Control" toggleSidebar={toggleSidebar} /><div className="view-container"><Production /></div></> :
+            user.role === 'Sales' ? <><Topbar title="Chat Center" toggleSidebar={toggleSidebar} /><div className="view-container"><AdWeb /></div></> :
+            user.role === 'Pricing' ? <><Topbar title="Smart Price Hub" toggleSidebar={toggleSidebar} /><div className="view-container"><Estimator /></div></> :
+            user.role === 'Accountant' ? <><Topbar title="Finance & Billing" toggleSidebar={toggleSidebar} /><div className="view-container"><Accounting /></div></> :
+            user.role === 'HR' ? <><Topbar title="HR Workforce" toggleSidebar={toggleSidebar} /><div className="view-container"><HR /></div></> :
             <><Topbar title="Executive Dashboard" toggleSidebar={toggleSidebar} /><div className="view-container"><Dashboard /></div></>
           } />
         </Routes>
