@@ -1132,11 +1132,19 @@ export default function AdWeb() {
 
             return (
             <div style={{ background: '#faf5ff', borderBottom: '2px solid #7c3aed', padding: '0.8rem 1rem', maxHeight: '380px', overflowY: 'auto' }}>
-              {/* Summary Bar */}
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', fontSize: '0.7rem' }}>
-                <span style={{ background: '#fef3c7', color: '#92400e', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>🟡 เสนอ {allQuotes.length} ครั้ง</span>
-                <span style={{ background: '#d1fae5', color: '#065f46', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>✅ ซื้อ {purchases.length} ครั้ง</span>
-                {totalPurchaseAmount > 0 && <span style={{ background: '#ede9fe', color: '#7c3aed', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>💰 ยอดรวม ฿{totalPurchaseAmount.toLocaleString()}</span>}
+              {/* Summary Bar & Close Button */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.7rem' }}>
+                  <span style={{ background: '#fef3c7', color: '#92400e', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>🟡 เสนอ {allQuotes.length} ครั้ง</span>
+                  <span style={{ background: '#d1fae5', color: '#065f46', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>✅ ซื้อ {purchases.length} ครั้ง</span>
+                  {totalPurchaseAmount > 0 && <span style={{ background: '#ede9fe', color: '#7c3aed', padding: '0.15rem 0.5rem', borderRadius: '20px', fontWeight: 'bold' }}>💰 ยอดรวม ฿{totalPurchaseAmount.toLocaleString()}</span>}
+                </div>
+                <button 
+                  onClick={() => setShowQuotePanel(false)} 
+                  style={{ background: 'transparent', border: '1px solid #c084fc', color: '#7e22ce', borderRadius: '6px', padding: '0.15rem 0.5rem', fontSize: '0.7rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
+                >
+                  <i className="fa-solid fa-chevron-up"></i> พับเก็บ
+                </button>
               </div>
 
               {/* Tabs + Filter */}
