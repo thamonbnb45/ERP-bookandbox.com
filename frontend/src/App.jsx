@@ -124,7 +124,7 @@ function Topbar({ title, toggleSidebar }) {
   return (
     <header className="topbar">
         <div className="flex align-center gap-4">
-            <i className="fa-solid fa-bars menu-toggle" onClick={toggleSidebar}></i>
+            <i className="fa-solid fa-bars menu-toggle" onClick={toggleSidebar} style={{ display: 'block', cursor: 'pointer', fontSize: '1.5rem', padding: '0.5rem', background: '#e2e8f0', borderRadius: '8px', color: '#0f4c81' }} title="ซ่อน/แสดงเมนู"></i>
             <h2 className="text-primary" style={{ fontSize: '1.2rem', margin: 0 }}>{title}</h2>
         </div>
         <div className="topbar-right">
