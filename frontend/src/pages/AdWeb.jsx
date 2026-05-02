@@ -986,8 +986,8 @@ export default function AdWeb() {
               </div>
             )}
             
-            {/* ★ CRM Feedback & Win/Loss Tracking */}
-            {!editingLead && (
+            {/* ★ CRM Feedback & Win/Loss Tracking - Hidden per user request */}
+            {false && !editingLead && (
               <div style={{ marginTop: '0.4rem', display: 'flex', gap: '0.3rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 'bold' }}>📊 CRM Insight:</span>
                 
