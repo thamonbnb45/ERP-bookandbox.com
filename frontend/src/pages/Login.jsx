@@ -39,7 +39,7 @@ export default function Login() {
                             type="text" 
                             value={username} 
                             onChange={e => setUsername(e.target.value)}
-                            placeholder="เช่น admin, ek_driver" 
+                            placeholder="กรอกชื่อผู้ใช้งานของคุณ" 
                             required
                             style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1rem', outline: 'none' }}
                         />
@@ -63,8 +63,7 @@ export default function Login() {
                 </form>
                 
                 <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.7rem', color: '#94a3b8' }}>
-                    โรงพิมพ์บุ๊คแอนด์บ็อกซ์ • Internal Staff Only <br/>
-                    เข้าใช้ครั้งแรกด้วยชื่อ <strong style={{color:'#333'}}>admin</strong> รหัส <strong style={{color:'#333'}}>1234</strong>
+                    โรงพิมพ์บุ๊คแอนด์บ็อกซ์ • Internal Staff Only
                 </div>
             </div>
         </div>
