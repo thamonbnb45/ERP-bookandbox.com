@@ -8,6 +8,7 @@ export default function VirtualOffice() {
     const { user } = useAuth();
     const [staff, setStaff] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [viewMode, setViewMode] = useState('map'); // 'dashboard' or 'map'
 
     // Factory Layout based on physical locations
     const factoryZones = [
@@ -181,6 +182,82 @@ export default function VirtualOffice() {
         return { color: '#10b981', icon: 'fa-circle-check', text: 'เดินเครื่องปกติ', anim: '' };
     };
 
+    const renderGraphicalZone = (zoneId, customStyle = {}) => {
+        const zone = factoryZones.find(z => z.id === zoneId);
+        if (!zone) return null;
+
+        return (
+            <div style={{ border: `3px dashed ${zone.color}`, borderRadius: '12px', padding: '1rem', background: zone.bg + '40', display: 'flex', flexDirection: 'column', ...customStyle }}>
+                <h4 style={{ color: zone.color, textAlign: 'center', marginBottom: '1.5rem', fontWeight: 'bold', fontSize: '1rem' }}>{zone.name.split(' ')[0]}</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
+                    {zone.stations.map(station => {
+                        const occupants = activeSessions[station.id] || [];
+                        const isMachine = station.type === 'machine';
+                        const isMeeting = station.type === 'meeting';
+                        
+                        return (
+                            <div key={station.id} style={{ 
+                                width: isMeeting ? '180px' : isMachine ? '140px' : '100px', 
+                                height: isMeeting ? '100px' : isMachine ? '80px' : '60px', 
+                                background: isMachine ? '#cbd5e1' : isMeeting ? '#fef08a' : '#fff', 
+                                border: `3px solid ${isMachine ? '#94a3b8' : isMeeting ? '#eab308' : '#cbd5e1'}`, 
+                                borderRadius: isMachine ? '8px' : '12px',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                position: 'relative',
+                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                            }}>
+                                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', textAlign: 'center', zIndex: 10 }}>{station.name}</span>
+                                
+                                {/* Render Avatars sitting around the table */}
+                                {occupants.map((occ, idx) => {
+                                    // Calculate position based on index
+                                    const positions = [
+                                        { top: '-20px', left: '50%', transform: 'translateX(-50%)' }, // Top center
+                                        { bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }, // Bottom center
+                                        { top: '50%', left: '-20px', transform: 'translateY(-50%)' }, // Left center
+                                        { top: '50%', right: '-20px', transform: 'translateY(-50%)' }, // Right center
+                                        { top: '-20px', left: '10%' }, // Top left
+                                        { top: '-20px', right: '10%' }, // Top right
+                                        { bottom: '-20px', left: '10%' }, // Bottom left
+                                        { bottom: '-20px', right: '10%' }, // Bottom right
+                                    ];
+                                    const pos = positions[idx % positions.length];
+                                    
+                                    return (
+                                        <div key={occ.id} title={`${occ.name} (${occ.role})`} style={{
+                                            position: 'absolute', ...pos,
+                                            width: '40px', height: '40px', borderRadius: '50%',
+                                            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                                            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontSize: '1rem', fontWeight: 'bold', border: '3px solid white',
+                                            boxShadow: '0 4px 6px rgba(0,0,0,0.2)', zIndex: 20
+                                        }}>
+                                            {occ.avatar}
+                                        </div>
+                                    )
+                                })}
+
+                                {/* Machine Status Dot */}
+                                {isMachine && machineStatus[station.id] && (
+                                    <div style={{
+                                        position: 'absolute', top: '-10px', right: '-10px',
+                                        width: '30px', height: '30px', borderRadius: '50%',
+                                        background: getMachineStatusUI(machineStatus[station.id]).color,
+                                        border: '3px solid white', zIndex: 20,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.8rem',
+                                        animation: getMachineStatusUI(machineStatus[station.id]).anim === 'pulse' ? 'pulse 2s infinite' : 'none'
+                                    }}>
+                                        <i className={`fa-solid ${getMachineStatusUI(machineStatus[station.id]).icon}`}></i>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 60000); // update every min
         return () => clearInterval(timer);
@@ -219,6 +296,23 @@ export default function VirtualOffice() {
                 </div>
             </div>
 
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+                <button 
+                    className={`btn ${viewMode === 'map' ? 'btn-primary' : 'btn-light'}`} 
+                    onClick={() => setViewMode('map')}
+                    style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', fontWeight: 'bold' }}
+                >
+                    <i className="fa-solid fa-map-location-dot"></i> แผนผังโรงงาน 2.5D (Map View)
+                </button>
+                <button 
+                    className={`btn ${viewMode === 'dashboard' ? 'btn-primary' : 'btn-light'}`} 
+                    onClick={() => setViewMode('dashboard')}
+                    style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', fontWeight: 'bold' }}
+                >
+                    <i className="fa-solid fa-table-cells-large"></i> แบบตาราง (Dashboard)
+                </button>
+            </div>
+
             {/* Overall Status Bar */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
                 <div style={{ background: 'white', padding: '1.5rem', borderRadius: '16px', borderLeft: '4px solid #10b981', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
@@ -241,7 +335,65 @@ export default function VirtualOffice() {
                 </div>
             </div>
 
-            {/* Zones Grid */}
+            </div>
+
+            {viewMode === 'map' ? (
+                /* 2.5D Blueprint Map View */
+                <div style={{ background: '#0f172a', padding: '3rem', borderRadius: '24px', overflowX: 'auto', boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.5)' }}>
+                    <div style={{ minWidth: '1400px', display: 'flex', flexDirection: 'column', gap: '3rem', position: 'relative' }}>
+                        
+                        {/* CSS Animation for Machine Pulse */}
+                        <style>
+                            {`
+                                @keyframes pulse {
+                                    0% { transform: scale(1); opacity: 1; }
+                                    50% { transform: scale(1.2); opacity: 0.8; }
+                                    100% { transform: scale(1); opacity: 1; }
+                                }
+                            `}
+                        </style>
+
+                        {/* Building 200 sq.w. */}
+                        <div style={{ background: '#1e293b', border: '6px solid #3b82f6', borderRadius: '20px', padding: '2rem', position: 'relative' }}>
+                            <div style={{ position: 'absolute', top: '-20px', left: '40px', background: '#3b82f6', color: 'white', padding: '0.5rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', fontSize: '1.2rem', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
+                                <i className="fa-regular fa-building"></i> โรงงาน 200 ตร.ว. (สำนักงาน + โรงพิมพ์หลัก)
+                            </div>
+                            <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem' }}>
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                    {renderGraphicalZone('zone-sales-admin')}
+                                    {renderGraphicalZone('zone-acc-prod')}
+                                </div>
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                    {renderGraphicalZone('zone-prepress')}
+                                    {renderGraphicalZone('zone-factory-200')}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom Row: Building 100 sq.w. & 63 sq.w. */}
+                        <div style={{ display: 'flex', gap: '3rem' }}>
+                            <div style={{ flex: 1, background: '#1e293b', border: '6px solid #10b981', borderRadius: '20px', padding: '2rem', position: 'relative' }}>
+                                <div style={{ position: 'absolute', top: '-20px', left: '40px', background: '#10b981', color: 'white', padding: '0.5rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', fontSize: '1.2rem', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
+                                    <i className="fa-solid fa-industry"></i> โรงงาน 100 ตร.ว. (หลังพิมพ์)
+                                </div>
+                                <div style={{ marginTop: '1rem' }}>
+                                    {renderGraphicalZone('zone-factory-100')}
+                                </div>
+                            </div>
+
+                            <div style={{ flex: 1, background: '#1e293b', border: '6px solid #6366f1', borderRadius: '20px', padding: '2rem', position: 'relative' }}>
+                                <div style={{ position: 'absolute', top: '-20px', left: '40px', background: '#6366f1', color: 'white', padding: '0.5rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', fontSize: '1.2rem', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
+                                    <i className="fa-solid fa-box-open"></i> ตึก 63 ตร.ว. (คลัง/จัดส่ง)
+                                </div>
+                                <div style={{ marginTop: '1rem' }}>
+                                    {renderGraphicalZone('zone-factory-63')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+            /* Dashboard View */
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 {factoryZones.map((zone) => (
                     <div key={zone.id} style={{ background: 'white', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 15px rgba(0,0,0,0.03)' }}>
@@ -393,6 +545,7 @@ export default function VirtualOffice() {
                     </div>
                 ))}
             </div>
+            )}
         </div>
     );
 }
