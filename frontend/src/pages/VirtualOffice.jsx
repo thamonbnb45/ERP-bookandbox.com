@@ -9,66 +9,154 @@ export default function VirtualOffice() {
     const [staff, setStaff] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
 
-    // Mock factory layout and machines
+    // Factory Layout based on physical locations
     const factoryZones = [
         {
-            id: 'office',
-            name: '🏢 ออฟฟิศ (Sales & Admin)',
+            id: 'zone-sales-admin',
+            name: '🏢 ห้องเซล & แอดมิน (โรง 200 ตร.ว.)',
             color: '#3b82f6',
             bg: '#eff6ff',
             stations: [
-                { id: 'desk1', name: 'โต๊ะเซล 1', type: 'desk', capacity: 1 },
-                { id: 'desk2', name: 'โต๊ะเซล 2', type: 'desk', capacity: 1 },
-                { id: 'desk3', name: 'โต๊ะประเมินราคา', type: 'desk', capacity: 1 },
-                { id: 'desk4', name: 'โต๊ะบัญชี', type: 'desk', capacity: 1 },
+                { id: 'desk-sales', name: 'โต๊ะเซล', type: 'desk', capacity: 4 },
+                { id: 'desk-admin', name: 'โต๊ะแอดมิน', type: 'desk', capacity: 2 },
+                { id: 'desk-graphic', name: 'โต๊ะออกแบบกราฟฟิค', type: 'computer', capacity: 1 },
+                { id: 'desk-marketing', name: 'โต๊ะการตลาด', type: 'desk', capacity: 1 },
             ]
         },
         {
-            id: 'design',
-            name: '🎨 ห้องอาร์ตเวิร์ค (Prepress)',
+            id: 'zone-prepress',
+            name: '🎨 ห้องกราฟฟิค & วางแผน (โรง 200 ตร.ว.)',
             color: '#8b5cf6',
             bg: '#f5f3ff',
             stations: [
-                { id: 'mac1', name: 'Mac Station 1', type: 'computer', capacity: 1 },
-                { id: 'mac2', name: 'Mac Station 2', type: 'computer', capacity: 1 },
+                { id: 'desk-checkfile', name: 'โต๊ะเช็คไฟล์', type: 'computer', capacity: 2 },
+                { id: 'desk-layout', name: 'โต๊ะเลย์ออฟ (Layout)', type: 'computer', capacity: 1 },
+                { id: 'desk-odm', name: 'คุมเครื่อง ODM', type: 'machine', capacity: 1 },
+                { id: 'desk-planner', name: 'โต๊ะวางแผน', type: 'desk', capacity: 1 },
+                { id: 'desk-manager', name: 'โต๊ะผู้จัดการ', type: 'desk', capacity: 1 },
             ]
         },
         {
-            id: 'production',
-            name: '🏭 โรงพิมพ์ (Production Floor)',
+            id: 'zone-acc-prod',
+            name: '📊 ห้องบัญชี & ผลิต (โรง 200 ตร.ว.)',
+            color: '#ec4899',
+            bg: '#fdf2f8',
+            stations: [
+                { id: 'desk-prod-admin', name: 'ฝ่ายผลิต', type: 'desk', capacity: 1 },
+                { id: 'desk-pricing', name: 'โต๊ะคิดราคา', type: 'desk', capacity: 1 },
+                { id: 'desk-account', name: 'โต๊ะบัญชี', type: 'desk', capacity: 2 },
+                { id: 'desk-logistics', name: 'โต๊ะจัดส่ง', type: 'desk', capacity: 1 },
+            ]
+        },
+        {
+            id: 'zone-factory-200',
+            name: '🏭 โรงงานหลัก (โรง 200 ตร.ว.)',
             color: '#f59e0b',
             bg: '#fffbeb',
             stations: [
-                { id: 'print1', name: 'เครื่องพิมพ์ 4 สี (Offset)', type: 'machine', capacity: 2 },
-                { id: 'print2', name: 'เครื่องพิมพ์ Digital', type: 'machine', capacity: 1 },
-                { id: 'diecut', name: 'เครื่องปั๊มไดคัท (Die-cut)', type: 'machine', capacity: 2 },
-                { id: 'glue', name: 'เครื่องปะกล่อง', type: 'machine', capacity: 3 },
-                { id: 'coat', name: 'เครื่องเคลือบ', type: 'machine', capacity: 1 },
+                { id: 'print-sm74', name: 'เครื่องพิมพ์ SM74', type: 'machine', capacity: 1 },
+                { id: 'print-sm102', name: 'เครื่องพิมพ์ SM102', type: 'machine', capacity: 3 },
+                { id: 'cutter', name: 'เครื่องตัด', type: 'machine', capacity: 2 },
+                { id: 'diecut-1', name: 'เครื่องปั๊มไดคัท 1', type: 'machine', capacity: 1 },
+                { id: 'diecut-2', name: 'เครื่องปั๊มไดคัท 2', type: 'machine', capacity: 1 },
+                { id: 'foil-1', name: 'ปั๊มฟอยล์ 1', type: 'machine', capacity: 2 },
+                { id: 'coat-1', name: 'เครื่องเคลือบ 1', type: 'machine', capacity: 1 },
             ]
         },
         {
-            id: 'logistics',
-            name: '📦 คลังสินค้า & จัดส่ง',
+            id: 'zone-factory-100',
+            name: '🏭 โรงงานรอง (โรง 100 ตร.ว.)',
             color: '#10b981',
             bg: '#ecfdf5',
             stations: [
-                { id: 'pack1', name: 'โต๊ะแพคงาน 1', type: 'table', capacity: 2 },
-                { id: 'pack2', name: 'โต๊ะแพคงาน 2', type: 'table', capacity: 2 },
-                { id: 'truck', name: 'จุดโหลดสินค้า (Loading)', type: 'zone', capacity: 2 },
+                { id: 'stitch', name: 'เครื่องเย็บ', type: 'machine', capacity: 1 },
+                { id: 'fold-1', name: 'เครื่องพับ 1', type: 'machine', capacity: 1 },
+                { id: 'fold-2', name: 'เครื่องพับ 2', type: 'machine', capacity: 1 },
+                { id: 'odm-1', name: 'On Demand 1', type: 'machine', capacity: 1 },
+                { id: 'odm-2', name: 'On Demand 2', type: 'machine', capacity: 1 },
+                { id: 'wire-bind', name: 'เข้าเล่มกระดูกงู', type: 'machine', capacity: 1 },
+                { id: 'drive', name: 'พนักงานขับรถ', type: 'zone', capacity: 2 },
+            ]
+        },
+        {
+            id: 'zone-factory-63',
+            name: '📦 ตึกหลังพิมพ์ (ตึก 63 ตร.ว.)',
+            color: '#6366f1',
+            bg: '#eef2ff',
+            stations: [
+                { id: 'post-coord', name: 'ประสานงานหลังพิมพ์', type: 'desk', capacity: 1 },
+                { id: 'post-press', name: 'ฝ่ายหลังพิมพ์', type: 'table', capacity: 3 },
             ]
         }
     ];
 
-    // Mock active sessions (Who is sitting where)
-    // In the future, this will be fetched from the database
+    // Current active staff tracking
     const [activeSessions, setActiveSessions] = useState({
-        'desk1': [{ id: 1, name: 'KW (กวาง)', role: 'Sales', avatar: 'K', timeIn: '08:15' }],
-        'desk2': [{ id: 2, name: 'aem (อีม)', role: 'Sales', avatar: 'A', timeIn: '08:30' }],
-        'desk3': [{ id: 3, name: 'NING (คิดราคา)', role: 'Pricing', avatar: 'N', timeIn: '09:00' }],
-        'mac1': [{ id: 4, name: 'อาร์ท', role: 'Designer', avatar: 'อ', timeIn: '08:45' }],
-        'print1': [{ id: 5, name: 'สมชาย (ช่างพิมพ์)', role: 'Operator', avatar: 'ส', timeIn: '08:00' }, { id: 6, name: 'วิชัย (ผู้ช่วย)', role: 'Operator', avatar: 'ว', timeIn: '08:00' }],
-        'diecut': [{ id: 7, name: 'ประเสริฐ', role: 'Operator', avatar: 'ป', timeIn: '08:10' }],
-        'pack1': [{ id: 8, name: 'สมศรี', role: 'Warehouse', avatar: 'ศ', timeIn: '08:05' }]
+        'desk-sales': [
+            { id: 1, name: 'กวาง', role: 'Sales (KW)', avatar: 'ก', timeIn: '08:30' },
+            { id: 2, name: 'อาร์ท', role: 'Sales', avatar: 'อ', timeIn: '08:30' },
+            { id: 3, name: 'แบงค์', role: 'Sales', avatar: 'บ', timeIn: '08:30' },
+            { id: 4, name: 'อีม', role: 'Sales (aem)', avatar: 'อ', timeIn: '08:30' }
+        ],
+        'desk-admin': [
+            { id: 5, name: 'ตะวัน', role: 'Admin', avatar: 'ต', timeIn: '08:00' },
+            { id: 6, name: 'ปูเป้', role: 'Admin', avatar: 'ป', timeIn: '08:00' }
+        ],
+        'desk-graphic': [{ id: 7, name: 'ยุทธ', role: 'Graphic Design', avatar: 'ย', timeIn: '08:45' }],
+        'desk-marketing': [{ id: 8, name: 'ฟ้า', role: 'Marketing', avatar: 'ฟ', timeIn: '09:00' }],
+        
+        'desk-checkfile': [
+            { id: 9, name: 'เก๊าะ', role: 'Prepress', avatar: 'ก', timeIn: '08:15' },
+            { id: 10, name: 'เจี๊ยบ', role: 'Prepress', avatar: 'จ', timeIn: '08:15' }
+        ],
+        'desk-layout': [{ id: 11, name: 'จิม', role: 'Layout', avatar: 'จ', timeIn: '08:15' }],
+        'desk-odm': [{ id: 12, name: 'นัท', role: 'ODM Control', avatar: 'น', timeIn: '08:10' }],
+        'desk-planner': [{ id: 13, name: 'หนึ่ง', role: 'Planner', avatar: 'ห', timeIn: '08:00' }],
+        'desk-manager': [{ id: 14, name: 'ซัน', role: 'Manager', avatar: 'ซ', timeIn: '09:30' }],
+
+        'desk-prod-admin': [{ id: 15, name: 'บิ๊ก', role: 'Production', avatar: 'บ', timeIn: '08:00' }],
+        'desk-pricing': [{ id: 16, name: 'หนิง', role: 'Pricing', avatar: 'ห', timeIn: '08:30' }],
+        'desk-account': [
+            { id: 17, name: 'อ้อ', role: 'Accounting', avatar: 'อ', timeIn: '08:30' },
+            { id: 18, name: 'มินต์', role: 'Accounting', avatar: 'ม', timeIn: '08:30' }
+        ],
+        'desk-logistics': [{ id: 19, name: 'แบงค์', role: 'Logistics', avatar: 'บ', timeIn: '08:30' }],
+
+        'print-sm74': [{ id: 20, name: 'น้อย', role: 'Operator', avatar: 'น', timeIn: '08:00' }],
+        'print-sm102': [
+            { id: 21, name: 'วุฒิ', role: 'Operator', avatar: 'ว', timeIn: '08:00' },
+            { id: 22, name: 'โต้', role: 'Operator', avatar: 'ต', timeIn: '08:00' },
+            { id: 23, name: 'โจ', role: 'Operator', avatar: 'จ', timeIn: '08:00' }
+        ],
+        'cutter': [
+            { id: 24, name: 'ปอนด์', role: 'Operator', avatar: 'ป', timeIn: '08:00' },
+            { id: 25, name: 'กอล์ฟ', role: 'Operator', avatar: 'ก', timeIn: '08:00' }
+        ],
+        'diecut-1': [],
+        'diecut-2': [],
+        'foil-1': [
+            { id: 26, name: 'ทองใบ', role: 'Operator', avatar: 'ท', timeIn: '08:00' },
+            { id: 27, name: 'ปู', role: 'Operator', avatar: 'ป', timeIn: '08:00' }
+        ],
+        'coat-1': [],
+
+        'stitch': [{ id: 28, name: 'หมอ', role: 'Operator', avatar: 'ห', timeIn: '08:00' }],
+        'fold-1': [{ id: 29, name: 'จักร', role: 'Operator', avatar: 'จ', timeIn: '08:00' }],
+        'fold-2': [],
+        'odm-1': [],
+        'odm-2': [],
+        'wire-bind': [],
+        'drive': [
+            { id: 30, name: 'อ๊อด', role: 'Driver', avatar: 'อ', timeIn: '08:00' },
+            { id: 31, name: 'รัตน์', role: 'Driver', avatar: 'ร', timeIn: '08:00' }
+        ],
+
+        'post-coord': [{ id: 32, name: 'พลอย', role: 'Coordinator', avatar: 'พ', timeIn: '08:30' }],
+        'post-press': [
+            { id: 33, name: 'ปลา', role: 'Post-press', avatar: 'ป', timeIn: '08:00' },
+            { id: 34, name: 'พิณ', role: 'Post-press', avatar: 'พ', timeIn: '08:00' },
+            { id: 35, name: 'คริม', role: 'Post-press', avatar: 'ค', timeIn: '08:00' }
+        ]
     });
 
     useEffect(() => {
@@ -120,7 +208,7 @@ export default function VirtualOffice() {
                 <div style={{ background: 'white', padding: '1.5rem', borderRadius: '16px', borderLeft: '4px solid #f59e0b', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
                     <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 'bold' }}>เครื่องจักรที่กำลังเดินสายพาน</div>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#0f172a', marginTop: '0.5rem' }}>
-                        3 <span style={{ fontSize: '1rem', fontWeight: 'normal', color: '#64748b' }}>เครื่อง</span>
+                        6 <span style={{ fontSize: '1rem', fontWeight: 'normal', color: '#64748b' }}>เครื่อง</span>
                     </div>
                 </div>
                 <div style={{ background: 'white', padding: '1.5rem', borderRadius: '16px', borderLeft: '4px solid #3b82f6', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
