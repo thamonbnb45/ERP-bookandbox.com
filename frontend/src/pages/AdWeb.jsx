@@ -418,7 +418,7 @@ export default function AdWeb() {
   const pConf = activeLead ? (PLATFORM_CONFIG[activeLead.platform] || PLATFORM_CONFIG.line) : PLATFORM_CONFIG.line;
 
   return (
-    <div className="view-section active" style={{ height: 'calc(100vh - var(--topbar-height) - 4rem)'}}>
+    <div className="view-section active" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - var(--topbar-height) - 4rem)'}}>
       {/* Lightbox Modal */}
       {previewImage && (
         <div 
@@ -564,7 +564,7 @@ export default function AdWeb() {
         </div>
       </div>
 
-      <div className="chat-container shadow" style={{ height: 'calc(100vh - 140px)', minHeight: '500px' }}>
+      <div className="chat-container shadow" style={{ flex: 1, minHeight: 0 }}>
         {/* Contact List */}
         <div className="chat-list" style={{ width: '30%', minWidth: '280px', display: 'flex', flexDirection: 'column' }}>
           
