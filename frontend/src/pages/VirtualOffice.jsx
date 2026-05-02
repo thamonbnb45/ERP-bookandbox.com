@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+
+const VirtualOffice3D = lazy(() => import('./VirtualOffice3D'));
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
@@ -8,7 +10,7 @@ export default function VirtualOffice() {
     const { user } = useAuth();
     const [staff, setStaff] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [viewMode, setViewMode] = useState('map'); // 'dashboard' or 'map'
+    const [viewMode, setViewMode] = useState('3d'); // '3d', 'map' or 'dashboard'
 
     // Factory Layout based on physical locations
     const factoryZones = [
@@ -318,18 +320,25 @@ export default function VirtualOffice() {
 
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
                 <button 
+                    className={`btn ${viewMode === '3d' ? 'btn-primary' : 'btn-light'}`} 
+                    onClick={() => setViewMode('3d')}
+                    style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', fontWeight: 'bold' }}
+                >
+                    <i className="fa-solid fa-cube"></i> 3D Virtual Office
+                </button>
+                <button 
                     className={`btn ${viewMode === 'map' ? 'btn-primary' : 'btn-light'}`} 
                     onClick={() => setViewMode('map')}
                     style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', fontWeight: 'bold' }}
                 >
-                    <i className="fa-solid fa-map-location-dot"></i> แผนผังโรงงาน 2.5D (Map View)
+                    <i className="fa-solid fa-map-location-dot"></i> แผนผัง 2.5D
                 </button>
                 <button 
                     className={`btn ${viewMode === 'dashboard' ? 'btn-primary' : 'btn-light'}`} 
                     onClick={() => setViewMode('dashboard')}
                     style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', fontWeight: 'bold' }}
                 >
-                    <i className="fa-solid fa-table-cells-large"></i> แบบตาราง (Dashboard)
+                    <i className="fa-solid fa-table-cells-large"></i> แบบตาราง
                 </button>
             </div>
 
@@ -355,7 +364,13 @@ export default function VirtualOffice() {
                 </div>
             </div>
 
-            {viewMode === 'map' ? (
+            {viewMode === '3d' ? (
+                /* 3D Virtual Office */
+                <Suspense fallback={<div style={{height:'70vh',display:'flex',alignItems:'center',justifyContent:'center',background:'#0f172a',borderRadius:'20px',color:'white',fontSize:'1.2rem'}}><i className="fa-solid fa-spinner fa-spin" style={{marginRight:'1rem'}}></i>กำลังโหลดโรงงาน 3D...</div>}>
+                    <VirtualOffice3D factoryZones={factoryZones} activeSessions={activeSessions} machineStatus={machineStatus} />
+                    <p style={{textAlign:'center',color:'#64748b',marginTop:'1rem',fontSize:'0.85rem'}}><i className="fa-solid fa-hand-pointer"></i> คลิกลากเพื่อหมุน | คลิกขวาเพื่อเลื่อน | Scroll เพื่อซูมเข้า-ออก</p>
+                </Suspense>
+            ) : viewMode === 'map' ? (
                 /* 2.5D Blueprint Map View */
                 <div style={{ background: '#0f172a', padding: '3rem', borderRadius: '24px', overflowX: 'auto', boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.5)' }}>
                     <div style={{ minWidth: '1400px', display: 'flex', flexDirection: 'column', gap: '3rem', position: 'relative' }}>
