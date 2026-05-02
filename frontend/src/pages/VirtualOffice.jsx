@@ -335,8 +335,6 @@ export default function VirtualOffice() {
                 </div>
             </div>
 
-            </div>
-
             {viewMode === 'map' ? (
                 /* 2.5D Blueprint Map View */
                 <div style={{ background: '#0f172a', padding: '3rem', borderRadius: '24px', overflowX: 'auto', boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.5)' }}>
