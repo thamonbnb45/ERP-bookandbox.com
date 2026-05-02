@@ -187,77 +187,92 @@ export default function VirtualOffice() {
         return { color: '#10b981', icon: 'fa-circle-check', text: 'เดินเครื่องปกติ', anim: '' };
     };
 
+    // Color palette for characters
+    const charColors = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#14b8a6','#f97316','#06b6d4'];
+    const getCharColor = (id) => charColors[id % charColors.length];
+
+    // Render a single CSS chibi character
+    const renderCharacter = (person, idx) => {
+        const c = getCharColor(person.id);
+        return (
+            <div key={person.id} title={`${person.name} (${person.role})`} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'2px', cursor:'pointer' }}>
+                {/* Head */}
+                <div style={{ width:'32px', height:'32px', borderRadius:'50%', background:c, border:'3px solid white', boxShadow:'0 2px 8px rgba(0,0,0,0.3)', display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:'0.85rem', fontWeight:'bold', position:'relative', zIndex:2 }}>
+                    {person.avatar}
+                    {/* Online dot */}
+                    <div style={{ position:'absolute', bottom:'-1px', right:'-1px', width:'10px', height:'10px', borderRadius:'50%', background:'#22c55e', border:'2px solid white' }}></div>
+                </div>
+                {/* Body */}
+                <div style={{ width:'24px', height:'16px', background:c, borderRadius:'0 0 8px 8px', marginTop:'-4px', zIndex:1 }}></div>
+                {/* Name */}
+                <span style={{ fontSize:'0.65rem', color:'white', fontWeight:'bold', textShadow:'0 1px 3px rgba(0,0,0,0.8)', maxWidth:'60px', textAlign:'center', lineHeight:'1.1' }}>{person.name}</span>
+            </div>
+        );
+    };
+
+    // Render a station (desk/machine/meeting)
+    const renderStation = (station, zone) => {
+        const occupants = activeSessions[station.id] || [];
+        const isMachine = station.type === 'machine';
+        const isMeeting = station.type === 'meeting';
+        const isComputer = station.type === 'computer';
+        const mStatus = machineStatus[station.id];
+
+        const deskBg = isMachine ? '#94a3b8' : isMeeting ? '#fef08a' : isComputer ? '#c4b5fd' : '#bfdbfe';
+        const deskBorder = isMachine ? '#64748b' : isMeeting ? '#ca8a04' : isComputer ? '#7c3aed' : '#3b82f6';
+        const stW = isMeeting ? 180 : isMachine ? 150 : isComputer ? 130 : 120;
+
+        return (
+            <div key={station.id} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'6px', margin:'0.5rem' }}>
+                {/* People on top */}
+                <div style={{ display:'flex', gap:'4px', flexWrap:'wrap', justifyContent:'center', minHeight:'55px', alignItems:'flex-end' }}>
+                    {occupants.map((occ, idx) => renderCharacter(occ, idx))}
+                    {occupants.length === 0 && <div style={{ height:'55px' }}></div>}
+                </div>
+                {/* Desk / Machine body */}
+                <div style={{ 
+                    width: stW+'px', minHeight: isMachine ? '50px' : '38px',
+                    background: deskBg, border:`3px solid ${deskBorder}`, 
+                    borderRadius: isMachine ? '6px' : '10px',
+                    display:'flex', alignItems:'center', justifyContent:'center', gap:'6px',
+                    position:'relative', padding:'4px 8px',
+                    boxShadow:'0 4px 12px rgba(0,0,0,0.2)'
+                }}>
+                    {/* Icon */}
+                    <i className={`fa-solid ${isMachine ? 'fa-gears' : isMeeting ? 'fa-door-open' : isComputer ? 'fa-display' : 'fa-chair'}`} style={{ color: deskBorder, fontSize:'0.9rem' }}></i>
+                    <span style={{ fontSize:'0.7rem', fontWeight:'bold', color:'#1e293b', textAlign:'center' }}>{station.name}</span>
+                    
+                    {/* Machine status badge */}
+                    {isMachine && mStatus && (
+                        <div style={{
+                            position:'absolute', top:'-8px', right:'-8px',
+                            width:'22px', height:'22px', borderRadius:'50%',
+                            background: getMachineStatusUI(mStatus).color,
+                            border:'2px solid white', zIndex:5,
+                            display:'flex', alignItems:'center', justifyContent:'center',
+                            color:'white', fontSize:'0.6rem',
+                            animation: getMachineStatusUI(mStatus).anim === 'pulse' ? 'pulse 1.5s infinite' : 'none'
+                        }}>
+                            <i className={`fa-solid ${getMachineStatusUI(mStatus).icon}`}></i>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
     const renderGraphicalZone = (zoneId, customStyle = {}) => {
         const zone = factoryZones.find(z => z.id === zoneId);
         if (!zone) return null;
 
         return (
-            <div style={{ border: `3px dashed ${zone.color}`, borderRadius: '12px', padding: '1rem', background: zone.bg + '40', display: 'flex', flexDirection: 'column', ...customStyle }}>
-                <h4 style={{ color: zone.color, textAlign: 'center', marginBottom: '1.5rem', fontWeight: 'bold', fontSize: '1rem' }}>{zone.name.split(' ')[0]}</h4>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
-                    {zone.stations.map(station => {
-                        const occupants = activeSessions[station.id] || [];
-                        const isMachine = station.type === 'machine';
-                        const isMeeting = station.type === 'meeting';
-                        
-                        return (
-                            <div key={station.id} style={{ 
-                                width: isMeeting ? '180px' : isMachine ? '140px' : '100px', 
-                                height: isMeeting ? '100px' : isMachine ? '80px' : '60px', 
-                                background: isMachine ? '#cbd5e1' : isMeeting ? '#fef08a' : '#fff', 
-                                border: `3px solid ${isMachine ? '#94a3b8' : isMeeting ? '#eab308' : '#cbd5e1'}`, 
-                                borderRadius: isMachine ? '8px' : '12px',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                position: 'relative',
-                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                            }}>
-                                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', textAlign: 'center', zIndex: 10 }}>{station.name}</span>
-                                
-                                {/* Render Avatars sitting around the table */}
-                                {occupants.map((occ, idx) => {
-                                    // Calculate position based on index
-                                    const positions = [
-                                        { top: '-20px', left: '50%', transform: 'translateX(-50%)' }, // Top center
-                                        { bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }, // Bottom center
-                                        { top: '50%', left: '-20px', transform: 'translateY(-50%)' }, // Left center
-                                        { top: '50%', right: '-20px', transform: 'translateY(-50%)' }, // Right center
-                                        { top: '-20px', left: '10%' }, // Top left
-                                        { top: '-20px', right: '10%' }, // Top right
-                                        { bottom: '-20px', left: '10%' }, // Bottom left
-                                        { bottom: '-20px', right: '10%' }, // Bottom right
-                                    ];
-                                    const pos = positions[idx % positions.length];
-                                    
-                                    return (
-                                        <div key={occ.id} title={`${occ.name} (${occ.role})`} style={{
-                                            position: 'absolute', ...pos,
-                                            width: '40px', height: '40px', borderRadius: '50%',
-                                            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                                            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            fontSize: '1rem', fontWeight: 'bold', border: '3px solid white',
-                                            boxShadow: '0 4px 6px rgba(0,0,0,0.2)', zIndex: 20
-                                        }}>
-                                            {occ.avatar}
-                                        </div>
-                                    )
-                                })}
-
-                                {/* Machine Status Dot */}
-                                {isMachine && machineStatus[station.id] && (
-                                    <div style={{
-                                        position: 'absolute', top: '-10px', right: '-10px',
-                                        width: '30px', height: '30px', borderRadius: '50%',
-                                        background: getMachineStatusUI(machineStatus[station.id]).color,
-                                        border: '3px solid white', zIndex: 20,
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.8rem',
-                                        animation: getMachineStatusUI(machineStatus[station.id]).anim === 'pulse' ? 'pulse 2s infinite' : 'none'
-                                    }}>
-                                        <i className={`fa-solid ${getMachineStatusUI(machineStatus[station.id]).icon}`}></i>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
+            <div style={{ border:`2px solid ${zone.color}60`, borderRadius:'16px', padding:'1rem', background: zone.color + '10', ...customStyle }}>
+                <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'1rem', paddingLeft:'0.5rem' }}>
+                    <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:zone.color, boxShadow:`0 0 8px ${zone.color}` }}></div>
+                    <span style={{ color:zone.color, fontWeight:'bold', fontSize:'0.85rem' }}>{zone.name}</span>
+                </div>
+                <div style={{ display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'0.5rem' }}>
+                    {zone.stations.map(station => renderStation(station, zone))}
                 </div>
             </div>
         );
