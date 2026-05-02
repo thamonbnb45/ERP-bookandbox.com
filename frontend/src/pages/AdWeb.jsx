@@ -209,12 +209,17 @@ export default function AdWeb() {
   const activeLead = leads.find(l => l.id === activeLeadId);
   
   const getWaitTimeText = (lead) => {
-      if (!lead?.messages || lead.messages.length === 0) return '';
-      const lastMsgTime = new Date(lead.messages[lead.messages.length - 1].created_at);
-      const diffHours = (new Date() - lastMsgTime) / (1000 * 60 * 60);
-      if (diffHours < 1) return ` (${Math.floor(diffHours * 60)} น.)`;
-      if (diffHours < 24) return ` (${Math.floor(diffHours)} ชม.)`;
-      return ` (${Math.floor(diffHours / 24)} ว.)`;
+      try {
+          if (!lead?.messages || lead.messages.length === 0) return '';
+          const lastMsgTime = new Date(lead.messages[lead.messages.length - 1].created_at);
+          if (isNaN(lastMsgTime.getTime())) return '';
+          const diffHours = (new Date() - lastMsgTime) / (1000 * 60 * 60);
+          if (diffHours < 1) return ` (${Math.floor(diffHours * 60)} น.)`;
+          if (diffHours < 24) return ` (${Math.floor(diffHours)} ชม.)`;
+          return ` (${Math.floor(diffHours / 24)} ว.)`;
+      } catch (err) {
+          return '';
+      }
   };
   
   // Filtered leads by platform + search + sales
@@ -987,60 +992,14 @@ export default function AdWeb() {
             )}
             
             {/* ★ CRM Feedback & Win/Loss Tracking - Hidden per user request */}
-            {false && !editingLead && (
+            {/* 
+            {!editingLead && (
               <div style={{ marginTop: '0.4rem', display: 'flex', gap: '0.3rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 'bold' }}>📊 CRM Insight:</span>
-                
-                {/* 🏆 ซื้อเพราะ (Win Reasons) */}
-                {[
-                  { tag: '🏆ซื้อ:ราคาถูก', label: 'ราคาถูก' },
-                  { tag: '🏆ซื้อ:โปรโมชั่น', label: 'โปรโมชั่น' },
-                  { tag: '🏆ซื้อ:บริการ', label: 'บริการ' },
-                  { tag: '🏆ซื้อ:ความน่าเชื่อถือ', label: 'น่าเชื่อถือ' },
-                ].map(w => {
-                  const active = (activeLead.tags || []).includes(w.tag);
-                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} title="ลูกค้าตกลงซื้อเพราะอะไร" style={{
-                    padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
-                    background: active ? '#fef3c7' : '#f8fafc', color: active ? '#d97706' : '#94a3b8',
-                    border: active ? '1px solid #fcd34d' : '1px solid #e2e8f0'
-                  }}>🏆 {w.label}</button>;
-                })}
-
-                <div style={{ width: '1px', height: '14px', background: '#cbd5e1', margin: '0 2px' }}></div>
-                
-                {/* 💔 ไม่ซื้อเพราะ (Loss Reasons) */}
-                {[
-                  { tag: '💔แพ้:ราคาสูง', label: 'ราคาสูง' },
-                  { tag: '💔แพ้:ตอบช้า', label: 'เงียบ/ตอบช้า' },
-                  { tag: '💔แพ้:เทียบราคา', label: 'เทียบราคา' },
-                  { tag: '💔แพ้:คิวเต็ม', label: 'คิวเต็ม' },
-                  { tag: '💔แพ้:เสนอราคาช้า', label: 'เสนอราคาช้า' },
-                ].map(w => {
-                  const active = (activeLead.tags || []).includes(w.tag);
-                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} title="ลูกค้าไม่ซื้อเพราะอะไร" style={{
-                    padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
-                    background: active ? '#fee2e2' : '#f8fafc', color: active ? '#dc2626' : '#94a3b8',
-                    border: active ? '1px solid #fca5a5' : '1px solid #e2e8f0'
-                  }}>💔 {w.label}</button>;
-                })}
-
-                <div style={{ width: '1px', height: '14px', background: '#cbd5e1', margin: '0 2px' }}></div>
-                
-                {/* ⭐ คำชมเซล (Compliments) */}
-                {[
-                  { tag: '⭐ชม:บริการดี', label: 'บริการดี' },
-                  { tag: '⭐ชม:งานสวย', label: 'งานสวย' },
-                  { tag: '⭐ชม:รวดเร็ว', label: 'ทำงานเร็ว' },
-                ].map(w => {
-                  const active = (activeLead.tags || []).includes(w.tag);
-                  return <button key={w.tag} onClick={() => toggleWaitTag(w.tag)} title="คำชมจากลูกค้า" style={{
-                    padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', cursor: 'pointer', fontWeight: active ? 'bold' : 'normal',
-                    background: active ? '#ecfdf5' : '#f8fafc', color: active ? '#059669' : '#94a3b8',
-                    border: active ? '1px solid #6ee7b7' : '1px solid #e2e8f0'
-                  }}>⭐ {w.label}</button>;
-                })}
+                ... (Code removed) ...
               </div>
             )}
+            */}
             {/* Editable CRM Profile Form */}
             {editingLead && (
               <div style={{ marginTop: '0.8rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.5rem' }}>
@@ -1446,8 +1405,14 @@ export default function AdWeb() {
                   <i className="fa-solid fa-file-invoice"></i> ขอราคาใหม่
                 </button>
             </div>
-          </div>
+            </div>
         </div>
+        ) : (
+          <div className="chat-main empty" style={{ display: 'flex', flexDirection: 'column', width: '70%', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', color: '#94a3b8' }}>
+              <i className="fa-regular fa-comments" style={{ fontSize: '4rem', marginBottom: '1rem', color: '#cbd5e1' }}></i>
+              <h3>ยังไม่ได้เลือกแชท</h3>
+              <p>กรุณาคลิกเลือกแชทจากรายชื่อด้านซ้ายเพื่อดูบทสนทนา</p>
+          </div>
         )}
       </div>
 
