@@ -21,6 +21,7 @@ export default function VirtualOffice() {
                 { id: 'desk-admin', name: 'โต๊ะแอดมิน', type: 'desk', capacity: 2 },
                 { id: 'desk-graphic', name: 'โต๊ะออกแบบกราฟฟิค', type: 'computer', capacity: 1 },
                 { id: 'desk-marketing', name: 'โต๊ะการตลาด', type: 'desk', capacity: 1 },
+                { id: 'meeting-1', name: 'ห้องประชุม 1 (รับแขก)', type: 'meeting', capacity: 8 },
             ]
         },
         {
@@ -34,6 +35,7 @@ export default function VirtualOffice() {
                 { id: 'desk-odm', name: 'คุมเครื่อง ODM', type: 'machine', capacity: 1 },
                 { id: 'desk-planner', name: 'โต๊ะวางแผน', type: 'desk', capacity: 1 },
                 { id: 'desk-manager', name: 'โต๊ะผู้จัดการ', type: 'desk', capacity: 1 },
+                { id: 'meeting-2', name: 'ห้องประชุม 2 (ชั้น 2)', type: 'meeting', capacity: 10 },
             ]
         },
         {
@@ -156,8 +158,28 @@ export default function VirtualOffice() {
             { id: 33, name: 'ปลา', role: 'Post-press', avatar: 'ป', timeIn: '08:00' },
             { id: 34, name: 'พิณ', role: 'Post-press', avatar: 'พ', timeIn: '08:00' },
             { id: 35, name: 'คริม', role: 'Post-press', avatar: 'ค', timeIn: '08:00' }
+        ],
+        'meeting-1': [
+            { id: 99, name: 'ลูกค้านัดพบ', role: 'Guest', avatar: 'G', timeIn: '10:00' }
+        ],
+        'meeting-2': [
+            { id: 100, name: 'ประชุมประจำวัน', role: 'Internal', avatar: 'M', timeIn: '09:00' },
+            { id: 101, name: 'การตลาดถ่ายงาน', role: 'Internal', avatar: 'M', timeIn: '13:00' }
         ]
     });
+
+    const [machineStatus, setMachineStatus] = useState({
+        'desk-odm': 'error',     // 🔴 เครื่องเสีย
+        'print-sm74': 'running', // 🟢 ปกติ
+        'print-sm102': 'running',// 🟢 ปกติ
+        'cutter': 'setup',       // 🟡 ตั้งเครื่อง
+    });
+
+    const getMachineStatusUI = (status) => {
+        if (status === 'error') return { color: '#ef4444', icon: 'fa-triangle-exclamation', text: 'เครื่องเสีย/รอซ่อม', anim: 'pulse' };
+        if (status === 'setup') return { color: '#f59e0b', icon: 'fa-wrench', text: 'กำลังตั้งเครื่อง', anim: '' };
+        return { color: '#10b981', icon: 'fa-circle-check', text: 'เดินเครื่องปกติ', anim: '' };
+    };
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 60000); // update every min
@@ -254,7 +276,7 @@ export default function VirtualOffice() {
                                             alignItems: 'center'
                                         }}>
                                             <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
-                                                <i className={`fa-solid ${station.type === 'machine' ? 'fa-gears' : station.type === 'computer' ? 'fa-desktop' : 'fa-chair'}`} style={{ marginRight: '0.5rem' }}></i>
+                                                <i className={`fa-solid ${station.type === 'machine' ? 'fa-gears' : station.type === 'meeting' ? 'fa-people-group' : station.type === 'computer' ? 'fa-desktop' : 'fa-chair'}`} style={{ marginRight: '0.5rem' }}></i>
                                                 {station.name}
                                             </div>
                                             <div style={{ fontSize: '0.75rem', padding: '0.2rem 0.5rem', background: 'rgba(255,255,255,0.2)', borderRadius: '12px' }}>
@@ -262,12 +284,36 @@ export default function VirtualOffice() {
                                             </div>
                                         </div>
 
+                                        {/* Machine Status Overlay (If Machine) */}
+                                        {station.type === 'machine' && machineStatus[station.id] && (
+                                            <div style={{ 
+                                                padding: '0.4rem 1rem', 
+                                                background: getMachineStatusUI(machineStatus[station.id]).color + '15',
+                                                borderBottom: '1px solid #f1f5f9',
+                                                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                                color: getMachineStatusUI(machineStatus[station.id]).color,
+                                                fontSize: '0.8rem', fontWeight: 'bold'
+                                            }}>
+                                                <i className={`fa-solid ${getMachineStatusUI(machineStatus[station.id]).icon} ${getMachineStatusUI(machineStatus[station.id]).anim === 'pulse' ? 'fa-fade' : ''}`}></i>
+                                                {getMachineStatusUI(machineStatus[station.id]).text}
+                                            </div>
+                                        )}
+
                                         {/* Occupants List */}
                                         <div style={{ padding: '1rem', minHeight: '120px', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                                             {isEmpty ? (
                                                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1', opacity: 0.7 }}>
-                                                    <i className="fa-solid fa-mug-hot" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}></i>
-                                                    <span style={{ fontSize: '0.8rem' }}>ไม่มีพนักงานใช้งาน</span>
+                                                    {station.type === 'meeting' ? (
+                                                        <>
+                                                            <i className="fa-regular fa-calendar-check" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}></i>
+                                                            <span style={{ fontSize: '0.8rem' }}>ห้องว่าง (จองได้)</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <i className="fa-solid fa-mug-hot" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}></i>
+                                                            <span style={{ fontSize: '0.8rem' }}>ไม่มีพนักงานใช้งาน</span>
+                                                        </>
+                                                    )}
                                                 </div>
                                             ) : (
                                                 occupants.map((person) => (
@@ -289,10 +335,21 @@ export default function VirtualOffice() {
                                                             <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{person.role}</div>
                                                         </div>
                                                         <div style={{ textAlign: 'right' }}>
-                                                            <div style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 'bold' }}>
-                                                                <i className="fa-solid fa-clock-rotate-left mr-1"></i> {getElapseTime(person.timeIn)}
-                                                            </div>
-                                                            <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>ตั้งแต่ {person.timeIn} น.</div>
+                                                            {station.type === 'meeting' ? (
+                                                                <>
+                                                                    <div style={{ fontSize: '0.75rem', color: '#3b82f6', fontWeight: 'bold' }}>
+                                                                        <i className="fa-regular fa-clock mr-1"></i> จองถึง 12:00
+                                                                    </div>
+                                                                    <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>จองโดย: {person.name}</div>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <div style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 'bold' }}>
+                                                                        <i className="fa-solid fa-clock-rotate-left mr-1"></i> {getElapseTime(person.timeIn)}
+                                                                    </div>
+                                                                    <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>ตั้งแต่ {person.timeIn} น.</div>
+                                                                </>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 ))
@@ -301,14 +358,33 @@ export default function VirtualOffice() {
 
                                         {/* Assign Button */}
                                         <div style={{ padding: '0.8rem 1rem', borderTop: '1px solid #f1f5f9', background: '#fcfcfc', textAlign: 'center' }}>
-                                            <button 
-                                                className={`btn ${isFull ? 'btn-light' : 'btn-primary'}`} 
-                                                style={{ width: '100%', fontSize: '0.8rem', padding: '0.4rem', opacity: isFull ? 0.5 : 1 }}
-                                                disabled={isFull}
-                                                onClick={() => alert('ฟังก์ชั่นระบบเช็คอินกำลังพัฒนา (รอพนักงานแสกนบัตร หรือแอดมินลากวางชื่อใส่ได้เลย)')}
-                                            >
-                                                {isFull ? 'ใช้งานเต็มแล้ว' : '+ เพิ่มพนักงานเข้าจุดนี้'}
-                                            </button>
+                                            {station.type === 'machine' ? (
+                                                <button 
+                                                    className="btn btn-outline-warning" 
+                                                    style={{ width: '100%', fontSize: '0.8rem', padding: '0.4rem', color: '#f59e0b', borderColor: '#fde68a' }}
+                                                    onClick={() => alert('ฟังก์ชั่นสำหรับหัวหน้าช่าง: กดเพื่อรายงานสถานะเครื่องจักร (เสีย/ซ่อม/ล้างเครื่อง)')}
+                                                >
+                                                    <i className="fa-solid fa-wrench"></i> อัปเดตสถานะเครื่องจักร
+                                                </button>
+                                            ) : station.type === 'meeting' ? (
+                                                <button 
+                                                    className={`btn ${isFull ? 'btn-light' : 'btn-primary'}`} 
+                                                    style={{ width: '100%', fontSize: '0.8rem', padding: '0.4rem', opacity: isFull ? 0.5 : 1 }}
+                                                    disabled={isFull}
+                                                    onClick={() => alert('ฟังก์ชั่นระบบจองห้องประชุมกำลังพัฒนา (เลือกเวลา และหัวข้อการประชุมได้เลย)')}
+                                                >
+                                                    {isFull ? 'ห้องไม่ว่าง' : '+ จองห้องประชุมนี้'}
+                                                </button>
+                                            ) : (
+                                                <button 
+                                                    className={`btn ${isFull ? 'btn-light' : 'btn-primary'}`} 
+                                                    style={{ width: '100%', fontSize: '0.8rem', padding: '0.4rem', opacity: isFull ? 0.5 : 1 }}
+                                                    disabled={isFull}
+                                                    onClick={() => alert('ฟังก์ชั่นระบบเช็คอินกำลังพัฒนา (รอพนักงานแสกนบัตร หรือแอดมินลากวางชื่อใส่ได้เลย)')}
+                                                >
+                                                    {isFull ? 'ใช้งานเต็มแล้ว' : '+ เพิ่มพนักงานเข้าจุดนี้'}
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 );
