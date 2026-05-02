@@ -139,56 +139,226 @@ function Room({ position, width, depth, color, label }) {
   );
 }
 
+/* ─── Individual Desk (small rectangle per person) ─── */
+function PersonDesk({ position, name, role, color, label }) {
+  const ref = useRef();
+  useFrame((state) => {
+    if (ref.current) ref.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 1.5 + position[0]) * 0.03;
+  });
+  return (
+    <group position={position}>
+      {/* Desk surface - rectangle */}
+      <mesh position={[0, 0.45, 0]}>
+        <boxGeometry args={[1.0, 0.05, 0.55]} />
+        <meshStandardMaterial color="#bfdbfe" />
+      </mesh>
+      {/* Legs */}
+      {[[-0.42,0.22,-0.2],[0.42,0.22,-0.2],[-0.42,0.22,0.2],[0.42,0.22,0.2]].map((p,i)=>(
+        <mesh key={i} position={p}><boxGeometry args={[0.03,0.44,0.03]}/><meshStandardMaterial color="#64748b"/></mesh>
+      ))}
+      {/* Monitor */}
+      <mesh position={[0, 0.65, -0.15]} rotation={[0.1, 0, 0]}>
+        <boxGeometry args={[0.3, 0.2, 0.02]} />
+        <meshStandardMaterial color="#1e293b" emissive="#3b82f6" emissiveIntensity={0.15} />
+      </mesh>
+      <mesh position={[0, 0.53, -0.15]}><boxGeometry args={[0.03, 0.1, 0.03]}/><meshStandardMaterial color="#475569"/></mesh>
+      {/* Label on desk */}
+      <Html position={[0, 0.55, 0.35]} center distanceFactor={8} style={{pointerEvents:'none'}}>
+        <div style={{background:'rgba(59,130,246,0.8)',color:'white',padding:'1px 6px',borderRadius:'4px',fontSize:'8px',fontWeight:'bold',whiteSpace:'nowrap'}}>{label || ''}</div>
+      </Html>
+      {/* Character sitting */}
+      {name && (
+        <group ref={ref}>
+          <RoundedBox args={[0.3,0.4,0.22]} radius={0.06} position={[0,0.2,0.45]}>
+            <meshStandardMaterial color={color || '#6366f1'} />
+          </RoundedBox>
+          <mesh position={[0,0.55,0.45]}>
+            <sphereGeometry args={[0.15,16,16]}/><meshStandardMaterial color="#fcd9b6"/>
+          </mesh>
+          <mesh position={[0,0.64,0.43]}>
+            <sphereGeometry args={[0.13,16,16]}/><meshStandardMaterial color={color || '#6366f1'}/>
+          </mesh>
+          <mesh position={[0.12,0.65,0.52]}>
+            <sphereGeometry args={[0.03,8,8]}/><meshStandardMaterial color="#22c55e" emissive="#22c55e" emissiveIntensity={0.5}/>
+          </mesh>
+          <Html position={[0,0.85,0.45]} center distanceFactor={7} style={{pointerEvents:'none'}}>
+            <div style={{textAlign:'center',whiteSpace:'nowrap'}}>
+              <div style={{background:'rgba(0,0,0,0.75)',color:'white',padding:'2px 7px',borderRadius:'5px',fontSize:'10px',fontWeight:'bold'}}>{name}</div>
+              {role && <div style={{color:'#94a3b8',fontSize:'8px'}}>{role}</div>}
+            </div>
+          </Html>
+        </group>
+      )}
+    </group>
+  );
+}
+
+/* ─── Empty Desk (no person) ─── */
+function EmptyDesk({ position, label, color = '#94a3b8' }) {
+  return (
+    <group position={position}>
+      <mesh position={[0, 0.45, 0]}>
+        <boxGeometry args={[1.0, 0.05, 0.55]} />
+        <meshStandardMaterial color={color} opacity={0.5} transparent />
+      </mesh>
+      {[[-0.42,0.22,-0.2],[0.42,0.22,-0.2],[-0.42,0.22,0.2],[0.42,0.22,0.2]].map((p,i)=>(
+        <mesh key={i} position={p}><boxGeometry args={[0.03,0.44,0.03]}/><meshStandardMaterial color="#475569"/></mesh>
+      ))}
+      <Html position={[0, 0.6, 0]} center distanceFactor={8} style={{pointerEvents:'none'}}>
+        <div style={{background:'rgba(0,0,0,0.5)',color:'#94a3b8',padding:'1px 6px',borderRadius:'4px',fontSize:'8px',whiteSpace:'nowrap'}}>{label}</div>
+      </Html>
+    </group>
+  );
+}
+
 /* ─── SCENE ─── */
 function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
   const cc = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#14b8a6','#f97316','#06b6d4'];
-  const objects = useMemo(() => {
-    const items = [];
-    const addZone = (zoneId, startX, baseZ) => {
-      const sts = factoryZones.find(z => z.id === zoneId)?.stations || [];
-      let x = startX;
-      sts.forEach(st => {
-        const isMachine = st.type === 'machine';
-        const isMeeting = st.type === 'meeting';
-        const z = isMeeting ? baseZ - 3 : baseZ;
-        if (isMeeting) items.push({ t: 'meeting', pos: [x, 0, z], name: st.name });
-        else if (isMachine) items.push({ t: 'machine', pos: [x, 0, z], name: st.name, status: machineStatus[st.id] || 'running' });
-        else items.push({ t: 'desk', pos: [x, 0, z], stType: st.type });
-        (activeSessions[st.id] || []).forEach((p, pi) => {
-          items.push({ t: 'char', pos: [x + (pi - ((activeSessions[st.id]||[]).length-1)/2) * 0.5, 0, (isMeeting ? z + 0.8 : z + 0.8)], ...p, color: cc[p.id % cc.length] });
-        });
-        x += 2;
-      });
-    };
-    addZone('zone-sales-admin', -6, -2);
-    addZone('zone-prepress', 4, -2);
-    addZone('zone-acc-prod', -6, 2);
-    addZone('zone-factory-200', 4, 2.5);
-    addZone('zone-factory-100', -6, 8);
-    addZone('zone-factory-63', 8, 8);
-    return items;
-  }, [factoryZones, activeSessions, machineStatus]);
+  const gc = (id) => cc[id % cc.length];
+
+  // Helper to get first person from a station
+  const ppl = (stId) => (activeSessions[stId] || []);
 
   return (
     <>
       <ambientLight intensity={0.6} />
       <directionalLight position={[10, 15, 10]} intensity={1} />
       <directionalLight position={[-5, 10, -5]} intensity={0.3} />
-      <mesh rotation={[-Math.PI/2, 0, 0]} position={[2, -0.01, 3]}>
-        <planeGeometry args={[30, 20]} />
+      
+      {/* Ground */}
+      <mesh rotation={[-Math.PI/2, 0, 0]} position={[4, -0.01, 4]}>
+        <planeGeometry args={[35, 25]} />
         <meshStandardMaterial color="#1e293b" />
       </mesh>
-      <Room position={[0, 0, 0]} width={18} depth={8} color="#3b82f6" label="โรงงาน 200 ตร.ว." />
-      <Room position={[-2, 0, 8.5]} width={12} depth={4} color="#10b981" label="โรงงาน 100 ตร.ว." />
-      <Room position={[9, 0, 8.5]} width={6} depth={4} color="#6366f1" label="ตึก 63 ตร.ว." />
-      {objects.map((o, i) => {
-        if (o.t === 'char') return <Character key={i} position={o.pos} name={o.name} color={o.color} role={o.role} />;
-        if (o.t === 'desk') return <Desk key={i} position={o.pos} color={o.stType === 'computer' ? '#c4b5fd' : '#bfdbfe'} />;
-        if (o.t === 'machine') return <Machine key={i} position={o.pos} name={o.name} status={o.status} />;
-        if (o.t === 'meeting') return <MeetingRoom key={i} position={o.pos} name={o.name} />;
-        return null;
-      })}
-      <OrbitControls makeDefault minPolarAngle={Math.PI/6} maxPolarAngle={Math.PI/2.5} minDistance={5} maxDistance={25} target={[2, 0, 3]} />
+
+      {/* ═══════ BUILDING 200 ตร.ว. ═══════ */}
+      <Room position={[3, 0, -1]} width={22} depth={12} color="#3b82f6" label="โรงงาน 200 ตร.ว. (สำนักงาน + โรงพิมพ์หลัก)" />
+
+      {/* ── Office Row 1 (top): Sale, Marketing, Admin, Graphic, Admin, Accounting, HR ── */}
+      {/* z = -5, from left to right */}
+      {ppl('desk-sales').map((p, i) => (
+        <PersonDesk key={`s${i}`} position={[-6 + i*1.3, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="เซล" />
+      ))}
+      {ppl('desk-marketing').map((p, i) => (
+        <PersonDesk key={`mk${i}`} position={[-0.5, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="การตลาด" />
+      ))}
+      {ppl('desk-admin').map((p, i) => (
+        <PersonDesk key={`ad${i}`} position={[1 + i*1.3, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label={p.role} />
+      ))}
+      {ppl('desk-graphic').map((p, i) => (
+        <PersonDesk key={`gr${i}`} position={[5, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="ออกแบบ" />
+      ))}
+
+      {/* ── Office Row 2: ผลิต, คิดราคา, บัญชี, HR, จัดส่ง ── */}
+      {ppl('desk-prod-admin').map((p, i) => (
+        <PersonDesk key={`pr${i}`} position={[-6, 0, -3.5]} name={p.name} role={p.role} color={gc(p.id)} label="ผลิต" />
+      ))}
+      {ppl('desk-pricing').map((p, i) => (
+        <PersonDesk key={`pc${i}`} position={[-4.5, 0, -3.5]} name={p.name} role={p.role} color={gc(p.id)} label="คิดราคา" />
+      ))}
+      {ppl('desk-account').map((p, i) => (
+        <PersonDesk key={`ac${i}`} position={[-3 + i*1.3, 0, -3.5]} name={p.name} role={p.role} color={gc(p.id)} label="บัญชี" />
+      ))}
+      {ppl('desk-hr').map((p, i) => (
+        <PersonDesk key={`hr${i}`} position={[-0.2, 0, -3.5]} name={p.name} role={p.role} color={gc(p.id)} label="HR" />
+      ))}
+      {ppl('desk-logistics').map((p, i) => (
+        <PersonDesk key={`lg${i}`} position={[1.2, 0, -3.5]} name={p.name} role={p.role} color={gc(p.id)} label="จัดส่ง" />
+      ))}
+
+      {/* ── Meeting Room 1 (bottom-left of office) ── */}
+      <MeetingRoom position={[-5, 0, -1]} name="ห้องประชุม 1 (รับแขก)" width={3} depth={2} />
+      {ppl('meeting-1').map((p, i) => (
+        <Character key={`mt1${i}`} position={[-5 + i*0.6, 0, -0.2]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+
+      {/* ═══ Prepress (right side of 200) ═══ */}
+      {/* ── เช็คไฟล์, Layout, วางแผน, ผู้จัดการ ── */}
+      {ppl('desk-checkfile').map((p, i) => (
+        <PersonDesk key={`cf${i}`} position={[7 + i*1.3, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="เช็คไฟล์" />
+      ))}
+      {ppl('desk-layout').map((p, i) => (
+        <PersonDesk key={`ly${i}`} position={[10, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="Layout" />
+      ))}
+      {ppl('desk-planner').map((p, i) => (
+        <PersonDesk key={`pl${i}`} position={[11.5, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="วางแผน" />
+      ))}
+      {ppl('desk-manager').map((p, i) => (
+        <PersonDesk key={`mg${i}`} position={[13, 0, -5.5]} name={p.name} role={p.role} color={gc(p.id)} label="ผู้จัดการ" />
+      ))}
+
+      {/* ── ODM machine + Meeting Room 2 ── */}
+      <Machine position={[7, 0, -3]} name="ODM" status={machineStatus['desk-odm'] || 'running'} width={1.8} depth={1.2} />
+      {ppl('desk-odm').map((p, i) => (
+        <Character key={`odm${i}`} position={[7 + i*0.5, 0, -1.8]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <MeetingRoom position={[11, 0, -3]} name="ห้องประชุม 2 (ชั้น 2)" width={3} depth={2} />
+      {ppl('meeting-2').map((p, i) => (
+        <Character key={`mt2${i}`} position={[10.5 + i*0.6, 0, -2.2]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+
+      {/* ═══ Factory 200 machines (right block) ═══ */}
+      {/* ── Row: SM74, SM102 ── */}
+      <Machine position={[7, 0, 0.5]} name="SM74" status={machineStatus['print-sm74'] || 'running'} />
+      {ppl('print-sm74').map((p, i) => (
+        <Character key={`sm74${i}`} position={[7 + i*0.5, 0, 1.5]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <Machine position={[10, 0, 0.5]} name="SM102" status={machineStatus['print-sm102'] || 'running'} width={2} />
+      {ppl('print-sm102').map((p, i) => (
+        <Character key={`sm102${i}`} position={[9.5 + i*0.6, 0, 1.5]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <Machine position={[13, 0, 0.5]} name="เครื่องตัด" status={machineStatus['cutter'] || 'running'} />
+      {ppl('cutter').map((p, i) => (
+        <Character key={`cut${i}`} position={[12.8 + i*0.5, 0, 1.5]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+
+      {/* ── Row: ไดคัท, ฟอยล์, เคลือบ ── */}
+      <Machine position={[7, 0, 3]} name="ปั๊มไดคัท 1" status="running" width={1.2} />
+      <Machine position={[9, 0, 3]} name="ปั๊มไดคัท 2" status="running" width={1.2} />
+      <Machine position={[11, 0, 3]} name="ปั๊มฟอยล์ 1" status="running" />
+      {ppl('foil-1').map((p, i) => (
+        <Character key={`fl${i}`} position={[10.8 + i*0.5, 0, 4]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <Machine position={[13, 0, 3]} name="เครื่องเคลือบ" status="running" width={1.2} />
+
+      {/* ═══════ BUILDING 100 ตร.ว. ═══════ */}
+      <Room position={[-2, 0, 9]} width={14} depth={5} color="#10b981" label="โรงงาน 100 ตร.ว. (หลังพิมพ์)" />
+
+      {/* ── Video desk, ODM 1, ODM 2 ── */}
+      {ppl('desk-video').length > 0 ? ppl('desk-video').map((p,i) => (
+        <PersonDesk key={`vid${i}`} position={[-7, 0, 7.5]} name={p.name} role={p.role} color={gc(p.id)} label="ตัดต่อ" />
+      )) : <EmptyDesk position={[-7, 0, 7.5]} label="ตัดต่องาน" />}
+      <Machine position={[-5, 0, 7.5]} name="ODM 1" status="running" width={1.3} />
+      <Machine position={[-3, 0, 7.5]} name="ODM 2" status="running" width={1.3} />
+
+      {/* ── เครื่องเย็บ, พับ 1, พับ 2 ── */}
+      <Machine position={[-7, 0, 10]} name="เครื่องเย็บ" status="running" width={1.2} />
+      {ppl('stitch').map((p, i) => (
+        <Character key={`st${i}`} position={[-7, 0, 11]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <Machine position={[-5, 0, 10]} name="เครื่องพับ 1" status="running" width={1.2} />
+      {ppl('fold-1').map((p, i) => (
+        <Character key={`f1${i}`} position={[-5, 0, 11]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+      <Machine position={[-3, 0, 10]} name="เครื่องพับ 2" status="running" width={1.2} />
+
+      {/* ── กระดูกงู, ขับรถ ── */}
+      <Machine position={[-1, 0, 10]} name="กระดูกงู" status="running" width={1.2} />
+      <EmptyDesk position={[1, 0, 10]} label="ขับรถ" color="#10b981" />
+      {ppl('drive').map((p, i) => (
+        <Character key={`dr${i}`} position={[0.7 + i*0.6, 0, 11]} name={p.name} color={gc(p.id)} role={p.role} />
+      ))}
+
+      {/* ═══════ BUILDING 63 ตร.ว. ═══════ */}
+      <Room position={[10, 0, 9]} width={7} depth={5} color="#6366f1" label="ตึก 63 ตร.ว. (คลัง/จัดส่ง)" />
+      {ppl('post-coord').map((p, i) => (
+        <PersonDesk key={`pc${i}`} position={[8, 0, 8]} name={p.name} role={p.role} color={gc(p.id)} label="ประสานงาน" />
+      ))}
+      {ppl('post-press').map((p, i) => (
+        <PersonDesk key={`pp${i}`} position={[9.5 + i*1.3, 0, 10]} name={p.name} role={p.role} color={gc(p.id)} label="หลังพิมพ์" />
+      ))}
+
+      <OrbitControls makeDefault minPolarAngle={Math.PI/6} maxPolarAngle={Math.PI/2.5} minDistance={5} maxDistance={30} target={[4, 0, 2]} />
     </>
   );
 }
@@ -196,7 +366,7 @@ function FactoryScene({ factoryZones, activeSessions, machineStatus }) {
 export default function VirtualOffice3DView({ factoryZones, activeSessions, machineStatus }) {
   return (
     <div style={{ width: '100%', height: '70vh', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 30px rgba(0,0,0,0.4)' }}>
-      <Canvas camera={{ position: [15, 12, 15], fov: 50 }} style={{ background: 'linear-gradient(180deg, #0c1222 0%, #1e293b 100%)' }}>
+      <Canvas camera={{ position: [18, 14, 18], fov: 50 }} style={{ background: 'linear-gradient(180deg, #0c1222 0%, #1e293b 100%)' }}>
         <FactoryScene factoryZones={factoryZones} activeSessions={activeSessions} machineStatus={machineStatus} />
       </Canvas>
     </div>
