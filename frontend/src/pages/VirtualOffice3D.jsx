@@ -130,12 +130,14 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
       <Html position={[-6,0.05,-3.8]} center distanceFactor={18} style={{pointerEvents:'none'}}><div style={{background:'#10b981',color:'white',padding:'4px 12px',borderRadius:'9px',fontSize:'12px',fontWeight:'bold',whiteSpace:'nowrap'}}>โรงงาน 100 ตร.ว.</div></Html>
     </group>
 
-    <DG id="mtg2" pos={[-9,0,6]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
-      <group position={[0,1.5,0]}>
-        <MR name="ห้องประชุม 2 (ชั้น 2)" w={3} d={2}/>
-        {[[-1.2,-.75,-.8],[1.2,-.75,-.8],[-1.2,-.75,.8],[1.2,-.75,.8]].map((p,i)=>(<mesh key={i} position={p}><boxGeometry args={[0.07,1.5,0.07]}/><meshStandardMaterial color="#64748b"/></mesh>))}
-        <Html position={[0,-0.5,1.2]} center distanceFactor={10} style={{pointerEvents:'none'}}><div style={{color:'#fbbf24',fontSize:'9px',fontWeight:'bold'}}>↑ ชั้น 2</div></Html>
-      </group>
+    <DG id="mtg2" pos={[-13,0,7]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+      <WR width={5} depth={5} color="#ca8a04" label="ห้องประชุม 2 (ชั้น 2)" wH={2}/>
+      {/* 2nd floor indicator */}
+      <mesh position={[0,1,0]}><boxGeometry args={[5,0.06,5]}/><meshStandardMaterial color="#ca8a04" opacity={0.15} transparent/></mesh>
+      <Html position={[0,2.3,0]} center distanceFactor={12} style={{pointerEvents:'none'}}><div style={{color:'#fbbf24',fontSize:'10px',fontWeight:'bold'}}>↑ ชั้น 2</div></Html>
+      <RoundedBox args={[2,0.05,1]} radius={0.02} position={[0,0.4,0]}><meshStandardMaterial color="#a78bfa"/></RoundedBox>
+      {/* Chairs */}
+      {[[-0.8,0,-0.8],[0.8,0,-0.8],[-0.8,0,0.8],[0.8,0,0.8],[0,0,-0.8],[0,0,0.8]].map((p,i)=>(<mesh key={i} position={[p[0],0.25,p[2]]}><boxGeometry args={[0.25,0.25,0.25]}/><meshStandardMaterial color="#7c3aed" opacity={0.5} transparent/></mesh>))}
     </DG>
 
     <DG id="odm" pos={[-4,0,5.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
