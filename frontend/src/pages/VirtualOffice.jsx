@@ -78,8 +78,8 @@ export default function VirtualOffice() {
             bg: '#ecfdf5',
             stations: [
                 { id: 'desk-video', name: 'โต๊ะตัดต่องาน', type: 'computer', capacity: 1 },
-                { id: 'odm-1', name: 'On Demand 1', type: 'machine', capacity: 1 },
-                { id: 'odm-2', name: 'On Demand 2', type: 'machine', capacity: 1 },
+                { id: 'odm-1', name: 'Konica 12000 (ODM1)', type: 'machine', capacity: 1 },
+                { id: 'odm-2', name: 'Konica 4070 (ODM2)', type: 'machine', capacity: 1 },
                 { id: 'stitch', name: 'Muller เก็บเย็บตัด 6กอง+1ปก (2005)', type: 'machine', capacity: 1 },
                 { id: 'fold-1', name: 'Stahl พับ No.1 (1998)', type: 'machine', capacity: 1 },
                 { id: 'fold-2', name: 'Stahl พับ No.2 (1998)', type: 'machine', capacity: 1 },
