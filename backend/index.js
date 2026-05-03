@@ -2250,6 +2250,130 @@ app.get('/api/dashboard-stats', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ═══════════════════════════════════════
+// Machine Breakdown LINE Notification
+// ═══════════════════════════════════════
+
+// POST /api/machine-alert - Report machine breakdown & notify via LINE
+app.post('/api/machine-alert', async (req, res) => {
+  try {
+    const { machineName, problem, reportedBy, affectedJobs, severity } = req.body;
+    const timestamp = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
+
+    // Save to database
+    const { data: alert, error: dbErr } = await supabase.from('machine_alerts').insert([{
+      machine_name: machineName,
+      problem,
+      reported_by: reportedBy,
+      affected_jobs: JSON.stringify(affectedJobs || []),
+      severity: severity || 'high',
+      status: 'open',
+      created_at: new Date().toISOString()
+    }]).select().single();
+
+    // Build LINE message
+    const sevIcon = severity === 'critical' ? '🚨' : severity === 'high' ? '🔴' : '🟡';
+    const msg = `${sevIcon} เครื่องเสีย!\n` +
+      `────────────\n` +
+      `🖨️ เครื่อง: ${machineName}\n` +
+      `❌ ปัญหา: ${problem}\n` +
+      `⏰ เวลา: ${timestamp}\n` +
+      `👨‍🔧 แจ้งโดย: ${reportedBy}\n` +
+      (affectedJobs?.length ? `📋 งานกระทบ: ${affectedJobs.join(', ')}\n` : '') +
+      `────────────\n` +
+      `⚠️ กรุณาตรวจสอบด่วน!`;
+
+    // Send to LINE group (if configured)
+    const notifyGroupId = process.env.LINE_GROUP_NOTIFY;
+    let lineResult = { sent: false, reason: 'no group configured' };
+
+    if (notifyGroupId) {
+      try {
+        await lineClient.pushMessage({ to: notifyGroupId, messages: [{ type: 'text', text: msg }] });
+        lineResult = { sent: true, to: 'group' };
+      } catch (lineErr) {
+        lineResult = { sent: false, error: lineErr.message };
+      }
+    }
+
+    // Also try to send to individual managers (if user IDs stored)
+    const { data: managers } = await supabase
+      .from('hr_employees')
+      .select('line_user_id, name')
+      .in('position', ['ผู้จัดการ', 'Manager', 'หัวหน้า'])
+      .not('line_user_id', 'is', null);
+
+    if (managers?.length) {
+      for (const mgr of managers) {
+        try {
+          await lineClient.pushMessage({ to: mgr.line_user_id, messages: [{ type: 'text', text: msg }] });
+        } catch (e) { /* skip if individual push fails */ }
+      }
+    }
+
+    res.json({
+      success: true,
+      alert: alert || { machineName, problem, timestamp },
+      line: lineResult,
+      message: msg
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/machine-alerts - Get alert history
+app.get('/api/machine-alerts', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('machine_alerts')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(50);
+    res.json(data || []);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// PUT /api/machine-alert/:id/resolve - Mark alert as resolved
+app.put('/api/machine-alert/:id/resolve', async (req, res) => {
+  try {
+    const { resolvedBy, solution } = req.body;
+    const { data, error } = await supabase
+      .from('machine_alerts')
+      .update({
+        status: 'resolved',
+        resolved_by: resolvedBy,
+        solution,
+        resolved_at: new Date().toISOString()
+      })
+      .eq('id', req.params.id)
+      .select().single();
+
+    // Notify resolution
+    const notifyGroupId = process.env.LINE_GROUP_NOTIFY;
+    if (notifyGroupId && data) {
+      const msg = `✅ เครื่องซ่อมเสร็จ!\n────────────\n🖨️ ${data.machine_name}\n🔧 วิธีแก้: ${solution}\n👨‍🔧 แก้โดย: ${resolvedBy}\n⏰ ${new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' })}`;
+      try { await lineClient.pushMessage({ to: notifyGroupId, messages: [{ type: 'text', text: msg }] }); } catch(e) {}
+    }
+
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/test-line - Test LINE connection
+app.post('/api/test-line', async (req, res) => {
+  try {
+    const { targetId, message } = req.body;
+    const testMsg = message || '🧪 ทดสอบ LINE Notification จากระบบ ERP\n✅ เชื่อมต่อสำเร็จ!';
+    const to = targetId || process.env.LINE_GROUP_NOTIFY;
+    if (!to) return res.json({ success: false, error: 'ไม่มี LINE_GROUP_NOTIFY ใน .env — ใส่ Group ID หรือ User ID ก่อน' });
+    await lineClient.pushMessage({ to, messages: [{ type: 'text', text: testMsg }] });
+    res.json({ success: true, sentTo: to });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
