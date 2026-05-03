@@ -186,8 +186,47 @@ app.post('/api/webhook', async (req, res) => {
     const events = req.body.events;
     if (events && events.length > 0) {
         for (let event of events) {
+            // ═══ Auto-detect Group ID / User ID ═══
+            const sourceType = event.source?.type; // 'user', 'group', 'room'
+            const userId = event.source?.userId;
+            const groupId = event.source?.groupId;
+            const roomId = event.source?.roomId;
+            
+            console.log(`📱 [LINE Event] type=${event.type} source=${sourceType} userId=${userId} groupId=${groupId || 'N/A'}`);
+
+            // When bot is added to group → reply with Group ID
+            if (event.type === 'join' || event.type === 'memberJoined') {
+                const id = groupId || roomId;
+                if (id && event.replyToken) {
+                    try {
+                        await lineClient.replyMessage({
+                            replyToken: event.replyToken,
+                            messages: [{ type: 'text', text: `✅ Bot เข้ากลุ่มสำเร็จ!\n\n🔑 Group ID:\n${id}\n\n📋 คัดลอก ID นี้ไปใส่ใน Railway Variables:\nLINE_GROUP_NOTIFY=${id}` }]
+                        });
+                    } catch(e) { console.log('Reply join error:', e.message); }
+                }
+                continue;
+            }
+
+            // When user sends "id" or "ID" → reply with their User ID
+            if (event.type === 'message' && event.message?.type === 'text') {
+                const txt = event.message.text.trim().toLowerCase();
+                if (txt === 'id' || txt === 'myid' || txt === 'userid') {
+                    const replyId = groupId || userId;
+                    const replyType = groupId ? 'Group' : 'User';
+                    if (event.replyToken) {
+                        try {
+                            await lineClient.replyMessage({
+                                replyToken: event.replyToken,
+                                messages: [{ type: 'text', text: `🔑 ${replyType} ID:\n${replyId}\n\n📋 ใส่ใน Railway Variables:\nLINE_GROUP_NOTIFY=${replyId}` }]
+                            });
+                        } catch(e) {}
+                    }
+                    continue;
+                }
+            }
+
             if (event.type === 'message') {
-                const userId = event.source.userId;
                 const leadId = await ensureLeadExists(userId);
                 if (!leadId) continue;
 
