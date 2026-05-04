@@ -15,7 +15,7 @@ function M({position,name,status='running',type='post',w=1.3}){const sc=status==
 function MR({position,name,w=3,d=2}){return(<group position={position}><mesh position={[0,0.01,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[w,d]}/><meshStandardMaterial color="#fef08a"/></mesh>{[[0,0.5,-d/2,w,1,0.03],[0,0.5,d/2,w,1,0.03],[-w/2,0.5,0,0.03,1,d]].map((p,i)=>(<mesh key={i} position={[p[0],p[1],p[2]]}><boxGeometry args={[p[3],p[4],p[5]]}/><meshStandardMaterial color="#bfdbfe" transparent opacity={0.3}/></mesh>))}<RoundedBox args={[w*0.45,0.04,d*0.3]} radius={0.02} position={[0,0.38,0]}><meshStandardMaterial color="#a78bfa"/></RoundedBox><Html position={[0,1.2,0]} center distanceFactor={10} style={{pointerEvents:'none'}}><div style={{background:'rgba(202,138,4,0.85)',color:'white',padding:'3px 8px',borderRadius:'5px',fontSize:'9px',fontWeight:'bold',whiteSpace:'nowrap'}}>{name}</div></Html></group>);}
 
 /* Draggable group wrapper — uses pointer capture for reliable lock */
-function DG({ children, id, pos, onDragStart, onDragEnd, dragId, offsetRef }) {
+function DG({ children, id, pos, onDragStart, onDragEnd, dragId, offsetRef, hitSize=[5,1.5,4] }) {
   const { camera, gl } = useThree();
   const plane = useRef(new THREE.Plane(new THREE.Vector3(0,1,0), 0));
   const [position, setPosition] = useState(pos);
@@ -66,11 +66,10 @@ function DG({ children, id, pos, onDragStart, onDragEnd, dragId, offsetRef }) {
         onPointerUp={handleUp}
         onPointerCancel={handleUp}
       >
-        <boxGeometry args={[8,2,6]}/>
+        <boxGeometry args={hitSize}/>
         <meshStandardMaterial color={isDragging ? '#3b82f6' : '#ffffff'} transparent opacity={isDragging ? 0.08 : 0} depthWrite={false}/>
       </mesh>
-      {/* Glow border when dragging */}
-      {isDragging && <mesh position={[0,0.02,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[8.5,6.5]}/><meshStandardMaterial color="#3b82f6" transparent opacity={0.15}/></mesh>}
+      {isDragging && <mesh position={[0,0.02,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[hitSize[0]+0.3,hitSize[2]+0.3]}/><meshStandardMaterial color="#3b82f6" transparent opacity={0.15}/></mesh>}
       {children}
     </group>
   );
@@ -100,7 +99,7 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
     </group>
 
     {/* ── ห้องเซล (ซ้ายสุด) ── */}
-    <DG id="sales" pos={[-7,0,-7]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="sales" pos={[-7,0,-7]} hitSize={[6,1.5,3.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <WR width={6} depth={3.5} color="#3b82f6" label="ห้องเซล"/>
       {dp('desk-sales',-2,-1,'เซล','s')}
       {dp('desk-marketing',2,-1,'การตลาด','mk')}
@@ -109,7 +108,7 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
     </DG>
 
     {/* ── ห้องกราฟฟิค (กลาง) ── */}
-    <DG id="graphic" pos={[-0.5,0,-7]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="graphic" pos={[-0.5,0,-7]} hitSize={[7,1.5,3.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <WR width={7} depth={3.5} color="#10b981" label="ห้องกราฟฟิค & วางแผน"/>
       {dp('desk-checkfile',-2.5,-1,'เช็คไฟล์','cf')}
       {dp('desk-layout',-0.5,-1,'Layout','ly')}
@@ -119,7 +118,7 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
     </DG>
 
     {/* ── ห้องบัญชี (ขวา) ── */}
-    <DG id="account" pos={[6,0,-7]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="account" pos={[6,0,-7]} hitSize={[5,1.5,3.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <WR width={5} depth={3.5} color="#f59e0b" label="ห้องบัญชี & ผลิต"/>
       {dp('desk-prod-admin',-1.5,-1,'ผลิต','pr')}
       {dp('desk-pricing',-0.5,-1,'คิดราคา','prc')}
@@ -129,12 +128,12 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
     </DG>
 
     {/* ── ห้องประชุม 1 ── */}
-    <DG id="mtg1" pos={[-7,0,-3]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="mtg1" pos={[-7,0,-3]} hitSize={[4,1.5,2.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <MR name="ห้องประชุม 1 (รับแขก)" w={4} d={2.5}/>
     </DG>
 
     {/* ── เครื่องจักร (ขวาของออฟฟิศ) ── */}
-    <DG id="mch200" pos={[14,0,-7]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="mch200" pos={[14,0,-7]} hitSize={[10,1.5,8]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <WR width={10} depth={8} color="#f59e0b" label="โซนเครื่องจักร" wH={1.5}/>
       <M position={[-3.5,0,-2.5]} name="Itotec No.1" type="cutter"/>
       {ppl('cutter-1').map((p,i)=><P key={`c1${i}`} position={[-3.5,0,-1.5]} name={p.name} color={gc(p.id)}/>)}
@@ -159,7 +158,7 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
       <Html position={[-6,0.05,-3.8]} center distanceFactor={18} style={{pointerEvents:'none'}}><div style={{background:'#10b981',color:'white',padding:'4px 12px',borderRadius:'9px',fontSize:'12px',fontWeight:'bold',whiteSpace:'nowrap'}}>โรงงาน 100 ตร.ว.</div></Html>
     </group>
 
-    <DG id="mtg2" pos={[-13,0,7]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="mtg2" pos={[-13,0,7]} hitSize={[5,1.5,5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <WR width={5} depth={5} color="#ca8a04" label="ห้องประชุม 2 (ชั้น 2)" wH={2}/>
       {/* 2nd floor indicator */}
       <mesh position={[0,1,0]}><boxGeometry args={[5,0.06,5]}/><meshStandardMaterial color="#ca8a04" opacity={0.15} transparent/></mesh>
@@ -169,24 +168,24 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
       {[[-0.8,0,-0.8],[0.8,0,-0.8],[-0.8,0,0.8],[0.8,0,0.8],[0,0,-0.8],[0,0,0.8]].map((p,i)=>(<mesh key={i} position={[p[0],0.25,p[2]]}><boxGeometry args={[0.25,0.25,0.25]}/><meshStandardMaterial color="#7c3aed" opacity={0.5} transparent/></mesh>))}
     </DG>
 
-    <DG id="odm" pos={[-4,0,5.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="odm" pos={[-4,0,5.5]} hitSize={[5,1.5,2]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       {dp('desk-video',-1.5,0,'ตัดต่อ','vid')}
       <M position={[0,0,0]} name="Konica 12000 (ODM1)" type="digital"/>
       <M position={[2,0,0]} name="Konica 4070 (ODM2)" type="digital"/>
     </DG>
 
-    <DG id="stitch" pos={[2,0,5.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="stitch" pos={[2,0,5.5]} hitSize={[2,1.5,2]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <M position={[0,0,0]} name="Muller เก็บเย็บตัด" type="post" w={1.5}/>
       {ppl('stitch').map((p,i)=><P key={`st${i}`} position={[0,0,1]} name={p.name} color={gc(p.id)}/>)}
     </DG>
 
-    <DG id="fold" pos={[-2,0,9]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="fold" pos={[-2,0,9]} hitSize={[4,1.5,2]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <M position={[0,0,0]} name="Stahl พับ No.1" type="post"/>
       {ppl('fold-1').map((p,i)=><P key={`f1${i}`} position={[0,0,1]} name={p.name} color={gc(p.id)}/>)}
       <M position={[2,0,0]} name="Stahl พับ No.2" type="post"/>
     </DG>
 
-    <DG id="wire" pos={[-2,0,11.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="wire" pos={[-2,0,11.5]} hitSize={[2,1.5,1.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <M position={[0,0,0]} name="กระดูกงู" type="post"/>
     </DG>
 
@@ -199,7 +198,7 @@ function Scene({factoryZones,activeSessions,machineStatus}) {
       <Html position={[-2,0.05,-3.8]} center distanceFactor={18} style={{pointerEvents:'none'}}><div style={{background:'#6366f1',color:'white',padding:'4px 12px',borderRadius:'9px',fontSize:'12px',fontWeight:'bold',whiteSpace:'nowrap'}}>ตึก 63 ตร.ว.</div></Html>
     </group>
 
-    <DG id="b63" pos={[10,0,6.5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
+    <DG id="b63" pos={[10,0,6.5]} hitSize={[6,1.5,5]} onDragStart={startDrag} onDragEnd={endDrag} dragId={dragId} offsetRef={offsetRef}>
       <WR width={6} depth={5} color="#6366f1" label="หลังพิมพ์ & CTP"/>
       <M position={[-1.5,0,-1]} name="CTP" type="digital" w={1.5}/>
       {dp('post-coord',0.5,-1,'ประสานงาน','pco')}
