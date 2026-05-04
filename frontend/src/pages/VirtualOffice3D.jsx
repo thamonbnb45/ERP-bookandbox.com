@@ -14,34 +14,63 @@ function M({position,name,status='running',type='post',w=1.3}){const sc=status==
 
 function MR({position,name,w=3,d=2}){return(<group position={position}><mesh position={[0,0.01,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[w,d]}/><meshStandardMaterial color="#fef08a"/></mesh>{[[0,0.5,-d/2,w,1,0.03],[0,0.5,d/2,w,1,0.03],[-w/2,0.5,0,0.03,1,d]].map((p,i)=>(<mesh key={i} position={[p[0],p[1],p[2]]}><boxGeometry args={[p[3],p[4],p[5]]}/><meshStandardMaterial color="#bfdbfe" transparent opacity={0.3}/></mesh>))}<RoundedBox args={[w*0.45,0.04,d*0.3]} radius={0.02} position={[0,0.38,0]}><meshStandardMaterial color="#a78bfa"/></RoundedBox><Html position={[0,1.2,0]} center distanceFactor={10} style={{pointerEvents:'none'}}><div style={{background:'rgba(202,138,4,0.85)',color:'white',padding:'3px 8px',borderRadius:'5px',fontSize:'9px',fontWeight:'bold',whiteSpace:'nowrap'}}>{name}</div></Html></group>);}
 
-/* Draggable group wrapper */
+/* Draggable group wrapper — uses pointer capture for reliable lock */
 function DG({ children, id, pos, onDragStart, onDragEnd, dragId, offsetRef }) {
-  const { camera } = useThree();
+  const { camera, gl } = useThree();
   const plane = useRef(new THREE.Plane(new THREE.Vector3(0,1,0), 0));
   const [position, setPosition] = useState(pos);
   const rc = useRef(new THREE.Raycaster());
   const tv = useRef(new THREE.Vector3());
+  const isDragging = dragId === id;
+  const hitRef = useRef();
 
-  useFrame(({pointer}) => {
-    if (dragId !== id) return;
-    rc.current.setFromCamera(pointer, camera);
+  // Project pointer to ground plane
+  const toGround = (e) => {
+    const rect = gl.domElement.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    rc.current.setFromCamera({ x: nx, y: ny }, camera);
     rc.current.ray.intersectPlane(plane.current, tv.current);
-    setPosition([tv.current.x + offsetRef.current[0], 0, tv.current.z + offsetRef.current[1]]);
-  });
+    return tv.current;
+  };
+
+  const handleDown = (e) => {
+    e.stopPropagation();
+    // Capture pointer so we keep getting events even outside the mesh
+    if (hitRef.current) hitRef.current.setPointerCapture(e.pointerId);
+    const pt = toGround(e);
+    offsetRef.current = [position[0] - pt.x, position[2] - pt.z];
+    onDragStart(id);
+    gl.domElement.style.cursor = 'grabbing';
+  };
+
+  const handleMove = (e) => {
+    if (!isDragging) return;
+    e.stopPropagation();
+    const pt = toGround(e);
+    setPosition([pt.x + offsetRef.current[0], 0, pt.z + offsetRef.current[1]]);
+  };
+
+  const handleUp = (e) => {
+    if (hitRef.current) hitRef.current.releasePointerCapture(e.pointerId);
+    onDragEnd();
+    gl.domElement.style.cursor = 'auto';
+  };
 
   return (
-    <group position={position}
-      onPointerDown={(e) => {
-        e.stopPropagation();
-        rc.current.setFromCamera({x: (e.clientX/window.innerWidth)*2-1, y:-(e.clientY/window.innerHeight)*2+1}, camera);
-        rc.current.ray.intersectPlane(plane.current, tv.current);
-        offsetRef.current = [position[0]-tv.current.x, position[2]-tv.current.z];
-        onDragStart(id);
-      }}
-      onPointerUp={() => onDragEnd()}
-    >
-      {/* Hit area for dragging */}
-      <mesh position={[0,0.6,0]} visible={false}><boxGeometry args={[6,1.5,4]}/></mesh>
+    <group position={position}>
+      {/* Large invisible hit area — catches pointer reliably */}
+      <mesh ref={hitRef} position={[0,0.5,0]}
+        onPointerDown={handleDown}
+        onPointerMove={handleMove}
+        onPointerUp={handleUp}
+        onPointerCancel={handleUp}
+      >
+        <boxGeometry args={[8,2,6]}/>
+        <meshStandardMaterial color={isDragging ? '#3b82f6' : '#ffffff'} transparent opacity={isDragging ? 0.08 : 0} depthWrite={false}/>
+      </mesh>
+      {/* Glow border when dragging */}
+      {isDragging && <mesh position={[0,0.02,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[8.5,6.5]}/><meshStandardMaterial color="#3b82f6" transparent opacity={0.15}/></mesh>}
       {children}
     </group>
   );
