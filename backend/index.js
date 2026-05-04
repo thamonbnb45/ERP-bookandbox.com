@@ -414,9 +414,8 @@ app.get('/api/chats', async (req, res) => {
 
     try {
         const now = Date.now();
-        // 2.5 second memory cache. Enough to deduplicate concurrent requests from multiple admins
-        // or fast UI re-renders, but fresh enough for a chat app.
-        if (chatsCache.data && (now - chatsCache.timestamp < 2500)) {
+        // 4 second memory cache to reduce DB load from 5s polling
+        if (chatsCache.data && (now - chatsCache.timestamp < 4000)) {
             return res.json(chatsCache.data);
         }
 
@@ -441,7 +440,7 @@ app.get('/api/chats', async (req, res) => {
         
         // --- BULK FETCH (OPTIMIZED FOR LOW LOAD + BYPASS 1000 LIMIT) ---
         // 1. Fetch messages with pagination to bypass Supabase's 1,000 max_rows server limit
-        const daysBack = parseInt(req.query.days) || 365; // Default 365 days (was 30)
+        const daysBack = parseInt(req.query.days) || 90; // 90 days default to reduce load
         const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000).toISOString();
         const { count } = await supabase.from('chat_message').select('*', { count: 'exact', head: true }).gte('created_at', cutoffDate);
         const limit = 1000;
@@ -616,6 +615,8 @@ app.put('/api/leads/:id', async (req, res) => {
         const { error } = await supabase.from('lead_contact').update(updatePayload).eq('id', leadId);
         
         if (error) throw error;
+        // Invalidate cache so next fetch gets fresh data instantly
+        chatsCache = { data: null, timestamp: 0 };
         res.json({ success: true });
     } catch (e) {
         res.status(500).json({ error: e.message });

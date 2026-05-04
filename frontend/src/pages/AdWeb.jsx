@@ -177,12 +177,13 @@ export default function AdWeb() {
   useEffect(() => {
     fetchChats();
     axios.get(`${API_URL}/products`).then(res => setProducts(res.data)).catch(e => console.error(e));
-    const interval = setInterval(fetchChats, 5000);
+    const interval = setInterval(fetchChats, 8000); // 8s poll instead of 5s to reduce load
     return () => clearInterval(interval);
   }, []);
 
-  const fetchChats = () => {
-    axios.get(`${API_URL}/chats?t=${new Date().getTime()}`).then(res => {
+  const fetchChats = (force) => {
+    const url = force ? `${API_URL}/chats?t=${Date.now()}` : `${API_URL}/chats`;
+    axios.get(url).then(res => {
         const safeData = res.data.map(l => {
             if (typeof l.tags === 'string') {
                 try {
@@ -288,10 +289,15 @@ export default function AdWeb() {
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !activeLeadId) return;
+    const msgText = inputValue;
+    setInputValue('');
+    // Add message locally for instant UI feedback
+    setLeads(prev => prev.map(l => l.id === activeLeadId ? {
+      ...l, messages: [...(l.messages||[]), { id: Date.now(), lead_id: activeLeadId, sender: 'admin', type: 'text', text_content: msgText, created_at: new Date().toISOString() }]
+    } : l));
     try {
-        await axios.post(`${API_URL}/chats/${activeLeadId}/reply`, { text: inputValue });
-        setInputValue('');
-        fetchChats(); 
+        await axios.post(`${API_URL}/chats/${activeLeadId}/reply`, { text: msgText });
+        fetchChats(true);
     } catch (err) {
         alert("Failed to send message: " + err.message);
     }
@@ -342,7 +348,9 @@ export default function AdWeb() {
             tags: activeLead.tags,
             sales_status: newStatus
         });
-        fetchChats();
+        // Update locally first for instant UI response, then sync
+        setLeads(prev => prev.map(l => l.id === activeLead.id ? {...l, erp_alias_name: newAlias, sales_status: newStatus} : l));
+        fetchChats(true);
       } catch (err) {}
   }
 
@@ -361,7 +369,9 @@ export default function AdWeb() {
         tags: newTags,
         sales_status: activeLead.sales_status
       });
-      fetchChats();
+      // Update locally first for instant UI response
+      setLeads(prev => prev.map(l => l.id === activeLead.id ? {...l, tags: newTags} : l));
+      fetchChats(true);
     } catch (err) {}
   };
 
@@ -380,7 +390,9 @@ export default function AdWeb() {
             visit_required: editVisitRequired
         });
         setEditingLead(false);
-        fetchChats();
+        // Update locally first for instant UI response
+        setLeads(prev => prev.map(l => l.id === activeLead.id ? {...l, erp_alias_name: aliasName, tags: tagsArray, sales_status: statusTicked, company_role: editRole, industry: editIndustry, sla_days: editSLA ? parseInt(editSLA) : null, company_revenue_grade: editRevenueGrade, visit_required: editVisitRequired} : l));
+        fetchChats(true);
     } catch (err) {
         alert("Failed to update profile");
     }
