@@ -632,3 +632,22 @@ After doing this, you may fix the identity used for this commit with:
 To https://github.com/thamonbnb45/ERP-bookandbox.com.git
    acdc92e..bbc0e17  main -> main
 ✅ [2026-05-05 07:06] Pushed changes
+[main e52462c] auto-save: 2026-05-05 07:36
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 517 insertions(+)
+ create mode 100644 backend/migrations/pricing_tables.sql
+To https://github.com/thamonbnb45/ERP-bookandbox.com.git
+   bbc0e17..e52462c  main -> main
+✅ [2026-05-05 07:36] Pushed changes
