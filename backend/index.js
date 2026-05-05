@@ -2553,11 +2553,16 @@ app.post('/api/pricing/estimate', async (req, res) => {
       finishingCosts = finRates || [];
     }
 
-    // 4. Fetch cost config (plates, make-ready, ink, labor)
+    // 4. Fetch cost config
     const { data: configs } = await supabase.from('cost_config').select('*');
     const getConfig = (cat, name) => configs?.find(c => c.category === cat && c.name === name)?.cost_per_unit || 0;
+    const getConfigLike = (cat, partial) => configs?.find(c => c.category === cat && c.name.includes(partial))?.cost_per_unit || 0;
 
     // === CALCULATE ===
+    // Determine machine type (SM74=ตัด3 or SM102=ตัด2)
+    const isSM102 = machine.machine_name.includes('102') || machine.machine_name.includes('ตัด2');
+    const machineCut = isSM102 ? 'ตัด2' : 'ตัด3';
+
     // Imposition: how many pieces per sheet
     const sizeMap = {
       'A4': { w: 21, h: 29.7 }, 'A5': { w: 14.8, h: 21 }, 'A6': { w: 10.5, h: 14.8 },
@@ -2567,39 +2572,55 @@ app.post('/api/pricing/estimate', async (req, res) => {
     };
     const sheetCm = { w: parseFloat(paper.sheet_width || 79), h: parseFloat(paper.sheet_height || 109) };
     const itemSize = sizeMap[size] || { w: 21, h: 29.7 };
-    // Add bleed
-    const itemW = itemSize.w + 0.6; 
+    const itemW = itemSize.w + 0.6; // bleed
     const itemH = itemSize.h + 0.6;
-    // Try both orientations
     const imp1 = Math.floor(sheetCm.w / itemW) * Math.floor(sheetCm.h / itemH);
     const imp2 = Math.floor(sheetCm.w / itemH) * Math.floor(sheetCm.h / itemW);
     const imposition = Math.max(imp1, imp2, 1);
 
-    // Sheets needed
+    // Gang Run: how many jobs share one plate set
+    const isGangRun = req.body.gangRun !== false; // default true
+    const gangRunJobs = isGangRun ? (sides === 2 ? 4 : 8) : 1; // A4: 8 jobs 1-side, 4 jobs 2-side
+
+    // Sheets needed for THIS job's quantity
     const sheetsPerSide = Math.ceil(quantity / imposition);
     const wastePercent = quantity < 1000 ? 0.08 : quantity < 5000 ? 0.05 : 0.03;
     const totalSheets = Math.ceil(sheetsPerSide * (1 + wastePercent));
-    const printRuns = sides === 2 ? totalSheets * 2 : totalSheets;
 
-    // Fixed costs
-    const plateCost_each = getConfig('plate', 'CTP') || parseFloat(paper.sheet_width || 79) > 60 ? 180 : 120;
-    const platesNeeded = colors * sides;
-    const plateCost = platesNeeded * plateCost_each;
-    const makereadyCost = platesNeeded * (getConfig('machine', 'ค่าตั้งเครื่อง/สี') || 300);
-    const setupWasteSheets = machine.setup_waste || 300;
-    const setupWasteCost = setupWasteSheets * (paper.price_per_sheet || 0);
+    // ═══ PLATE COST (shared via Gang Run) ═══
+    const plateCostEach = isSM102 
+      ? (getConfig('plate', 'CTP SM102 (ตัด2)') || 150)
+      : (getConfig('plate', 'CTP SM74 (ตัด3)') || 63);
+    const platesPerSide = colors; // 4 สี = 4 เพลท
+    const totalPlates = platesPerSide * sides;
+    const plateCostFull = totalPlates * plateCostEach;
+    const plateCostPerJob = Math.round(plateCostFull / gangRunJobs); // แบ่งตาม Gang Run
 
-    // Variable costs
-    const paperCost = totalSheets * (paper.price_per_sheet || 0);
-    const runWasteCost = Math.ceil(totalSheets * wastePercent) * (paper.price_per_sheet || 0);
-    const inkPerSheet = getConfig('ink', 'หมึก/แผ่น/สี') || 0.03;
-    const inkCost = printRuns * colors * inkPerSheet;
-    const machineHours = printRuns / (machine.speed_per_hour || 8000);
-    const machineCost = machineHours * (machine.hourly_rate || 800);
-    const laborRate = getConfig('labor', 'ค่าแรงภายใน') || 350;
-    const laborCost = machineHours * laborRate;
+    // ═══ PRINTING COST (ขั้นต่ำ + หมื่นละ) ═══
+    const printMinimum = isSM102
+      ? (getConfig('print', 'ค่าพิมพ์ขั้นต่ำ SM102') || 3000)
+      : (getConfig('print', 'ค่าพิมพ์ขั้นต่ำ SM74') || 2000);
+    const printPer10k = isSM102
+      ? (getConfig('print', 'ค่าพิมพ์ SM102 /หมื่น') || 4500)
+      : (getConfig('print', 'ค่าพิมพ์ SM74 /หมื่น') || 3500);
+    
+    const totalImpressions = sides === 2 ? totalSheets * 2 : totalSheets;
+    const printCostRaw = Math.max(printMinimum, Math.ceil(totalImpressions / 10000) * printPer10k);
+    const printCostPerJob = Math.round(printCostRaw / gangRunJobs); // แบ่งตาม Gang Run
 
-    // Finishing costs
+    // ═══ PAPER COST ═══
+    const setupWasteSheets = Math.round((machine.setup_waste || 200) / gangRunJobs);
+    const paperCostProduction = totalSheets * (paper.price_per_sheet || 0);
+    const paperCostWaste = setupWasteSheets * (paper.price_per_sheet || 0);
+    const paperCostTotal = paperCostProduction + paperCostWaste;
+
+    // ═══ INK COST (ประมาณ) ═══
+    // หมึก 1 กระป๋อง ~1กก. พิมพ์ได้ ~15,000 แผ่น/สี
+    const inkCostPerCan = getConfig('ink', 'หมึก') || 200;
+    const sheetsPerCan = 15000;
+    const inkCost = Math.round((totalImpressions * colors / sheetsPerCan) * inkCostPerCan / gangRunJobs);
+
+    // ═══ FINISHING ═══
     let totalFinishing = 0;
     const finBreakdown = [];
     for (const fr of finishingCosts) {
@@ -2608,9 +2629,9 @@ app.post('/api/pricing/estimate', async (req, res) => {
       finBreakdown.push({ name: fr.name, fixed: fr.fixed_cost, variable: fr.variable_cost, total: Math.round(cost * 100) / 100 });
     }
 
-    // Totals
-    const fixedTotal = plateCost + makereadyCost + setupWasteCost;
-    const variableTotal = paperCost + runWasteCost + inkCost + machineCost + laborCost;
+    // ═══ TOTALS ═══
+    const fixedTotal = plateCostPerJob + printCostPerJob;
+    const variableTotal = paperCostTotal + inkCost;
     const totalCost = fixedTotal + variableTotal + totalFinishing;
     const costPerUnit = totalCost / quantity;
     const marginDecimal = margin / 100;
@@ -2620,20 +2641,20 @@ app.post('/api/pricing/estimate', async (req, res) => {
     const result = {
       quantity,
       imposition,
+      gangRun: isGangRun,
+      gangRunJobs,
       sheetsNeeded: totalSheets,
-      printRuns,
+      totalImpressions,
+      machineCut,
       breakdown: {
         fixed: {
-          plate: { qty: platesNeeded, unitCost: plateCost_each, total: Math.round(plateCost) },
-          makeready: { total: Math.round(makereadyCost) },
-          setupWaste: { sheets: setupWasteSheets, total: Math.round(setupWasteCost) }
+          plate: { qty: totalPlates, unitCost: plateCostEach, fullCost: plateCostFull, gangRunShare: `÷${gangRunJobs}`, total: plateCostPerJob },
+          printing: { minimum: printMinimum, per10k: printPer10k, impressions: totalImpressions, fullCost: printCostRaw, gangRunShare: `÷${gangRunJobs}`, total: printCostPerJob }
         },
         variable: {
-          paper: { sheets: totalSheets, pricePerSheet: paper.price_per_sheet, total: Math.round(paperCost) },
-          runWaste: { percent: wastePercent * 100, total: Math.round(runWasteCost) },
-          ink: { total: Math.round(inkCost) },
-          machine: { hours: Math.round(machineHours * 100) / 100, rate: machine.hourly_rate, total: Math.round(machineCost) },
-          labor: { hours: Math.round(machineHours * 100) / 100, rate: laborRate, total: Math.round(laborCost) }
+          paper: { sheets: totalSheets, pricePerSheet: paper.price_per_sheet, total: Math.round(paperCostProduction) },
+          setupWaste: { sheets: setupWasteSheets, total: Math.round(paperCostWaste) },
+          ink: { total: inkCost }
         },
         finishing: finBreakdown
       },
