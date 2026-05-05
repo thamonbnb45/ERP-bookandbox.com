@@ -55,6 +55,12 @@ export default function Estimator() {
   const [calcLoading, setCalcLoading] = useState(false);
   const [calcHistory, setCalcHistory] = useState([]);
 
+  // Admin: editing state
+  const [editingPaper, setEditingPaper] = useState(null);
+  const [editingMachine, setEditingMachine] = useState(null);
+  const [editingCost, setEditingCost] = useState(null);
+  const [newPaper, setNewPaper] = useState({ name:'', gsm:'', sheet_width:79, sheet_height:109, price_per_sheet:'', supplier:'' });
+
   useEffect(() => { fetchCatalog(); fetchRequests(); fetchSupplierCosts(); fetchPricingData(); }, []);
 
   const fetchPricingData = async () => {
@@ -196,8 +202,21 @@ export default function Estimator() {
     } catch (e) { alert('บันทึกไม่สำเร็จ'); }
   };
 
+  const savePaper = async (p) => {
+    try {
+      if (p.id) await axios.put(`${API_URL}/pricing/papers/${p.id}`, p);
+      else await axios.post(`${API_URL}/pricing/papers`, p);
+      fetchPricingData(); setEditingPaper(null); setNewPaper({ name:'', gsm:'', sheet_width:79, sheet_height:109, price_per_sheet:'', supplier:'' });
+    } catch(e) { alert('บันทึกไม่สำเร็จ'); }
+  };
+  const deletePaper = async (id) => { if(confirm('ลบกระดาษนี้?')){ await axios.delete(`${API_URL}/pricing/papers/${id}`); fetchPricingData(); } };
+  const saveCost = async (c) => {
+    try { await axios.put(`${API_URL}/pricing/costs/${c.id}`, c); fetchPricingData(); setEditingCost(null); } catch(e) { alert('บันทึกไม่สำเร็จ'); }
+  };
+
   const TABS = [
     { id: 'calc', label: 'คำนวณต้นทุน', icon: 'fa-calculator' },
+    { id: 'admin', label: 'ตั้งค่าต้นทุน', icon: 'fa-database' },
     { id: 'search', label: 'ค้นราคา', icon: 'fa-magnifying-glass-dollar' },
     { id: 'supplier', label: 'ฐานราคาซัพฯ', icon: 'fa-warehouse' },
     { id: 'request', label: 'ขอราคา', icon: 'fa-paper-plane' },
@@ -842,6 +861,141 @@ export default function Estimator() {
                 </div>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB: ADMIN COST CONFIG */}
+      {activeTab === 'admin' && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          {/* Paper Catalog */}
+          <div className="table-container shadow" style={{ flex: '1 1 500px', padding: '1.5rem', borderTop: '4px solid #3b82f6' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '0.8rem' }}><i className="fa-solid fa-scroll"></i> กระดาษ ({papers.length} รายการ)</h4>
+            <div style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+              <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+                <thead><tr style={{ background: '#f8fafc', position: 'sticky', top: 0 }}>
+                  <th style={{ padding: '0.5rem', textAlign: 'left' }}>ชื่อ</th>
+                  <th style={{ padding: '0.5rem' }}>แกรม</th>
+                  <th style={{ padding: '0.5rem' }}>ขนาด</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'right' }}>฿/แผ่น</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'right' }}>฿/รีม</th>
+                  <th style={{ padding: '0.5rem' }}>Supplier</th>
+                  <th style={{ padding: '0.5rem' }}></th>
+                </tr></thead>
+                <tbody>
+                  {papers.map(p => (
+                    <tr key={p.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                      {editingPaper?.id === p.id ? (
+                        <>
+                          <td style={{ padding: '0.3rem' }}><input style={{ width: '100%', padding: '0.2rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} value={editingPaper.name} onChange={e => setEditingPaper({...editingPaper, name: e.target.value})} /></td>
+                          <td style={{ padding: '0.3rem' }}><input type="number" style={{ width: 50, padding: '0.2rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} value={editingPaper.gsm} onChange={e => setEditingPaper({...editingPaper, gsm: parseInt(e.target.value)})} /></td>
+                          <td style={{ padding: '0.3rem', fontSize: '0.75rem' }}>{p.sheet_width}×{p.sheet_height}</td>
+                          <td style={{ padding: '0.3rem' }}><input type="number" step="0.01" style={{ width: 60, padding: '0.2rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem', textAlign: 'right' }} value={editingPaper.price_per_sheet} onChange={e => setEditingPaper({...editingPaper, price_per_sheet: parseFloat(e.target.value)})} /></td>
+                          <td style={{ padding: '0.3rem' }}><input type="number" style={{ width: 60, padding: '0.2rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem', textAlign: 'right' }} value={editingPaper.price_per_ream} onChange={e => setEditingPaper({...editingPaper, price_per_ream: parseFloat(e.target.value)})} /></td>
+                          <td style={{ padding: '0.3rem' }}><input style={{ width: 80, padding: '0.2rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} value={editingPaper.supplier||''} onChange={e => setEditingPaper({...editingPaper, supplier: e.target.value})} /></td>
+                          <td style={{ padding: '0.3rem' }}>
+                            <button onClick={() => savePaper(editingPaper)} style={{ background: '#10b981', color: 'white', border: 'none', borderRadius: 4, padding: '0.2rem 0.4rem', fontSize: '0.7rem', cursor: 'pointer', marginRight: 2 }}>💾</button>
+                            <button onClick={() => setEditingPaper(null)} style={{ background: '#94a3b8', color: 'white', border: 'none', borderRadius: 4, padding: '0.2rem 0.4rem', fontSize: '0.7rem', cursor: 'pointer' }}>✕</button>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td style={{ padding: '0.4rem 0.5rem', fontWeight: 600 }}>{p.name}</td>
+                          <td style={{ padding: '0.4rem 0.5rem', textAlign: 'center' }}>{p.gsm}</td>
+                          <td style={{ padding: '0.4rem 0.5rem', textAlign: 'center', fontSize: '0.75rem', color: '#64748b' }}>{p.sheet_width}×{p.sheet_height}</td>
+                          <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 700, color: '#059669' }}>{p.price_per_sheet}</td>
+                          <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', color: '#64748b' }}>{p.price_per_ream?.toLocaleString()}</td>
+                          <td style={{ padding: '0.4rem 0.5rem', fontSize: '0.7rem', color: '#94a3b8' }}>{p.supplier}</td>
+                          <td style={{ padding: '0.4rem 0.5rem' }}>
+                            <button onClick={() => setEditingPaper({...p})} style={{ background: '#3b82f6', color: 'white', border: 'none', borderRadius: 4, padding: '0.2rem 0.4rem', fontSize: '0.65rem', cursor: 'pointer', marginRight: 2 }}>✏️</button>
+                            <button onClick={() => deletePaper(p.id)} style={{ background: '#ef4444', color: 'white', border: 'none', borderRadius: 4, padding: '0.2rem 0.4rem', fontSize: '0.65rem', cursor: 'pointer' }}>🗑</button>
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Add Paper */}
+            <div style={{ marginTop: '1rem', padding: '0.8rem', background: '#eff6ff', borderRadius: 8, border: '1px solid #bfdbfe' }}>
+              <div style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.4rem' }}>➕ เพิ่มกระดาษ</div>
+              <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                <input placeholder="ชื่อ" value={newPaper.name} onChange={e => setNewPaper({...newPaper, name: e.target.value})} style={{ flex: 2, minWidth: 100, padding: '0.3rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} />
+                <input type="number" placeholder="แกรม" value={newPaper.gsm} onChange={e => setNewPaper({...newPaper, gsm: e.target.value})} style={{ width: 55, padding: '0.3rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} />
+                <input type="number" step="0.01" placeholder="฿/แผ่น" value={newPaper.price_per_sheet} onChange={e => setNewPaper({...newPaper, price_per_sheet: e.target.value})} style={{ width: 65, padding: '0.3rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} />
+                <input placeholder="Supplier" value={newPaper.supplier} onChange={e => setNewPaper({...newPaper, supplier: e.target.value})} style={{ flex: 1, minWidth: 70, padding: '0.3rem', border: '1px solid #cbd5e1', borderRadius: 4, fontSize: '0.8rem' }} />
+                <button onClick={() => { if(!newPaper.name||!newPaper.gsm) return alert('กรอกชื่อ+แกรม'); savePaper({...newPaper, gsm:parseInt(newPaper.gsm), price_per_sheet:parseFloat(newPaper.price_per_sheet)||0}); }} style={{ background: '#3b82f6', color: 'white', border: 'none', borderRadius: 4, padding: '0.3rem 0.6rem', fontSize: '0.75rem', cursor: 'pointer' }}>เพิ่ม</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Cost Config + Machines */}
+          <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* Cost Config */}
+            <div className="table-container shadow" style={{ padding: '1.5rem', borderTop: '4px solid #f59e0b' }}>
+              <h4 style={{ fontWeight: 'bold', marginBottom: '0.8rem' }}><i className="fa-solid fa-sliders"></i> ต้นทุนทั่วไป ({costConfigs.length})</h4>
+              <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+                <thead><tr style={{ background: '#f8fafc' }}><th style={{ padding: '0.4rem', textAlign: 'left' }}>หมวด</th><th style={{ padding: '0.4rem', textAlign: 'left' }}>รายการ</th><th style={{ padding: '0.4rem', textAlign: 'right' }}>ราคา</th><th style={{ padding: '0.4rem' }}>หน่วย</th><th></th></tr></thead>
+                <tbody>
+                  {costConfigs.map(c => (
+                    <tr key={c.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.3rem 0.4rem' }}><span style={{ background: '#e2e8f0', padding: '0.1rem 0.3rem', borderRadius: 3, fontSize: '0.65rem' }}>{c.category}</span></td>
+                      <td style={{ padding: '0.3rem 0.4rem', fontWeight: 600 }}>{c.name}</td>
+                      {editingCost?.id === c.id ? (
+                        <>
+                          <td style={{ padding: '0.3rem' }}><input type="number" step="0.01" style={{ width: 70, padding: '0.2rem', border: '1px solid #fbbf24', borderRadius: 4, fontSize: '0.8rem', textAlign: 'right', fontWeight: 700 }} value={editingCost.cost_per_unit} onChange={e => setEditingCost({...editingCost, cost_per_unit: parseFloat(e.target.value)})} /></td>
+                          <td style={{ padding: '0.3rem', fontSize: '0.7rem' }}>{c.unit}</td>
+                          <td style={{ padding: '0.3rem' }}>
+                            <button onClick={() => saveCost(editingCost)} style={{ background: '#10b981', color: 'white', border: 'none', borderRadius: 4, padding: '0.15rem 0.3rem', fontSize: '0.65rem', cursor: 'pointer' }}>💾</button>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td style={{ padding: '0.3rem 0.4rem', textAlign: 'right', fontWeight: 700, color: '#b45309' }}>{c.cost_per_unit}</td>
+                          <td style={{ padding: '0.3rem 0.4rem', fontSize: '0.7rem', color: '#94a3b8' }}>{c.unit}</td>
+                          <td style={{ padding: '0.3rem' }}><button onClick={() => setEditingCost({...c})} style={{ background: '#f59e0b', color: 'white', border: 'none', borderRadius: 4, padding: '0.15rem 0.3rem', fontSize: '0.6rem', cursor: 'pointer' }}>✏️</button></td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Machines */}
+            <div className="table-container shadow" style={{ padding: '1.5rem', borderTop: '4px solid #8b5cf6' }}>
+              <h4 style={{ fontWeight: 'bold', marginBottom: '0.8rem' }}><i className="fa-solid fa-gears"></i> เครื่องจักร ({machines.length})</h4>
+              {machines.map(m => (
+                <div key={m.id} style={{ padding: '0.6rem', border: '1px solid #e2e8f0', borderRadius: 8, marginBottom: '0.5rem', background: m.type==='offset'?'#faf5ff':'#f0f9ff' }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{m.machine_name}</div>
+                  <div style={{ fontSize: '0.75rem', color: '#64748b', display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginTop: '0.3rem' }}>
+                    <span>ประเภท: <strong>{m.type}</strong></span>
+                    <span>สี: <strong>{m.colors}</strong></span>
+                    <span>ความเร็ว: <strong>{m.speed_per_hour?.toLocaleString()}/ชม.</strong></span>
+                    <span>เผื่อเสีย: <strong>{m.setup_waste} แผ่น</strong></span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Finishing */}
+            <div className="table-container shadow" style={{ padding: '1.5rem', borderTop: '4px solid #10b981' }}>
+              <h4 style={{ fontWeight: 'bold', marginBottom: '0.8rem' }}><i className="fa-solid fa-wand-magic-sparkles"></i> Finishing ({finishingList.length})</h4>
+              <table style={{ width: '100%', fontSize: '0.8rem', borderCollapse: 'collapse' }}>
+                <thead><tr style={{ background: '#f8fafc' }}><th style={{ padding: '0.4rem', textAlign: 'left' }}>ชื่อ</th><th style={{ padding: '0.4rem' }}>ประเภท</th><th style={{ padding: '0.4rem', textAlign: 'right' }}>คงที่</th><th style={{ padding: '0.4rem', textAlign: 'right' }}>ผันแปร</th></tr></thead>
+                <tbody>
+                  {finishingList.map(f => (
+                    <tr key={f.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.3rem 0.4rem', fontWeight: 600 }}>{f.name}</td>
+                      <td style={{ padding: '0.3rem 0.4rem', textAlign: 'center' }}><span style={{ background: '#e2e8f0', padding: '0.1rem 0.3rem', borderRadius: 3, fontSize: '0.6rem' }}>{f.type}</span></td>
+                      <td style={{ padding: '0.3rem 0.4rem', textAlign: 'right', color: '#b45309' }}>{f.fixed_cost>0?`฿${f.fixed_cost}`:'-'}</td>
+                      <td style={{ padding: '0.3rem 0.4rem', textAlign: 'right', color: '#059669' }}>{f.variable_cost>0?`฿${f.variable_cost}/${f.unit}`:'-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

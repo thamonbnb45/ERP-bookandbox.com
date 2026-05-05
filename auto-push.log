@@ -725,3 +725,21 @@ After doing this, you may fix the identity used for this commit with:
  1 file changed, 17 insertions(+)
 fatal: unable to access 'https://github.com/thamonbnb45/ERP-bookandbox.com.git/': Could not resolve host: github.com
 ✅ [2026-05-05 11:57] Pushed changes
+[main c41cb5e] auto-save: 2026-05-05 14:02
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 17 insertions(+)
+To https://github.com/thamonbnb45/ERP-bookandbox.com.git
+   9845721..c41cb5e  main -> main
+✅ [2026-05-05 14:02] Pushed changes
