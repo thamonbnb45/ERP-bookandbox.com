@@ -1,463 +1,274 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+const API = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
-const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
+const PRODUCTS = [
+  { id: 'flyer', name: 'ใบปลิว / แผ่นพับ', icon: '📄', sizes: ['A6','A5','A4','A3','DL'] },
+  { id: 'card', name: 'นามบัตร', icon: '💳', sizes: ['นามบัตร'] },
+  { id: 'brochure', name: 'โบรชัวร์', icon: '📰', sizes: ['A4','A5','A3'] },
+  { id: 'box', name: 'กล่องบรรจุภัณฑ์', icon: '📦', sizes: ['A4','A3','B4'] },
+  { id: 'bag', name: 'ถุงกระดาษ', icon: '🛍️', sizes: ['A4','A3'] },
+  { id: 'sticker', name: 'สติกเกอร์ / ฉลาก', icon: '🏷️', sizes: ['A6','A5','A4'] },
+  { id: 'book', name: 'หนังสือ / แคตตาล็อก', icon: '📚', sizes: ['A4','A5','B5'] },
+  { id: 'calendar', name: 'ปฏิทิน', icon: '📅', sizes: ['A4','A3'] },
+];
+const QTYS = [500, 1000, 2000, 3000, 5000, 10000];
 
 export default function CustomerPortal() {
-  const [step, setStep] = useState(1);
-  const [config, setConfig] = useState({
-      product: 'กล่องอาร์ตการ์ด',
-      presetSize: 'กำหนดขนาดเอง',
-      width: 10, length: 15, height: 5,
-      material: 'อาร์ตการ์ด 250 แกรม',
-      coating: 'เคลือบด้าน',
-      quantity: 500
-  });
-
-  const [price, setPrice] = useState(0);
-  
-  // Anti-error checks
-  const [checks, setChecks] = useState({ cmyk: false, v2: false, outline: false });
-  // File state
-  const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  
-  // Checkout
-  const [customer, setCustomer] = useState({ name: '', phone: '' });
-
-  // Calculate Price Mock
-  useEffect(() => {
-     let base = config.product.includes('กล่อง') ? 5 : 2;
-     let area = config.width * config.length * config.height;
-     let multiplier = area > 500 ? 1.5 : 1;
-     let qtyDiscount = config.quantity >= 1000 ? 0.8 : 1;
-     let coatingCost = config.coating === 'ไม่เคลือบ' ? 0 : config.coating === 'เคลือบด้าน' ? 1.5 : 2;
-     
-     let unitPrice = (base * multiplier * qtyDiscount) + coatingCost;
-     setPrice(Math.round(unitPrice * config.quantity));
-  }, [config]);
-
-  const handleFileDrop = (e) => {
-      e.preventDefault();
-      if(e.dataTransfer.files && e.dataTransfer.files[0]) {
-          setFile(e.dataTransfer.files[0]);
-      }
-  };
-
-  const submitOrder = async () => {
-      if(!customer.name || !customer.phone) return alert('กรุณากรอกชื่อและเบอร์โทรติดต่อ');
-      setUploading(true);
-      
-      // Simulate large 1GB upload delay UX
-      setTimeout(async () => {
-          try {
-              await axios.post(`${API_URL}/portal/checkout`, {
-                  customerName: customer.name,
-                  phone: customer.phone,
-                  productDetails: `${config.product} - ${config.width}x${config.length}x${config.height}cm (${config.coating})`,
-                  quantity: config.quantity,
-                  totalPrice: price + (price * 0.07)
-              });
-              setStep(3); // Success page
-          } catch(err) {
-              alert(' เกิดข้อผิดพลาดในการส่งข้อมูล');
-          }
-          setUploading(false);
-      }, 2000);
-  };
-
-  // Job Tracking State
+  const [papers, setPapers] = useState([]);
+  const [finishing, setFinishing] = useState([]);
+  const [product, setProduct] = useState(PRODUCTS[0]);
+  const [form, setForm] = useState({ size:'A4', paperName:'อาร์ตด้าน', paperGsm:128, colors:4, sides:2, quantity:1000, gangRun:true, margin:30, finishing:[] });
+  const [results, setResults] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [selQty, setSelQty] = useState(1000);
+  const [showTrack, setShowTrack] = useState(false);
   const [trackPhone, setTrackPhone] = useState('');
   const [trackResult, setTrackResult] = useState(null);
-  const [trackLoading, setTrackLoading] = useState(false);
-  const [showTracker, setShowTracker] = useState(false);
 
-  const STAGE_STEPS = [
-    { key: 'awaiting_payment', label: 'รอชำระ', icon: 'fa-solid fa-clock' },
-    { key: 'planning', label: 'วางแผนผลิต', icon: 'fa-solid fa-clipboard-list' },
-    { key: 'design', label: 'ตรวจไฟล์', icon: 'fa-solid fa-pen-ruler' },
-    { key: 'printer', label: 'พิมพ์', icon: 'fa-solid fa-print' },
-    { key: 'diecut', label: 'หลังพิมพ์', icon: 'fa-solid fa-scissors' },
-    { key: 'gluing', label: 'ประกอบ', icon: 'fa-solid fa-hands' },
-    { key: 'shipping', label: 'จัดส่ง', icon: 'fa-solid fa-truck-fast' }
-  ];
+  useEffect(() => {
+    axios.get(`${API}/pricing/papers`).then(r => setPapers(r.data)).catch(() => {});
+    axios.get(`${API}/pricing/finishing`).then(r => setFinishing(r.data)).catch(() => {});
+  }, []);
 
-  const handleTrackJob = async () => {
-    if (!trackPhone.trim()) return;
-    setTrackLoading(true);
-    try {
-      const res = await axios.get(`${API_URL}/portal/track/${trackPhone.trim()}`);
-      setTrackResult(res.data);
-    } catch (err) {
-      setTrackResult({ error: 'ไม่พบหมายเลขนี้ในระบบ กรุณาตรวจสอบอีกครั้ง' });
+  const calcAll = async () => {
+    setLoading(true);
+    const res = {};
+    for (const q of QTYS) {
+      try {
+        const r = await axios.post(`${API}/pricing/estimate`, { ...form, quantity: q, productType: product.id });
+        res[q] = r.data;
+      } catch(e) { res[q] = null; }
     }
-    setTrackLoading(false);
+    setResults(res); setLoading(false);
   };
 
-  const getStageIndex = (stage) => STAGE_STEPS.findIndex(s => s.key === stage);
+  useEffect(() => { if (papers.length > 0) calcAll(); }, [form.size, form.paperName, form.paperGsm, form.colors, form.sides, form.gangRun, form.finishing, product]);
 
-  if(step === 3) {
-      return (
-          <div style={{minHeight: '100vh', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: '"Kanit", sans-serif'}}>
-              <div style={{background: 'white', padding: '4rem', borderRadius: '16px', textAlign: 'center', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)'}}>
-                  <div style={{fontSize: '4rem', color: '#10b981', marginBottom: '1rem'}}><i className="fa-solid fa-circle-check"></i></div>
-                  <h1 style={{color: '#0f172a'}}>ชำระเงินและรับไฟล์สำเร็จ!</h1>
-                  <p style={{color: '#64748b', fontSize: '1.2rem'}}>ระบบได้ส่งไฟล์อาร์ตเวิร์คเข้าสู่ <strong>"กระดานฝ่ายผลิต"</strong> เรียบร้อยแล้วครับ</p>
-                  <div style={{background: '#f1f5f9', padding: '2rem', borderRadius: '8px', marginTop: '2rem'}}>
-                      <h3>เลขที่คำสั่งซื้อ: #JOB-{Math.floor(Math.random() * 1000) + 9000}</h3>
-                      <p>เราจะแจ้งความคืบหน้าให้ทราบผ่าน LINE ทันทีที่ลงเครื่องพิมพ์ครับ</p>
-                  </div>
-                  <button className="btn btn-primary" style={{marginTop: '2rem'}} onClick={() => window.location.reload()}>กลับสู่หน้าหลัก</button>
-              </div>
-          </div>
-      );
-  }
+  const toggleFin = n => setForm(p => ({...p, finishing: p.finishing.includes(n) ? p.finishing.filter(x=>x!==n) : [...p.finishing, n]}));
+  const sel = results[selQty];
+
+  const STAGES = [
+    { key:'awaiting_payment', label:'รอชำระ', icon:'fa-clock' },
+    { key:'planning', label:'วางแผน', icon:'fa-clipboard-list' },
+    { key:'design', label:'ตรวจไฟล์', icon:'fa-pen-ruler' },
+    { key:'printer', label:'พิมพ์', icon:'fa-print' },
+    { key:'diecut', label:'หลังพิมพ์', icon:'fa-scissors' },
+    { key:'shipping', label:'จัดส่ง', icon:'fa-truck-fast' },
+  ];
 
   return (
-    <div style={{ minHeight: '100vh', width: '100vw', background: '#f8fafc', fontFamily: '"Kanit", sans-serif' }}>
-        {/* HERO E-COMMERCE HEADER */}
-        <header style={{ background: '#1e293b', width: '100%', color: 'white', padding: '1rem 5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 style={{margin:0}}>Book<span style={{color: '#3b82f6'}}>and</span>box.com <span style={{fontSize: '1rem', fontWeight: 'normal', color: '#94a3b8'}}>| Print Portal</span></h2>
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <button 
-                  onClick={() => setShowTracker(!showTracker)}
-                  style={{ background: showTracker ? '#3b82f6' : 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '20px', fontSize: '0.9rem', border: 'none', color: 'white', cursor: 'pointer', transition: 'all 0.2s' }}
-                >
-                  <i className="fa-solid fa-magnifying-glass"></i> ตรวจสอบสถานะงาน
-                </button>
-                <span style={{background: 'rgba(255,255,255,0.1)', padding: '0.4rem 1rem', borderRadius: '20px', fontSize: '0.9rem'}}><i className="fa-solid fa-truck"></i> จัดส่งฟรีทั่วประเทศ เมื่อสั่ง 1,000 ชิ้นขึ้นไป</span>
+    <div style={{ minHeight:'100vh', background:'#f8fafc', fontFamily:'"Kanit",sans-serif' }}>
+      {/* HEADER */}
+      <header style={{ background:'linear-gradient(135deg,#0f172a,#1e3a5f)', color:'white', padding:'0.8rem 5%', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'0.5rem' }}>
+        <h2 style={{ margin:0, fontSize:'1.4rem' }}>Book<span style={{ color:'#60a5fa' }}>and</span>box<span style={{ fontSize:'0.85rem', color:'#94a3b8', marginLeft:'0.5rem' }}>Print Portal</span></h2>
+        <div style={{ display:'flex', gap:'0.5rem', alignItems:'center' }}>
+          <button onClick={()=>setShowTrack(!showTrack)} style={{ background: showTrack?'#3b82f6':'rgba(255,255,255,0.1)', padding:'0.5rem 1rem', borderRadius:'20px', border:'none', color:'white', cursor:'pointer', fontSize:'0.85rem' }}>
+            <i className="fa-solid fa-search"></i> ตรวจสถานะงาน
+          </button>
+          <span style={{ background:'rgba(255,255,255,0.1)', padding:'0.4rem 0.8rem', borderRadius:'20px', fontSize:'0.8rem' }}>🚚 ส่งฟรี เมื่อสั่ง 1,000+</span>
+        </div>
+      </header>
+
+      {/* TRACKER */}
+      {showTrack && (
+        <div style={{ background:'#0f172a', padding:'1.5rem 5%', color:'white' }}>
+          <div style={{ maxWidth:600, margin:'0 auto' }}>
+            <h4 style={{ color:'white', marginBottom:'0.5rem' }}>🔍 ตรวจสอบสถานะงาน</h4>
+            <div style={{ display:'flex', gap:'0.5rem' }}>
+              <input placeholder="เบอร์โทร เช่น 0812345678" value={trackPhone} onChange={e=>setTrackPhone(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleTrack()} style={{ flex:1, padding:'0.6rem', borderRadius:8, border:'none', fontSize:'0.95rem' }} />
+              <button onClick={async()=>{ try { const r = await axios.get(`${API}/portal/track/${trackPhone}`); setTrackResult(r.data); } catch{ setTrackResult({error:'ไม่พบข้อมูล'}); }}} style={{ padding:'0.6rem 1.2rem', background:'#3b82f6', color:'white', border:'none', borderRadius:8, cursor:'pointer' }}>ค้นหา</button>
             </div>
-        </header>
-
-        {/* JOB TRACKING PANEL */}
-        {showTracker && (
-          <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', padding: '2rem 5%', color: 'white' }}>
-            <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-              <h3 style={{ color: 'white', marginBottom: '0.5rem' }}><i className="fa-solid fa-search"></i> ตรวจสอบสถานะงานพิมพ์</h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>กรอกเบอร์โทรที่ใช้สั่งงาน เพื่อดูสถานะการผลิตแบบ Real-time</p>
-              <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1rem' }}>
-                <input 
-                  type="text" 
-                  placeholder="เบอร์โทรศัพท์ เช่น 0812345678" 
-                  value={trackPhone} 
-                  onChange={e => setTrackPhone(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleTrackJob()}
-                  style={{ flex: 1, padding: '0.8rem 1rem', borderRadius: '8px', border: 'none', fontSize: '1rem', fontFamily: 'Kanit' }}
-                />
-                <button onClick={handleTrackJob} disabled={trackLoading} style={{ padding: '0.8rem 1.5rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontFamily: 'Kanit', fontSize: '1rem' }}>
-                  {trackLoading ? 'กำลังค้นหา...' : 'ค้นหา'}
-                </button>
-              </div>
-
-              {/* Track Results */}
-              {trackResult && (
-                <div style={{ marginTop: '1.5rem' }}>
-                  {trackResult.error ? (
-                    <div style={{ background: 'rgba(239,68,68,0.15)', padding: '1rem', borderRadius: '8px', color: '#fca5a5' }}>
-                      <i className="fa-solid fa-circle-xmark"></i> {trackResult.error}
-                    </div>
-                  ) : (
-                    <div>
-                      <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
-                        <strong>👤 {trackResult.customer.name}</strong> — พบ {trackResult.orders.length} รายการ
+            {trackResult && (
+              <div style={{ marginTop:'1rem' }}>
+                {trackResult.error ? <p style={{ color:'#f87171' }}>❌ {trackResult.error}</p> : (
+                  trackResult.orders?.map((o,i) => (
+                    <div key={i} style={{ background:'rgba(255,255,255,0.05)', padding:'1rem', borderRadius:10, marginTop:'0.5rem' }}>
+                      <strong>JOB #{o.id}</strong> — {o.product} x{o.quantity}
+                      <div style={{ display:'flex', gap:0, marginTop:'0.6rem' }}>
+                        {STAGES.map((s,si) => {
+                          const ci = STAGES.findIndex(x=>x.key===o.production_stage);
+                          const done = si <= ci;
+                          return (<div key={si} style={{ flex:1, textAlign:'center' }}>
+                            <div style={{ width:28, height:28, borderRadius:'50%', background:done?si===ci?'#3b82f6':'#10b981':'rgba(255,255,255,0.15)', display:'inline-flex', alignItems:'center', justifyContent:'center', fontSize:'0.7rem', color:'white' }}><i className={`fa-solid ${s.icon}`}></i></div>
+                            <div style={{ fontSize:'0.55rem', color:done?'#93c5fd':'#64748b', marginTop:2 }}>{s.label}</div>
+                          </div>);
+                        })}
                       </div>
-                      {trackResult.orders.map((order, idx) => {
-                        const currentIdx = getStageIndex(order.production_stage);
-                        return (
-                          <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '1.2rem', marginBottom: '0.8rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
-                              <span><strong>JOB #{order.id}</strong> — {order.product} x {order.quantity}</span>
-                              <span style={{ color: '#10b981', fontWeight: 700 }}>฿{(order.total_price || 0).toLocaleString()}</span>
-                            </div>
-                            {/* Timeline Steps */}
-                            <div style={{ display: 'flex', gap: '0', alignItems: 'center' }}>
-                              {STAGE_STEPS.map((stage, sIdx) => {
-                                const isDone = sIdx <= currentIdx;
-                                const isCurrent = sIdx === currentIdx;
-                                return (
-                                  <div key={sIdx} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-                                    <div style={{
-                                      width: '32px', height: '32px', borderRadius: '50%',
-                                      background: isDone ? (isCurrent ? '#3b82f6' : '#10b981') : 'rgba(255,255,255,0.15)',
-                                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                      fontSize: '0.8rem', color: 'white', zIndex: 2,
-                                      boxShadow: isCurrent ? '0 0 12px rgba(59,130,246,0.6)' : 'none',
-                                      animation: isCurrent ? 'pulse 1.5s infinite' : 'none'
-                                    }}>
-                                      <i className={stage.icon}></i>
-                                    </div>
-                                    <span style={{ fontSize: '0.6rem', marginTop: '0.3rem', color: isDone ? '#93c5fd' : '#64748b', textAlign: 'center', fontWeight: isCurrent ? 700 : 400 }}>{stage.label}</span>
-                                    {sIdx < STAGE_STEPS.length - 1 && (
-                                      <div style={{ position: 'absolute', top: '15px', left: '50%', width: '100%', height: '2px', background: isDone && sIdx < currentIdx ? '#10b981' : 'rgba(255,255,255,0.15)', zIndex: 1 }}></div>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            {order.tracking_number && (
-                              <div style={{ marginTop: '0.8rem', background: 'rgba(16,185,129,0.15)', padding: '0.5rem 0.8rem', borderRadius: '6px', fontSize: '0.85rem', color: '#6ee7b7' }}>
-                                📦 Tracking: <strong>{order.tracking_number}</strong>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
                     </div>
-                  )}
-                </div>
-              )}
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* HERO */}
+      <div style={{ background:'linear-gradient(135deg,#1e40af,#7c3aed)', padding:'2.5rem 5%', color:'white', textAlign:'center' }}>
+        <h1 style={{ fontSize:'2rem', margin:0, color:'white' }}>สั่งพิมพ์ออนไลน์ ราคาโรงงาน</h1>
+        <p style={{ opacity:0.9, fontSize:'1.05rem', marginTop:'0.3rem' }}>เลือกสเปค → เห็นราคาทันที → สั่งผลิตได้เลย</p>
+      </div>
+
+      {/* PRODUCT SELECTOR */}
+      <div style={{ background:'white', borderBottom:'1px solid #e2e8f0', padding:'1rem 5%', overflowX:'auto' }}>
+        <div style={{ display:'flex', gap:'0.5rem', minWidth:'max-content' }}>
+          {PRODUCTS.map(p => (
+            <button key={p.id} onClick={()=>{ setProduct(p); setForm(f=>({...f, size:p.sizes[0]})); }} style={{ padding:'0.6rem 1.2rem', borderRadius:25, border: product.id===p.id?'2px solid #7c3aed':'1px solid #e2e8f0', background: product.id===p.id?'#f5f3ff':'white', cursor:'pointer', whiteSpace:'nowrap', fontFamily:'Kanit', fontSize:'0.9rem', fontWeight: product.id===p.id?700:400, color: product.id===p.id?'#7c3aed':'#475569' }}>
+              {p.icon} {p.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* MAIN */}
+      <div style={{ maxWidth:1200, margin:'0 auto', padding:'1.5rem 5%', display:'flex', gap:'1.5rem', flexWrap:'wrap', alignItems:'flex-start' }}>
+        {/* LEFT: CONFIG */}
+        <div style={{ flex:'1 1 340px', display:'flex', flexDirection:'column', gap:'1rem' }}>
+          {/* Size */}
+          <div style={{ background:'white', padding:'1.2rem', borderRadius:12, boxShadow:'0 1px 3px rgba(0,0,0,0.08)' }}>
+            <label style={{ fontWeight:700, fontSize:'0.9rem', color:'#1e293b' }}>📐 ขนาด</label>
+            <div style={{ display:'flex', gap:'0.4rem', marginTop:'0.5rem', flexWrap:'wrap' }}>
+              {product.sizes.map(s => (
+                <button key={s} onClick={()=>setForm({...form, size:s})} style={{ padding:'0.5rem 1rem', borderRadius:8, border: form.size===s?'2px solid #7c3aed':'1px solid #e2e8f0', background: form.size===s?'#f5f3ff':'white', cursor:'pointer', fontFamily:'Kanit', fontWeight: form.size===s?700:400, color: form.size===s?'#7c3aed':'#475569' }}>{s}</button>
+              ))}
             </div>
           </div>
-        )}
 
-        {/* BREADCRUMB */}
-        <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', padding: '1rem 5%' }}>
-            <div style={{ display: 'flex', gap: '2rem', color: '#64748b' }}>
-                <span style={{ color: step === 1 ? '#3b82f6' : '#10b981', fontWeight: 'bold' }}>1. ประเมินราคา</span>
-                <span style={{ color: step === 2 ? '#3b82f6' : '#cbd5e1', fontWeight: step === 2 ? 'bold' : 'normal' }}>2. อัปโหลดอาร์ตเวิร์ค</span>
+          {/* Paper */}
+          <div style={{ background:'white', padding:'1.2rem', borderRadius:12, boxShadow:'0 1px 3px rgba(0,0,0,0.08)' }}>
+            <label style={{ fontWeight:700, fontSize:'0.9rem', color:'#1e293b' }}>📄 กระดาษ</label>
+            <select value={`${form.paperName}|${form.paperGsm}`} onChange={e=>{ const [n,g]=e.target.value.split('|'); setForm({...form, paperName:n, paperGsm:parseInt(g)}); }} style={{ width:'100%', padding:'0.6rem', borderRadius:8, border:'1px solid #e2e8f0', marginTop:'0.4rem', fontFamily:'Kanit', fontSize:'0.9rem' }}>
+              {papers.map(p => <option key={p.id} value={`${p.name}|${p.gsm}`}>{p.name} {p.gsm}gsm</option>)}
+            </select>
+          </div>
+
+          {/* Colors & Sides */}
+          <div style={{ display:'flex', gap:'0.8rem' }}>
+            <div style={{ flex:1, background:'white', padding:'1rem', borderRadius:12, boxShadow:'0 1px 3px rgba(0,0,0,0.08)' }}>
+              <label style={{ fontWeight:700, fontSize:'0.85rem', color:'#1e293b' }}>🎨 สี</label>
+              <div style={{ display:'flex', gap:'0.3rem', marginTop:'0.4rem' }}>
+                {[1,2,4].map(c => (
+                  <button key={c} onClick={()=>setForm({...form,colors:c})} style={{ flex:1, padding:'0.4rem', borderRadius:6, border: form.colors===c?'2px solid #3b82f6':'1px solid #e2e8f0', background: form.colors===c?'#eff6ff':'white', cursor:'pointer', fontFamily:'Kanit', fontSize:'0.85rem', fontWeight: form.colors===c?700:400 }}>{c}สี</button>
+                ))}
+              </div>
             </div>
+            <div style={{ flex:1, background:'white', padding:'1rem', borderRadius:12, boxShadow:'0 1px 3px rgba(0,0,0,0.08)' }}>
+              <label style={{ fontWeight:700, fontSize:'0.85rem', color:'#1e293b' }}>📑 ด้าน</label>
+              <div style={{ display:'flex', gap:'0.3rem', marginTop:'0.4rem' }}>
+                {[1,2].map(s => (
+                  <button key={s} onClick={()=>setForm({...form,sides:s})} style={{ flex:1, padding:'0.4rem', borderRadius:6, border: form.sides===s?'2px solid #3b82f6':'1px solid #e2e8f0', background: form.sides===s?'#eff6ff':'white', cursor:'pointer', fontFamily:'Kanit', fontSize:'0.85rem', fontWeight: form.sides===s?700:400 }}>{s}ด้าน</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Finishing */}
+          <div style={{ background:'white', padding:'1.2rem', borderRadius:12, boxShadow:'0 1px 3px rgba(0,0,0,0.08)' }}>
+            <label style={{ fontWeight:700, fontSize:'0.9rem', color:'#1e293b' }}>✨ ตกแต่งเพิ่มเติม</label>
+            <div style={{ display:'flex', gap:'0.3rem', flexWrap:'wrap', marginTop:'0.5rem' }}>
+              {finishing.filter(f=>['coating','laminate','folding'].includes(f.type)).map(f => (
+                <button key={f.id} onClick={()=>toggleFin(f.name)} style={{ padding:'0.35rem 0.7rem', borderRadius:20, border: form.finishing.includes(f.name)?'2px solid #8b5cf6':'1px solid #e2e8f0', background: form.finishing.includes(f.name)?'#f5f3ff':'white', cursor:'pointer', fontSize:'0.78rem', fontFamily:'Kanit', color: form.finishing.includes(f.name)?'#7c3aed':'#64748b' }}>
+                  {form.finishing.includes(f.name)&&'✓ '}{f.name}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '2rem', padding: '2rem 5%', maxWidth: '1400px', margin: '0 auto', alignItems: 'flex-start' }}>
-            
-            {/* LEFT COLUMN - CONFIGURATOR OR UPLOAD */}
-            <div style={{ flex: '1' }}>
-                {step === 1 ? (
-                    <div style={{ background: 'white', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
-                        <h2 className="mb-4" style={{borderBottom: '2px solid #f1f5f9', paddingBottom: '1rem'}}><i className="fa-solid fa-cogs"></i> สเปกงานพิมพ์ของคุณ</h2>
-                        
-                        <div className="form-group mt-4">
-                            <label>รูปแบบผลิตภัณฑ์ (Product Type)</label>
-                            <select className="form-control" value={config.product} onChange={e => setConfig({...config, product: e.target.value})}>
-                                <option>กล่องอาร์ตการ์ด</option>
-                                <option>ใบปลิว โบรชัวร์ แผ่นพับ</option>
-                                <option>ถุงกระดาษ</option>
-                                <option>ปฏิทิน</option>
-                            </select>
-                        </div>
-
-                        {(config.product.includes('แผ่นพับ') || config.product.includes('ใบปลิว') || config.product.includes('ปฏิทิน')) && (
-                        <div className="form-group mt-4">
-                            <label style={{fontSize: '1.2rem', color: '#1e293b'}}><i className="fa-solid fa-ruler-combined"></i> แพ็กเกจขนาดมาตรฐาน (Standard Sizes)</label>
-                            <div style={{display: 'flex', gap: '0.5rem', marginTop: '0.5rem', flexWrap: 'wrap'}}>
-                                {[
-                                    {label: 'A3', w: 29.7, l: 42},
-                                    {label: 'A4', w: 21, l: 29.7},
-                                    {label: 'A5', w: 14.8, l: 21},
-                                    {label: 'A6', w: 10.5, l: 14.8},
-                                    {label: 'กำหนดขนาดเอง', w: null, l: null}
-                                ].map(preset => (
-                                    <button 
-                                        key={preset.label}
-                                        className="btn" 
-                                        style={{
-                                            background: config.presetSize === preset.label ? '#4f46e5' : '#f1f5f9', 
-                                            color: config.presetSize === preset.label ? 'white' : '#475569',
-                                            border: '1px solid #cbd5e1'
-                                        }}
-                                        onClick={() => {
-                                            if(preset.w){
-                                                setConfig({...config, presetSize: preset.label, width: preset.w, length: preset.l});
-                                            } else {
-                                                setConfig({...config, presetSize: 'กำหนดขนาดเอง'});
-                                            }
-                                        }}
-                                    >
-                                        {preset.label} {preset.w && <span style={{fontSize: '0.75rem', opacity: 0.8}}>({preset.w}x{preset.l}cm)</span>}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                        )}
-
-                        <div style={{ display: 'grid', gridTemplateColumns: (!config.product.includes('แผ่นพับ') && !config.product.includes('ใบปลิว') && !config.product.includes('ปฏิทิน')) ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)', gap: '1.5rem', marginTop: '1.5rem' }}>
-                            <div className="form-group mb-0">
-                                <label>กว้าง (cm)</label>
-                                <input type="number" className="form-control" value={config.width} onChange={e => setConfig({...config, width: Number(e.target.value), presetSize: 'กำหนดขนาดเอง'})} />
-                            </div>
-                            <div className="form-group mb-0">
-                                <label>{config.product.includes('แผ่นพับ') || config.product.includes('ใบปลิว') || config.product.includes('ปฏิทิน') ? 'ความสูง (cm)' : 'ยาว/ลึก (cm)'}</label>
-                                <input type="number" className="form-control" value={config.length} onChange={e => setConfig({...config, length: Number(e.target.value), presetSize: 'กำหนดขนาดเอง'})} />
-                            </div>
-                            {(!config.product.includes('แผ่นพับ') && !config.product.includes('ใบปลิว') && !config.product.includes('ปฏิทิน')) && (
-                            <div className="form-group mb-0">
-                                <label>สูง (cm)</label>
-                                <input type="number" className="form-control" value={config.height} onChange={e => setConfig({...config, height: Number(e.target.value), presetSize: 'กำหนดขนาดเอง'})} />
-                            </div>
-                            )}
-                        </div>
-
-                        <div className="form-group mt-4">
-                            <label>เนื้อกระดาษ (Material)</label>
-                            <select className="form-control" value={config.material} onChange={e => setConfig({...config, material: e.target.value})}>
-                                <option>อาร์ตมัน 130 แกรม</option>
-                                <option>อาร์ตมัน 160 แกรม</option>
-                                <option>อาร์ตการ์ด 250 แกรม</option>
-                                <option>อาร์ตการ์ด 300 แกรม</option>
-                                <option>กระดาษกล่องแป้งหลังเทา 310 แกรม</option>
-                            </select>
-                        </div>
-                        
-                        <div className="form-group mt-4">
-                            <label>เทคนิคการเคลือบ (Coating / Finishes)</label>
-                            <select className="form-control" value={config.coating} onChange={e => setConfig({...config, coating: e.target.value})}>
-                                <option>ไม่เคลือบ</option>
-                                <option>เคลือบด้าน (Matte Lamination)</option>
-                                <option>เคลือบเงา (Glossy Lamination)</option>
-                                <option>เคลือบด้าน + Spot UV</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group mt-4">
-                            <label style={{fontSize: '1.2rem', color: '#1e293b'}}>จำนวนพิมพ์ (ชิ้น)</label>
-                            <div style={{display: 'flex', gap: '1rem', marginTop: '0.5rem'}}>
-                                {[100, 500, 1000, 5000].map(q => (
-                                    <button 
-                                        key={q} 
-                                        className="btn" 
-                                        style={{flex: 1, background: config.quantity === q ? '#3b82f6' : '#f1f5f9', color: config.quantity === q ? 'white' : '#475569'}}
-                                        onClick={() => setConfig({...config, quantity: q})}
-                                    >
-                                        {q.toLocaleString()}
-                                    </button>
-                                ))}
-                            </div>
-                            <input type="number" className="form-control mt-2" value={config.quantity} onChange={e => setConfig({...config, quantity: Number(e.target.value)})} />
-                        </div>
-                    </div>
-                ) : (
-                    <div style={{ background: 'white', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
-                        <h2 className="mb-4" style={{borderBottom: '2px solid #f1f5f9', paddingBottom: '1rem'}}><i className="fa-solid fa-cloud-arrow-up"></i> อัปโหลดอาร์ตเวิร์ค (Max 1GB)</h2>
-                        
-                        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', background: '#e0e7ff', padding: '1rem', borderRadius: '8px'}}>
-                            <div>
-                                <h4 style={{color: '#3730a3', margin: 0}}>โหลดเทมเพลตมาตรฐาน (Die-cut Template)</h4>
-                                <p style={{fontSize:'0.8rem', color: '#4f46e5', margin: 0}}>สำหรับขนาด {config.width}x{config.length}x{config.height} cm</p>
-                            </div>
-                            <button className="btn btn-outline" style={{borderColor: '#4f46e5', color: '#4f46e5'}}><i className="fa-solid fa-download"></i> ดาวน์โหลด .AI</button>
-                        </div>
-
-                        <div 
-                            onDragOver={e => e.preventDefault()}
-                            onDrop={handleFileDrop}
-                            style={{ 
-                                border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '4rem 2rem', 
-                                textAlign: 'center', background: file ? '#f0fdf4' : '#f8fafc',
-                                cursor: 'pointer', transition: 'all 0.3s'
-                            }}>
-                            <i className="fa-solid fa-file-pdf" style={{fontSize: '3rem', color: file ? '#22c55e' : '#94a3b8'}}></i>
-                            {file ? (
-                                <h4 style={{color: '#166534', marginTop: '1rem'}}>{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</h4>
-                            ) : (
-                                <>
-                                    <h4 style={{color: '#475569', marginTop: '1rem'}}>ลากไฟล์ .AI, .PDF สกุลงานพิมพ์มาวางที่นี่</h4>
-                                    <p style={{color: '#94a3b8', fontSize: '0.9rem'}}>รองรับขนาดสูงสุด 1GB ต่อไฟล์</p>
-                                    <button className="btn btn-outline mt-2">เลือกไฟล์จากเครื่อง</button>
-                                </>
-                            )}
-                        </div>
-
-                        {/* STRICT ANTI-ERROR CHECKLIST */}
-                        <div style={{marginTop: '2rem', background: '#fffbeb', padding: '1.5rem', borderRadius: '8px', borderLeft: '4px solid #f59e0b'}}>
-                            <h4 style={{color: '#b45309'}}><i className="fa-solid fa-triangle-exclamation"></i> เช็คลิสต์ตรวจสอบไฟล์ขั้นสุดท้าย</h4>
-                            <p style={{fontSize: '0.85rem', color: '#92400e'}}>กรุณาติ๊กยืนยันข้อมูล ก่อนที่ระบบจะอนุญาตให้ส่งไฟล์เข้าเครื่องพิมพ์ (ป้องกันพิมพ์ผิด)</p>
-                            
-                            <label style={{display: 'flex', gap: '10px', alignItems: 'center', marginTop: '1rem', cursor: 'pointer'}}>
-                                <input type="checkbox" checked={checks.cmyk} onChange={e => setChecks({...checks, cmyk: e.target.checked})} style={{width: '20px', height: '20px'}} />
-                                <span>โหมดสีของไฟล์ตั้งค่าเป็น <strong>CMYK</strong> แล้ว (ไม่ใช่ RGB)</span>
-                            </label>
-
-                            <label style={{display: 'flex', gap: '10px', alignItems: 'center', marginTop: '1rem', cursor: 'pointer'}}>
-                                <input type="checkbox" checked={checks.outline} onChange={e => setChecks({...checks, outline: e.target.checked})} style={{width: '20px', height: '20px'}} />
-                                <span>ทำการ <strong>Create Outline</strong> ฟอนต์ทุกตัวเรียบร้อยแล้ว</span>
-                            </label>
-
-                            <label style={{display: 'flex', gap: '10px', alignItems: 'center', marginTop: '1rem', cursor: 'pointer'}}>
-                                <input type="checkbox" checked={checks.v2} onChange={e => setChecks({...checks, v2: e.target.checked})} style={{width: '20px', height: '20px'}} />
-                                <span>ขอยืนยันว่านี่คือไฟล์ <strong>เวอร์ชันสุดท้ายที่ถูกต้องที่สุด (Final Version)</strong></span>
-                            </label>
-                        </div>
-                        
-                        <div style={{marginTop: '2rem'}}>
-                            <h4>ข้อมูลรับใบเสร็จและติดต่อกลับ</h4>
-                            <div className="dashboard-grid mt-2">
-                                <div className="form-group">
-                                    <label>ชื่อผู้สั่งงาน / บริษัท</label>
-                                    <input type="text" className="form-control" value={customer.name} onChange={e => setCustomer({...customer, name: e.target.value})} placeholder="ระบุเพื่อผูกบัญชี ERP" />
-                                </div>
-                                <div className="form-group">
-                                    <label>เบอร์โทรศัพท์ (สำคัญมาก)</label>
-                                    <input type="text" className="form-control" value={customer.phone} onChange={e => setCustomer({...customer, phone: e.target.value})} placeholder="เผื่อช่างพิมพ์โทรแจ้งสเปก" />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                )}
+        {/* RIGHT: PRICE TABLE */}
+        <div style={{ flex:'1 1 500px' }}>
+          <div style={{ background:'white', borderRadius:16, boxShadow:'0 4px 15px rgba(0,0,0,0.08)', overflow:'hidden' }}>
+            {/* Header */}
+            <div style={{ background:'linear-gradient(135deg,#059669,#047857)', padding:'1.2rem 1.5rem', color:'white' }}>
+              <h3 style={{ margin:0, color:'white', fontSize:'1.1rem' }}>{product.icon} {product.name} — ตารางราคา</h3>
+              <p style={{ margin:'0.2rem 0 0', opacity:0.9, fontSize:'0.85rem' }}>{form.size} | {form.paperName} {form.paperGsm}gsm | {form.colors}สี {form.sides}ด้าน {form.finishing.length>0?`| ${form.finishing.join(', ')}`:''}</p>
             </div>
 
-            {/* RIGHT COLUMN - STICKY ORDER SUMMARY */}
-            <div style={{ position: 'sticky', top: '2rem', width: '380px' }}>
-                <div style={{ background: 'white', padding: '2rem', borderRadius: '12px', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)', border: '1px solid #e2e8f0' }}>
-                    <h3 className="mb-4">ตะกร้าสินค้าย่อ (Summary)</h3>
-                    
-                    <div style={{borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem', marginBottom: '1rem'}}>
-                        <h4 style={{color: '#3b82f6', margin: '0 0 0.5rem 0'}}>{config.product}</h4>
-                        <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#475569', marginBottom: '0.3rem'}}>
-                            <span>วัสดุ</span> <span>{config.material}</span>
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#475569', marginBottom: '0.3rem'}}>
-                            <span>ขนาด</span> 
-                            <span>
-                                {config.width} x {config.length} {(!config.product.includes('แผ่นพับ') && !config.product.includes('ใบปลิว') && !config.product.includes('ปฏิทิน')) && `x ${config.height}`} cm
-                            </span>
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#475569', marginBottom: '0.3rem'}}>
-                            <span>เทคนิค</span> <span>{config.coating}</span>
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#475569', marginBottom: '0.3rem'}}>
-                            <span>จำนวนพิมพ์</span> <strong>{config.quantity.toLocaleString()} ใบ</strong>
-                        </div>
-                    </div>
+            {loading ? (
+              <div style={{ padding:'3rem', textAlign:'center', color:'#94a3b8' }}>
+                <div style={{ fontSize:'2rem', marginBottom:'0.5rem', animation:'spin 1s linear infinite' }}>⏳</div>
+                กำลังคำนวณราคา...
+              </div>
+            ) : (
+              <table style={{ width:'100%', borderCollapse:'collapse' }}>
+                <thead>
+                  <tr style={{ background:'#f8fafc' }}>
+                    <th style={{ padding:'0.7rem 1rem', textAlign:'left', fontSize:'0.85rem', color:'#475569' }}>จำนวน</th>
+                    <th style={{ padding:'0.7rem 1rem', textAlign:'right', fontSize:'0.85rem', color:'#475569' }}>ราคา/ชิ้น</th>
+                    <th style={{ padding:'0.7rem 1rem', textAlign:'right', fontSize:'0.85rem', color:'#475569' }}>ราคารวม</th>
+                    <th style={{ padding:'0.7rem 1rem', textAlign:'center', fontSize:'0.85rem', color:'#475569' }}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {QTYS.map(q => {
+                    const r = results[q];
+                    if (!r) return null;
+                    const active = selQty === q;
+                    return (
+                      <tr key={q} onClick={()=>setSelQty(q)} style={{ borderTop:'1px solid #f1f5f9', cursor:'pointer', background: active?'#f0fdf4':'white', transition:'background 0.2s' }}>
+                        <td style={{ padding:'0.8rem 1rem', fontWeight:700, fontSize:'0.95rem' }}>{q.toLocaleString()} <span style={{ fontSize:'0.75rem', color:'#94a3b8', fontWeight:400 }}>ชิ้น</span></td>
+                        <td style={{ padding:'0.8rem 1rem', textAlign:'right', fontWeight:700, color:'#059669', fontSize:'1rem' }}>฿{r.pricePerUnit}</td>
+                        <td style={{ padding:'0.8rem 1rem', textAlign:'right', fontWeight:700, color:'#1e293b', fontSize:'1.05rem' }}>฿{r.sellingPrice?.toLocaleString()}</td>
+                        <td style={{ padding:'0.8rem 1rem', textAlign:'center' }}>
+                          <button style={{ padding:'0.4rem 1rem', borderRadius:8, border:'none', background: active?'#059669':'#e2e8f0', color: active?'white':'#475569', cursor:'pointer', fontFamily:'Kanit', fontSize:'0.8rem', fontWeight:600 }}>
+                            {active?'✓ เลือก':'เลือก'}
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
 
-                    <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem'}}>
-                        <span style={{color: '#64748b'}}>มูลค่างานพิมพ์</span>
-                        <span style={{fontWeight: 500}}>฿ {price.toLocaleString()}</span>
-                    </div>
-                    <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '1rem'}}>
-                        <span style={{color: '#64748b'}}>ภาษีมูลค่าเพิ่ม 7%</span>
-                        <span style={{fontWeight: 500}}>฿ {Math.round(price * 0.07).toLocaleString()}</span>
-                    </div>
-
-                    <div style={{display: 'flex', justifyContent: 'space-between', padding: '1rem 0', borderTop: '2px dashed #cbd5e1', borderBottom: '2px dashed #cbd5e1', marginBottom: '1.5rem'}}>
-                        <span style={{fontSize: '1.2rem', fontWeight: 'bold'}}>ยอดชำระสุทธิ</span>
-                        <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#10b981'}}>฿ {Math.round(price * 1.07).toLocaleString()}</span>
-                    </div>
-
-                    <div style={{background: '#f8fafc', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem', display: 'flex', gap: '10px'}}>
-                        <i className="fa-solid fa-robot" style={{fontSize: '1.5rem', color: '#3b82f6'}}></i>
-                        <span>AI Suggestion: สั่งผลิต {config.quantity >= 1000 ? 'เกินพันใบ อัพเกรดแพ็คเกจจัดส่งฟรีให้แล้วครับ!' : 'ล็อตเล็ก แนะนำพิมพ์ดิจิตอลด่วนได้เลยครับ'}</span>
-                    </div>
-
-                    {step === 1 ? (
-                        <button className="btn btn-primary" style={{width: '100%', padding: '1rem', fontSize: '1.1rem'}} onClick={() => setStep(2)}>
-                            อัปโหลดอาร์ตเวิร์คสั่งทำ <i className="fa-solid fa-arrow-right"></i>
-                        </button>
-                    ) : (
-                        <button 
-                            className="btn btn-success" 
-                            style={{width: '100%', padding: '1rem', fontSize: '1.1rem'}} 
-                            disabled={!file || !checks.cmyk || !checks.v2 || !checks.outline || uploading}
-                            onClick={submitOrder}
-                        >
-                            {uploading ? 'กำลังโอนข้อมูล...' : 'ยืนยันสั่งผลิตและชำระเงิน'}
-                        </button>
-                    )}
-                    
+            {/* Selected Summary */}
+            {sel && (
+              <div style={{ borderTop:'2px solid #059669', padding:'1.2rem 1.5rem', background:'#f0fdf4' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'0.5rem' }}>
+                  <div>
+                    <div style={{ fontSize:'0.8rem', color:'#15803d' }}>คุณเลือก {selQty.toLocaleString()} ชิ้น</div>
+                    <div style={{ fontSize:'1.8rem', fontWeight:800, color:'#059669' }}>฿{sel.sellingPrice?.toLocaleString()}</div>
+                    <div style={{ fontSize:'0.8rem', color:'#64748b' }}>ราคาต่อชิ้น ฿{sel.pricePerUnit} (รวม VAT ฿{Math.round(sel.sellingPrice*1.07).toLocaleString()})</div>
+                  </div>
+                  <button style={{ padding:'0.8rem 2rem', borderRadius:12, border:'none', background:'linear-gradient(135deg,#7c3aed,#6d28d9)', color:'white', fontSize:'1.1rem', fontWeight:700, cursor:'pointer', fontFamily:'Kanit', boxShadow:'0 4px 15px rgba(124,58,237,0.3)' }}>
+                    🛒 สั่งผลิต
+                  </button>
                 </div>
-            </div>
+              </div>
+            )}
+          </div>
 
+          {/* Production Info Cards */}
+          {sel && (
+            <div style={{ display:'flex', gap:'0.6rem', marginTop:'1rem', flexWrap:'wrap' }}>
+              <div style={{ flex:1, minWidth:100, background:'white', padding:'0.8rem', borderRadius:10, textAlign:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div style={{ fontSize:'0.65rem', color:'#64748b' }}>วางดวง</div>
+                <div style={{ fontWeight:700, fontSize:'1rem', color:'#1e293b' }}>{sel.imposition} ดวง</div>
+              </div>
+              <div style={{ flex:1, minWidth:100, background:'white', padding:'0.8rem', borderRadius:10, textAlign:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div style={{ fontSize:'0.65rem', color:'#64748b' }}>เครื่องพิมพ์</div>
+                <div style={{ fontWeight:700, fontSize:'0.85rem', color:'#1e293b' }}>{sel.machineCut}</div>
+              </div>
+              <div style={{ flex:1, minWidth:100, background:'white', padding:'0.8rem', borderRadius:10, textAlign:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div style={{ fontSize:'0.65rem', color:'#64748b' }}>ระยะผลิต</div>
+                <div style={{ fontWeight:700, fontSize:'1rem', color:'#f59e0b' }}>3-5 วัน</div>
+              </div>
+              <div style={{ flex:1, minWidth:100, background:'white', padding:'0.8rem', borderRadius:10, textAlign:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div style={{ fontSize:'0.65rem', color:'#64748b' }}>จัดส่ง</div>
+                <div style={{ fontWeight:700, fontSize:'0.85rem', color:'#10b981' }}>ฟรี กทม.</div>
+              </div>
+            </div>
+          )}
         </div>
+      </div>
+
+      {/* FOOTER */}
+      <footer style={{ background:'#1e293b', color:'#94a3b8', padding:'2rem 5%', marginTop:'2rem', textAlign:'center', fontSize:'0.85rem' }}>
+        <p>© 2026 BookAndBox.com — โรงพิมพ์ออฟเซทครบวงจร | <i className="fa-brands fa-line"></i> @bookandbox | 📞 02-xxx-xxxx</p>
+      </footer>
+
+      <style>{`@keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }`}</style>
     </div>
   );
 }
