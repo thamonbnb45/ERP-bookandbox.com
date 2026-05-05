@@ -14,7 +14,7 @@ const URGENCY = { normal: '🟢 ปกติ', urgent: '🟡 ด่วน', crit
 
 export default function Estimator() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('search');
+  const [activeTab, setActiveTab] = useState('calc');
 
   // Tab 1: Search
   const [catalog, setCatalog] = useState([]);
@@ -45,7 +45,48 @@ export default function Estimator() {
   const [estQty, setEstQty] = useState('');
   const [estResult, setEstResult] = useState(null);
 
-  useEffect(() => { fetchCatalog(); fetchRequests(); fetchSupplierCosts(); }, []);
+  // Tab 5: Cost Calculator (NEW)
+  const [papers, setPapers] = useState([]);
+  const [machines, setMachines] = useState([]);
+  const [finishingList, setFinishingList] = useState([]);
+  const [costConfigs, setCostConfigs] = useState([]);
+  const [calcForm, setCalcForm] = useState({ quantity: 1000, size: 'A4', paperName: 'อาร์ตด้าน', paperGsm: 128, colors: 4, sides: 2, margin: 30, gangRun: true, finishing: [] });
+  const [calcResult, setCalcResult] = useState(null);
+  const [calcLoading, setCalcLoading] = useState(false);
+  const [calcHistory, setCalcHistory] = useState([]);
+
+  useEffect(() => { fetchCatalog(); fetchRequests(); fetchSupplierCosts(); fetchPricingData(); }, []);
+
+  const fetchPricingData = async () => {
+    try {
+      const [p, m, f, c] = await Promise.all([
+        axios.get(`${API_URL}/pricing/papers`),
+        axios.get(`${API_URL}/pricing/machines`),
+        axios.get(`${API_URL}/pricing/finishing`),
+        axios.get(`${API_URL}/pricing/costs`)
+      ]);
+      setPapers(p.data); setMachines(m.data); setFinishingList(f.data); setCostConfigs(c.data);
+    } catch(e) { console.error('fetchPricingData:', e); }
+  };
+
+  const runEstimate = async () => {
+    setCalcLoading(true);
+    try {
+      const res = await axios.post(`${API_URL}/pricing/estimate`, calcForm);
+      setCalcResult(res.data);
+      setCalcHistory(prev => [res.data, ...prev].slice(0, 10));
+    } catch(e) { alert('คำนวณไม่สำเร็จ: ' + (e.response?.data?.error || e.message)); }
+    setCalcLoading(false);
+  };
+
+  const toggleFinishing = (name) => {
+    setCalcForm(prev => ({
+      ...prev,
+      finishing: prev.finishing.includes(name)
+        ? prev.finishing.filter(f => f !== name)
+        : [...prev.finishing, name]
+    }));
+  };
 
   const fetchCatalog = async () => {
     try {
@@ -156,6 +197,7 @@ export default function Estimator() {
   };
 
   const TABS = [
+    { id: 'calc', label: 'คำนวณต้นทุน', icon: 'fa-calculator' },
     { id: 'search', label: 'ค้นราคา', icon: 'fa-magnifying-glass-dollar' },
     { id: 'supplier', label: 'ฐานราคาซัพฯ', icon: 'fa-warehouse' },
     { id: 'request', label: 'ขอราคา', icon: 'fa-paper-plane' },
@@ -183,6 +225,214 @@ export default function Estimator() {
           ))}
         </div>
       </div>
+
+      {/* TAB: COST CALCULATOR (NEW!) */}
+      {activeTab === 'calc' && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          {/* Left: Input Form */}
+          <div className="table-container shadow" style={{ flex: '1 1 380px', padding: '1.5rem', borderTop: '4px solid #f59e0b' }}>
+            <h4 style={{ fontWeight: 'bold', marginBottom: '1rem', color: '#b45309' }}><i className="fa-solid fa-calculator"></i> คำนวณต้นทุนงานพิมพ์</h4>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+              {/* Size */}
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', marginBottom: '0.2rem', display: 'block' }}>📐 ขนาดงาน</label>
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  {['A6','A5','A4','A3','B5','B4','DL','นามบัตร','โปสการ์ด'].map(s => (
+                    <button key={s} onClick={() => setCalcForm({...calcForm, size: s})} style={{ padding: '0.4rem 0.7rem', borderRadius: '6px', border: calcForm.size === s ? '2px solid #f59e0b' : '1px solid #e2e8f0', background: calcForm.size === s ? '#fffbeb' : 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: calcForm.size === s ? 'bold' : 'normal' }}>{s}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Paper */}
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', marginBottom: '0.2rem', display: 'block' }}>📄 กระดาษ</label>
+                <select className="form-control" value={`${calcForm.paperName}|${calcForm.paperGsm}`} onChange={e => { const [n,g] = e.target.value.split('|'); setCalcForm({...calcForm, paperName: n, paperGsm: parseInt(g)}); }}>
+                  {papers.map(p => <option key={p.id} value={`${p.name}|${p.gsm}`}>{p.name} {p.gsm}gsm ({p.sheet_size}) — ฿{p.price_per_sheet}/แผ่น</option>)}
+                </select>
+              </div>
+
+              {/* Colors & Sides */}
+              <div style={{ display: 'flex', gap: '0.8rem' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', display: 'block' }}>🎨 จำนวนสี</label>
+                  <div style={{ display: 'flex', gap: '0.3rem' }}>
+                    {[1,2,4,5].map(c => (
+                      <button key={c} onClick={() => setCalcForm({...calcForm, colors: c})} style={{ flex: 1, padding: '0.4rem', borderRadius: '6px', border: calcForm.colors === c ? '2px solid #3b82f6' : '1px solid #e2e8f0', background: calcForm.colors === c ? '#eff6ff' : 'white', cursor: 'pointer', fontSize: '0.85rem', fontWeight: calcForm.colors === c ? 'bold' : 'normal' }}>{c}สี</button>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', display: 'block' }}>📑 ด้านพิมพ์</label>
+                  <div style={{ display: 'flex', gap: '0.3rem' }}>
+                    {[1,2].map(s => (
+                      <button key={s} onClick={() => setCalcForm({...calcForm, sides: s})} style={{ flex: 1, padding: '0.4rem', borderRadius: '6px', border: calcForm.sides === s ? '2px solid #3b82f6' : '1px solid #e2e8f0', background: calcForm.sides === s ? '#eff6ff' : 'white', cursor: 'pointer', fontSize: '0.85rem', fontWeight: calcForm.sides === s ? 'bold' : 'normal' }}>{s} ด้าน</button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Quantity + Margin */}
+              <div style={{ display: 'flex', gap: '0.8rem' }}>
+                <div style={{ flex: 2 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', display: 'block' }}>📦 จำนวน</label>
+                  <input className="form-control" type="number" value={calcForm.quantity} onChange={e => setCalcForm({...calcForm, quantity: parseInt(e.target.value)||0})} style={{ fontWeight: 'bold', fontSize: '1rem' }} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', display: 'block' }}>💰 กำไร %</label>
+                  <input className="form-control" type="number" value={calcForm.margin} onChange={e => setCalcForm({...calcForm, margin: parseInt(e.target.value)||0})} style={{ fontWeight: 'bold', fontSize: '1rem', textAlign: 'center' }} />
+                </div>
+              </div>
+
+              {/* Gang Run Toggle */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem', background: calcForm.gangRun ? '#fef3c7' : '#f1f5f9', borderRadius: '8px', cursor: 'pointer', border: calcForm.gangRun ? '1px solid #fbbf24' : '1px solid #e2e8f0' }} onClick={() => setCalcForm({...calcForm, gangRun: !calcForm.gangRun})}>
+                <span style={{ fontSize: '1.2rem' }}>{calcForm.gangRun ? '🟢' : '⚪'}</span>
+                <div>
+                  <div style={{ fontWeight: 'bold', fontSize: '0.85rem', color: '#1e293b' }}>Gang Run (รวมงาน)</div>
+                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{calcForm.gangRun ? `แบ่งเพลท+ค่าพิมพ์ ÷${calcForm.sides === 2 ? 4 : 8} งาน` : 'คิดต้นทุนเต็มเฉพาะงานนี้'}</div>
+                </div>
+              </div>
+
+              {/* Finishing Options */}
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#475569', display: 'block', marginBottom: '0.3rem' }}>✨ Finishing</label>
+                <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                  {finishingList.map(f => (
+                    <button key={f.id} onClick={() => toggleFinishing(f.name)} style={{ padding: '0.3rem 0.6rem', borderRadius: '15px', border: calcForm.finishing.includes(f.name) ? '2px solid #8b5cf6' : '1px solid #e2e8f0', background: calcForm.finishing.includes(f.name) ? '#f5f3ff' : 'white', cursor: 'pointer', fontSize: '0.7rem', color: calcForm.finishing.includes(f.name) ? '#7c3aed' : '#64748b' }}>
+                      {calcForm.finishing.includes(f.name) && '✓ '}{f.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Calculate Button */}
+              <button className="btn btn-primary" onClick={runEstimate} disabled={calcLoading} style={{ padding: '0.8rem', background: 'linear-gradient(135deg, #f59e0b, #d97706)', border: 'none', fontSize: '1rem', fontWeight: 'bold', borderRadius: '10px' }}>
+                {calcLoading ? '⏳ กำลังคำนวณ...' : '🖨️ คำนวณต้นทุน'}
+              </button>
+            </div>
+          </div>
+
+          {/* Right: Result */}
+          <div className="table-container shadow" style={{ flex: '1 1 450px', padding: '1.5rem', borderTop: '4px solid #10b981' }}>
+            {!calcResult ? (
+              <div style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
+                <i className="fa-solid fa-print" style={{ fontSize: '3rem', marginBottom: '1rem', display: 'block' }}></i>
+                <p>เลือกสเปค แล้วกด "คำนวณต้นทุน" เพื่อดูผลลัพธ์</p>
+              </div>
+            ) : (
+              <>
+                {/* Summary Header */}
+                <div style={{ background: 'linear-gradient(135deg, #059669, #047857)', borderRadius: '12px', padding: '1.2rem', color: 'white', marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <div>
+                      <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>ราคาขาย (กำไร {calcResult.margin}%)</div>
+                      <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>฿{calcResult.sellingPrice?.toLocaleString()}</div>
+                      <div style={{ fontSize: '0.85rem', opacity: 0.9 }}>฿{calcResult.pricePerUnit}/ชิ้น × {calcResult.quantity?.toLocaleString()} ชิ้น</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>ต้นทุน</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>฿{calcResult.totalCost?.toLocaleString()}</div>
+                      <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>฿{calcResult.costPerUnit}/ชิ้น</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.8rem', flexWrap: 'wrap' }}>
+                    <span style={{ background: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem' }}>{calcResult.paper}</span>
+                    <span style={{ background: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem' }}>{calcResult.machine}</span>
+                    <span style={{ background: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem' }}>{calcResult.machineCut}</span>
+                    {calcResult.gangRun && <span style={{ background: '#fbbf24', color: '#92400e', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold' }}>Gang Run ÷{calcResult.gangRunJobs}</span>}
+                  </div>
+                </div>
+
+                {/* Breakdown Table */}
+                <h5 style={{ fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '0.9rem' }}>📊 รายละเอียดต้นทุน</h5>
+                <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+                  <thead><tr style={{ background: '#f8fafc' }}><th style={{ padding: '0.5rem', textAlign: 'left' }}>รายการ</th><th style={{ padding: '0.5rem', textAlign: 'right' }}>ราคา</th><th style={{ padding: '0.5rem', textAlign: 'right' }}>หมายเหตุ</th></tr></thead>
+                  <tbody>
+                    <tr style={{ background: '#eff6ff' }}><td colSpan="3" style={{ padding: '0.4rem 0.5rem', fontWeight: 'bold', color: '#1e40af', fontSize: '0.75rem' }}>🔷 ต้นทุนคงที่ (฿{calcResult.fixedTotal?.toLocaleString()})</td></tr>
+                    <tr style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>เพลท CTP</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 'bold' }}>฿{calcResult.breakdown?.fixed?.plate?.total?.toLocaleString()}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontSize: '0.7rem', color: '#64748b' }}>{calcResult.breakdown?.fixed?.plate?.qty}แผ่น ×฿{calcResult.breakdown?.fixed?.plate?.unitCost} {calcResult.breakdown?.fixed?.plate?.gangRunShare}</td>
+                    </tr>
+                    <tr style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>ค่าพิมพ์</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 'bold' }}>฿{calcResult.breakdown?.fixed?.printing?.total?.toLocaleString()}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontSize: '0.7rem', color: '#64748b' }}>ขั้นต่ำ฿{calcResult.breakdown?.fixed?.printing?.minimum?.toLocaleString()} | หมื่นละ฿{calcResult.breakdown?.fixed?.printing?.per10k?.toLocaleString()} {calcResult.breakdown?.fixed?.printing?.gangRunShare}</td>
+                    </tr>
+
+                    <tr style={{ background: '#f0fdf4' }}><td colSpan="3" style={{ padding: '0.4rem 0.5rem', fontWeight: 'bold', color: '#15803d', fontSize: '0.75rem' }}>📄 ต้นทุนผันแปร (฿{calcResult.variableTotal?.toLocaleString()})</td></tr>
+                    <tr style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>กระดาษ</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 'bold' }}>฿{calcResult.breakdown?.variable?.paper?.total?.toLocaleString()}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontSize: '0.7rem', color: '#64748b' }}>{calcResult.breakdown?.variable?.paper?.sheets} แผ่น ×฿{calcResult.breakdown?.variable?.paper?.pricePerSheet}</td>
+                    </tr>
+                    <tr style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>กระดาษเผื่อเสีย</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right' }}>฿{calcResult.breakdown?.variable?.setupWaste?.total?.toLocaleString()}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontSize: '0.7rem', color: '#64748b' }}>{calcResult.breakdown?.variable?.setupWaste?.sheets} แผ่น</td>
+                    </tr>
+                    <tr style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>หมึก</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right' }}>฿{calcResult.breakdown?.variable?.ink?.total?.toLocaleString()}</td>
+                      <td></td>
+                    </tr>
+
+                    {calcResult.breakdown?.finishing?.length > 0 && (
+                      <>
+                        <tr style={{ background: '#fdf4ff' }}><td colSpan="3" style={{ padding: '0.4rem 0.5rem', fontWeight: 'bold', color: '#7c3aed', fontSize: '0.75rem' }}>✨ Finishing (฿{calcResult.finishingTotal?.toLocaleString()})</td></tr>
+                        {calcResult.breakdown.finishing.map((f,i) => (
+                          <tr key={i} style={{ borderTop: '1px solid #f1f5f9' }}>
+                            <td style={{ padding: '0.4rem 0.5rem' }}>{f.name}</td>
+                            <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 'bold' }}>฿{f.total?.toLocaleString()}</td>
+                            <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontSize: '0.7rem', color: '#64748b' }}>{f.fixed > 0 && `ค่าคงที่฿${f.fixed}`} {f.variable > 0 && `+฿${f.variable}/ชิ้น`}</td>
+                          </tr>
+                        ))}
+                      </>
+                    )}
+
+                    <tr style={{ background: '#1e293b', color: 'white', fontWeight: 'bold' }}>
+                      <td style={{ padding: '0.6rem' }}>รวมต้นทุน</td>
+                      <td style={{ padding: '0.6rem', textAlign: 'right', fontSize: '1rem' }}>฿{calcResult.totalCost?.toLocaleString()}</td>
+                      <td style={{ padding: '0.6rem', textAlign: 'right', fontSize: '0.8rem' }}>฿{calcResult.costPerUnit}/ชิ้น</td>
+                    </tr>
+                    <tr style={{ background: '#059669', color: 'white', fontWeight: 'bold' }}>
+                      <td style={{ padding: '0.6rem' }}>ราคาขาย (+{calcResult.margin}%)</td>
+                      <td style={{ padding: '0.6rem', textAlign: 'right', fontSize: '1.1rem' }}>฿{calcResult.sellingPrice?.toLocaleString()}</td>
+                      <td style={{ padding: '0.6rem', textAlign: 'right', fontSize: '0.8rem' }}>฿{calcResult.pricePerUnit}/ชิ้น</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                {/* Production Info */}
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.8rem', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, padding: '0.5rem', background: '#f1f5f9', borderRadius: '6px', textAlign: 'center', minWidth: '80px' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b' }}>วางดวง</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{calcResult.imposition} ดวง/แผ่น</div>
+                  </div>
+                  <div style={{ flex: 1, padding: '0.5rem', background: '#f1f5f9', borderRadius: '6px', textAlign: 'center', minWidth: '80px' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b' }}>จำนวนแผ่น</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{calcResult.sheetsNeeded} แผ่น</div>
+                  </div>
+                  <div style={{ flex: 1, padding: '0.5rem', background: '#f1f5f9', borderRadius: '6px', textAlign: 'center', minWidth: '80px' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b' }}>Impressions</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{calcResult.totalImpressions}</div>
+                  </div>
+                </div>
+
+                {/* Quick Compare */}
+                <div style={{ marginTop: '1rem', padding: '0.8rem', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#92400e', marginBottom: '0.4rem' }}>📈 เปรียบเทียบกับคู่แข่ง (ประมาณ)</div>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', fontSize: '0.8rem' }}>
+                    <div style={{ flex: 1, minWidth: '100px' }}><span style={{ color: '#64748b' }}>BookAndBox:</span> <strong style={{ color: '#059669' }}>฿{calcResult.sellingPrice?.toLocaleString()}</strong></div>
+                    <div style={{ flex: 1, minWidth: '100px' }}><span style={{ color: '#64748b' }}>GoGoPrint:</span> <strong style={{ color: '#dc2626' }}>฿{Math.round(calcResult.sellingPrice * 1.5)?.toLocaleString()}</strong></div>
+                    <div style={{ flex: 1, minWidth: '100px' }}><span style={{ color: '#64748b' }}>BangkokPrint:</span> <strong style={{ color: '#f59e0b' }}>฿{Math.round(calcResult.totalCost * 0.9)?.toLocaleString()}</strong></div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* TAB 1: SEARCH PRICE CATALOG */}
       {activeTab === 'search' && (
