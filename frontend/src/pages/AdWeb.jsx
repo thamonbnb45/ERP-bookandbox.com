@@ -1380,8 +1380,8 @@ export default function AdWeb() {
                 <div style={{width: '1px', background: '#cbd5e1', margin: '0 0.2rem'}}></div>
                 {/* 🖼️ Product Image Categories */}
                 {['กล่องบรรจุภัณฑ์', 'ถุงกระดาษ', 'สติ๊กเกอร์', 'ใบปลิว', 'ป้าย Tag'].map((cat, idx) => (
-                  <button key={`img-${idx}`} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid #10b981`, color: '#059669', background: '#f0fdf4', borderRadius: '20px'}} onClick={() => alert(`เปิดคลังรูป: ${cat}`)}>
-                      <i className="fa-solid fa-image"></i> รูป{cat}
+                  <button key={`img-${idx}`} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid #10b981`, color: '#059669', background: '#f0fdf4', borderRadius: '20px'}} onClick={() => fileInputRef.current?.click()}>
+                      <i className="fa-solid fa-upload"></i> ส่งรูป{cat}
                   </button>
                 ))}
             </div>
