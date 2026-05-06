@@ -33,14 +33,19 @@ export default function CustomerPortal() {
 
   const calcAll = async () => {
     setLoading(true);
-    const res = {};
-    for (const q of QTYS) {
-      try {
-        const r = await axios.post(`${API}/pricing/estimate`, { ...form, quantity: q, productType: product.id });
-        res[q] = r.data;
-      } catch(e) { res[q] = null; }
+    try {
+      const promises = QTYS.map(q => 
+        axios.post(`${API}/pricing/estimate`, { ...form, quantity: q, productType: product.id })
+          .then(r => ({ q, data: r.data }))
+          .catch(() => ({ q, data: null }))
+      );
+      const responses = await Promise.all(promises);
+      const res = {};
+      responses.forEach(r => { res[r.q] = r.data; });
+      setResults(res);
+    } finally {
+      setLoading(false);
     }
-    setResults(res); setLoading(false);
   };
 
   useEffect(() => { if (papers.length > 0) calcAll(); }, [form.size, form.paperName, form.paperGsm, form.colors, form.sides, form.gangRun, form.finishing, product]);
