@@ -35,7 +35,7 @@ const REVENUE_GRADES = {
 export default function AdWeb() {
   const [leads, setLeads] = useState([]);
   const [activeLeadId, setActiveLeadId] = useState(null);
-  const [inputValue, setInputValue] = useState('');
+  const chatInputRef = useRef(null);
   const [platformFilter, setPlatformFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [salesFilter, setSalesFilter] = useState('all');
@@ -295,9 +295,9 @@ export default function AdWeb() {
   }, [activeLead?.messages?.length, activeLeadId]);
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim() || !activeLeadId) return;
-    const msgText = inputValue;
-    setInputValue('');
+    if (!chatInputRef.current?.value.trim() || !activeLeadId) return;
+    const msgText = chatInputRef.current.value;
+    if (chatInputRef.current) chatInputRef.current.value = '';
     // Add message locally for instant UI feedback
     setLeads(prev => prev.map(l => l.id === activeLeadId ? {
       ...l, messages: [...(l.messages||[]), { id: Date.now(), lead_id: activeLeadId, sender: 'admin', type: 'text', text_content: msgText, created_at: new Date().toISOString() }]
@@ -478,19 +478,19 @@ export default function AdWeb() {
   const handleAskAI = async () => {
     if (!activeLead || activeLead.messages.length === 0) return;
     setIsAIGenerating(true);
-    setInputValue('🤖 กำลังให้ AI อ่านคำถามและค้นหาข้อมูลราคาจากระบบ...');
+    if (chatInputRef.current) chatInputRef.current.value = '🤖 กำลังให้ AI อ่านคำถามและค้นหาข้อมูลราคาจากระบบ...';
     try {
         const lastClientMsg = [...activeLead.messages].reverse().find(m => m.sender === 'client');
         if (!lastClientMsg || lastClientMsg.type !== 'text') {
-            setInputValue('🤖 AI: ลูกค้ายังไม่มีคำถามที่เป็นข้อความล่าสุดให้ AI วิเคราะห์ครับ');
+            if (chatInputRef.current) chatInputRef.current.value = '🤖 AI: ลูกค้ายังไม่มีคำถามที่เป็นข้อความล่าสุดให้ AI วิเคราะห์ครับ';
             setIsAIGenerating(false);
             return;
         }
         
         const res = await axios.post(`${API_URL}/ai/suggest`, { message: lastClientMsg.text_content });
-        setInputValue(res.data.suggestion);
+        if (chatInputRef.current) chatInputRef.current.value = res.data.suggestion;
     } catch (e) {
-        setInputValue('🤖 AI Error: ระบบไม่สามารถเชื่อมต่อคลังความรู้ได้');
+        if (chatInputRef.current) chatInputRef.current.value = '🤖 AI Error: ระบบไม่สามารถเชื่อมต่อคลังความรู้ได้';
     } finally {
         setIsAIGenerating(false);
     }
@@ -1267,7 +1267,7 @@ export default function AdWeb() {
                         <button onClick={async () => {
                           if (!quoteForm.product_name) return alert('กรุณาใส่ชื่อสินค้าก่อนครับ');
                           const quoteMsg = `📋 *ใบเสนอราคาเบื้องต้น*\nสินค้า: ${quoteForm.product_name}\nหมวดหมู่: ${quoteForm.category}\nสเปค: ${quoteForm.specs}\nจำนวน: ${quoteForm.quantity} ชิ้น\nราคา: ${Number(quoteForm.total_price).toLocaleString()} บาท\nหมายเหตุ: ${quoteForm.notes}\n\nหากลูกค้ายืนยัน สามารถแจ้งแอดมินเพื่อดำเนินการต่อได้เลยครับ 😊`;
-                          setInputValue(quoteMsg);
+                          if (chatInputRef.current) chatInputRef.current.value = quoteMsg;
                         }} style={{ flex: 2, background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', color:'white', border:'none', borderRadius:'4px', padding:'0.4rem', cursor:'pointer', fontWeight:'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.3rem' }}>
                           <i className="fa-solid fa-bolt"></i> สร้างข้อความเสนอราคาด่วน
                         </button>
@@ -1455,8 +1455,7 @@ export default function AdWeb() {
                   type="text" 
                   className="form-control" 
                   placeholder={activeSalesRep ? `กำลังตอบในนาม: ${activeSalesRep}...` : "กรุณาเลือกชื่อผู้ตอบก่อนส่งข้อความ!"}
-                  value={inputValue}
-                  onChange={e => setInputValue(e.target.value)}
+                  ref={chatInputRef}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       if (!activeSalesRep) { alert("กรุณาเลือกผู้ตอบก่อนครับ!"); return; }
