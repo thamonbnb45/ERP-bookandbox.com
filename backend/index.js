@@ -537,6 +537,68 @@ app.post('/api/chats/:id/reply', async (req, res) => {
     }
 });
 
+app.post('/api/chats/:id/reply_gallery', async (req, res) => {
+    const leadId = req.params.id;
+    const { mediaUrl } = req.body;
+
+    try {
+        const { data: row, error } = await supabase.from('lead_contact').select('line_user_id, fb_user_id, platform').eq('id', leadId).single();
+        if (error || !row) return res.status(404).send('Lead not found');
+
+        await supabase.from('chat_message').insert([{
+            lead_id: leadId,
+            sender: 'admin',
+            type: 'image',
+            media_url: mediaUrl
+        }]);
+
+        if (row.fb_user_id) {
+            await sendFbMessage(row.fb_user_id, `รูปภาพ: ${mediaUrl}`);
+        } else if (row.line_user_id && channelToken !== 'DUMMY_TOKEN') {
+            await lineClient.pushMessage({
+                to: row.line_user_id,
+                messages: [{ type: 'image', originalContentUrl: mediaUrl, previewImageUrl: mediaUrl }]
+            });
+        }
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+// --- Gallery APIs ---
+const galleryDir = path.join(__dirname, 'public', 'uploads', 'gallery');
+if (!fs.existsSync(galleryDir)) fs.mkdirSync(galleryDir, { recursive: true });
+
+app.get('/api/gallery/:category', (req, res) => {
+    try {
+        const catDir = path.join(galleryDir, req.params.category);
+        if (!fs.existsSync(catDir)) return res.json([]);
+        const files = fs.readdirSync(catDir);
+        const urls = files.filter(f => !f.startsWith('.')).map(f => `${PUBLIC_URL}/uploads/gallery/${req.params.category}/${f}`);
+        res.json(urls);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/gallery/upload', chatUpload.array('files', 10), (req, res) => {
+    try {
+        const category = req.body.category || 'อื่นๆ';
+        const catDir = path.join(galleryDir, category);
+        if (!fs.existsSync(catDir)) fs.mkdirSync(catDir, { recursive: true });
+
+        const urls = [];
+        for (const file of req.files) {
+            const ext = path.extname(file.originalname);
+            const newFileName = `${Date.now()}_${Math.random().toString(36).substr(2,5)}${ext}`;
+            fs.renameSync(file.path, path.join(catDir, newFileName));
+            urls.push(`${PUBLIC_URL}/uploads/gallery/${category}/${newFileName}`);
+        }
+        res.json({ success: true, urls });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 app.post('/api/chats/:id/reply_media', chatUpload.single('file'), async (req, res) => {
     const leadId = req.params.id;
     const file = req.file;

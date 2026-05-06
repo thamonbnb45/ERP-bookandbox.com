@@ -138,6 +138,13 @@ export default function AdWeb() {
   const fileInputRef = useRef(null);
   const [isUploadingMedia, setIsUploadingMedia] = useState(false);
 
+  // Gallery System State
+  const [galleryCategory, setGalleryCategory] = useState('กล่องบรรจุภัณฑ์');
+  const [galleryFiles, setGalleryFiles] = useState(null);
+  const [isGalleryUploading, setIsGalleryUploading] = useState(false);
+  const [showGallerySelector, setShowGallerySelector] = useState(null);
+  const [galleryImages, setGalleryImages] = useState([]);
+
   // Price Request Modal
   const [showPriceModal, setShowPriceModal] = useState(false);
   const [priceReqCategory, setPriceReqCategory] = useState('ใบปลิว/แผ่นพับ');
@@ -330,6 +337,40 @@ export default function AdWeb() {
       setIsUploadingMedia(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
+  };
+
+  const handleGalleryUpload = async () => {
+    if (!galleryFiles || galleryFiles.length === 0) return alert('กรุณาเลือกรูปภาพ');
+    const formData = new FormData();
+    formData.append('category', galleryCategory);
+    for (let i = 0; i < galleryFiles.length; i++) formData.append('files', galleryFiles[i]);
+    setIsGalleryUploading(true);
+    try {
+      await axios.post(`${API_URL}/gallery/upload`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      alert('อัพโหลดรูปภาพเข้าคลังสำเร็จ!');
+      setShowDataUploadModal({ visible: false, type: '' });
+      setGalleryFiles(null);
+    } catch (e) { alert('อัพโหลดไม่สำเร็จ: ' + e.message); }
+    setIsGalleryUploading(false);
+  };
+
+  const openGallerySelector = async (cat) => {
+    setShowGallerySelector(cat);
+    setGalleryImages([]);
+    try {
+      const { data } = await axios.get(`${API_URL}/gallery/${cat}`);
+      setGalleryImages(data);
+    } catch (e) { console.error(e); }
+  };
+
+  const sendGalleryImage = async (url) => {
+    if (!activeLeadId) return;
+    try {
+      await axios.post(`${API_URL}/chats/${activeLeadId}/reply_gallery`, { mediaUrl: url });
+      fetchChats();
+      setShowGallerySelector(null);
+      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 300);
+    } catch (e) { alert('ส่งรูปไม่สำเร็จ: ' + e.message); }
   };
 
   const handleToggleStatus = async (newStatus) => {
@@ -1380,8 +1421,8 @@ export default function AdWeb() {
                 <div style={{width: '1px', background: '#cbd5e1', margin: '0 0.2rem'}}></div>
                 {/* 🖼️ Product Image Categories */}
                 {['กล่องบรรจุภัณฑ์', 'ถุงกระดาษ', 'สติ๊กเกอร์', 'ใบปลิว', 'ป้าย Tag'].map((cat, idx) => (
-                  <button key={`img-${idx}`} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid #10b981`, color: '#059669', background: '#f0fdf4', borderRadius: '20px'}} onClick={() => fileInputRef.current?.click()}>
-                      <i className="fa-solid fa-upload"></i> ส่งรูป{cat}
+                  <button key={`img-${idx}`} className="btn" style={{fontSize: '0.7rem', padding: '0.2rem 0.5rem', border: `1px solid #10b981`, color: '#059669', background: '#f0fdf4', borderRadius: '20px'}} onClick={() => openGallerySelector(cat)}>
+                      <i className="fa-solid fa-images"></i> คลังรูป{cat}
                   </button>
                 ))}
             </div>
@@ -1749,7 +1790,7 @@ export default function AdWeb() {
                 {showDataUploadModal.type === 'images' && (
                   <div style={{ marginBottom: '1rem' }}>
                     <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '0.3rem', color: '#475569' }}>เลือกหมวดหมู่รูปภาพ:</label>
-                    <select className="form-control" style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+                    <select className="form-control" style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1' }} value={galleryCategory} onChange={e => setGalleryCategory(e.target.value)}>
                       <option>กล่องบรรจุภัณฑ์</option>
                       <option>ถุงกระดาษ</option>
                       <option>สติ๊กเกอร์</option>
@@ -1765,16 +1806,54 @@ export default function AdWeb() {
                   <div style={{ fontWeight: 'bold', color: '#475569' }}>
                     {showDataUploadModal.type === 'images' ? 'เลือกรูปภาพที่ต้องการอัพโหลด (อัพได้หลายไฟล์)' : 'เลือกไฟล์ CSV หรือ Excel'}
                   </div>
-                  <input type="file" multiple={showDataUploadModal.type === 'images'} accept={showDataUploadModal.type === 'images' ? 'image/*' : '.csv,.xlsx,.xls'} style={{ marginTop: '1rem' }} />
+                  <input type="file" multiple={showDataUploadModal.type === 'images'} accept={showDataUploadModal.type === 'images' ? 'image/*' : '.csv,.xlsx,.xls'} style={{ marginTop: '1rem' }} onChange={e => {
+                      if (showDataUploadModal.type === 'images') setGalleryFiles(e.target.files);
+                  }} />
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-                    <button className="btn btn-outline" onClick={() => setShowDataUploadModal({ visible: false, type: '' })}>ยกเลิก</button>
+                    <button className="btn btn-outline" onClick={() => setShowDataUploadModal({ visible: false, type: '' })} disabled={isGalleryUploading}>ยกเลิก</button>
                     <button className="btn btn-primary" onClick={() => {
-                        alert('ฟังก์ชั่นส่งไฟล์ไปหลังบ้าน (Backend API) จะเชื่อมต่อในสเตปถัดไปครับ เตรียมไฟล์ไว้ได้เลย!');
-                        setShowDataUploadModal({ visible: false, type: '' });
-                    }}>อัพโหลดไฟล์</button>
+                        if (showDataUploadModal.type === 'images') handleGalleryUpload();
+                        else { alert('อยู่ระหว่างพัฒนา'); setShowDataUploadModal({ visible: false, type: '' }); }
+                    }} disabled={isGalleryUploading}>{isGalleryUploading ? 'กำลังอัพโหลด...' : 'อัพโหลดไฟล์'}</button>
                 </div>
+            </div>
+        </div>
+      )}
+
+      {/* Gallery Selector Modal */}
+      {showGallerySelector && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => setShowGallerySelector(null)}>
+            <div style={{ background: 'white', padding: '1.5rem', borderRadius: '16px', width: '700px', maxWidth: '90vw', maxHeight: '80vh', overflowY: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '0.8rem' }}>
+                    <h4 style={{ margin: 0, color: '#0f172a' }}><i className="fa-solid fa-images text-primary"></i> คลังรูป: {showGallerySelector}</h4>
+                    <button className="btn" style={{ background: 'transparent', border: 'none', fontSize: '1.2rem', color: '#94a3b8', cursor: 'pointer' }} onClick={() => setShowGallerySelector(null)}>×</button>
+                </div>
+                
+                {galleryImages.length === 0 ? (
+                    <div style={{ padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
+                        <i className="fa-solid fa-folder-open" style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}></i>
+                        <p>ยังไม่มีรูปภาพในหมวดหมู่นี้<br/><span style={{ fontSize: '0.8rem' }}>(สามารถอัพโหลดได้จากปุ่ม "รูป" ที่เมนูซ้ายบน)</span></p>
+                    </div>
+                ) : (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
+                        {galleryImages.map((url, i) => (
+                            <div key={i} style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s', position: 'relative' }} 
+                                 onClick={() => { if(confirm('ต้องการส่งรูปภาพนี้ให้ลูกค้าใช่หรือไม่?')) sendGalleryImage(url); }}
+                                 onMouseOver={e => e.currentTarget.style.borderColor = '#3b82f6'}
+                                 onMouseOut={e => e.currentTarget.style.borderColor = '#e2e8f0'}
+                            >
+                                <div style={{ paddingTop: '100%', position: 'relative', background: '#f8fafc' }}>
+                                    <img src={url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </div>
+                                <div style={{ padding: '0.5rem', fontSize: '0.7rem', textAlign: 'center', background: 'white', color: '#475569', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                                    <i className="fa-regular fa-paper-plane text-primary"></i> ส่งรูปนี้
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
       )}
