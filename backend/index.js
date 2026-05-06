@@ -2519,6 +2519,21 @@ app.put('/api/pricing/finishing/:id', async (req, res) => {
 });
 
 // ★★★ ESTIMATE ENGINE — คำนวณต้นทุนงานพิมพ์ ★★★
+let pricingCache = { data: null, timestamp: 0 };
+const getPricingCache = async () => {
+  const now = Date.now();
+  if (pricingCache.data && now - pricingCache.timestamp < 60000) return pricingCache.data; // 1 minute cache
+  const [pRes, mRes, fRes, cRes] = await Promise.all([
+    supabase.from('paper_catalog').select('*'),
+    supabase.from('machine_rates').select('*'),
+    supabase.from('finishing_rates').select('*'),
+    supabase.from('cost_config').select('*')
+  ]);
+  pricingCache.data = { papers: pRes.data || [], machines: mRes.data || [], finishingRates: fRes.data || [], configs: cRes.data || [] };
+  pricingCache.timestamp = now;
+  return pricingCache.data;
+};
+
 app.post('/api/pricing/estimate', async (req, res) => {
   try {
     const { 
@@ -2527,34 +2542,31 @@ app.post('/api/pricing/estimate', async (req, res) => {
       finishing = [], margin = 30, notes
     } = req.body;
 
+    const cache = await getPricingCache();
+
     // 1. Fetch paper price
-    let paperQ = supabase.from('paper_catalog').select('*').eq('name', paperName);
-    if (paperGsm) paperQ = paperQ.eq('gsm', paperGsm);
-    const { data: papers } = await paperQ.limit(1);
-    const paper = papers?.[0];
+    const paper = cache.papers.find(p => p.name === paperName && (!paperGsm || p.gsm == paperGsm));
     if (!paper) return res.status(400).json({ error: `ไม่พบกระดาษ "${paperName} ${paperGsm}gsm" ในระบบ` });
 
     // 2. Fetch machine rate
     let machine;
     if (machineId) {
-      const { data: m } = await supabase.from('machine_rates').select('*').eq('id', machineId).single();
-      machine = m;
+      machine = cache.machines.find(m => m.id == machineId);
     } else {
-      // Auto-select best machine based on sheet size
-      const { data: machines } = await supabase.from('machine_rates').select('*').eq('type', 'offset').order('hourly_rate', { ascending: true });
-      machine = machines?.[0];
+      // Auto-select best machine based on sheet size (just pick the first offset one sorted by rate)
+      const offsets = cache.machines.filter(m => m.type === 'offset').sort((a,b) => a.hourly_rate - b.hourly_rate);
+      machine = offsets[0];
     }
     if (!machine) return res.status(400).json({ error: 'ไม่พบข้อมูลเครื่องจักร' });
 
     // 3. Fetch finishing rates
     let finishingCosts = [];
     if (finishing.length > 0) {
-      const { data: finRates } = await supabase.from('finishing_rates').select('*').in('name', finishing);
-      finishingCosts = finRates || [];
+      finishingCosts = cache.finishingRates.filter(f => finishing.includes(f.name));
     }
 
     // 4. Fetch cost config
-    const { data: configs } = await supabase.from('cost_config').select('*');
+    const configs = cache.configs;
     const getConfig = (cat, name) => configs?.find(c => c.category === cat && c.name === name)?.cost_per_unit || 0;
     const getConfigLike = (cat, partial) => configs?.find(c => c.category === cat && c.name.includes(partial))?.cost_per_unit || 0;
 
