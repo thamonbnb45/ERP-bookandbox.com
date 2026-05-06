@@ -63,7 +63,7 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
           )}
 
           {/* 💰 ประเมินราคา (Pricing) */}
-          {canAccess('pricing_module', ['CEO', 'Sales', 'Pricing', 'Accountant']) && (
+          {canAccess('pricing_module', ['CEO', 'Pricing']) && (
               <>
                 <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ประเมินราคา (Pricing)</div>
                 <Link to="/estimator" className={`nav-item ${location.pathname === '/estimator' ? 'active' : ''}`} onClick={closeSidebar}>
