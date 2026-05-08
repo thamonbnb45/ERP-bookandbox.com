@@ -22,6 +22,7 @@ export default function CustomerPortal() {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const [selQty, setSelQty] = useState(1000);
+  const [selSpeed, setSelSpeed] = useState('normal');
   const [showTrack, setShowTrack] = useState(false);
   const [trackPhone, setTrackPhone] = useState('');
   const [trackResult, setTrackResult] = useState(null);
@@ -196,29 +197,50 @@ export default function CustomerPortal() {
                 กำลังคำนวณราคา...
               </div>
             ) : (
-              <table style={{ width:'100%', borderCollapse:'collapse' }}>
+              <table style={{ width:'100%', borderCollapse:'collapse', tableLayout:'fixed' }}>
                 <thead>
-                  <tr style={{ background:'#f8fafc' }}>
-                    <th style={{ padding:'0.7rem 1rem', textAlign:'left', fontSize:'0.85rem', color:'#475569' }}>จำนวน</th>
-                    <th style={{ padding:'0.7rem 1rem', textAlign:'right', fontSize:'0.85rem', color:'#475569' }}>ราคา/ชิ้น</th>
-                    <th style={{ padding:'0.7rem 1rem', textAlign:'right', fontSize:'0.85rem', color:'#475569' }}>ราคารวม</th>
-                    <th style={{ padding:'0.7rem 1rem', textAlign:'center', fontSize:'0.85rem', color:'#475569' }}></th>
+                  <tr style={{ background:'#f8fafc', borderBottom:'2px solid #e2e8f0' }}>
+                    <th style={{ padding:'1rem 0.5rem', textAlign:'center', color:'#64748b', fontSize:'0.85rem', width:'25%' }}>จำนวน</th>
+                    <th style={{ padding:'1rem 0.5rem', textAlign:'center', width:'25%', borderLeft:'1px solid #e2e8f0' }}>
+                       <div style={{ color:'#e11d48', fontSize:'1rem', fontWeight:800 }}>⚡ ด่วนพิเศษ</div>
+                       <div style={{ color:'#64748b', fontSize:'0.75rem', fontWeight:400 }}>1-2 วันทำการ</div>
+                    </th>
+                    <th style={{ padding:'1rem 0.5rem', textAlign:'center', width:'25%', borderLeft:'1px solid #e2e8f0' }}>
+                       <div style={{ color:'#f59e0b', fontSize:'1rem', fontWeight:800 }}>🚀 ด่วน</div>
+                       <div style={{ color:'#64748b', fontSize:'0.75rem', fontWeight:400 }}>3-4 วันทำการ</div>
+                    </th>
+                    <th style={{ padding:'1rem 0.5rem', textAlign:'center', width:'25%', borderLeft:'1px solid #e2e8f0', background:'#f0fdf4' }}>
+                       <div style={{ color:'#059669', fontSize:'1rem', fontWeight:800 }}>🚚 ปกติ</div>
+                       <div style={{ color:'#64748b', fontSize:'0.75rem', fontWeight:400 }}>5-7 วันทำการ</div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {QTYS.map(q => {
                     const r = results[q];
                     if (!r) return null;
-                    const active = selQty === q;
+                    const basePrice = r.sellingPrice;
+                    const isSelectedQty = selQty === q;
                     return (
-                      <tr key={q} onClick={()=>setSelQty(q)} style={{ borderTop:'1px solid #f1f5f9', cursor:'pointer', background: active?'#f0fdf4':'white', transition:'background 0.2s' }}>
-                        <td style={{ padding:'0.8rem 1rem', fontWeight:700, fontSize:'0.95rem' }}>{q.toLocaleString()} <span style={{ fontSize:'0.75rem', color:'#94a3b8', fontWeight:400 }}>ชิ้น</span></td>
-                        <td style={{ padding:'0.8rem 1rem', textAlign:'right', fontWeight:700, color:'#059669', fontSize:'1rem' }}>฿{r.pricePerUnit}</td>
-                        <td style={{ padding:'0.8rem 1rem', textAlign:'right', fontWeight:700, color:'#1e293b', fontSize:'1.05rem' }}>฿{r.sellingPrice?.toLocaleString()}</td>
-                        <td style={{ padding:'0.8rem 1rem', textAlign:'center' }}>
-                          <button style={{ padding:'0.4rem 1rem', borderRadius:8, border:'none', background: active?'#059669':'#e2e8f0', color: active?'white':'#475569', cursor:'pointer', fontFamily:'Kanit', fontSize:'0.8rem', fontWeight:600 }}>
-                            {active?'✓ เลือก':'เลือก'}
-                          </button>
+                      <tr key={q} style={{ borderBottom:'1px solid #f1f5f9', transition:'background 0.2s', background: isSelectedQty ? '#f8fafc' : 'white' }}>
+                        <td style={{ padding:'1.2rem 0.5rem', textAlign:'center', fontWeight:800, fontSize:'1.1rem', color:'#1e293b', borderRight:'1px solid #f1f5f9' }}>{q.toLocaleString()}</td>
+                        {/* 1 Day (+40%) */}
+                        <td onClick={()=>{setSelQty(q); setSelSpeed('rush');}} style={{ padding:'1rem 0.5rem', textAlign:'center', cursor:'pointer', borderRight:'1px solid #f1f5f9', background: (isSelectedQty && selSpeed === 'rush') ? '#fff1f2' : 'transparent', transition:'all 0.2s' }}>
+                           <div style={{ fontSize:'1.1rem', fontWeight:700, color:(isSelectedQty && selSpeed === 'rush')?'#e11d48':'#475569' }}>฿{Math.round(basePrice * 1.4).toLocaleString()}</div>
+                           <div style={{ fontSize:'0.75rem', color:'#94a3b8' }}>฿{(Math.round(basePrice * 1.4)/q).toFixed(2)}/ชิ้น</div>
+                           {(isSelectedQty && selSpeed === 'rush') && <div style={{ background:'#e11d48', color:'white', fontSize:'0.7rem', padding:'0.2rem 0.5rem', borderRadius:10, display:'inline-block', marginTop:'0.5rem' }}>✓ เลือก</div>}
+                        </td>
+                        {/* 3 Days (+20%) */}
+                        <td onClick={()=>{setSelQty(q); setSelSpeed('fast');}} style={{ padding:'1rem 0.5rem', textAlign:'center', cursor:'pointer', borderRight:'1px solid #f1f5f9', background: (isSelectedQty && selSpeed === 'fast') ? '#fffbeb' : 'transparent', transition:'all 0.2s' }}>
+                           <div style={{ fontSize:'1.1rem', fontWeight:700, color:(isSelectedQty && selSpeed === 'fast')?'#f59e0b':'#475569' }}>฿{Math.round(basePrice * 1.2).toLocaleString()}</div>
+                           <div style={{ fontSize:'0.75rem', color:'#94a3b8' }}>฿{(Math.round(basePrice * 1.2)/q).toFixed(2)}/ชิ้น</div>
+                           {(isSelectedQty && selSpeed === 'fast') && <div style={{ background:'#f59e0b', color:'white', fontSize:'0.7rem', padding:'0.2rem 0.5rem', borderRadius:10, display:'inline-block', marginTop:'0.5rem' }}>✓ เลือก</div>}
+                        </td>
+                        {/* 5 Days (Base) */}
+                        <td onClick={()=>{setSelQty(q); setSelSpeed('normal');}} style={{ padding:'1rem 0.5rem', textAlign:'center', cursor:'pointer', background: (isSelectedQty && selSpeed === 'normal') ? '#ecfdf5' : 'transparent', transition:'all 0.2s' }}>
+                           <div style={{ fontSize:'1.1rem', fontWeight:800, color:(isSelectedQty && selSpeed === 'normal')?'#059669':'#475569' }}>฿{Math.round(basePrice).toLocaleString()}</div>
+                           <div style={{ fontSize:'0.75rem', color:'#94a3b8' }}>฿{(Math.round(basePrice)/q).toFixed(2)}/ชิ้น</div>
+                           {(isSelectedQty && selSpeed === 'normal') && <div style={{ background:'#059669', color:'white', fontSize:'0.7rem', padding:'0.2rem 0.5rem', borderRadius:10, display:'inline-block', marginTop:'0.5rem' }}>✓ เลือกราคาที่ถูกที่สุด</div>}
                         </td>
                       </tr>
                     );
@@ -229,15 +251,25 @@ export default function CustomerPortal() {
 
             {/* Selected Summary */}
             {sel && (
-              <div style={{ borderTop:'2px solid #059669', padding:'1.2rem 1.5rem', background:'#f0fdf4' }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'0.5rem' }}>
+              <div style={{ borderTop:'2px solid #059669', padding:'1.5rem', background: selSpeed==='rush'?'#fff1f2':selSpeed==='fast'?'#fffbeb':'#f0fdf4', transition:'background 0.3s' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'1rem' }}>
                   <div>
-                    <div style={{ fontSize:'0.8rem', color:'#15803d' }}>คุณเลือก {selQty.toLocaleString()} ชิ้น</div>
-                    <div style={{ fontSize:'1.8rem', fontWeight:800, color:'#059669' }}>฿{sel.sellingPrice?.toLocaleString()}</div>
-                    <div style={{ fontSize:'0.8rem', color:'#64748b' }}>ราคาต่อชิ้น ฿{sel.pricePerUnit} (รวม VAT ฿{Math.round(sel.sellingPrice*1.07).toLocaleString()})</div>
+                    <div style={{ fontSize:'0.85rem', color:'#475569', fontWeight:600 }}>สรุปรายการสั่งผลิตของคุณ:</div>
+                    <div style={{ fontSize:'1.2rem', fontWeight:800, color:'#1e293b', marginTop:'0.2rem' }}>
+                      {selQty.toLocaleString()} ชิ้น 
+                      <span style={{ fontSize:'0.9rem', fontWeight:400, color:'#64748b', marginLeft:'0.5rem' }}>
+                        (จัดส่ง: {selSpeed==='rush'?'ด่วนพิเศษ 1-2 วัน':selSpeed==='fast'?'ด่วน 3-4 วัน':'ปกติ 5-7 วัน'})
+                      </span>
+                    </div>
+                    <div style={{ fontSize:'2.2rem', fontWeight:800, color: selSpeed==='rush'?'#e11d48':selSpeed==='fast'?'#f59e0b':'#059669', lineHeight:'1.2' }}>
+                      ฿{selSpeed==='rush' ? Math.round(sel.sellingPrice * 1.4).toLocaleString() : selSpeed==='fast' ? Math.round(sel.sellingPrice * 1.2).toLocaleString() : sel.sellingPrice?.toLocaleString()}
+                    </div>
+                    <div style={{ fontSize:'0.85rem', color:'#64748b' }}>
+                      (รวม VAT 7% ฿{Math.round((selSpeed==='rush' ? sel.sellingPrice * 1.4 : selSpeed==='fast' ? sel.sellingPrice * 1.2 : sel.sellingPrice) * 1.07).toLocaleString()})
+                    </div>
                   </div>
-                  <button style={{ padding:'0.8rem 2rem', borderRadius:12, border:'none', background:'linear-gradient(135deg,#7c3aed,#6d28d9)', color:'white', fontSize:'1.1rem', fontWeight:700, cursor:'pointer', fontFamily:'Kanit', boxShadow:'0 4px 15px rgba(124,58,237,0.3)' }}>
-                    🛒 สั่งผลิต
+                  <button style={{ padding:'1rem 2.5rem', borderRadius:12, border:'none', background:'linear-gradient(135deg,#7c3aed,#6d28d9)', color:'white', fontSize:'1.2rem', fontWeight:800, cursor:'pointer', fontFamily:'Kanit', boxShadow:'0 4px 15px rgba(124,58,237,0.3)', whiteSpace:'nowrap' }}>
+                    🛒 หยิบใส่ตะกร้า
                   </button>
                 </div>
               </div>
