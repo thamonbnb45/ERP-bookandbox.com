@@ -1504,3 +1504,21 @@ After doing this, you may fix the identity used for this commit with:
 To https://github.com/thamonbnb45/ERP-bookandbox.com.git
    5db28ef..40f18f9  main -> main
 ✅ [2026-05-08 13:47] Pushed changes
+[main e816785] auto-save: 2026-05-08 14:17
+ Committer: phoompat <nam@192.168.1.172>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 18 insertions(+)
+To https://github.com/thamonbnb45/ERP-bookandbox.com.git
+   40f18f9..e816785  main -> main
+✅ [2026-05-08 14:17] Pushed changes
