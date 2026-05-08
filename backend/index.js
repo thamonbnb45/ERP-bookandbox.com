@@ -2708,7 +2708,20 @@ app.post('/api/pricing/estimate', async (req, res) => {
     const variableTotal = paperCostTotal + inkCost;
     const totalCost = fixedTotal + variableTotal + totalFinishing;
     const costPerUnit = totalCost / quantity;
-    const marginDecimal = margin / 100;
+
+    // 🌟 Tiered Margin Logic (กำไรแบบขั้นบันได)
+    // If not specifically overridden by an admin request, apply smart margins
+    let appliedMargin = req.body.margin || 30; 
+    if (!req.body.margin_override) {
+        if (quantity <= 500) appliedMargin = 55;        // วอลลุ่มน้อย กำไรสูงเพื่อคุ้มค่าดำเนินการ
+        else if (quantity <= 1000) appliedMargin = 45;
+        else if (quantity <= 3000) appliedMargin = 35;
+        else if (quantity <= 5000) appliedMargin = 25;
+        else if (quantity <= 10000) appliedMargin = 20;
+        else appliedMargin = 15;                        // วอลลุ่มมาก กำไรบางเพื่อสู้ราคาตลาด
+    }
+
+    const marginDecimal = appliedMargin / 100;
     const sellingPrice = totalCost * (1 + marginDecimal);
     const pricePerUnit = sellingPrice / quantity;
 
@@ -2737,7 +2750,7 @@ app.post('/api/pricing/estimate', async (req, res) => {
       finishingTotal: Math.round(totalFinishing),
       totalCost: Math.round(totalCost * 100) / 100,
       costPerUnit: Math.round(costPerUnit * 100) / 100,
-      margin,
+      margin: appliedMargin,
       sellingPrice: Math.round(sellingPrice),
       pricePerUnit: Math.round(pricePerUnit * 100) / 100,
       machine: machine.machine_name,
@@ -2750,7 +2763,7 @@ app.post('/api/pricing/estimate', async (req, res) => {
       specs: { quantity, size, paper: `${paperName} ${paperGsm}gsm`, colors, sides, finishing },
       cost_breakdown: result.breakdown,
       total_cost: result.totalCost,
-      margin_percent: margin,
+      margin_percent: appliedMargin,
       selling_price: result.sellingPrice,
       created_at: new Date().toISOString()
     }]);
