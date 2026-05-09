@@ -2079,3 +2079,399 @@ After doing this, you may fix the identity used for this commit with:
 To https://github.com/thamonbnb45/ERP-bookandbox.com.git
    b631fa4..bc5e733  main -> main
 ✅ [2026-05-09 14:53] Pushed changes
+[main 7c34a6e] auto-save: 2026-05-09 15:23
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 372 files changed, 4011889 insertions(+), 232 deletions(-)
+ create mode 100644 .DS_Store
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/.DS_Store"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Finance/2026 M.2 23 JAN.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Finance/2026 M.2 30 JAN.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Finance/BCD Finance.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Finance/MC RU SPS.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Finance/\340\270\252\340\270\261\340\270\224\340\270\252\340\271\210\340\270\247\340\270\231.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/2026 \340\270\201\340\270\262\340\270\243\340\270\233\340\270\243\340\270\260\340\271\200\340\270\241\340\270\264\340\270\231\340\270\234\340\270\245\340\270\201\340\270\262\340\270\243\340\270\233\340\270\217\340\270\264\340\270\232\340\270\261\340\270\225\340\270\264\340\270\207\340\270\262\340\270\231 GDT - \340\271\200\340\270\207\340\270\264\340\270\231\340\271\200\340\270\224\340\270\267\340\270\255\340\270\231.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/3.0 \340\271\200\340\270\211\340\270\245\340\270\242 Job Description - Job Loading.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D1-Development.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D1-Homework.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D1-Recruitment.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D1-Workforce.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-2025 PMAT Survey-SalaryIncrease.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-Benefits and Retirement Planning.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-Compensation&Benefit Update.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-Compensation&Benefit.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-HR CENTER \340\271\204\340\270\227\340\270\242\340\271\202\340\270\204\340\271\202\340\270\204\340\270\231\340\270\261\340\270\227\340\270\210\340\270\263\340\270\201\340\270\261\340\270\224(\340\270\241\340\270\253\340\270\262\340\270\212\340\270\231).pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-Labor Law&Homework.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/BCD - HR 2-2026-D2-Performance Evaluation&Feedback.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/Goldentime personal_level_structure.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/IMG_1836.JPG"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/IMG_1837.JPG"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_Competency_Matrix_v2.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_Competency_Matrix_v3.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_Gap_Analysis_v2.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_Gap_Analysis_v3.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_JD_Loading_3positions.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_competency_gap_v6.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_competency_matrix_v4.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_competency_matrix_v5.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_diagnostic_workshop.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_diagnostic_workshop.html"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_diagnostic_workshop.pdf"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_job_grade_v2.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_job_grade_v3.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_org_chart_v2.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/bookandbox_org_chart_v3.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\270\201\340\270\262\340\270\243\340\270\232\340\271\211\340\270\262\340\270\231 \340\270\233\340\270\261\340\270\215\340\270\253\340\270\262.jpg"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\270\210\340\270\263\340\270\231\340\270\247\340\270\231\340\271\202\340\270\204\340\270\247\340\270\225\340\271\211\340\270\262 Ranking.jpg"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\270\225\340\270\261\340\270\247\340\270\255\340\270\242\340\271\210\340\270\262\340\270\207 JD \340\270\253\340\270\231\340\271\211\340\270\262\340\270\227\340\270\265\340\271\210 2.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\270\225\340\270\261\340\270\247\340\270\255\340\270\242\340\271\210\340\270\262\340\270\207 JD \340\270\253\340\270\231\340\271\211\340\270\262\340\270\227\340\270\265\340\271\2101.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\270\225\340\270\261\340\270\247\340\270\255\340\270\242\340\271\210\340\270\262\340\270\207 personal level.jpg"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\270\225\340\270\261\340\270\247\340\270\255\340\270\242\340\271\210\340\270\262\340\270\207\340\270\201\340\270\262\340\270\243\340\270\233\340\270\243\340\270\261\340\270\232\340\271\200\340\270\207\340\270\264\340\270\231\340\271\200\340\270\224\340\270\267\340\270\255\340\270\231.jpg"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\271\200\340\270\211\340\270\245\340\270\242\340\271\201\340\270\232\340\270\232\340\270\235\340\270\266\340\270\201\340\270\253\340\270\261\340\270\224.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD HR/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 Job Description.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/.DS_Store"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/00_Company_Context.md"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/01_ERP_Hub_Architecture.md"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/02_Prompt_Library_Antigravity.md"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/03_Database_Schema_Complete.sql"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/04_Sample_Code_Phase1_Employee_Module.md"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/BCD Module #1_ 7.11.2025.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/BCD Module1 2-2_14_11.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /BMC-Business-Model-Canvas-Bookandbox.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/1.BCD philosophy.docx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/2.BMC.docx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/3.SWOT (Bookandbox).docx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/4.\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 BSC 2025 \340\270\227\340\270\270\340\270\201\340\271\201\340\270\234\340\270\231\340\270\201.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/5.\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 OKR _ \340\270\227\340\270\270\340\270\201\340\271\201\340\270\234\340\270\231\340\270\201.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/6.\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 One Page \340\270\227\340\270\270\340\270\201\340\271\201\340\270\234\340\270\231\340\270\201.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/7.\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 KPI \340\270\227\340\270\270\340\270\201\340\271\201\340\270\234\340\270\231\340\270\201.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Sample of KPI.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Sample of OKRs .pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Sample of One Page.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Template/\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 BSC 2025 (1).xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Template/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 KPI.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Template/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 OKR.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/Template/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 One Page.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 BSC 2025 .xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 KPI.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 OKR.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Bookandbox BCD/\340\271\201\340\270\232\340\270\232\340\270\237\340\270\255\340\270\243\340\271\214\340\270\241 One Page.xlsx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /Philosophy swot.pdf"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /\340\270\233\340\270\243\340\270\261\340\270\212\340\270\215\340\270\262 \340\270\247\340\270\264\340\270\252\340\270\261\340\270\242\340\270\227\340\270\261\340\270\250\340\270\231\340\271\214 \340\271\201\340\270\245\340\270\260\340\270\201\340\270\245\340\270\242\340\270\270\340\270\227\340\270\230\340\271\214\340\270\230\340\270\270\340\270\243\340\270\201\340\270\264\340\270\210.pptx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/Present /\340\270\243\340\270\247\340\270\241 BMC-Business-Model-Canvas-Bookandbox.pdf"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_financial_model.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_fishbone.html"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_fishbone.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_fishbone.svg"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_slide_skill.md"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_strategy_2569-2579.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_strategy_deck_2569-2579.pptx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_strategy_v2.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_strategy_v4.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/bookandbox_strategy_v4_summary.pptx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/\340\270\231\340\270\265\340\271\210\340\270\204\340\270\267\340\270\255\340\270\201\340\270\262\340\270\243\340\270\210\340\270\261\340\270\224\340\270\243\340\270\260\340\270\224\340\270\261\340\270\232\340\270\245\340\270\271\340\270\201\340\270\204\340\271\211\340\270\262\340\270\225\340\270\262\340\270\241\340\270\242\340\270\255\340\270\224\340\270\202\340\270\262\340\270\242\340\270\243\340\270\247\340\270\241\340\270\227\340\270\261\340\271\211\340\270\207\340\270\233\340\270\265 \340\271\201\340\270\245\340\270\260\340\270\201\340\270\262\340\270\243\340\270\247\340\270\264\340\271\200\340\270\204\340\270\243\340\270\262\340\270\260\340\270\253\340\271\214\340\270\201\340\270\245\340\270\270\340\271\210\340\270\241\340\270\245\340\270\271\340\270\201\340\270\204\340\271\211\340\270\262\340\270\227\340\270\265\340\271\210\340\270\252\340\270\243\340\271\211\340\270\262\340\270\207\340\270\242\340\270\255\340\270\224\340\270\202\340\270\262\340\270\242 80_ \340\271\201\340\270\243\340\270\201_.docx"
+ create mode 100755 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD Strategy/\340\270\242\340\270\255\340\270\224\340\270\202\340\270\262\340\270\242 2025.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD_Diagnostic_Analysis.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/BCD_Diagnostic_Slide.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Daily report /25.4.2026 Daily Meeting Report of Apr 2026 - Google Sheets.pdf"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Daily report /29.4.2026 Daily Meeting Report of Apr 2026 - Google Sheets.pdf"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Diagnostic Slides/BCD_Slide_01_Title.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Diagnostic Slides/BCD_Slide_02_Revenue.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Diagnostic Slides/BCD_Slide_03_Diagnostic3Box.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Diagnostic Slides/BCD_Slide_04_RootCause.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Diagnostic Slides/BCD_Slide_05_Roadmap.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/Diagnostic Slides/BCD_Slide_06_Issues.png"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_Competency_Matrix.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_Gap_Analysis.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_HR_framework_v1.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_JD_all_positions.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_jobgrade_2569.xlsx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_strategy_v3_final.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/bookandbox_strategy_v3_revised.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/facebook \340\270\243\340\270\261\340\270\232\340\270\252\340\270\241\340\270\261\340\270\204\340\270\243\340\270\207\340\270\262\340\270\231\340\270\212\340\271\210\340\270\262\340\270\207\340\270\236\340\270\264\340\270\241\340\270\236\340\271\214.jpg"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/\340\270\201\340\270\262\340\270\243\340\270\232\340\271\211\340\270\262\340\270\231 bookandbox_strategy_v3.docx"
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/\340\271\200\340\270\255\340\270\201\340\270\252\340\270\262\340\270\243\340\271\200\340\270\207\340\270\264\340\270\231\340\271\200\340\270\224\340\270\267\340\270\255\340\270\231 \340\270\247\340\270\261\340\270\231\340\270\227\340\270\265\340\271\210 11-25.4.69.pdf"
+ create mode 120000 backend/node_modules/.bin/crc32
+ create mode 120000 backend/node_modules/.bin/xlsx
+ create mode 100644 backend/node_modules/adler-32/LICENSE
+ create mode 100644 backend/node_modules/adler-32/README.md
+ create mode 100644 backend/node_modules/adler-32/adler32.js
+ create mode 100644 backend/node_modules/adler-32/package.json
+ create mode 100644 backend/node_modules/adler-32/types/index.d.ts
+ create mode 100644 backend/node_modules/adler-32/types/tsconfig.json
+ create mode 100644 backend/node_modules/adler-32/types/tslint.json
+ create mode 100644 backend/node_modules/cfb/LICENSE
+ create mode 100644 backend/node_modules/cfb/README.md
+ create mode 100644 backend/node_modules/cfb/cfb.js
+ create mode 100644 backend/node_modules/cfb/dist/LICENSE
+ create mode 100644 backend/node_modules/cfb/dist/cfb.js
+ create mode 100644 backend/node_modules/cfb/dist/cfb.min.js
+ create mode 100644 backend/node_modules/cfb/dist/cfb.min.map
+ create mode 100644 backend/node_modules/cfb/dist/xlscfb.js
+ create mode 100644 backend/node_modules/cfb/package.json
+ create mode 100644 backend/node_modules/cfb/types/index.d.ts
+ create mode 100644 backend/node_modules/cfb/types/tsconfig.json
+ create mode 100644 backend/node_modules/cfb/xlscfb.flow.js
+ create mode 100644 backend/node_modules/codepage/LICENSE
+ create mode 100644 backend/node_modules/codepage/README.md
+ create mode 100644 backend/node_modules/codepage/bits/10000.js
+ create mode 100644 backend/node_modules/codepage/bits/10001.js
+ create mode 100644 backend/node_modules/codepage/bits/10002.js
+ create mode 100644 backend/node_modules/codepage/bits/10003.js
+ create mode 100644 backend/node_modules/codepage/bits/10004.js
+ create mode 100644 backend/node_modules/codepage/bits/10005.js
+ create mode 100644 backend/node_modules/codepage/bits/10006.js
+ create mode 100644 backend/node_modules/codepage/bits/10007.js
+ create mode 100644 backend/node_modules/codepage/bits/10008.js
+ create mode 100644 backend/node_modules/codepage/bits/10010.js
+ create mode 100644 backend/node_modules/codepage/bits/10017.js
+ create mode 100644 backend/node_modules/codepage/bits/10021.js
+ create mode 100644 backend/node_modules/codepage/bits/10029.js
+ create mode 100644 backend/node_modules/codepage/bits/10079.js
+ create mode 100644 backend/node_modules/codepage/bits/10081.js
+ create mode 100644 backend/node_modules/codepage/bits/10082.js
+ create mode 100644 backend/node_modules/codepage/bits/1010.js
+ create mode 100644 backend/node_modules/codepage/bits/1026.js
+ create mode 100644 backend/node_modules/codepage/bits/1047.js
+ create mode 100644 backend/node_modules/codepage/bits/1132.js
+ create mode 100644 backend/node_modules/codepage/bits/1140.js
+ create mode 100644 backend/node_modules/codepage/bits/1141.js
+ create mode 100644 backend/node_modules/codepage/bits/1142.js
+ create mode 100644 backend/node_modules/codepage/bits/1143.js
+ create mode 100644 backend/node_modules/codepage/bits/1144.js
+ create mode 100644 backend/node_modules/codepage/bits/1145.js
+ create mode 100644 backend/node_modules/codepage/bits/1146.js
+ create mode 100644 backend/node_modules/codepage/bits/1147.js
+ create mode 100644 backend/node_modules/codepage/bits/1148.js
+ create mode 100644 backend/node_modules/codepage/bits/1149.js
+ create mode 100644 backend/node_modules/codepage/bits/1250.js
+ create mode 100644 backend/node_modules/codepage/bits/1251.js
+ create mode 100644 backend/node_modules/codepage/bits/1252.js
+ create mode 100644 backend/node_modules/codepage/bits/1253.js
+ create mode 100644 backend/node_modules/codepage/bits/1254.js
+ create mode 100644 backend/node_modules/codepage/bits/1255.js
+ create mode 100644 backend/node_modules/codepage/bits/1256.js
+ create mode 100644 backend/node_modules/codepage/bits/1257.js
+ create mode 100644 backend/node_modules/codepage/bits/1258.js
+ create mode 100644 backend/node_modules/codepage/bits/1361.js
+ create mode 100644 backend/node_modules/codepage/bits/20000.js
+ create mode 100644 backend/node_modules/codepage/bits/20001.js
+ create mode 100644 backend/node_modules/codepage/bits/20002.js
+ create mode 100644 backend/node_modules/codepage/bits/20003.js
+ create mode 100644 backend/node_modules/codepage/bits/20004.js
+ create mode 100644 backend/node_modules/codepage/bits/20005.js
+ create mode 100644 backend/node_modules/codepage/bits/20105.js
+ create mode 100644 backend/node_modules/codepage/bits/20106.js
+ create mode 100644 backend/node_modules/codepage/bits/20107.js
+ create mode 100644 backend/node_modules/codepage/bits/20108.js
+ create mode 100644 backend/node_modules/codepage/bits/20261.js
+ create mode 100644 backend/node_modules/codepage/bits/20269.js
+ create mode 100644 backend/node_modules/codepage/bits/20273.js
+ create mode 100644 backend/node_modules/codepage/bits/20277.js
+ create mode 100644 backend/node_modules/codepage/bits/20278.js
+ create mode 100644 backend/node_modules/codepage/bits/20280.js
+ create mode 100644 backend/node_modules/codepage/bits/20284.js
+ create mode 100644 backend/node_modules/codepage/bits/20285.js
+ create mode 100644 backend/node_modules/codepage/bits/20290.js
+ create mode 100644 backend/node_modules/codepage/bits/20297.js
+ create mode 100644 backend/node_modules/codepage/bits/20420.js
+ create mode 100644 backend/node_modules/codepage/bits/20423.js
+ create mode 100644 backend/node_modules/codepage/bits/20424.js
+ create mode 100644 backend/node_modules/codepage/bits/20833.js
+ create mode 100644 backend/node_modules/codepage/bits/20838.js
+ create mode 100644 backend/node_modules/codepage/bits/20866.js
+ create mode 100644 backend/node_modules/codepage/bits/20871.js
+ create mode 100644 backend/node_modules/codepage/bits/20880.js
+ create mode 100644 backend/node_modules/codepage/bits/20905.js
+ create mode 100644 backend/node_modules/codepage/bits/20924.js
+ create mode 100644 backend/node_modules/codepage/bits/20932.js
+ create mode 100644 backend/node_modules/codepage/bits/20936.js
+ create mode 100644 backend/node_modules/codepage/bits/20949.js
+ create mode 100644 backend/node_modules/codepage/bits/21025.js
+ create mode 100644 backend/node_modules/codepage/bits/21027.js
+ create mode 100644 backend/node_modules/codepage/bits/21866.js
+ create mode 100644 backend/node_modules/codepage/bits/28591.js
+ create mode 100644 backend/node_modules/codepage/bits/28592.js
+ create mode 100644 backend/node_modules/codepage/bits/28593.js
+ create mode 100644 backend/node_modules/codepage/bits/28594.js
+ create mode 100644 backend/node_modules/codepage/bits/28595.js
+ create mode 100644 backend/node_modules/codepage/bits/28596.js
+ create mode 100644 backend/node_modules/codepage/bits/28597.js
+ create mode 100644 backend/node_modules/codepage/bits/28598.js
+ create mode 100644 backend/node_modules/codepage/bits/28599.js
+ create mode 100644 backend/node_modules/codepage/bits/28600.js
+ create mode 100644 backend/node_modules/codepage/bits/28601.js
+ create mode 100644 backend/node_modules/codepage/bits/28603.js
+ create mode 100644 backend/node_modules/codepage/bits/28604.js
+ create mode 100644 backend/node_modules/codepage/bits/28605.js
+ create mode 100644 backend/node_modules/codepage/bits/28606.js
+ create mode 100644 backend/node_modules/codepage/bits/29001.js
+ create mode 100644 backend/node_modules/codepage/bits/37.js
+ create mode 100644 backend/node_modules/codepage/bits/38598.js
+ create mode 100644 backend/node_modules/codepage/bits/437.js
+ create mode 100644 backend/node_modules/codepage/bits/47451.js
+ create mode 100644 backend/node_modules/codepage/bits/500.js
+ create mode 100644 backend/node_modules/codepage/bits/50220.js
+ create mode 100644 backend/node_modules/codepage/bits/50221.js
+ create mode 100644 backend/node_modules/codepage/bits/50222.js
+ create mode 100644 backend/node_modules/codepage/bits/50225.js
+ create mode 100644 backend/node_modules/codepage/bits/50227.js
+ create mode 100644 backend/node_modules/codepage/bits/51932.js
+ create mode 100644 backend/node_modules/codepage/bits/51936.js
+ create mode 100644 backend/node_modules/codepage/bits/51949.js
+ create mode 100644 backend/node_modules/codepage/bits/52936.js
+ create mode 100644 backend/node_modules/codepage/bits/54936.js
+ create mode 100644 backend/node_modules/codepage/bits/57002.js
+ create mode 100644 backend/node_modules/codepage/bits/57003.js
+ create mode 100644 backend/node_modules/codepage/bits/57004.js
+ create mode 100644 backend/node_modules/codepage/bits/57005.js
+ create mode 100644 backend/node_modules/codepage/bits/57006.js
+ create mode 100644 backend/node_modules/codepage/bits/57007.js
+ create mode 100644 backend/node_modules/codepage/bits/57008.js
+ create mode 100644 backend/node_modules/codepage/bits/57009.js
+ create mode 100644 backend/node_modules/codepage/bits/57010.js
+ create mode 100644 backend/node_modules/codepage/bits/57011.js
+ create mode 100644 backend/node_modules/codepage/bits/620.js
+ create mode 100644 backend/node_modules/codepage/bits/708.js
+ create mode 100644 backend/node_modules/codepage/bits/720.js
+ create mode 100644 backend/node_modules/codepage/bits/737.js
+ create mode 100644 backend/node_modules/codepage/bits/775.js
+ create mode 100644 backend/node_modules/codepage/bits/808.js
+ create mode 100644 backend/node_modules/codepage/bits/850.js
+ create mode 100644 backend/node_modules/codepage/bits/852.js
+ create mode 100644 backend/node_modules/codepage/bits/855.js
+ create mode 100644 backend/node_modules/codepage/bits/857.js
+ create mode 100644 backend/node_modules/codepage/bits/858.js
+ create mode 100644 backend/node_modules/codepage/bits/860.js
+ create mode 100644 backend/node_modules/codepage/bits/861.js
+ create mode 100644 backend/node_modules/codepage/bits/862.js
+ create mode 100644 backend/node_modules/codepage/bits/863.js
+ create mode 100644 backend/node_modules/codepage/bits/864.js
+ create mode 100644 backend/node_modules/codepage/bits/865.js
+ create mode 100644 backend/node_modules/codepage/bits/866.js
+ create mode 100644 backend/node_modules/codepage/bits/869.js
+ create mode 100644 backend/node_modules/codepage/bits/870.js
+ create mode 100644 backend/node_modules/codepage/bits/872.js
+ create mode 100644 backend/node_modules/codepage/bits/874.js
+ create mode 100644 backend/node_modules/codepage/bits/875.js
+ create mode 100644 backend/node_modules/codepage/bits/895.js
+ create mode 100644 backend/node_modules/codepage/bits/932.js
+ create mode 100644 backend/node_modules/codepage/bits/936.js
+ create mode 100644 backend/node_modules/codepage/bits/949.js
+ create mode 100644 backend/node_modules/codepage/bits/950.js
+ create mode 100644 backend/node_modules/codepage/cptable.js
+ create mode 100644 backend/node_modules/codepage/cputils.js
+ create mode 100644 backend/node_modules/codepage/dist/cpexcel.full.js
+ create mode 100644 backend/node_modules/codepage/dist/sbcs.full.js
+ create mode 100644 backend/node_modules/codepage/package.json
+ create mode 100644 backend/node_modules/codepage/types/index.d.ts
+ create mode 100644 backend/node_modules/codepage/types/tsconfig.json
+ create mode 100644 backend/node_modules/codepage/types/tslint.json
+ create mode 100644 backend/node_modules/crc-32/LICENSE
+ create mode 100644 backend/node_modules/crc-32/README.md
+ create mode 100755 backend/node_modules/crc-32/bin/crc32.njs
+ create mode 100644 backend/node_modules/crc-32/crc32.js
+ create mode 100644 backend/node_modules/crc-32/crc32c.js
+ create mode 100644 backend/node_modules/crc-32/package.json
+ create mode 100644 backend/node_modules/crc-32/types/index.d.ts
+ create mode 100644 backend/node_modules/crc-32/types/tsconfig.json
+ create mode 100644 backend/node_modules/crc-32/types/tslint.json
+ create mode 100644 backend/node_modules/frac/LICENSE
+ create mode 100644 backend/node_modules/frac/README.md
+ create mode 100644 backend/node_modules/frac/dist/LICENSE
+ create mode 100644 backend/node_modules/frac/dist/frac.js
+ create mode 100644 backend/node_modules/frac/dist/frac.min.js
+ create mode 100644 backend/node_modules/frac/dist/frac.min.map
+ create mode 100644 backend/node_modules/frac/frac.js
+ create mode 100644 backend/node_modules/frac/package.json
+ create mode 100644 backend/node_modules/frac/types/index.d.ts
+ create mode 100644 backend/node_modules/frac/types/tsconfig.json
+ create mode 100644 backend/node_modules/frac/types/tslint.json
+ create mode 100644 backend/node_modules/ssf/LICENSE
+ create mode 100644 backend/node_modules/ssf/README.md
+ create mode 100644 backend/node_modules/ssf/package.json
+ create mode 100644 backend/node_modules/ssf/ssf.flow.js
+ create mode 100644 backend/node_modules/ssf/ssf.js
+ create mode 100644 backend/node_modules/ssf/types/index.d.ts
+ create mode 100644 backend/node_modules/ssf/types/tsconfig.json
+ create mode 100644 backend/node_modules/wmf/LICENSE
+ create mode 100644 backend/node_modules/wmf/README.md
+ create mode 100644 backend/node_modules/wmf/dist/wmf.js
+ create mode 100644 backend/node_modules/wmf/dist/wmf.js.map
+ create mode 100644 backend/node_modules/wmf/dist/wmf.node.js
+ create mode 100644 backend/node_modules/wmf/dist/wmf.node.js.map
+ create mode 100644 backend/node_modules/wmf/package.json
+ create mode 100644 backend/node_modules/word/CONTRIBUTING.md
+ create mode 100644 backend/node_modules/word/LICENSE
+ create mode 100644 backend/node_modules/word/README.md
+ create mode 100644 backend/node_modules/word/package.json
+ create mode 100644 backend/node_modules/word/word.js
+ create mode 100644 backend/node_modules/xlsx/CHANGELOG.md
+ create mode 100644 backend/node_modules/xlsx/LICENSE
+ create mode 100644 backend/node_modules/xlsx/README.md
+ create mode 100755 backend/node_modules/xlsx/bin/xlsx.njs
+ create mode 100644 backend/node_modules/xlsx/bower.json
+ create mode 100644 backend/node_modules/xlsx/dist/LICENSE
+ create mode 100644 backend/node_modules/xlsx/dist/cpexcel.full.mjs
+ create mode 100644 backend/node_modules/xlsx/dist/cpexcel.js
+ create mode 100644 backend/node_modules/xlsx/dist/shim.min.js
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.core.min.js
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.core.min.map
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.extendscript.js
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.full.min.js
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.full.min.map
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.mini.min.js
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.mini.min.map
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.zahl.js
+ create mode 100644 backend/node_modules/xlsx/dist/xlsx.zahl.mjs
+ create mode 100644 backend/node_modules/xlsx/formats.png
+ create mode 100644 backend/node_modules/xlsx/legend.png
+ create mode 100644 backend/node_modules/xlsx/package.json
+ create mode 100644 backend/node_modules/xlsx/types/index.d.ts
+ create mode 100644 backend/node_modules/xlsx/types/tsconfig.json
+ create mode 100644 backend/node_modules/xlsx/xlsx.js
+ create mode 100644 backend/node_modules/xlsx/xlsx.mjs
+ create mode 100644 backend/node_modules/xlsx/xlsxworker.js
+ create mode 100644 backend/parse_excel.js
+ create mode 100644 backend/parse_to_json.js
+ create mode 100644 bookandbox-hub/components.json
+ create mode 100644 bookandbox-hub/components/ui/avatar.tsx
+ create mode 100644 bookandbox-hub/components/ui/badge.tsx
+ create mode 100644 bookandbox-hub/components/ui/button.tsx
+ create mode 100644 bookandbox-hub/components/ui/card.tsx
+ create mode 100644 bookandbox-hub/components/ui/dialog.tsx
+ create mode 100644 bookandbox-hub/components/ui/input.tsx
+ create mode 100644 bookandbox-hub/components/ui/select.tsx
+ create mode 100644 bookandbox-hub/components/ui/sheet.tsx
+ create mode 100644 bookandbox-hub/components/ui/table.tsx
+ create mode 100644 bookandbox-hub/employees_data.json
+ create mode 100644 bookandbox-hub/lib/utils.ts
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD Strategy/BCD Module #1_ 7.11.2025.pdf is 92.23 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D1-Workforce.pdf is 57.12 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Performance Evaluation&Feedback.pdf is 66.28 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD Finance/2026 M.2 30 JAN.pdf is 59.02 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Labor Law&Homework.pdf is 61.18 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Benefits and Retirement Planning.pdf is 96.83 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD Strategy/BCD Module1 2-2_14_11.pdf is 96.92 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D1-Recruitment.pdf is 79.16 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Compensation&Benefit Update.pdf is 61.42 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Compensation&Benefit.pdf is 71.08 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: error: Trace: 384c4e592758b1a0200860c5e25f5e4f1ed8feb0e48aa1ce260bf1a705ae18f1        
+remote: error: See https://gh.io/lfs for more information.        
+remote: error: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D1-Development.pdf is 149.11 MB; this exceeds GitHub's file size limit of 100.00 MB        
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.        
+To https://github.com/thamonbnb45/ERP-bookandbox.com.git
+ ! [remote rejected] main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/thamonbnb45/ERP-bookandbox.com.git'
+✅ [2026-05-09 15:23] Pushed changes
