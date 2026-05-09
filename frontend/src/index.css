@@ -32,9 +32,13 @@
 body {
     background-color: var(--secondary);
     color: var(--text-dark);
-    display: flex;
-    overflow: hidden;
-    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
 }
 
 /* Typography elements */
