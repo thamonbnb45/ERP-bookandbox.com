@@ -1,21 +1,5 @@
 [
   {
-    "id": "EMP-001",
-    "nickname": "ชื่อเล่น",
-    "position": "ตำแหน่ง",
-    "department": "แผนก",
-    "division": "ฝ่าย",
-    "personalLevel": "Personal\nLevel",
-    "jobGrade": "Job\nGrade",
-    "baseSalary": "เงินเดือน\nฐาน",
-    "totalIncome": "รวมรับ",
-    "gradeMin": "Min\n(Grade)",
-    "gradeMid": "Mid\n(Grade)",
-    "gradeMax": "Max\n(Grade)",
-    "status": "สถานะ vs ตลาด",
-    "manager_id": null
-  },
-  {
     "id": "EMP-002",
     "nickname": "โจ",
     "position": "ช่างพิมพ์มือ 2",

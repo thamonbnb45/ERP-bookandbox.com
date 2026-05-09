@@ -1,228 +1,215 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import employeesRaw from '../employees_data.json';
-import { Users, AlertTriangle, TrendingUp, Wallet, CheckCircle2 } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Target, Users, Factory, DollarSign, Flag } from 'lucide-react';
+import strategyData from '../strategy_data.json';
 import Link from 'next/link';
 
-export default function DashboardPage() {
-  const [filterDept, setFilterDept] = useState("all");
+export default function StrategyCockpitPage() {
+  const { kpis, okrs, problems } = strategyData;
 
-  const employees = employeesRaw as any[];
-
-  // Statistics Calculation
-  const stats = useMemo(() => {
-    let activeEmployees = employees.filter(e => e.status !== "ลาออก" && (filterDept === "all" || e.department === filterDept));
-    
-    let totalPayroll = 0;
-    let compaRatios = [];
-    let vacancies = 0;
-    
-    // Some mock vacancies logic based on missing roles in production
-    if (filterDept === "all" || filterDept === "ผลิต") vacancies += 3;
-    if (filterDept === "all" || filterDept === "IT") vacancies += 1;
-
-    activeEmployees.forEach(e => {
-      totalPayroll += parseInt(e.totalIncome?.toString().replace(/,/g, '') || "0");
-      
-      const salary = parseInt(e.baseSalary?.toString().replace(/,/g, '') || "0");
-      const mid = parseInt(e.gradeMid?.toString().replace(/,/g, '') || "1");
-      if (salary > 0 && mid > 1) {
-        compaRatios.push(salary / mid);
-      }
-    });
-
-    const avgCompa = compaRatios.length > 0 
-      ? (compaRatios.reduce((a,b) => a+b, 0) / compaRatios.length) * 100 
-      : 0;
-
-    // Headcount per grade
-    const gradeMap = {};
-    activeEmployees.forEach(e => {
-      gradeMap[e.jobGrade] = (gradeMap[e.jobGrade] || 0) + 1;
-    });
-    
-    const gradeData = Object.keys(gradeMap).sort().map(k => ({
-      name: k,
-      headcount: gradeMap[k]
-    }));
-
-    return {
-      headcount: activeEmployees.length,
-      payroll: totalPayroll,
-      avgCompaRatio: avgCompa.toFixed(1),
-      vacancies,
-      gradeData,
-      activeEmployees
-    };
-  }, [employees, filterDept]);
-
-  // Departments for filter
-  const departments = [...new Set(employees.map(e => e.department))].filter(Boolean);
+  const formatCurrency = (val: number) => {
+    return new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB', maximumFractionDigits: 0 }).format(val);
+  };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto bg-slate-50 min-h-screen font-sans">
+    <div className="p-8 max-w-[1600px] mx-auto bg-slate-50 min-h-screen font-sans">
       
       {/* Header & Nav */}
       <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
         <div className="flex items-center gap-6">
           <div>
             <h1 className="text-2xl font-extrabold text-[#1F4E79] tracking-tight">BookAndBox Hub <span className="text-[#FFC000]">✦</span></h1>
-            <p className="text-slate-500 mt-1 text-sm">Executive Manpower Dashboard</p>
           </div>
           <nav className="flex gap-2">
-            <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium bg-[#1F4E79] text-white shadow-sm">ภาพรวมบุคคล</Link>
+            <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium bg-[#1F4E79] text-white shadow-sm">ภาพรวมองค์กร (Cockpit)</Link>
+            <Link href="/people/manpower" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ภาพรวมบุคคล</Link>
             <Link href="/production/workload" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ปริมาณงาน (Workload)</Link>
             <Link href="/people/skills" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ทักษะพนักงาน (Skills)</Link>
             <Link href="/people/org-chart" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">แผนผังองค์กร (Org Chart)</Link>
           </nav>
         </div>
-        
-        <div className="flex gap-4 items-center">
-          <select 
-            value={filterDept} 
-            onChange={e => setFilterDept(e.target.value)}
-            className="border-slate-200 border rounded-lg px-4 py-2 bg-white text-sm font-medium text-slate-700 shadow-sm"
-          >
-            <option value="all">ทุกแผนก (All Departments)</option>
-            {departments.map(d => <option key={d} value={d}>{d}</option>)}
-          </select>
-          <Avatar>
-            <AvatarFallback className="bg-[#1F4E79] text-white">B&B</AvatarFallback>
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <p className="text-sm font-bold text-slate-800">ภูมิพัฒน์ (CEO)</p>
+            <p className="text-xs text-emerald-600 flex items-center justify-end gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> System Online</p>
+          </div>
+          <Avatar className="w-10 h-10 border-2 border-slate-200">
+            <AvatarFallback className="bg-[#1F4E79] text-white">CEO</AvatarFallback>
           </Avatar>
         </div>
       </div>
 
-      {/* Top Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="shadow-sm border-l-4 border-l-[#2E75B6]">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-slate-500">รวมพนักงาน (Headcount)</CardTitle>
-            <Users className="w-4 h-4 text-slate-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-slate-800">{stats.headcount} <span className="text-sm font-normal text-slate-500">คน</span></div>
-            <p className="text-xs text-green-600 mt-1 flex items-center"><TrendingUp className="w-3 h-3 mr-1"/> Active 100%</p>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm border-l-4 border-l-red-500">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-slate-500">ต้องการคนเพิ่ม (Vacancies)</CardTitle>
-            <AlertTriangle className="w-4 h-4 text-red-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-red-600">{stats.vacancies} <span className="text-sm font-normal text-red-400">ตำแหน่ง</span></div>
-            <p className="text-xs text-slate-500 mt-1">HR กำลังจัดหา</p>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm border-l-4 border-l-[#FFC000]">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-slate-500">ดัชนีเงินเดือน (Compa-Ratio)</CardTitle>
-            <TrendingUp className="w-4 h-4 text-amber-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-amber-600">{stats.avgCompaRatio}%</div>
-            <p className="text-xs text-slate-500 mt-1">เป้าหมาย: 95-105%</p>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm border-l-4 border-l-emerald-500">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-slate-500">งบเงินเดือน (Payroll)</CardTitle>
-            <Wallet className="w-4 h-4 text-emerald-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-emerald-600">{(stats.payroll/1000).toFixed(1)}k <span className="text-sm font-normal text-emerald-500">฿/ด</span></div>
-            <p className="text-xs text-slate-500 mt-1">ไม่รวม OT / สวัสดิการ</p>
-          </CardContent>
-        </Card>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-slate-800 flex items-center gap-3">
+          <Target className="w-8 h-8 text-[#2E75B6]"/> 
+          Strategy Cockpit (Daily Vitals)
+        </h2>
+        <p className="text-slate-500 mt-2 text-base">สรุปสถานการณ์แบบ Real-time เพื่อการตัดสินใจของผู้บริหาร</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Vitals KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         
-        {/* Left Column: Charts */}
-        <div className="lg:col-span-2 space-y-8">
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-lg text-[#1F4E79]">กระจายตัวพนักงานตามระดับ (Job Grade Distribution)</CardTitle>
-              <CardDescription>แสดงจำนวนคนในแต่ละกระบอกเงินเดือน</CardDescription>
-            </CardHeader>
-            <CardContent className="h-80">
+        {/* Sales KPI */}
+        <Card className="shadow-sm border-t-4 border-t-[#2E75B6] overflow-hidden group">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between bg-slate-50/50">
+            <CardTitle className="text-sm font-bold text-slate-600 flex items-center gap-2 uppercase tracking-wider">
+              <DollarSign className="w-4 h-4 text-[#2E75B6]"/> ยอดขาย (Sales)
+            </CardTitle>
+            <Badge className={kpis.sales.status === 'on_track' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' : 'bg-red-100 text-red-800 hover:bg-red-100'}>
+              {kpis.sales.status === 'on_track' ? 'On Track' : 'Below Target'}
+            </Badge>
+          </CardHeader>
+          <CardContent className="pt-4 relative">
+            <div className="text-3xl font-black text-slate-800">{formatCurrency(kpis.sales.actual)}</div>
+            <div className="flex justify-between items-end mt-2">
+              <p className="text-xs text-slate-500">เป้าหมาย: {formatCurrency(kpis.sales.target)}</p>
+              <p className="text-sm font-bold text-emerald-600 flex items-center">
+                <TrendingUp className="w-4 h-4 mr-1"/> {kpis.sales.growth}%
+              </p>
+            </div>
+            <div className="h-16 mt-4 -mx-6 -mb-6 opacity-60 group-hover:opacity-100 transition-opacity">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stats.gradeData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}/>
-                  <Bar dataKey="headcount" radius={[4, 4, 0, 0]}>
-                    {stats.gradeData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.name.startsWith('G') ? '#2E75B6' : '#FFC000'} />
-                    ))}
-                  </Bar>
-                </BarChart>
+                <AreaChart data={kpis.sales.trendData}>
+                  <defs>
+                    <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#2E75B6" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#2E75B6" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Tooltip formatter={(value: number) => new Intl.NumberFormat('th-TH').format(value)} />
+                  <Area type="monotone" dataKey="sales" stroke="#2E75B6" strokeWidth={2} fillOpacity={1} fill="url(#colorSales)" />
+                </AreaChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Right Column: Key Actions & List */}
-        <div className="space-y-8">
-          <Card className="shadow-sm border-t-4 border-t-red-500">
-            <CardHeader>
-              <CardTitle className="text-lg text-red-600 flex items-center gap-2"><AlertTriangle className="w-5 h-5"/> แจ้งเตือนด่วน (Action Required)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="p-3 bg-red-50 rounded-lg border border-red-100 flex gap-3">
-                  <div className="mt-0.5"><div className="w-2 h-2 rounded-full bg-red-500"></div></div>
-                  <div>
-                    <p className="text-sm font-semibold text-red-900">เงินเดือนผิดกระบอก (ต่ำกว่า Min)</p>
-                    <p className="text-xs text-red-700 mt-1">พนักงาน 1 ท่าน ("สายพิณ" G2) ฐานต่ำกว่าเกณฑ์ 1,000 บาท</p>
-                  </div>
-                </div>
-                <div className="p-3 bg-amber-50 rounded-lg border border-amber-100 flex gap-3">
-                  <div className="mt-0.5"><div className="w-2 h-2 rounded-full bg-amber-500"></div></div>
-                  <div>
-                    <p className="text-sm font-semibold text-amber-900">รอปรับตำแหน่ง (Compa-Ratio > 120%)</p>
-                    <p className="text-xs text-amber-700 mt-1">พนักงาน 2 ท่าน ชนเพดานกระบอกเงินเดือน</p>
-                  </div>
+        {/* Production KPI */}
+        <Card className="shadow-sm border-t-4 border-t-[#FFC000] group">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between bg-slate-50/50">
+            <CardTitle className="text-sm font-bold text-slate-600 flex items-center gap-2 uppercase tracking-wider">
+              <Factory className="w-4 h-4 text-amber-500"/> การผลิต (Production)
+            </CardTitle>
+            <Badge className={kpis.production.status === 'good' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' : 'bg-amber-100 text-amber-800 hover:bg-amber-100'}>
+              {kpis.production.status === 'good' ? 'Optimal' : 'Needs Attention'}
+            </Badge>
+          </CardHeader>
+          <CardContent className="pt-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">OEE (ประสิทธิภาพ)</p>
+                <div className="text-2xl font-black text-slate-800 mt-1">{kpis.production.oee}%</div>
+                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div className="bg-amber-500 h-full" style={{ width: `${kpis.production.oee}%` }}></div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-lg text-[#1F4E79]">รายชื่อพนักงานล่าสุด</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
-                {stats.activeEmployees.slice(0, 8).map((emp, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-9 h-9 border border-slate-200 shadow-sm">
-                        <AvatarFallback className="bg-[#f8fafc] text-slate-600 text-xs font-bold">{emp.nickname?.substring(0,2) || 'BB'}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-sm font-semibold text-slate-800">{emp.nickname}</p>
-                        <p className="text-xs text-slate-500">{emp.position}</p>
-                      </div>
-                    </div>
-                    <Badge variant="outline" className={emp.jobGrade.startsWith('G') ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-700'}>
-                      {emp.jobGrade}
-                    </Badge>
-                  </div>
-                ))}
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">ของเสีย (Defect)</p>
+                <div className="text-2xl font-black text-red-600 mt-1">{kpis.production.defectRate}%</div>
+                <p className="text-[10px] text-slate-400 mt-1">เป้าหมาย &lt; {kpis.production.defectTarget}%</p>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* HR KPI */}
+        <Card className="shadow-sm border-t-4 border-t-emerald-500 group">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between bg-slate-50/50">
+            <CardTitle className="text-sm font-bold text-slate-600 flex items-center gap-2 uppercase tracking-wider">
+              <Users className="w-4 h-4 text-emerald-600"/> กำลังคน (People)
+            </CardTitle>
+            <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-100">Stable</Badge>
+          </CardHeader>
+          <CardContent className="pt-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">Compa-Ratio</p>
+                <div className="text-2xl font-black text-emerald-600 mt-1">{kpis.people.compaRatio}%</div>
+                <p className="text-[10px] text-slate-400 mt-1">ดัชนีความคุ้มค่า</p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">อัตราขาด/ลา</p>
+                <div className="text-2xl font-black text-slate-800 mt-1">{kpis.people.absenteeism}%</div>
+                <p className="text-[10px] text-slate-400 mt-1">ต่ำกว่าเกณฑ์ 3%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
+        {/* Objectives & Key Results (OKRs) */}
+        <Card className="shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-lg text-[#1F4E79] flex items-center gap-2"><Flag className="w-5 h-5"/> เป้าหมายเชิงกลยุทธ์ (OKRs Progress)</CardTitle>
+            <CardDescription>ความคืบหน้าของโครงการสำคัญประจำปี</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {okrs.map((okr: any) => (
+                <div key={okr.id}>
+                  <div className="flex justify-between items-end mb-2">
+                    <div>
+                      <p className="text-sm font-bold text-slate-800">{okr.objective}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">รับผิดชอบโดย: {okr.owner}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-sm font-bold text-[#2E75B6]">{okr.progress}%</span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full ${okr.status === 'at_risk' ? 'bg-red-500' : 'bg-[#2E75B6]'}`} 
+                      style={{ width: `${okr.progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Problems & CAPA */}
+        <Card className="shadow-sm border border-red-100">
+          <CardHeader className="bg-red-50/30 border-b border-red-50">
+            <CardTitle className="text-lg text-red-700 flex items-center gap-2"><AlertTriangle className="w-5 h-5"/> แจ้งเตือนปัญหา (Action Required)</CardTitle>
+            <CardDescription>ปัญหาที่กระทบต่อคุณภาพ (CAPA) หรือคอขวดที่ต้องตัดสินใจ</CardDescription>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              {problems.map((prob: any) => (
+                <div key={prob.id} className="p-4 rounded-xl border bg-white shadow-sm flex gap-4 items-start relative overflow-hidden group">
+                  <div className={`absolute left-0 top-0 bottom-0 w-1 ${prob.severity === 'high' ? 'bg-red-500' : 'bg-amber-500'}`}></div>
+                  <div className={`p-2 rounded-lg mt-0.5 ${prob.severity === 'high' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-600'}`}>
+                    {prob.severity === 'high' ? <AlertTriangle className="w-5 h-5"/> : <AlertTriangle className="w-5 h-5"/>}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-bold text-slate-800 text-sm">{prob.title}</h4>
+                      <Badge variant="outline" className="text-[10px]">{prob.id}</Badge>
+                    </div>
+                    <div className="flex gap-4 mt-2 text-xs text-slate-500">
+                      <span className="flex items-center gap-1"><Factory className="w-3 h-3"/> {prob.department}</span>
+                      <span className="flex items-center gap-1"><Users className="w-3 h-3"/> {prob.assignedTo}</span>
+                    </div>
+                  </div>
+                  <button className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors">
+                    ติดตาม
+                  </button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
       </div>
     </div>
   );
