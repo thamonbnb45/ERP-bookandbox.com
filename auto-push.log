@@ -2588,3 +2588,27 @@ To https://github.com/thamonbnb45/ERP-bookandbox.com.git
  ! [remote rejected] main -> main (pre-receive hook declined)
 error: failed to push some refs to 'https://github.com/thamonbnb45/ERP-bookandbox.com.git'
 ✅ [2026-05-09 17:01] Pushed changes
+[main 9c7934d] auto-save: 2026-05-09 17:33
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 11 files changed, 617 insertions(+), 119 deletions(-)
+ create mode 100644 bookandbox-hub/app/production/live-tracking/page.tsx
+ create mode 100644 bookandbox-hub/fix_org.js
+ create mode 100644 bookandbox-hub/fix_org_inject_ceo.js
+ create mode 100644 bookandbox-hub/production_live_data.json
+error: RPC failed; curl 56 Recv failure: Operation timed out
+send-pack: unexpected disconnect while reading sideband packet
+fatal: the remote end hung up unexpectedly
+Everything up-to-date
+✅ [2026-05-09 17:33] Pushed changes
