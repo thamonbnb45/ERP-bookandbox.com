@@ -1,113 +1,220 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState, useMemo } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import employeesRaw from '../../employees_data.json';
+import { Users, AlertTriangle, TrendingUp, Wallet, CheckCircle2 } from 'lucide-react';
+
+export default function DashboardPage() {
+  const [filterDept, setFilterDept] = useState("all");
+
+  const employees = employeesRaw as any[];
+
+  // Statistics Calculation
+  const stats = useMemo(() => {
+    let activeEmployees = employees.filter(e => e.status !== "ลาออก" && (filterDept === "all" || e.department === filterDept));
+    
+    let totalPayroll = 0;
+    let compaRatios = [];
+    let vacancies = 0;
+    
+    // Some mock vacancies logic based on missing roles in production
+    if (filterDept === "all" || filterDept === "ผลิต") vacancies += 3;
+    if (filterDept === "all" || filterDept === "IT") vacancies += 1;
+
+    activeEmployees.forEach(e => {
+      totalPayroll += parseInt(e.totalIncome?.toString().replace(/,/g, '') || "0");
+      
+      const salary = parseInt(e.baseSalary?.toString().replace(/,/g, '') || "0");
+      const mid = parseInt(e.gradeMid?.toString().replace(/,/g, '') || "1");
+      if (salary > 0 && mid > 1) {
+        compaRatios.push(salary / mid);
+      }
+    });
+
+    const avgCompa = compaRatios.length > 0 
+      ? (compaRatios.reduce((a,b) => a+b, 0) / compaRatios.length) * 100 
+      : 0;
+
+    // Headcount per grade
+    const gradeMap = {};
+    activeEmployees.forEach(e => {
+      gradeMap[e.jobGrade] = (gradeMap[e.jobGrade] || 0) + 1;
+    });
+    
+    const gradeData = Object.keys(gradeMap).sort().map(k => ({
+      name: k,
+      headcount: gradeMap[k]
+    }));
+
+    return {
+      headcount: activeEmployees.length,
+      payroll: totalPayroll,
+      avgCompaRatio: avgCompa.toFixed(1),
+      vacancies,
+      gradeData,
+      activeEmployees
+    };
+  }, [employees, filterDept]);
+
+  // Departments for filter
+  const departments = [...new Set(employees.map(e => e.department))].filter(Boolean);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="p-8 max-w-7xl mx-auto bg-slate-50 min-h-screen font-sans">
+      
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-extrabold text-[#1F4E79] tracking-tight">BookAndBox Hub <span className="text-[#FFC000]">✦</span></h1>
+          <p className="text-slate-500 mt-1">Executive Manpower Dashboard</p>
+        </div>
+        
+        <div className="flex gap-4 items-center">
+          <select 
+            value={filterDept} 
+            onChange={e => setFilterDept(e.target.value)}
+            className="border-slate-200 border rounded-lg px-4 py-2 bg-white text-sm font-medium text-slate-700 shadow-sm"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <option value="all">ทุกแผนก (All Departments)</option>
+            {departments.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+          <Avatar>
+            <AvatarFallback className="bg-[#1F4E79] text-white">B&B</AvatarFallback>
+          </Avatar>
         </div>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      {/* Top Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <Card className="shadow-sm border-l-4 border-l-[#2E75B6]">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-slate-500">รวมพนักงาน (Headcount)</CardTitle>
+            <Users className="w-4 h-4 text-slate-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-slate-800">{stats.headcount} <span className="text-sm font-normal text-slate-500">คน</span></div>
+            <p className="text-xs text-green-600 mt-1 flex items-center"><TrendingUp className="w-3 h-3 mr-1"/> Active 100%</p>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm border-l-4 border-l-red-500">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-slate-500">ต้องการคนเพิ่ม (Vacancies)</CardTitle>
+            <AlertTriangle className="w-4 h-4 text-red-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-red-600">{stats.vacancies} <span className="text-sm font-normal text-red-400">ตำแหน่ง</span></div>
+            <p className="text-xs text-slate-500 mt-1">HR กำลังจัดหา</p>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm border-l-4 border-l-[#FFC000]">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-slate-500">ดัชนีเงินเดือน (Compa-Ratio)</CardTitle>
+            <TrendingUp className="w-4 h-4 text-amber-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-amber-600">{stats.avgCompaRatio}%</div>
+            <p className="text-xs text-slate-500 mt-1">เป้าหมาย: 95-105%</p>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm border-l-4 border-l-emerald-500">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-slate-500">งบเงินเดือน (Payroll)</CardTitle>
+            <Wallet className="w-4 h-4 text-emerald-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-emerald-600">{(stats.payroll/1000).toFixed(1)}k <span className="text-sm font-normal text-emerald-500">฿/ด</span></div>
+            <p className="text-xs text-slate-500 mt-1">ไม่รวม OT / สวัสดิการ</p>
+          </CardContent>
+        </Card>
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left Column: Charts */}
+        <div className="lg:col-span-2 space-y-8">
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-lg text-[#1F4E79]">กระจายตัวพนักงานตามระดับ (Job Grade Distribution)</CardTitle>
+              <CardDescription>แสดงจำนวนคนในแต่ละกระบอกเงินเดือน</CardDescription>
+            </CardHeader>
+            <CardContent className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={stats.gradeData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                  <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}/>
+                  <Bar dataKey="headcount" radius={[4, 4, 0, 0]}>
+                    {stats.gradeData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.name.startsWith('G') ? '#2E75B6' : '#FFC000'} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+        {/* Right Column: Key Actions & List */}
+        <div className="space-y-8">
+          <Card className="shadow-sm border-t-4 border-t-red-500">
+            <CardHeader>
+              <CardTitle className="text-lg text-red-600 flex items-center gap-2"><AlertTriangle className="w-5 h-5"/> แจ้งเตือนด่วน (Action Required)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="p-3 bg-red-50 rounded-lg border border-red-100 flex gap-3">
+                  <div className="mt-0.5"><div className="w-2 h-2 rounded-full bg-red-500"></div></div>
+                  <div>
+                    <p className="text-sm font-semibold text-red-900">เงินเดือนผิดกระบอก (ต่ำกว่า Min)</p>
+                    <p className="text-xs text-red-700 mt-1">พนักงาน 1 ท่าน ("สายพิณ" G2) ฐานต่ำกว่าเกณฑ์ 1,000 บาท</p>
+                  </div>
+                </div>
+                <div className="p-3 bg-amber-50 rounded-lg border border-amber-100 flex gap-3">
+                  <div className="mt-0.5"><div className="w-2 h-2 rounded-full bg-amber-500"></div></div>
+                  <div>
+                    <p className="text-sm font-semibold text-amber-900">รอปรับตำแหน่ง (Compa-Ratio > 120%)</p>
+                    <p className="text-xs text-amber-700 mt-1">พนักงาน 2 ท่าน ชนเพดานกระบอกเงินเดือน</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-lg text-[#1F4E79]">รายชื่อพนักงานล่าสุด</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                {stats.activeEmployees.slice(0, 8).map((emp, i) => (
+                  <div key={i} className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-9 h-9 border border-slate-200 shadow-sm">
+                        <AvatarFallback className="bg-[#f8fafc] text-slate-600 text-xs font-bold">{emp.nickname?.substring(0,2) || 'BB'}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">{emp.nickname}</p>
+                        <p className="text-xs text-slate-500">{emp.position}</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline" className={emp.jobGrade.startsWith('G') ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-700'}>
+                      {emp.jobGrade}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
       </div>
-    </main>
+    </div>
   );
 }

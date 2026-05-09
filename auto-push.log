@@ -2045,3 +2045,37 @@ After doing this, you may fix the identity used for this commit with:
 To https://github.com/thamonbnb45/ERP-bookandbox.com.git
    d5fea4b..b631fa4  main -> main
 ✅ [2026-05-09 14:23] Pushed changes
+[main bc5e733] auto-save: 2026-05-09 14:53
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 17 files changed, 6378 insertions(+)
+ create mode 100644 bookandbox-hub/.eslintrc.json
+ create mode 100644 bookandbox-hub/.gitignore
+ create mode 100644 bookandbox-hub/001_hr_schema.sql
+ create mode 100644 bookandbox-hub/README.md
+ create mode 100644 bookandbox-hub/app/favicon.ico
+ create mode 100644 bookandbox-hub/app/globals.css
+ create mode 100644 bookandbox-hub/app/layout.tsx
+ create mode 100644 bookandbox-hub/app/page.tsx
+ create mode 100644 bookandbox-hub/next.config.mjs
+ create mode 100644 bookandbox-hub/package-lock.json
+ create mode 100644 bookandbox-hub/package.json
+ create mode 100644 bookandbox-hub/postcss.config.mjs
+ create mode 100644 bookandbox-hub/public/next.svg
+ create mode 100644 bookandbox-hub/public/vercel.svg
+ create mode 100644 bookandbox-hub/tailwind.config.ts
+ create mode 100644 bookandbox-hub/tsconfig.json
+To https://github.com/thamonbnb45/ERP-bookandbox.com.git
+   b631fa4..bc5e733  main -> main
+✅ [2026-05-09 14:53] Pushed changes
