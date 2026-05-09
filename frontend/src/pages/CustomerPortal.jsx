@@ -128,9 +128,9 @@ export default function CustomerPortal() {
       </div>
 
       {/* MAIN */}
-      <div style={{ maxWidth:1200, margin:'0 auto', padding:'1.5rem 5%', display:'flex', gap:'1.5rem', flexWrap:'wrap', alignItems:'flex-start' }}>
+      <div style={{ padding:'1.5rem 5%', display:'flex', gap:'1.5rem', flexWrap:'wrap', alignItems:'flex-start' }}>
         {/* LEFT: CONFIG */}
-        <div style={{ flex:'1 1 340px', display:'flex', flexDirection:'column', gap:'1rem' }}>
+        <div style={{ flex:'0 0 340px', display:'flex', flexDirection:'column', gap:'1rem' }}>
           {/* Size */}
           <div style={{ background:'white', padding:'1.2rem', borderRadius:12, boxShadow:'0 1px 3px rgba(0,0,0,0.08)' }}>
             <label style={{ fontWeight:700, fontSize:'0.9rem', color:'#1e293b' }}>📐 ขนาด</label>
