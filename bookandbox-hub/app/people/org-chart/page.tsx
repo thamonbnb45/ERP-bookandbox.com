@@ -4,99 +4,62 @@ import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Network, Search, ChevronRight, ChevronDown } from 'lucide-react';
-import employeesRaw from '../../../employees_data_with_manager.json';
+import { Network, Search } from 'lucide-react';
+import employeesRaw from '../../../employees_data.json';
 import Link from 'next/link';
 
-// Simple tree node component
-const OrgNode = ({ employee, childrenNodes, depth = 0, isLast = true }: { employee: any, childrenNodes: any[], depth?: number, isLast?: boolean }) => {
-  const [expanded, setExpanded] = useState(true);
+// Helper to determine Level
+const getLevelCategory = (emp: any) => {
+  const level = emp.personalLevel || '';
+  const pos = (emp.position || '').toLowerCase();
   
-  const hasChildren = childrenNodes && childrenNodes.length > 0;
-  
-  return (
-    <div className={`flex flex-col relative ${depth > 0 ? 'ml-12' : ''}`}>
-      {/* Connecting Lines */}
-      {depth > 0 && (
-        <>
-          <div className="absolute -left-6 top-8 w-6 h-[2px] bg-slate-300"></div>
-          <div className={`absolute -left-6 top-0 w-[2px] bg-slate-300 ${isLast ? 'h-8' : 'h-full'}`}></div>
-        </>
-      )}
-
-      {/* Node Card */}
-      <div className="relative z-10 py-2">
-        <Card className={`w-80 shadow-sm border hover:border-[#2E75B6] transition-colors ${depth === 0 ? 'border-[#1F4E79] shadow-md border-l-4' : 'border-slate-200'} cursor-pointer`} onClick={() => setExpanded(!expanded)}>
-          <CardContent className="p-4 flex items-center gap-4">
-            <Avatar className={`w-12 h-12 border-2 ${depth === 0 ? 'border-[#FFC000]' : 'border-slate-100'}`}>
-              <AvatarFallback className={`${depth === 0 ? 'bg-[#1F4E79] text-white' : 'bg-slate-100 text-slate-700'} font-bold`}>
-                {employee.nickname?.substring(0,2) || employee.name?.substring(0,2) || 'BB'}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <h3 className="font-bold text-slate-800 text-sm flex items-center justify-between">
-                {employee.nickname || employee.name}
-                {hasChildren && (
-                  <span className="text-slate-400">
-                    {expanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                  </span>
-                )}
-              </h3>
-              <p className="text-xs text-slate-500 truncate max-w-[150px] mt-0.5">{employee.position}</p>
-              <div className="flex gap-2 mt-2">
-                <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 bg-slate-50">{employee.department}</Badge>
-                <Badge variant="outline" className={`text-[10px] px-1 py-0 h-4 ${employee.jobGrade?.startsWith('G') || employee.jobGrade?.startsWith('จ') ? 'bg-blue-50 text-blue-700' : ''}`}>{employee.jobGrade}</Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Children Container */}
-      {hasChildren && expanded && (
-        <div className="flex flex-col relative mt-0">
-          {childrenNodes.map((childNode: any, index: number) => (
-            <OrgNode 
-              key={childNode.employee.id} 
-              employee={childNode.employee} 
-              childrenNodes={childNode.children} 
-              depth={depth + 1} 
-              isLast={index === childrenNodes.length - 1}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  if (level.includes('จ') || pos.includes('ผู้จัดการ') || pos.includes('gm') || pos.includes('director')) return 'J'; // จ.
+  if (level.includes('บ') || pos.includes('หน.') || pos.includes('หัวหน้า')) return 'B'; // บ.
+  return 'P'; // ป.
 };
+
+const EmployeeCard = ({ employee }: { employee: any }) => (
+  <Card className="w-56 shadow-sm border border-slate-200 hover:border-[#2E75B6] transition-colors relative z-10 bg-white">
+    <CardContent className="p-3 flex items-center gap-3">
+      <Avatar className={`w-10 h-10 border-2 ${getLevelCategory(employee) === 'J' ? 'border-[#FFC000]' : 'border-slate-100'}`}>
+        <AvatarFallback className="bg-slate-100 text-slate-700 font-bold text-xs">
+          {employee.nickname?.substring(0,2) || employee.name?.substring(0,2) || 'BB'}
+        </AvatarFallback>
+      </Avatar>
+      <div className="flex-1 min-w-0">
+        <h3 className="font-bold text-slate-800 text-sm truncate">{employee.nickname || employee.name}</h3>
+        <p className="text-[10px] text-slate-500 truncate">{employee.position}</p>
+        <div className="flex gap-1 mt-1">
+          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-slate-50">{employee.department}</Badge>
+          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4">{employee.personalLevel || employee.jobGrade}</Badge>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
 
 export default function OrgChartPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const data = employeesRaw as any[];
+  const [filterDept, setFilterDept] = useState("all");
+  
+  // Exclude empty rows or headers
+  const data = (employeesRaw as any[]).filter(e => e.id && e.nickname && e.nickname !== 'ชื่อเล่น');
 
-  // Build Tree Structure
-  const buildTree = () => {
-    const map = new Map();
-    const roots: any[] = [];
+  // Get unique departments
+  const departments = [...new Set(data.map(d => d.department))].filter(d => d && d !== 'ผู้บริหาร');
 
-    // Initialize map
-    data.forEach(emp => {
-      map.set(emp.id, { employee: emp, children: [] });
-    });
+  // Filter data based on search and dept
+  const filteredData = data.filter(emp => {
+    const matchSearch = (emp.nickname || '').includes(searchTerm) || (emp.name || '').includes(searchTerm);
+    const matchDept = filterDept === "all" || emp.department === filterDept;
+    // Don't filter out CEO when searching/filtering if we want them at top, but for now just filter.
+    return matchSearch && matchDept;
+  });
 
-    // Populate children
-    data.forEach(emp => {
-      if (emp.manager_id && map.has(emp.manager_id)) {
-        map.get(emp.manager_id).children.push(map.get(emp.id));
-      } else {
-        roots.push(map.get(emp.id));
-      }
-    });
-
-    return roots;
-  };
-
-  const orgTree = buildTree();
+  // Group by Levels
+  const levelJ = filteredData.filter(e => getLevelCategory(e) === 'J' && e.department !== 'ผู้บริหาร');
+  const levelB = filteredData.filter(e => getLevelCategory(e) === 'B' && e.department !== 'ผู้บริหาร');
+  const levelP = filteredData.filter(e => getLevelCategory(e) === 'P' && e.department !== 'ผู้บริหาร');
 
   return (
     <div className="p-8 max-w-[1600px] mx-auto bg-slate-50 min-h-screen font-sans">
@@ -111,6 +74,7 @@ export default function OrgChartPage() {
             <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ภาพรวมองค์กร (Cockpit)</Link>
             <Link href="/people/manpower" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ภาพรวมบุคคล</Link>
             <Link href="/production/workload" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ปริมาณงาน (Workload)</Link>
+            <Link href="/production/live-tracking" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ติดตามการผลิต (Live)</Link>
             <Link href="/people/skills" className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">ทักษะพนักงาน (Skills)</Link>
             <Link href="/people/org-chart" className="px-4 py-2 rounded-lg text-sm font-medium bg-[#1F4E79] text-white shadow-sm">แผนผังองค์กร (Org Chart)</Link>
           </nav>
@@ -121,27 +85,103 @@ export default function OrgChartPage() {
         <div>
           <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
             <Network className="w-6 h-6 text-[#2E75B6]"/> 
-            Live Organization Chart
+            Live Organization Chart (Top-Down)
           </h2>
-          <p className="text-slate-500 mt-1">โครงสร้างสายบังคับบัญชา อัปเดตอัตโนมัติจากฐานข้อมูล</p>
+          <p className="text-slate-500 mt-1">โครงสร้างบนลงล่าง แยกตามระดับบริหาร (จ), หัวหน้างาน (บ), ปฏิบัติการ (ป)</p>
         </div>
         
-        <div className="relative w-64">
-          <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
-          <input 
-            type="text" 
-            placeholder="ค้นหาชื่อ..." 
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm shadow-sm outline-none focus:border-[#2E75B6]"
-          />
+        <div className="flex gap-3">
+          <select 
+            value={filterDept} 
+            onChange={e => setFilterDept(e.target.value)}
+            className="border-slate-200 border rounded-lg px-4 py-2 bg-white text-sm font-medium text-slate-700 shadow-sm outline-none"
+          >
+            <option value="all">ผังองค์กรทั้งหมด (Combined)</option>
+            {departments.map(d => <option key={d} value={d}>แยกแผนก: {d}</option>)}
+          </select>
+
+          <div className="relative w-64">
+            <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+            <input 
+              type="text" 
+              placeholder="ค้นหาชื่อ..." 
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm shadow-sm outline-none focus:border-[#2E75B6]"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 overflow-auto min-h-[600px]">
-        {orgTree.map(rootNode => (
-          <OrgNode key={rootNode.employee.id} employee={rootNode.employee} childrenNodes={rootNode.children} />
-        ))}
+      {/* Top-Down Org Chart Container */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 overflow-auto min-h-[600px] flex flex-col items-center">
+        
+        {/* CEO Level */}
+        {(filterDept === 'all' || searchTerm === '') && (
+          <div className="flex flex-col items-center relative">
+            <Card className="w-64 shadow-md border-2 border-[#1F4E79] bg-white relative z-10">
+              <CardContent className="p-4 flex flex-col items-center text-center">
+                <Avatar className="w-16 h-16 border-2 border-[#FFC000] mb-2">
+                  <AvatarFallback className="bg-[#1F4E79] text-white font-bold">CEO</AvatarFallback>
+                </Avatar>
+                <h3 className="font-black text-slate-800">ภูมิพัฒน์</h3>
+                <p className="text-xs text-slate-500 mt-1">Chief Executive Officer</p>
+                <Badge className="mt-2 bg-[#1F4E79]">ผู้บริหาร (Top)</Badge>
+              </CardContent>
+            </Card>
+            
+            {/* Vertical Line down from CEO */}
+            {(levelJ.length > 0 || levelB.length > 0 || levelP.length > 0) && (
+              <div className="w-[2px] h-8 bg-slate-300"></div>
+            )}
+          </div>
+        )}
+
+        {/* Level จ. (Manager / Executive) */}
+        {levelJ.length > 0 && (
+          <div className="flex flex-col items-center w-full">
+            <Badge variant="outline" className="mb-2 bg-amber-50 text-amber-700 border-amber-200">ระดับ จ. (ผู้จัดการ)</Badge>
+            {/* Horizontal connection line */}
+            {levelJ.length > 1 && <div className="h-[2px] bg-slate-300" style={{ width: `${(levelJ.length - 1) * 240}px` }}></div>}
+            <div className="flex justify-center gap-4 relative pt-4">
+              {levelJ.map((emp, i) => (
+                <div key={emp.id} className="flex flex-col items-center relative">
+                  {levelJ.length > 1 && <div className="absolute top-0 w-[2px] h-4 bg-slate-300 -mt-4"></div>}
+                  <EmployeeCard employee={emp} />
+                  <div className="w-[2px] h-8 bg-slate-200"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Level บ. (Supervisor) */}
+        {levelB.length > 0 && (
+          <div className="flex flex-col items-center w-full mt-4">
+            <Badge variant="outline" className="mb-2 bg-blue-50 text-blue-700 border-blue-200">ระดับ บ. (หัวหน้างาน)</Badge>
+            <div className="flex flex-wrap justify-center gap-4 relative max-w-5xl">
+              {levelB.map(emp => (
+                <div key={emp.id} className="flex flex-col items-center relative">
+                  <EmployeeCard employee={emp} />
+                  <div className="w-[2px] h-6 bg-slate-100"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Level ป. (Operational) */}
+        {levelP.length > 0 && (
+          <div className="flex flex-col items-center w-full mt-6">
+            <Badge variant="outline" className="mb-4 bg-slate-100 text-slate-600 border-slate-200">ระดับ ป. (ปฏิบัติการ)</Badge>
+            <div className="flex flex-wrap justify-center gap-3 max-w-6xl">
+              {levelP.map(emp => (
+                <EmployeeCard key={emp.id} employee={emp} />
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

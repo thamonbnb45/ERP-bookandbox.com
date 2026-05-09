@@ -1,0 +1,82 @@
+{
+  "machines": [
+    {
+      "id": "MCH-001",
+      "name": "Heidelberg SM-74",
+      "type": "Printing",
+      "status": "running",
+      "currentJob": {
+        "jobNo": "JOB-2605-001",
+        "customer": "Siam Cosmetic",
+        "productName": "กล่องสบู่ 4 สี",
+        "progress": 65,
+        "operator": "โจ (ช่างพิมพ์มือ 2)",
+        "expectedEnd": "14:30"
+      },
+      "queue": [
+        {"jobNo": "JOB-2605-012", "customer": "BioPharma", "productName": "กล่องยาพารา"},
+        {"jobNo": "JOB-2605-015", "customer": "TopBrand", "productName": "ปลอกสวมครีม"}
+      ]
+    },
+    {
+      "id": "MCH-002",
+      "name": "Heidelberg CD-102",
+      "type": "Printing",
+      "status": "setup",
+      "currentJob": {
+        "jobNo": "JOB-2605-008",
+        "customer": "ABC Food",
+        "productName": "กล่องเค้ก 1 ปอนด์",
+        "progress": 0,
+        "operator": "ซัน (GM)",
+        "expectedEnd": "16:00"
+      },
+      "queue": [
+        {"jobNo": "JOB-2605-021", "customer": "XYZ Bakery", "productName": "กล่องคุกกี้"}
+      ]
+    },
+    {
+      "id": "MCH-003",
+      "name": "Polar 115 (ตัด)",
+      "type": "Pre-press / Cutting",
+      "status": "running",
+      "currentJob": {
+        "jobNo": "JOB-2605-002",
+        "customer": "Siam Cosmetic",
+        "productName": "ตัด Art Card 350g",
+        "progress": 90,
+        "operator": "ช่างตัด",
+        "expectedEnd": "11:45"
+      },
+      "queue": []
+    },
+    {
+      "id": "MCH-004",
+      "name": "Die-Cut Bobst 1",
+      "type": "Post-press",
+      "status": "downtime",
+      "currentJob": null,
+      "downtimeReason": "รอมีดปั๊ม (Die Board)",
+      "queue": [
+        {"jobNo": "JOB-2605-004", "customer": "BeautyBox", "productName": "ปั๊มกล่องเซรั่ม"}
+      ]
+    },
+    {
+      "id": "MCH-005",
+      "name": "เครื่องปะกล่องอัตโนมัติ",
+      "type": "Post-press",
+      "status": "running",
+      "currentJob": {
+        "jobNo": "JOB-2604-099",
+        "customer": "SME Shop",
+        "productName": "ปะกล่องลูกฟูก B-Flute",
+        "progress": 30,
+        "operator": "ทีมปะกล่อง",
+        "expectedEnd": "18:00"
+      },
+      "queue": [
+        {"jobNo": "JOB-2605-003", "customer": "HealthPlus", "productName": "กล่องอาหารเสริม"}
+      ]
+    }
+  ]
+}
