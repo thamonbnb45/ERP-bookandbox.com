@@ -2913,3 +2913,24 @@ To https://github.com/thamonbnb45/ERP-bookandbox.com.git
  ! [remote rejected] main -> main (pre-receive hook declined)
 error: failed to push some refs to 'https://github.com/thamonbnb45/ERP-bookandbox.com.git'
 ✅ [2026-05-10 16:27] Pushed changes
+[main d0735ae] auto-save: 2026-05-10 17:01
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 33 insertions(+)
+ create mode 100644 "BCD Strategy - Finance - HR \340\270\252\340\270\263\340\271\200\340\270\231\340\270\262/\340\270\232\340\270\261\340\270\231\340\270\227\340\270\266\340\270\201\340\270\201\340\270\262\340\270\243\340\270\227\340\270\263\340\270\207\340\270\262\340\270\231 (\340\271\201\340\270\234\340\270\231\340\270\201\340\270\253\340\270\245\340\270\261\340\270\207\340\270\236\340\270\264\340\270\241\340\270\236\340\271\214) (\340\270\201\340\270\262\340\270\243\340\270\225\340\270\255\340\270\232\340\270\201\340\270\245\340\270\261\340\270\232).xlsx"
+error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+send-pack: unexpected disconnect while reading sideband packet
+fatal: the remote end hung up unexpectedly
+Everything up-to-date
+✅ [2026-05-10 17:01] Pushed changes
