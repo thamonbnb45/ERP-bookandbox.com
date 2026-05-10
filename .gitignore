@@ -1,0 +1,30 @@
+# Node
+node_modules/
+.next/
+dist/
+
+# Env
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large files - don't push to GitHub
+*.pdf
+*.PDF
+*.zip
+*.rar
+*.7z
+*.mp4
+*.mov
+*.avi
+BCD Strategy - Finance - HR สำเนา/
+
+# Logs
+auto-push.log
+*.log
+
+# Uploads
+uploads/
