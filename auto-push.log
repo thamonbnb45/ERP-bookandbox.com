@@ -2970,3 +2970,36 @@ To https://github.com/thamonbnb45/ERP-bookandbox.com.git
  ! [remote rejected] main -> main (pre-receive hook declined)
 error: failed to push some refs to 'https://github.com/thamonbnb45/ERP-bookandbox.com.git'
 ✅ [2026-05-10 17:42] Pushed changes
+[main 332724f] auto-save: 2026-05-10 18:17
+ Committer: phoompat <nam@MacBook-Pro-khxng-Nam.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 36 insertions(+)
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD Strategy/BCD Module #1_ 7.11.2025.pdf is 92.23 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D1-Workforce.pdf is 57.12 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD Finance/2026 M.2 30 JAN.pdf is 59.02 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Compensation&Benefit Update.pdf is 61.42 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD Strategy/BCD Module1 2-2_14_11.pdf is 96.92 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Labor Law&Homework.pdf is 61.18 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Performance Evaluation&Feedback.pdf is 66.28 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D1-Recruitment.pdf is 79.16 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Benefits and Retirement Planning.pdf is 96.83 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: warning: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D2-Compensation&Benefit.pdf is 71.08 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: error: Trace: 2ba67de903c2f7b9fc1181dcddadd175d478d65121d0c7d97e3f5b251c4bdf18        
+remote: error: See https://gh.io/lfs for more information.        
+remote: error: File BCD Strategy - Finance - HR สำเนา/BCD HR/BCD - HR 2-2026-D1-Development.pdf is 149.11 MB; this exceeds GitHub's file size limit of 100.00 MB        
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.        
+To https://github.com/thamonbnb45/ERP-bookandbox.com.git
+ ! [remote rejected] main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/thamonbnb45/ERP-bookandbox.com.git'
+✅ [2026-05-10 18:17] Pushed changes
