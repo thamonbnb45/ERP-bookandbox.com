@@ -201,7 +201,28 @@ async function askLLM(question, data, apiKey, model = 'claude') {
         return `❌ AI Error: ${JSON.stringify(result.error || result)}`;
     }
 
-    return '❌ ไม่พบ AI Model ที่กำหนด';
+    if (model === 'gemini' || model === 'google') {
+        const geminiModel = 'gemini-2.5-flash';
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                systemInstruction: { parts: [{ text: SCHEMA_CONTEXT }] },
+                contents: [{
+                    parts: [{ text: `คำถาม: ${question}\n\nข้อมูลจากระบบ ERP (query แล้ว):\n${dataStr}\n\nกรุณาวิเคราะห์ข้อมูลและตอบคำถาม จัดรูปแบบให้อ่านง่ายสำหรับ LINE` }]
+                }],
+                generationConfig: { maxOutputTokens: 1024 }
+            })
+        });
+        const result = await response.json();
+        if (result.candidates && result.candidates[0] && result.candidates[0].content) {
+            return result.candidates[0].content.parts[0].text;
+        }
+        return `❌ Gemini Error: ${JSON.stringify(result.error || result)}`;
+    }
+
+    return '❌ ไม่พบ AI Model ที่กำหนด (ใช้ได้: gemini, claude, openai)';
 }
 
 // Fallback: answer without LLM (basic stats)
