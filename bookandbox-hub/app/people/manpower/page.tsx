@@ -19,7 +19,7 @@ export default function DashboardPage() {
     let activeEmployees = employees.filter(e => e.status !== "ลาออก" && (filterDept === "all" || e.department === filterDept));
     
     let totalPayroll = 0;
-    let compaRatios = [];
+    let compaRatios: number[] = [];
     let vacancies = 0;
     
     // Some mock vacancies logic based on missing roles in production
@@ -172,9 +172,9 @@ export default function DashboardPage() {
                 <LineChart data={budgetData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9"/>
                   <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => \`\${val/1000}k\`} />
+                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val/1000}k`} />
                   <Tooltip 
-                    formatter={(value: number) => \`฿\${value.toLocaleString()}\`}
+                    formatter={(value: any) => `฿${value.toLocaleString()}`}
                     contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
                   <Legend wrapperStyle={{ paddingTop: '10px' }} />

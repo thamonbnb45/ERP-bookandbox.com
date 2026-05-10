@@ -83,7 +83,7 @@ export default function StrategyCockpitPage() {
                       <stop offset="95%" stopColor="#2E75B6" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <Tooltip formatter={(value: number) => new Intl.NumberFormat('th-TH').format(value)} />
+                  <Tooltip formatter={(value: any) => new Intl.NumberFormat('th-TH').format(value)} />
                   <Area type="monotone" dataKey="sales" stroke="#2E75B6" strokeWidth={2} fillOpacity={1} fill="url(#colorSales)" />
                 </AreaChart>
               </ResponsiveContainer>
