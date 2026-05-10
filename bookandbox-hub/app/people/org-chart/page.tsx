@@ -46,7 +46,7 @@ export default function OrgChartPage() {
   const data = (employeesRaw as any[]).filter(e => e.id && e.nickname && e.nickname !== 'ชื่อเล่น');
 
   // Get unique departments
-  const departments = [...new Set(data.map(d => d.department))].filter(d => d && d !== 'ผู้บริหาร');
+  const departments = Array.from(new Set(data.map(d => d.department))).filter(d => d && d !== 'ผู้บริหาร');
 
   // Filter data based on search and dept
   const filteredData = data.filter(emp => {

@@ -1,16 +1,28 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Target, Users, Factory, DollarSign, Flag } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Target, Users, Factory, DollarSign, Flag, Package, MessageSquare, Database } from 'lucide-react';
 import strategyData from '../strategy_data.json';
+import { getDashboardStats } from '@/lib/data';
 import Link from 'next/link';
 
 export default function StrategyCockpitPage() {
   const { kpis, okrs, problems } = strategyData;
+  const [liveStats, setLiveStats] = useState<any>(null);
+  const [dbStatus, setDbStatus] = useState<'loading' | 'connected' | 'error'>('loading');
+
+  useEffect(() => {
+    getDashboardStats()
+      .then((stats) => {
+        setLiveStats(stats);
+        setDbStatus('connected');
+      })
+      .catch(() => setDbStatus('error'));
+  }, []);
 
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB', maximumFractionDigits: 0 }).format(val);
@@ -37,7 +49,10 @@ export default function StrategyCockpitPage() {
         <div className="flex items-center gap-3">
           <div className="text-right">
             <p className="text-sm font-bold text-slate-800">ภูมิพัฒน์ (CEO)</p>
-            <p className="text-xs text-emerald-600 flex items-center justify-end gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> System Online</p>
+            <p className="text-xs text-emerald-600 flex items-center justify-end gap-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+              {dbStatus === 'connected' ? 'Supabase Connected ✓' : dbStatus === 'loading' ? 'Connecting...' : 'Offline Mode'}
+            </p>
           </div>
           <Avatar className="w-10 h-10 border-2 border-slate-200">
             <AvatarFallback className="bg-[#1F4E79] text-white">CEO</AvatarFallback>
@@ -52,6 +67,66 @@ export default function StrategyCockpitPage() {
         </h2>
         <p className="text-slate-500 mt-2 text-base">สรุปสถานการณ์แบบ Real-time เพื่อการตัดสินใจของผู้บริหาร</p>
       </div>
+
+      {/* Live Database Stats — NEW */}
+      {liveStats && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <Card className="shadow-sm border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50/50 to-white">
+            <CardContent className="pt-5 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-medium text-violet-600 uppercase tracking-wider">ยอดขายรวม (DB)</p>
+                  <p className="text-2xl font-black text-slate-800 mt-1">{formatCurrency(liveStats.totalRevenue)}</p>
+                </div>
+                <div className="p-2 bg-violet-100 rounded-lg"><Database className="w-5 h-5 text-violet-600"/></div>
+              </div>
+              <p className="text-[10px] text-violet-500 mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                Live จาก Supabase
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm border-l-4 border-l-blue-500 bg-gradient-to-br from-blue-50/50 to-white">
+            <CardContent className="pt-5 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Job Orders</p>
+                  <p className="text-2xl font-black text-slate-800 mt-1">{liveStats.totalJobs} <span className="text-sm font-normal text-slate-500">งาน</span></p>
+                </div>
+                <div className="p-2 bg-blue-100 rounded-lg"><Package className="w-5 h-5 text-blue-600"/></div>
+              </div>
+              <p className="text-[10px] text-slate-500 mt-2">✅ เสร็จ {liveStats.completedJobs} | ⏳ ค้าง {liveStats.pendingJobs}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50/50 to-white">
+            <CardContent className="pt-5 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-medium text-emerald-600 uppercase tracking-wider">Leads (LINE+FB)</p>
+                  <p className="text-2xl font-black text-slate-800 mt-1">{liveStats.totalLeads} <span className="text-sm font-normal text-slate-500">ราย</span></p>
+                </div>
+                <div className="p-2 bg-emerald-100 rounded-lg"><MessageSquare className="w-5 h-5 text-emerald-600"/></div>
+              </div>
+              <p className="text-[10px] text-slate-500 mt-2">ลูกค้าจริงจาก LINE/Facebook</p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm border-l-4 border-l-amber-500 bg-gradient-to-br from-amber-50/50 to-white">
+            <CardContent className="pt-5 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-medium text-amber-600 uppercase tracking-wider">ลูกค้า (Customers)</p>
+                  <p className="text-2xl font-black text-slate-800 mt-1">{liveStats.totalCustomers} <span className="text-sm font-normal text-slate-500">ราย</span></p>
+                </div>
+                <div className="p-2 bg-amber-100 rounded-lg"><Users className="w-5 h-5 text-amber-600"/></div>
+              </div>
+              <p className="text-[10px] text-slate-500 mt-2">ลูกค้าในระบบ ERP</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Vitals KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -190,7 +265,7 @@ export default function StrategyCockpitPage() {
                 <div key={prob.id} className="p-4 rounded-xl border bg-white shadow-sm flex gap-4 items-start relative overflow-hidden group">
                   <div className={`absolute left-0 top-0 bottom-0 w-1 ${prob.severity === 'high' ? 'bg-red-500' : 'bg-amber-500'}`}></div>
                   <div className={`p-2 rounded-lg mt-0.5 ${prob.severity === 'high' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-600'}`}>
-                    {prob.severity === 'high' ? <AlertTriangle className="w-5 h-5"/> : <AlertTriangle className="w-5 h-5"/>}
+                    <AlertTriangle className="w-5 h-5"/>
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between items-start">

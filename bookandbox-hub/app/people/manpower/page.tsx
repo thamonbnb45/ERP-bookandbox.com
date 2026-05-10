@@ -73,7 +73,7 @@ export default function DashboardPage() {
   const laborCostPercentage = ((budgetData[4].actual / budgetData[4].revenue) * 100).toFixed(1);
 
   // Departments for filter
-  const departments = [...new Set(employees.map(e => e.department))].filter(Boolean);
+  const departments = Array.from(new Set(employees.map(e => e.department))).filter(Boolean);
 
   return (
     <div className="p-8 max-w-7xl mx-auto bg-slate-50 min-h-screen font-sans">
