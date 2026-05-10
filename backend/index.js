@@ -7,6 +7,13 @@ const line = require('@line/bot-sdk');
 const { createClient } = require('@supabase/supabase-js');
 const compression = require('compression');
 const multer = require('multer');
+const { processAgentQuery } = require('./ai-agent');
+
+// AI Agent Config
+const AI_API_KEY = process.env.AI_API_KEY || ''; // Claude or OpenAI key
+const AI_MODEL = process.env.AI_MODEL || 'claude'; // 'claude' or 'openai'
+const AI_AGENT_GROUP_ID = process.env.AI_AGENT_GROUP_ID || ''; // LINE Group ID for AI queries
+const AI_TRIGGER_PREFIXES = ['ถาม', '@ai', 'วิเคราะห์', 'รายงาน', 'สรุป', 'ai '];
 
 const app = express();
 app.use(compression());
@@ -253,7 +260,49 @@ app.post('/api/webhook', async (req, res) => {
                 }]);
 
                 // Auto-Responder Logic (นอกเวลาทำการ 17:30 - 08:30)
+                // AND AI Agent detection for internal staff
                 if (msgType === 'text') {
+                    // ═══ AI AGENT DETECTION ═══
+                    const isAgentGroup = AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID;
+                    const hasAgentPrefix = AI_TRIGGER_PREFIXES.some(p => textContent.toLowerCase().startsWith(p));
+                    
+                    if (isAgentGroup || hasAgentPrefix) {
+                        // Strip prefix to get clean question
+                        let cleanQuestion = textContent;
+                        for (const prefix of AI_TRIGGER_PREFIXES) {
+                            if (cleanQuestion.toLowerCase().startsWith(prefix)) {
+                                cleanQuestion = cleanQuestion.substring(prefix.length).trim();
+                                break;
+                            }
+                        }
+                        if (!cleanQuestion) cleanQuestion = textContent;
+
+                        console.log(`🤖 [AI Agent LINE] Q: ${cleanQuestion}`);
+                        try {
+                            const agentAnswer = await processAgentQuery(supabase, cleanQuestion, AI_API_KEY, AI_MODEL);
+                            const replyText = `🤖 BCD AI\n━━━━━━━━━━━━━━━\n${agentAnswer}`;
+                            
+                            // Reply via LINE
+                            const targetId = groupId || userId;
+                            if (event.replyToken) {
+                                try {
+                                    await lineClient.replyMessage({
+                                        replyToken: event.replyToken,
+                                        messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
+                                    });
+                                } catch(replyErr) {
+                                    await lineClient.pushMessage({
+                                        to: targetId,
+                                        messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
+                                    });
+                                }
+                            }
+                        } catch(agentErr) {
+                            console.error('AI Agent LINE error:', agentErr);
+                        }
+                        continue; // Skip normal chat processing for agent queries
+                    }
+
                     const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
                     const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
                     const isAfterHours = timeNum >= 1730 || timeNum < 830;
@@ -2849,6 +2898,44 @@ app.post('/api/pricing/matrix', async (req, res) => {
     if(error) throw error;
     res.json(data);
   } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ============================================================
+// AI AGENT ENDPOINTS
+// ============================================================
+
+// HTTP API — ถามจาก Hub Dashboard หรือจากที่ใดก็ได้
+app.post('/api/ai/query', async (req, res) => {
+    const { question } = req.body;
+    if (!question) return res.status(400).json({ error: 'กรุณาใส่คำถาม' });
+    
+    try {
+        console.log(`🤖 [AI Agent] Question: ${question}`);
+        const answer = await processAgentQuery(supabase, question, AI_API_KEY, AI_MODEL);
+        console.log(`🤖 [AI Agent] Answered (${answer.length} chars)`);
+        res.json({ question, answer, timestamp: new Date().toISOString() });
+    } catch (e) {
+        console.error('AI Agent error:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// AI Agent via LINE — ส่งข้อความจาก LINE Group ที่กำหนด
+// หรือข้อความที่ขึ้นต้นด้วย prefix เช่น "ถาม", "@ai"
+app.post('/api/ai/line-hook', async (req, res) => {
+    // This is called internally from the main webhook
+    res.status(200).send('OK');
+});
+
+// Health check for AI Agent
+app.get('/api/ai/status', (req, res) => {
+    res.json({
+        status: 'active',
+        hasApiKey: !!AI_API_KEY,
+        model: AI_MODEL,
+        agentGroupId: AI_AGENT_GROUP_ID || 'not configured',
+        triggers: AI_TRIGGER_PREFIXES
+    });
 });
 
 // React router fallback
