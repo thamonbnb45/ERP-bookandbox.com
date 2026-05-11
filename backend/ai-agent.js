@@ -25,10 +25,15 @@ const TEAM_WHITELIST = {
     //
     // access ที่ใช้ได้: 'system', 'production', 'sales', 'logistics', 'hr', 'accounting', 'all'
     
-    // ตัวอย่าง (ให้ CEO ใส่ ID จริงภายหลัง):
+    // ===== ทีมงาน BCD (LINE User ID จริง) =====
+    
+    // CEO — God Mode
+    'Ua944192ba939c444c52b4a435539c5a3': { name: 'Nam', role: 'CEO', access: ['all'] },
+    
+    // รอ User ID จากทีมงาน:
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'หนึ่ง', role: 'IT', access: ['system', 'production', 'sales', 'logistics'] },
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'ซัน', role: 'System Manager', access: ['system', 'production', 'sales', 'logistics', 'hr'] },
-    // 'Uxxxxxxxxxxxxxxxxx': { name: 'อ้อ', role: 'บัญชี / ผู้ช่วย CEO', access: ['accounting', 'system'] },
+    // 'Uxxxxxxxxxxxxxxxxx': { name: 'อ้อ', role: 'บัญชี / ผู้ช่วย CEO DEV', access: ['accounting', 'system'] },
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'ซ่า', role: 'HR', access: ['hr', 'system'] },
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'Nam', role: 'CEO', access: ['all'] },
 };
