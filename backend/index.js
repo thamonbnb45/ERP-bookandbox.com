@@ -292,6 +292,107 @@ app.post('/api/webhook', async (req, res) => {
     // Response already sent at top
 });
 
+// ════════════════════════════════════════════════════════════════
+// BOOKBOX AI AGENT — WEBHOOK แยก (LINE OA ตัวที่ 2 สำหรับทีมงาน)
+// ════════════════════════════════════════════════════════════════
+const AGENT_CHANNEL_TOKEN = process.env.AGENT_CHANNEL_ACCESS_TOKEN || '';
+const AGENT_CHANNEL_SECRET_VAL = process.env.AGENT_CHANNEL_SECRET || '';
+let agentLineClient = null;
+if (AGENT_CHANNEL_TOKEN) {
+    agentLineClient = new messagingApi.MessagingApiClient({ channelAccessToken: AGENT_CHANNEL_TOKEN });
+    console.log('🤖 [AI Agent] LINE OA Agent client initialized');
+} else {
+    console.log('⚠️ [AI Agent] AGENT_CHANNEL_ACCESS_TOKEN not set — Agent webhook will use main LINE client');
+}
+
+app.post('/api/webhook-agent', async (req, res) => {
+    const events = req.body.events;
+    res.status(200).send('OK'); // ตอบ LINE ทันที
+
+    if (!events || events.length === 0) return;
+
+    // ใช้ client ของ Agent LINE OA (ถ้ามี) หรือ fallback ไป main client
+    const client = agentLineClient || lineClient;
+
+    for (const event of events) {
+        const groupId = event.source?.groupId;
+        const userId = event.source?.userId;
+        const sourceType = event.source?.type;
+
+        console.log(`🤖 [Agent Webhook] type=${event.type} source=${sourceType} group=${groupId || 'N/A'} user=${userId}`);
+
+        // Bot join group → ตอบ Group ID
+        if (event.type === 'join' || event.type === 'memberJoined') {
+            const id = groupId || event.source?.roomId;
+            if (id && event.replyToken) {
+                try {
+                    await client.replyMessage({
+                        replyToken: event.replyToken,
+                        messages: [{ type: 'text', text: `✅ BookBox AI Agent เข้ากลุ่มสำเร็จ!\n\n🔑 Group ID:\n${id}\n\nคัดลอก ID นี้ไปใส่ใน Railway Variables:\nAI_AGENT_GROUP_ID=${id}` }]
+                    });
+                } catch(e) { console.log('Agent join reply error:', e.message); }
+            }
+            continue;
+        }
+
+        // รับเฉพาะข้อความ text
+        if (event.type !== 'message' || event.message?.type !== 'text') continue;
+
+        const text = event.message.text.trim();
+        const targetId = groupId || userId;
+
+        // ตรวจว่าข้อความเริ่มต้นด้วย trigger prefix
+        const hasPrefix = AI_TRIGGER_PREFIXES.some(p => text.toLowerCase().startsWith(p));
+        
+        // ตอบเมื่อ: มี prefix หรืออยู่ในกลุ่มที่กำหนด
+        const shouldRespond = hasPrefix || (AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID);
+        
+        if (!shouldRespond) continue;
+
+        // Strip prefix
+        let cleanQ = text;
+        for (const prefix of AI_TRIGGER_PREFIXES) {
+            if (cleanQ.toLowerCase().startsWith(prefix)) {
+                cleanQ = cleanQ.substring(prefix.length).trim();
+                break;
+            }
+        }
+        if (!cleanQ) cleanQ = text;
+
+        console.log(`🤖 [Agent] Processing: "${cleanQ}" for ${targetId}`);
+
+        if (!AI_API_KEY) {
+            try {
+                await client.pushMessage({
+                    to: targetId,
+                    messages: [{ type: 'text', text: '⚠️ AI Agent ยังไม่มี API Key\nกรุณาเพิ่ม AI_API_KEY ใน Environment Variables' }]
+                });
+            } catch(e) {}
+            continue;
+        }
+
+        try {
+            const answer = await processAgentQuery(supabase, cleanQ, AI_API_KEY, AI_MODEL);
+            const replyText = `🤖 BookBox AI\n━━━━━━━━━━━━━━━\n${answer}`;
+            await client.pushMessage({
+                to: targetId,
+                messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
+            });
+            console.log(`✅ [Agent] Replied to ${targetId}`);
+        } catch(err) {
+            console.error('❌ [Agent] Error:', err.message);
+            try {
+                await client.pushMessage({
+                    to: targetId,
+                    messages: [{ type: 'text', text: `❌ Agent Error: ${err.message?.substring(0, 200)}` }]
+                });
+            } catch(e) {}
+        }
+    }
+});
+
+console.log('🤖 [AI Agent] Webhook endpoint ready at /api/webhook-agent');
+
 // ====== FACEBOOK MESSENGER WEBHOOK ======
 
 // Webhook Verification (Facebook sends GET to verify)
