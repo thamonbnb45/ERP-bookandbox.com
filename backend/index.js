@@ -10,10 +10,14 @@ const multer = require('multer');
 const { processAgentQuery } = require('./ai-agent');
 
 // AI Agent Config
-const AI_API_KEY = process.env.AI_API_KEY || ''; // Claude or OpenAI key
-const AI_MODEL = process.env.AI_MODEL || 'claude'; // 'claude' or 'openai'
+const AI_API_KEY = process.env.AI_API_KEY || ''; // Gemini API key
+const AI_MODEL = process.env.AI_MODEL || 'gemini'; // Default to gemini
 const AI_AGENT_GROUP_ID = process.env.AI_AGENT_GROUP_ID || ''; // LINE Group ID for AI queries
 const AI_TRIGGER_PREFIXES = ['ถาม', '@ai', 'วิเคราะห์', 'รายงาน', 'สรุป', 'ai '];
+
+// Startup debug
+console.log('🔧 [ENV DEBUG] AI_API_KEY set:', !!process.env.AI_API_KEY, '| AI_MODEL:', process.env.AI_MODEL || 'NOT SET');
+console.log('🔧 [ENV DEBUG] CHANNEL_SECRET set:', !!process.env.CHANNEL_SECRET, '| CHANNEL_ACCESS_TOKEN set:', !!process.env.CHANNEL_ACCESS_TOKEN);
 
 const app = express();
 app.use(compression());
