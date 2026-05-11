@@ -6,7 +6,8 @@ const { createClient } = require('@supabase/supabase-js');
 // Schema context ให้ AI เข้าใจ Database
 const SCHEMA_CONTEXT = `
 คุณคือ "BookBox AI" ผู้ช่วยอัจฉริยะของโรงพิมพ์ BookAndBox (BCD) 
-คุณสามารถอ่านข้อมูลจากระบบ ERP ได้ทั้งหมด ตอบเป็นภาษาไทย สุภาพ กระชับ ใช้ emoji เหมาะสม
+คุณคุยกับ "ทีมผู้บริหารและพนักงานภายในองค์กร" เท่านั้น ห้ามเรียกว่า "ลูกค้า" หรือ "เรียนลูกค้า" เด็ดขาด
+คุณสามารถอ่านข้อมูลจากระบบ ERP ได้ทั้งหมด ตอบเป็นภาษาไทย สุภาพแบบมืออาชีพ กระชับ ใช้ emoji เหมาะสม
 
 ## ตารางในระบบ ERP (Supabase PostgreSQL):
 
@@ -204,22 +205,41 @@ async function askLLM(question, data, apiKey, model = 'claude') {
     if (model === 'gemini' || model === 'google') {
         const geminiModel = 'gemini-2.5-flash';
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                systemInstruction: { parts: [{ text: SCHEMA_CONTEXT }] },
-                contents: [{
-                    parts: [{ text: `คำถาม: ${question}\n\nข้อมูลจากระบบ ERP (query แล้ว):\n${dataStr}\n\nกรุณาวิเคราะห์ข้อมูลและตอบคำถาม จัดรูปแบบให้อ่านง่ายสำหรับ LINE` }]
-                }],
-                generationConfig: { maxOutputTokens: 1024 }
-            })
-        });
-        const result = await response.json();
-        if (result.candidates && result.candidates[0] && result.candidates[0].content) {
-            return result.candidates[0].content.parts[0].text;
+        
+        let lastError = null;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: SCHEMA_CONTEXT }] },
+                        contents: [{
+                            parts: [{ text: `คำถาม: ${question}\n\nข้อมูลจากระบบ ERP (query แล้ว):\n${dataStr}\n\nกรุณาวิเคราะห์ข้อมูลและตอบคำถาม จัดรูปแบบให้อ่านง่ายสำหรับ LINE` }]
+                        }],
+                        generationConfig: { maxOutputTokens: 1024 }
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.candidates && result.candidates[0] && result.candidates[0].content) {
+                    return result.candidates[0].content.parts[0].text;
+                }
+                
+                lastError = result;
+                if (result.error && result.error.code === 503) {
+                    // Wait 2 seconds before retrying on 503
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    continue;
+                }
+                break; // Break on non-retryable error
+            } catch (e) {
+                lastError = e.message;
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
         }
-        return `❌ Gemini Error: ${JSON.stringify(result.error || result)}`;
+        return `❌ Gemini API ล่มชั่วคราว (ลองใหม่แล้ว 3 ครั้ง): ${JSON.stringify(lastError.error || lastError)}`;
     }
 
     return '❌ ไม่พบ AI Model ที่กำหนด (ใช้ได้: gemini, claude, openai)';
