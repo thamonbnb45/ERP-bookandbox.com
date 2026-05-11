@@ -2974,7 +2974,8 @@ app.get('/api/ai/status', (req, res) => {
         agentClientReady: !!agentLineClient,
         hasAgentToken: !!AGENT_CHANNEL_TOKEN,
         mainClientReady: !!lineClient,
-        deployVersion: '2026-05-11-v3-agent-webhook'
+        deployVersion: '2026-05-11-v4-debug-env',
+        envKeys: Object.keys(process.env).filter(k => k.includes('CHANNEL') || k.includes('AI_') || k.includes('SUPA'))
     });
 });
 
