@@ -234,35 +234,9 @@ app.post('/api/webhook', async (req, res) => {
             }
 
             if (event.type === 'message') {
-                const leadId = await ensureLeadExists(userId);
-                if (!leadId) continue;
-
-                let msgType = event.message.type;
-                let textContent = '';
-                let mediaUrl = null;
-
-                if (msgType === 'text') {
-                    textContent = event.message.text;
-                } else if (msgType === 'image' || msgType === 'file') {
-                    mediaUrl = await downloadLineMedia(event.message.id);
-                    if (!mediaUrl) { textContent = '[Failed payload]'; msgType = 'text'; }
-                } else if (msgType === 'sticker') {
-                    mediaUrl = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${event.message.stickerId}/android/sticker.png`;
-                    msgType = 'image';
-                }
-
-                await supabase.from('chat_message').insert([{
-                    lead_id: leadId,
-                    sender: 'client',
-                    type: msgType,
-                    text_content: textContent,
-                    media_url: mediaUrl
-                }]);
-
-                // Auto-Responder Logic (นอกเวลาทำการ 17:30 - 08:30)
-                // AND AI Agent detection for internal staff
-                if (msgType === 'text') {
-                    // ═══ AI AGENT DETECTION ═══
+                // ═══ AI AGENT DETECTION — ตรวจก่อน Lead ═══
+                if (event.message?.type === 'text') {
+                    const textContent = event.message.text;
                     const isAgentGroup = AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID;
                     const hasAgentPrefix = AI_TRIGGER_PREFIXES.some(p => textContent.toLowerCase().startsWith(p));
                     
@@ -291,17 +265,61 @@ app.post('/api/webhook', async (req, res) => {
                                         messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
                                     });
                                 } catch(replyErr) {
-                                    await lineClient.pushMessage({
-                                        to: targetId,
-                                        messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
-                                    });
+                                    console.log('Reply failed, trying push:', replyErr.message);
+                                    try {
+                                        await lineClient.pushMessage({
+                                            to: targetId,
+                                            messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
+                                        });
+                                    } catch(pushErr) {
+                                        console.log('Push also failed:', pushErr.message);
+                                    }
                                 }
                             }
                         } catch(agentErr) {
                             console.error('AI Agent LINE error:', agentErr);
+                            // Reply with error message
+                            if (event.replyToken) {
+                                try {
+                                    await lineClient.replyMessage({
+                                        replyToken: event.replyToken,
+                                        messages: [{ type: 'text', text: `❌ Agent Error: ${agentErr.message}` }]
+                                    });
+                                } catch(e) {}
+                            }
                         }
                         continue; // Skip normal chat processing for agent queries
                     }
+                }
+
+                // ═══ Normal chat processing (Lead/Customer) ═══
+                const leadId = await ensureLeadExists(userId);
+                if (!leadId) continue;
+
+                let msgType = event.message.type;
+                let textContent = '';
+                let mediaUrl = null;
+
+                if (msgType === 'text') {
+                    textContent = event.message.text;
+                } else if (msgType === 'image' || msgType === 'file') {
+                    mediaUrl = await downloadLineMedia(event.message.id);
+                    if (!mediaUrl) { textContent = '[Failed payload]'; msgType = 'text'; }
+                } else if (msgType === 'sticker') {
+                    mediaUrl = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${event.message.stickerId}/android/sticker.png`;
+                    msgType = 'image';
+                }
+
+                await supabase.from('chat_message').insert([{
+                    lead_id: leadId,
+                    sender: 'client',
+                    type: msgType,
+                    text_content: textContent,
+                    media_url: mediaUrl
+                }]);
+
+                // Auto-Responder Logic (นอกเวลาทำการ)
+                if (msgType === 'text') {
 
                     const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
                     const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
