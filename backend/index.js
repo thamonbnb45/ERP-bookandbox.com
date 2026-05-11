@@ -189,8 +189,20 @@ const getAIBestMatch = async (message) => {
     }
 };
 
+// Debug: store last webhook events for troubleshooting
+let lastWebhookEvents = [];
+
+app.get('/api/webhook/debug', (req, res) => {
+    res.json({ lastEvents: lastWebhookEvents, count: lastWebhookEvents.length, timestamp: new Date().toISOString() });
+});
+
 app.post('/api/webhook', async (req, res) => {
+    console.log('📨 [Webhook] Received:', JSON.stringify(req.body).substring(0, 500));
     const events = req.body.events;
+    
+    // Store for debugging
+    lastWebhookEvents = (events || []).map(e => ({ type: e.type, source: e.source, messageType: e.message?.type, text: e.message?.text?.substring(0, 100), time: new Date().toISOString() }));
+    
     if (events && events.length > 0) {
         for (let event of events) {
             // ═══ Auto-detect Group ID / User ID ═══
