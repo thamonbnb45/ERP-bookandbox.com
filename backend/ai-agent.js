@@ -239,4 +239,27 @@ async function processAgentQuery(supabase, question, aiApiKey, aiModel, lineUser
     }
 }
 
-module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST };
+// ══════════════════════════════════════════
+// CEO User ID สำหรับส่งข้อเสนอไปหา CEO อัตโนมัติ
+// ══════════════════════════════════════════
+const CEO_USER_ID = 'Ua944192ba939c444c52b4a435539c5a3';
+
+// ตรวจว่า AI ตอบมามีข้อเสนอหรือไม่
+function hasProposal(text) {
+    return text.includes('ข้อเสนอ:') || text.includes('📋');
+}
+
+// ดึงส่วนข้อเสนอออกมาจากข้อความ
+function extractProposal(text) {
+    // หาตำแหน่งที่เริ่มข้อเสนอ
+    const markers = ['📋 ข้อเสนอ:', '📋ข้อเสนอ:'];
+    let startIdx = -1;
+    for (const m of markers) {
+        startIdx = text.indexOf(m);
+        if (startIdx !== -1) break;
+    }
+    if (startIdx === -1) return text; // ส่งทั้งหมดถ้าหาไม่เจอ
+    return text.substring(startIdx);
+}
+
+module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal };

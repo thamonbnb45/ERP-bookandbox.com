@@ -408,6 +408,24 @@ app.post('/api/webhook-agent', async (req, res) => {
                 messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
             });
             console.log(`✅ [Agent] Replied to ${memberName} at ${targetId}`);
+
+            // ══════════════════════════════════════════
+            // ส่งข้อเสนอไปหา CEO อัตโนมัติ
+            // ══════════════════════════════════════════
+            const { CEO_USER_ID, hasProposal, extractProposal } = require('./ai-agent');
+            if (hasProposal(answer) && userId !== CEO_USER_ID) {
+                const proposal = extractProposal(answer);
+                const ceoMsg = `📨 ข้อเสนอจาก ${memberName} (${member?.role || 'ไม่ระบุ'})\n━━━━━━━━━━━━━━━\n${proposal}\n━━━━━━━━━━━━━━━\n💬 คำถามเดิม: "${cleanQ}"\n\nตอบ "อนุมัติ" หรือ "ไม่อนุมัติ" ได้เลยครับ`;
+                try {
+                    await client.pushMessage({
+                        to: CEO_USER_ID,
+                        messages: [{ type: 'text', text: ceoMsg.substring(0, 5000) }]
+                    });
+                    console.log(`📨 [Agent] Forwarded proposal from ${memberName} to CEO`);
+                } catch(fwdErr) {
+                    console.error('❌ [Agent] Failed to forward proposal to CEO:', fwdErr.message);
+                }
+            }
         } catch(err) {
             console.error('❌ [Agent] Error:', err.message);
             try {
