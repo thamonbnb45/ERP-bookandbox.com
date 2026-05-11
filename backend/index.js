@@ -2959,6 +2959,153 @@ app.get('/api/ai/status', (req, res) => {
     });
 });
 
+// ====== TIME LOGGER APIs ======
+app.get('/api/timelog/active', async (req, res) => {
+    try {
+        const userName = req.query.user || 'คุณณัฐวุฒิ'; // Default to CEO for testing
+        const { data, error } = await supabase
+            .from('time_logs')
+            .select('*')
+            .eq('user_name', userName)
+            .neq('status', 'completed')
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        res.json(data || []);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/timelog/start', async (req, res) => {
+    try {
+        const { user_name, task_name, category } = req.body;
+        const { data, error } = await supabase
+            .from('time_logs')
+            .insert([{ user_name, task_name, category, status: 'running', start_time: new Date().toISOString(), duration_seconds: 0 }])
+            .select('*')
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/timelog/pause', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const { data: current } = await supabase.from('time_logs').select('*').eq('id', id).single();
+        if (!current) return res.status(404).json({ error: 'Not found' });
+        
+        let additionalSeconds = 0;
+        if (current.status === 'running' && current.start_time) {
+            additionalSeconds = Math.floor((new Date() - new Date(current.start_time)) / 1000);
+        }
+        const newDuration = (current.duration_seconds || 0) + additionalSeconds;
+
+        const { data, error } = await supabase
+            .from('time_logs')
+            .update({ status: 'paused', duration_seconds: newDuration, start_time: null })
+            .eq('id', id)
+            .select('*')
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/timelog/resume', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const { data, error } = await supabase
+            .from('time_logs')
+            .update({ status: 'running', start_time: new Date().toISOString() })
+            .eq('id', id)
+            .select('*')
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/timelog/finish', async (req, res) => {
+    try {
+        const { id, quantity, completion_percent, notes } = req.body;
+        const { data: current } = await supabase.from('time_logs').select('*').eq('id', id).single();
+        if (!current) return res.status(404).json({ error: 'Not found' });
+        
+        let additionalSeconds = 0;
+        if (current.status === 'running' && current.start_time) {
+            additionalSeconds = Math.floor((new Date() - new Date(current.start_time)) / 1000);
+        }
+        const newDuration = (current.duration_seconds || 0) + additionalSeconds;
+
+        const { data, error } = await supabase
+            .from('time_logs')
+            .update({ 
+                status: 'completed', 
+                duration_seconds: newDuration, 
+                end_time: new Date().toISOString(),
+                start_time: null,
+                quantity, 
+                completion_percent, 
+                notes 
+            })
+            .eq('id', id)
+            .select('*')
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/timelog/history', async (req, res) => {
+    try {
+        const userName = req.query.user || 'คุณณัฐวุฒิ';
+        const { data, error } = await supabase
+            .from('time_logs')
+            .select('*')
+            .eq('user_name', userName)
+            .eq('status', 'completed')
+            .order('end_time', { ascending: false })
+            .limit(50);
+        if (error) throw error;
+        res.json(data || []);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/timelog/suggest', async (req, res) => {
+    try {
+        const q = req.query.q || '';
+        const { data, error } = await supabase
+            .from('time_logs')
+            .select('task_name')
+            .ilike('task_name', `%${q}%`)
+            .limit(100);
+        if (error) throw error;
+        
+        const uniqueNames = [...new Set((data || []).map(d => d.task_name))].slice(0, 5);
+        res.json(uniqueNames);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // React router fallback
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

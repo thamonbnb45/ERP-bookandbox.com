@@ -16,6 +16,7 @@ import SalesAnalysis from './pages/SalesAnalysis';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import VirtualOffice from './pages/VirtualOffice';
+import TimeLogger from './pages/TimeLogger';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
@@ -30,6 +31,12 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
           <i className="fa-solid fa-xmark menu-toggle mobile-close-btn" onClick={closeSidebar} style={{ cursor: 'pointer' }}></i>
       </div>
       <nav className="nav-links">
+          {/* ⏱️ ลงเวลาทำงาน (ทุกคนใช้ได้) */}
+          <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>บันทึกเวลา (Time Logger)</div>
+          <Link to="/time-logger" className={`nav-item ${location.pathname === '/time-logger' ? 'active' : ''}`} onClick={closeSidebar}>
+              <i className="fa-solid fa-stopwatch"></i> ลงเวลาทำงาน (My Tasks)
+          </Link>
+
           {/* 👑 ผู้บริหาร */}
           {canAccess('dashboard_module', ['CEO']) && (
               <>
@@ -185,6 +192,7 @@ function MainLayout() {
           <Route path="/sales-report" element={<><Topbar title="Sales Daily Report" toggleSidebar={toggleSidebar} /><div className="view-container"><SalesReport /></div></>} />
           <Route path="/pipeline" element={<><Topbar title="Sales Pipeline" toggleSidebar={toggleSidebar} /><div className="view-container"><SalesPipeline /></div></>} />
           <Route path="/sales-analysis" element={<><Topbar title="Sales Intelligence" toggleSidebar={toggleSidebar} /><div className="view-container"><SalesAnalysis /></div></>} />
+          <Route path="/time-logger" element={<><Topbar title="Time & Task Logger" toggleSidebar={toggleSidebar} /><div className="view-container"><TimeLogger /></div></>} />
           
           {/* Default Route based on Role */}
           <Route path="/" element={
