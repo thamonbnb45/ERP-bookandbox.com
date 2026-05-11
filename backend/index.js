@@ -2967,9 +2967,14 @@ app.get('/api/ai/status', (req, res) => {
     res.json({
         status: 'active',
         hasApiKey: !!AI_API_KEY,
+        apiKeyPrefix: AI_API_KEY ? AI_API_KEY.substring(0, 8) + '...' : 'NONE',
         model: AI_MODEL,
         agentGroupId: AI_AGENT_GROUP_ID || 'not configured',
-        triggers: AI_TRIGGER_PREFIXES
+        triggers: AI_TRIGGER_PREFIXES,
+        agentClientReady: !!agentLineClient,
+        hasAgentToken: !!AGENT_CHANNEL_TOKEN,
+        mainClientReady: !!lineClient,
+        deployVersion: '2026-05-11-v3-agent-webhook'
     });
 });
 
