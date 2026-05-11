@@ -313,6 +313,7 @@ app.post('/api/webhook-agent', async (req, res) => {
 
     // ใช้ client ของ Agent LINE OA (ถ้ามี) หรือ fallback ไป main client
     const client = agentLineClient || lineClient;
+    const { getTeamMember } = require('./ai-agent');
 
     for (const event of events) {
         const groupId = event.source?.groupId;
@@ -341,6 +342,26 @@ app.post('/api/webhook-agent', async (req, res) => {
         const text = event.message.text.trim();
         const targetId = groupId || userId;
 
+        // ══════════════════════════════════════════
+        // คำสั่ง "ลงทะเบียน" — ดู LINE User ID ของตัวเอง
+        // ══════════════════════════════════════════
+        if (text === 'ลงทะเบียน' || text === 'register' || text === 'id') {
+            const member = getTeamMember(userId);
+            let regMsg = `🔑 LINE User ID ของคุณ:\n${userId}\n\n`;
+            if (member) {
+                regMsg += `✅ ลงทะเบียนแล้ว: คุณ${member.name} (${member.role})`;
+            } else {
+                regMsg += `⚠️ ยังไม่ได้ลงทะเบียน\nกรุณาส่ง ID นี้ให้ CEO (Nam) เพื่อเพิ่มเข้าระบบ`;
+            }
+            try {
+                await client.pushMessage({
+                    to: targetId,
+                    messages: [{ type: 'text', text: regMsg }]
+                });
+            } catch(e) {}
+            continue;
+        }
+
         // ตรวจว่าข้อความเริ่มต้นด้วย trigger prefix
         const hasPrefix = AI_TRIGGER_PREFIXES.some(p => text.toLowerCase().startsWith(p));
         
@@ -359,7 +380,10 @@ app.post('/api/webhook-agent', async (req, res) => {
         }
         if (!cleanQ) cleanQ = text;
 
-        console.log(`🤖 [Agent] Processing: "${cleanQ}" for ${targetId}`);
+        // ตรวจสอบตัวตน
+        const member = getTeamMember(userId);
+        const memberName = member ? `คุณ${member.name}` : 'ผู้ใช้ที่ไม่ระบุตัวตน';
+        console.log(`🤖 [Agent] Processing: "${cleanQ}" from ${memberName} (${userId}) for ${targetId}`);
 
         if (!AI_API_KEY) {
             try {
@@ -372,13 +396,15 @@ app.post('/api/webhook-agent', async (req, res) => {
         }
 
         try {
-            const answer = await processAgentQuery(supabase, cleanQ, AI_API_KEY, AI_MODEL);
-            const replyText = `🤖 BookBox AI\n━━━━━━━━━━━━━━━\n${answer}`;
+            // ส่ง userId ไปด้วยเพื่อตรวจสอบสิทธิ์
+            const answer = await processAgentQuery(supabase, cleanQ, AI_API_KEY, AI_MODEL, userId);
+            const header = member ? `🤖 BookBox AI → ${memberName}` : '🤖 BookBox AI';
+            const replyText = `${header}\n━━━━━━━━━━━━━━━\n${answer}`;
             await client.pushMessage({
                 to: targetId,
                 messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
             });
-            console.log(`✅ [Agent] Replied to ${targetId}`);
+            console.log(`✅ [Agent] Replied to ${memberName} at ${targetId}`);
         } catch(err) {
             console.error('❌ [Agent] Error:', err.message);
             try {
