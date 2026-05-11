@@ -35,7 +35,6 @@ const TEAM_WHITELIST = {
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'ซัน', role: 'System Manager', access: ['system', 'production', 'sales', 'logistics', 'hr'] },
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'อ้อ', role: 'บัญชี / ผู้ช่วย CEO DEV', access: ['accounting', 'system'] },
     // 'Uxxxxxxxxxxxxxxxxx': { name: 'ซ่า', role: 'HR', access: ['hr', 'system'] },
-    // 'Uxxxxxxxxxxxxxxxxx': { name: 'Nam', role: 'CEO', access: ['all'] },
 };
 
 function getTeamMember(lineUserId) {
