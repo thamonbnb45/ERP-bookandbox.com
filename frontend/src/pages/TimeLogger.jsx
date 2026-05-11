@@ -346,9 +346,9 @@ export default function TimeLogger() {
             ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1rem' }}>
                     {activeTasks.map(task => (
-                        <div key={task.id} className="table-container p-4 shadow" style={{ borderTop: `4px solid ${task.status === 'running' ? 'var(--success)' : '#cbd5e1'}` }}>
-                            {task.status === 'running' && <span style={{ position: 'absolute', top: 10, right: 10, background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>● RUNNING</span>}
-                            {task.status === 'paused' && <span style={{ position: 'absolute', top: 10, right: 10, background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>⏸ PAUSED</span>}
+                        <div key={task.id} className="table-container p-4 shadow" style={{ borderTop: `4px solid ${task.status === 'running' ? 'var(--success)' : '#cbd5e1'}`, position: 'relative' }}>
+                            {task.status === 'running' && <span style={{ float: 'right', background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>● RUNNING</span>}
+                            {task.status === 'paused' && <span style={{ float: 'right', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>⏸ PAUSED</span>}
                             <h4 style={{ fontSize: '1.1rem', paddingRight: '80px' }}>{task.task_name}</h4>
                             <p className="text-muted mb-3" style={{ fontSize: '0.8rem' }}>{task.category || ''}</p>
                             <div className="text-center mb-3" style={{ fontFamily: 'monospace', fontSize: '1.8rem', fontWeight: 700, color: task.status === 'running' ? 'var(--success)' : '#475569' }}>

@@ -253,47 +253,9 @@ app.post('/api/webhook', async (req, res) => {
             }
 
             if (event.type === 'message') {
-                // ═══ AI AGENT DETECTION — ตรวจก่อน Lead ═══
-                if (event.message?.type === 'text') {
-                    const textContent = event.message.text;
-                    const isAgentGroup = AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID;
-                    const hasAgentPrefix = AI_TRIGGER_PREFIXES.some(p => textContent.toLowerCase().startsWith(p));
-                    
-                    if (isAgentGroup || hasAgentPrefix) {
-                        // Strip prefix to get clean question
-                        let cleanQuestion = textContent;
-                        for (const prefix of AI_TRIGGER_PREFIXES) {
-                            if (cleanQuestion.toLowerCase().startsWith(prefix)) {
-                                cleanQuestion = cleanQuestion.substring(prefix.length).trim();
-                                break;
-                            }
-                        }
-                        if (!cleanQuestion) cleanQuestion = textContent;
+                // ═══ AI AGENT ถูกปิดถาวร — ห้ามตอบลูกค้าอัตโนมัติ ═══
+                // (ถ้าต้องการเปิดใช้ AI ให้ใช้ผ่านหน้า ERP เท่านั้น ห้ามผ่าน LINE webhook)
 
-                        console.log(`🤖 [AI Agent LINE] Q: ${cleanQuestion}`);
-                        const targetId = groupId || userId;
-                        try {
-                            const agentAnswer = await processAgentQuery(supabase, cleanQuestion, AI_API_KEY, AI_MODEL);
-                            const replyText = `🤖 BookBox AI\n━━━━━━━━━━━━━━━\n${agentAnswer}`;
-                            
-                            // ใช้ pushMessage เพราะ AI ใช้เวลา → replyToken หมดอายุ
-                            await lineClient.pushMessage({
-                                to: targetId,
-                                messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
-                            });
-                            console.log(`✅ [AI Agent LINE] Replied to ${targetId}`);
-                        } catch(agentErr) {
-                            console.error('❌ AI Agent LINE error:', agentErr.message);
-                            try {
-                                await lineClient.pushMessage({
-                                    to: targetId,
-                                    messages: [{ type: 'text', text: `❌ Agent Error: ${agentErr.message}` }]
-                                });
-                            } catch(e) { console.error('Push error reply failed:', e.message); }
-                        }
-                        continue; // Skip normal chat processing for agent queries
-                    }
-                }
 
                 // ═══ Normal chat processing (Lead/Customer) ═══
                 const leadId = await ensureLeadExists(userId);
@@ -322,57 +284,8 @@ app.post('/api/webhook', async (req, res) => {
                 }]);
 
                 // Auto-Responder Logic (นอกเวลาทำการ)
-                if (msgType === 'text') {
-
-                    const thTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
-                    const timeNum = thTime.getHours() * 100 + thTime.getMinutes();
-                    const isAfterHours = timeNum >= 1730 || timeNum < 830;
-
-                    if (isAfterHours && channelToken !== 'DUMMY_TOKEN') {
-                        const aiResponse = await getAIBestMatch(textContent);
-                        if (aiResponse) {
-                            const autoReplyTxt = `🌙 [ระบบตอบยามวิกาล]\nขณะนี้แอดมินอยู่นอกเวลาทำการ (08.30-17.30น.)\nระบบขอประเมินข้อมูลเบื้องต้นให้คุณลูกค้าดังนี้ครับ 👇\n\n---\n${aiResponse}\n---\n\nเมื่อแอดมินกลับมาจะรีบตรวจสอบคิวงานให้ทันที รบกวนแจ้งชื่อ-เบอร์โทรติดต่อไว้ได้เลยครับ 🙏`;
-                            
-                            // Send auto-reply to LINE using correct v11 syntax
-                            try {
-                                let success = false;
-                                if (event.replyToken) {
-                                    try {
-                                        await lineClient.replyMessage({
-                                            replyToken: event.replyToken,
-                                            messages: [{ type: 'text', text: autoReplyTxt }]
-                                        });
-                                        success = true;
-                                    } catch(e) {
-                                        console.error('replyMessage failed, attempting pushMessage');
-                                    }
-                                }
-                                
-                                if (!success) {
-                                    await lineClient.pushMessage({
-                                        to: userId,
-                                        messages: [{ type: 'text', text: autoReplyTxt }]
-                                    });
-                                }
-                                
-                                // Save to DB so admin sees it
-                                await supabase.from('chat_message').insert([{
-                                    lead_id: leadId,
-                                    sender: 'admin',
-                                    type: 'text',
-                                    text_content: autoReplyTxt
-                                }]);
-                            } catch (replyErr) {
-                                await supabase.from('chat_message').insert([{
-                                    lead_id: leadId,
-                                    sender: 'admin',
-                                    type: 'text',
-                                    text_content: `[SDK ERROR LOG] ` + (replyErr.message || JSON.stringify(replyErr))
-                                }]);
-                            }
-                        }
-                    }
-                }
+                // ═══ Auto-Responder ถูกปิดถาวร — ห้ามตอบลูกค้าอัตโนมัติ ═══
+                // (เดิมมีระบบตอบนอกเวลา แต่ปิดเพื่อป้องกัน AI หลุดไปหาลูกค้า)
             }
         }
     }
