@@ -13,7 +13,7 @@ const { processAgentQuery } = require('./ai-agent');
 const AI_API_KEY = process.env.AI_API_KEY || ''; // Gemini API key
 const AI_MODEL = process.env.AI_MODEL || 'gemini'; // Default to gemini
 const AI_AGENT_GROUP_ID = process.env.AI_AGENT_GROUP_ID || ''; // LINE Group ID for AI queries
-const AI_TRIGGER_PREFIXES = ['ถาม', '@ai', 'วิเคราะห์', 'รายงาน', 'สรุป', 'ai '];
+const AI_TRIGGER_PREFIXES = ['@ai'];
 
 // Startup debug
 console.log('🔧 [ENV DEBUG] AI_API_KEY set:', !!process.env.AI_API_KEY, '| AI_MODEL:', process.env.AI_MODEL || 'NOT SET');
@@ -322,14 +322,15 @@ app.post('/api/webhook-agent', async (req, res) => {
 
         console.log(`🤖 [Agent Webhook] type=${event.type} source=${sourceType} group=${groupId || 'N/A'} user=${userId}`);
 
-        // Bot join group → ตอบ Group ID
+        // Bot join group → ทักทาย + log Group ID
         if (event.type === 'join' || event.type === 'memberJoined') {
             const id = groupId || event.source?.roomId;
+            console.log(`🤖 [Agent] Joined group: ${id}`);
             if (id && event.replyToken) {
                 try {
                     await client.replyMessage({
                         replyToken: event.replyToken,
-                        messages: [{ type: 'text', text: `✅ BookBox AI Agent เข้ากลุ่มสำเร็จ!\n\n🔑 Group ID:\n${id}\n\nคัดลอก ID นี้ไปใส่ใน Railway Variables:\nAI_AGENT_GROUP_ID=${id}` }]
+                        messages: [{ type: 'text', text: `✅ BookBox AI Agent พร้อมให้บริการ!\n\nพิมพ์ @ai ตามด้วยคำถาม เพื่อสอบถามได้เลยครับ\nตัวอย่าง: @ai วิธีวางระบบ tracking ขนส่ง` }]
                     });
                 } catch(e) { console.log('Agent join reply error:', e.message); }
             }
