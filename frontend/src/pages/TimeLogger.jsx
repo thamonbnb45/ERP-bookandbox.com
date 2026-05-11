@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
 export default function TimeLogger() {
+    const { user } = useAuth();
     const [activeTasks, setActiveTasks] = useState([]);
     const [historyTasks, setHistoryTasks] = useState([]);
     const [newTaskName, setNewTaskName] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentUser, setCurrentUser] = useState('คุณณัฐวุฒิ'); // Default to CEO
+    const currentUser = user?.full_name || 'ไม่ระบุตัวตน';
     
     // Auto-update timers
     const [now, setNow] = useState(new Date());
@@ -138,17 +140,12 @@ export default function TimeLogger() {
                     <h2 className="text-primary mb-2"><i className="fa-solid fa-stopwatch"></i> ระบบบันทึกเวลาทำงาน (Time & Task Logger)</h2>
                     <p className="text-muted">บันทึกเวลาการทำงานแบบ Multi-tasking สลับงานไปมาได้</p>
                 </div>
-                <div>
-                    <select 
-                        className="p-2 border rounded shadow-sm"
-                        value={currentUser}
-                        onChange={(e) => setCurrentUser(e.target.value)}
-                        style={{ outline: 'none' }}
-                    >
-                        <option value="คุณณัฐวุฒิ">👤 คุณณัฐวุฒิ (CEO)</option>
-                        <option value="สมชาย">👤 สมชาย (Production)</option>
-                        <option value="สมศรี">👤 สมศรี (Accounting)</option>
-                    </select>
+                <div style={{ background: '#f0f9ff', border: '1px solid #bae6fd', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <i className="fa-solid fa-user-check" style={{ color: '#0284c7' }}></i>
+                    <div>
+                        <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0c4a6e' }}>{currentUser}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{user?.role || ''}</div>
+                    </div>
                 </div>
             </div>
 
