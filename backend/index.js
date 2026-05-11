@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ override: false }); // Don't override Railway/system env vars
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
