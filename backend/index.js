@@ -254,7 +254,7 @@ app.post('/api/webhook', async (req, res) => {
                         console.log(`🤖 [AI Agent LINE] Q: ${cleanQuestion}`);
                         try {
                             const agentAnswer = await processAgentQuery(supabase, cleanQuestion, AI_API_KEY, AI_MODEL);
-                            const replyText = `🤖 BCD AI\n━━━━━━━━━━━━━━━\n${agentAnswer}`;
+                            const replyText = `🤖 BookBox AI\n━━━━━━━━━━━━━━━\n${agentAnswer}`;
                             
                             // Reply via LINE
                             const targetId = groupId || userId;

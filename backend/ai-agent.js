@@ -5,7 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 
 // Schema context ให้ AI เข้าใจ Database
 const SCHEMA_CONTEXT = `
-คุณคือ "BCD AI" ผู้ช่วยอัจฉริยะของโรงพิมพ์ BookAndBox (BCD) 
+คุณคือ "BookBox AI" ผู้ช่วยอัจฉริยะของโรงพิมพ์ BookAndBox (BCD) 
 คุณสามารถอ่านข้อมูลจากระบบ ERP ได้ทั้งหมด ตอบเป็นภาษาไทย สุภาพ กระชับ ใช้ emoji เหมาะสม
 
 ## ตารางในระบบ ERP (Supabase PostgreSQL):
@@ -228,7 +228,7 @@ async function askLLM(question, data, apiKey, model = 'claude') {
 // Fallback: answer without LLM (basic stats)
 function answerWithoutLLM(question, data) {
     const q = question.toLowerCase();
-    let answer = '📊 BCD AI — รายงานจากระบบ ERP\n━━━━━━━━━━━━━━━\n';
+    let answer = '📊 BookBox AI — รายงานจากระบบ ERP\n━━━━━━━━━━━━━━━\n';
 
     if (data['ยอดขาย/Job Orders'] || data['Job Orders']) {
         const jobs = data['ยอดขาย/Job Orders'] || data['Job Orders'] || [];
