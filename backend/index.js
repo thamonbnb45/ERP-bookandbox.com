@@ -365,8 +365,10 @@ app.post('/api/webhook-agent', async (req, res) => {
         // ตรวจว่าข้อความเริ่มต้นด้วย trigger prefix
         const hasPrefix = AI_TRIGGER_PREFIXES.some(p => text.toLowerCase().startsWith(p));
         
-        // ตอบเมื่อ: มี prefix หรืออยู่ในกลุ่มที่กำหนด
-        const shouldRespond = hasPrefix || (AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID);
+        // แชทส่วนตัว (1-on-1) → ตอบทุกข้อความ ไม่ต้องมี prefix
+        // กลุ่ม → ต้องมี prefix หรืออยู่ในกลุ่มที่กำหนด
+        const isPrivateChat = sourceType === 'user';
+        const shouldRespond = isPrivateChat || hasPrefix || (AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID);
         
         if (!shouldRespond) continue;
 
