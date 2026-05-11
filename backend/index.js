@@ -203,6 +203,9 @@ app.post('/api/webhook', async (req, res) => {
     // Store for debugging
     lastWebhookEvents = (events || []).map(e => ({ type: e.type, source: e.source, messageType: e.message?.type, text: e.message?.text?.substring(0, 100), time: new Date().toISOString() }));
     
+    // ⚡ ส่ง 200 OK ก่อน แล้วค่อย process (LINE ต้องการ response ภายใน 1 วินาที)
+    res.status(200).send('OK');
+    
     if (events && events.length > 0) {
         for (let event of events) {
             // ═══ Auto-detect Group ID / User ID ═══
@@ -264,41 +267,25 @@ app.post('/api/webhook', async (req, res) => {
                         if (!cleanQuestion) cleanQuestion = textContent;
 
                         console.log(`🤖 [AI Agent LINE] Q: ${cleanQuestion}`);
+                        const targetId = groupId || userId;
                         try {
                             const agentAnswer = await processAgentQuery(supabase, cleanQuestion, AI_API_KEY, AI_MODEL);
                             const replyText = `🤖 BookBox AI\n━━━━━━━━━━━━━━━\n${agentAnswer}`;
                             
-                            // Reply via LINE
-                            const targetId = groupId || userId;
-                            if (event.replyToken) {
-                                try {
-                                    await lineClient.replyMessage({
-                                        replyToken: event.replyToken,
-                                        messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
-                                    });
-                                } catch(replyErr) {
-                                    console.log('Reply failed, trying push:', replyErr.message);
-                                    try {
-                                        await lineClient.pushMessage({
-                                            to: targetId,
-                                            messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
-                                        });
-                                    } catch(pushErr) {
-                                        console.log('Push also failed:', pushErr.message);
-                                    }
-                                }
-                            }
+                            // ใช้ pushMessage เพราะ AI ใช้เวลา → replyToken หมดอายุ
+                            await lineClient.pushMessage({
+                                to: targetId,
+                                messages: [{ type: 'text', text: replyText.substring(0, 5000) }]
+                            });
+                            console.log(`✅ [AI Agent LINE] Replied to ${targetId}`);
                         } catch(agentErr) {
-                            console.error('AI Agent LINE error:', agentErr);
-                            // Reply with error message
-                            if (event.replyToken) {
-                                try {
-                                    await lineClient.replyMessage({
-                                        replyToken: event.replyToken,
-                                        messages: [{ type: 'text', text: `❌ Agent Error: ${agentErr.message}` }]
-                                    });
-                                } catch(e) {}
-                            }
+                            console.error('❌ AI Agent LINE error:', agentErr.message);
+                            try {
+                                await lineClient.pushMessage({
+                                    to: targetId,
+                                    messages: [{ type: 'text', text: `❌ Agent Error: ${agentErr.message}` }]
+                                });
+                            } catch(e) { console.error('Push error reply failed:', e.message); }
                         }
                         continue; // Skip normal chat processing for agent queries
                     }
@@ -385,7 +372,7 @@ app.post('/api/webhook', async (req, res) => {
             }
         }
     }
-    res.status(200).send('OK');
+    // Response already sent at top
 });
 
 // ====== FACEBOOK MESSENGER WEBHOOK ======
