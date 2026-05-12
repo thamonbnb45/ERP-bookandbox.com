@@ -38,8 +38,29 @@ const TEAM_WHITELIST = {
 };
 
 function getTeamMember(lineUserId) {
-    return TEAM_WHITELIST[lineUserId] || null;
+    // 1. Check hardcoded whitelist first (CEO etc)
+    if (TEAM_WHITELIST[lineUserId]) return TEAM_WHITELIST[lineUserId];
+    // 2. Check database cache (populated by loadTeamFromDB)
+    if (_dbTeamCache[lineUserId]) return _dbTeamCache[lineUserId];
+    return null;
 }
+
+// Database team cache (refreshed periodically)
+let _dbTeamCache = {};
+async function loadTeamFromDB() {
+    try {
+        const db = require('./db');
+        const result = await db.query(`SELECT * FROM team_members WHERE status = 'active'`);
+        _dbTeamCache = {};
+        for (const row of result.rows) {
+            _dbTeamCache[row.line_user_id] = { name: row.name, role: row.role, access: [row.access || 'production'] };
+        }
+        console.log(`✅ [Team] Loaded ${result.rows.length} members from DB`);
+    } catch(e) { /* table might not exist yet */ }
+}
+// Refresh every 60 seconds
+setInterval(loadTeamFromDB, 60000);
+setTimeout(loadTeamFromDB, 5000); // Initial load after 5s
 
 function getRoleContext(member) {
     if (!member) {

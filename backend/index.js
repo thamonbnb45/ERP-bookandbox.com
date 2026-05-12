@@ -342,20 +342,50 @@ app.post('/api/webhook-agent', async (req, res) => {
         // ══════════════════════════════════════════
         // คำสั่ง "ลงทะเบียน" — ดู LINE User ID ของตัวเอง
         // ══════════════════════════════════════════
-        if (text === 'ลงทะเบียน' || text === 'register' || text === 'id') {
+        if (text === 'ลงทะเบียน' || text === 'register' || text === 'id' || text.startsWith('ลงทะเบียน ')) {
             const member = getTeamMember(userId);
-            let regMsg = `🔑 LINE User ID ของคุณ:\n${userId}\n\n`;
+            const isPrivate = sourceType === 'user';
+
+            // Already registered
             if (member) {
-                regMsg += `✅ ลงทะเบียนแล้ว: คุณ${member.name} (${member.role})`;
-            } else {
-                regMsg += `⚠️ ยังไม่ได้ลงทะเบียน\nกรุณาส่ง ID นี้ให้ CEO (Nam) เพื่อเพิ่มเข้าระบบ`;
+                try {
+                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `✅ ลงทะเบียนแล้ว: คุณ${member.name} (${member.role})\n🔑 ID: ${userId}` }] });
+                } catch(e) {}
+                continue;
             }
+
+            // In group → tell them to DM
+            if (!isPrivate) {
+                try {
+                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📝 กรุณาลงทะเบียนในแชทส่วนตัวครับ\nแอด BookBox AI Agent เป็นเพื่อน แล้วพิมพ์:\nลงทะเบียน ชื่อ ตำแหน่ง\n\nตัวอย่าง: ลงทะเบียน หนึ่ง IT` }] });
+                } catch(e) {}
+                continue;
+            }
+
+            // Private chat → self-register
+            const parts = text.replace(/^(ลงทะเบียน|register)\s*/i, '').trim().split(/\s+/);
+            if (parts.length === 0 || !parts[0]) {
+                try {
+                    await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `📝 พิมพ์ชื่อและตำแหน่งต่อท้ายครับ\n\nตัวอย่าง:\nลงทะเบียน หนึ่ง IT\nลงทะเบียน ซัน Production Manager\nลงทะเบียน อ้อ บัญชี` }] });
+                } catch(e) {}
+                continue;
+            }
+
+            const regName = parts[0];
+            const regRole = parts.slice(1).join(' ') || 'Operator';
+
             try {
-                await client.pushMessage({
-                    to: targetId,
-                    messages: [{ type: 'text', text: regMsg }]
-                });
-            } catch(e) {}
+                const db = require('./db');
+                await db.query(
+                    `INSERT INTO team_members (line_user_id, name, role, status) VALUES ($1, $2, $3, 'active') ON CONFLICT (line_user_id) DO UPDATE SET name = $2, role = $3, status = 'active'`,
+                    [userId, regName, regRole]
+                );
+                await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `✅ ลงทะเบียนสำเร็จ!\n\n👤 ชื่อ: ${regName}\n💼 ตำแหน่ง: ${regRole}\n🔑 ID: ${userId}\n\n🏭 เข้าใช้งาน Smart Factory ได้ที่:\nhttps://erp-bookandboxcom-production.up.railway.app/smart-factory` }] });
+                console.log(`✅ [Register] ${regName} (${regRole}) registered: ${userId}`);
+            } catch(e) {
+                console.error('❌ [Register]', e.message);
+                try { await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `❌ ลงทะเบียนไม่สำเร็จ: ${e.message}` }] }); } catch(e2) {}
+            }
             continue;
         }
 
