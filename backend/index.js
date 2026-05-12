@@ -366,12 +366,54 @@ app.post('/api/webhook-agent', async (req, res) => {
         // ตรวจว่าข้อความเริ่มต้นด้วย trigger prefix
         const hasPrefix = AI_TRIGGER_PREFIXES.some(p => text.toLowerCase().startsWith(p));
         
-        // แชทส่วนตัว (1-on-1) → ตอบทุกข้อความ ไม่ต้องมี prefix
-        // กลุ่ม → ต้องมี prefix หรืออยู่ในกลุ่มที่กำหนด
         const isPrivateChat = sourceType === 'user';
-        const shouldRespond = isPrivateChat || hasPrefix || (AI_AGENT_GROUP_ID && groupId === AI_AGENT_GROUP_ID);
-        
-        if (!shouldRespond) continue;
+        const isGroupChat = sourceType === 'group' || sourceType === 'room';
+        const member = getTeamMember(userId);
+        const memberName = member ? `คุณ${member.name}` : 'ผู้ใช้ที่ไม่ระบุตัวตน';
+
+        // ══════════════════════════════════════════
+        // กลุ่ม: เก็บข้อมูลทุกข้อความ (Passive Collection)
+        // ══════════════════════════════════════════
+        if (isGroupChat && !hasPrefix) {
+            // ไม่มี @ai → เก็บข้อมูลเงียบๆ
+            if (!AI_API_KEY || !member) continue; // ข้ามถ้าไม่มี API key หรือไม่ใช่ทีม
+            
+            const { classifyMessage, saveReport, REPORT_LABELS } = require('./ai-agent');
+            try {
+                const classification = await classifyMessage(text, AI_API_KEY);
+                if (classification.is_report) {
+                    const label = REPORT_LABELS[classification.type] || 'รายงานทั่วไป';
+                    const saved = await saveReport(supabase, {
+                        reportType: classification.type || 'general',
+                        member: member,
+                        lineUserId: userId,
+                        groupId: groupId,
+                        title: classification.title || label,
+                        content: text,
+                        rawMessage: text,
+                        priority: classification.priority || 'normal'
+                    });
+                    const refId = `RPT-${String(saved.id).padStart(4, '0')}`;
+                    const priorityEmoji = classification.priority === 'urgent' ? '🔴' : classification.priority === 'high' ? '🟡' : '🟢';
+                    
+                    // ตอบสั้นๆ ยืนยันว่าเก็บแล้ว
+                    await client.pushMessage({
+                        to: targetId,
+                        messages: [{ type: 'text', text: `${priorityEmoji} บันทึกแล้ว | ${refId} | ${classification.title || label}` }]
+                    });
+                    console.log(`📝 [Agent] Logged report ${refId} from ${memberName} in group ${groupId}`);
+                }
+                // ไม่ใช่รายงาน → ข้ามเงียบๆ ไม่ตอบ
+            } catch(classErr) {
+                console.log('⚠️ [Agent] Classify error:', classErr.message);
+            }
+            continue;
+        }
+
+        // ══════════════════════════════════════════
+        // แชทส่วนตัว หรือ @ai ในกลุ่ม → ตอบเต็มรูปแบบ
+        // ══════════════════════════════════════════
+        if (!isPrivateChat && !hasPrefix) continue;
 
         // Strip prefix
         let cleanQ = text;
@@ -383,9 +425,6 @@ app.post('/api/webhook-agent', async (req, res) => {
         }
         if (!cleanQ) cleanQ = text;
 
-        // ตรวจสอบตัวตน
-        const member = getTeamMember(userId);
-        const memberName = member ? `คุณ${member.name}` : 'ผู้ใช้ที่ไม่ระบุตัวตน';
         console.log(`🤖 [Agent] Processing: "${cleanQ}" from ${memberName} (${userId}) for ${targetId}`);
 
         if (!AI_API_KEY) {
