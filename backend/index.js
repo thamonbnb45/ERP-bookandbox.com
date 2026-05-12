@@ -3221,6 +3221,16 @@ app.get(/.*/, (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+app.get('/api/debug-reports', async (req, res) => {
+    try {
+        const db = require('./db');
+        const result = await db.query('SELECT * FROM agent_reports ORDER BY created_at DESC LIMIT 5');
+        res.json(result.rows);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Enterprise Supabase Backend API running on http://localhost:${PORT}`);
     console.log(`[AI Worker] Background pipeline monitor active (every 30min)`);
