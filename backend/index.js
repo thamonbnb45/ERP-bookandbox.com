@@ -340,51 +340,98 @@ app.post('/api/webhook-agent', async (req, res) => {
         const targetId = groupId || userId;
 
         // ══════════════════════════════════════════
-        // คำสั่ง "ลงทะเบียน" — ดู LINE User ID ของตัวเอง
+        // คำสั่ง "ลงทะเบียน" — Self-service + CEO Approval
         // ══════════════════════════════════════════
         if (text === 'ลงทะเบียน' || text === 'register' || text === 'id' || text.startsWith('ลงทะเบียน ')) {
             const member = getTeamMember(userId);
             const isPrivate = sourceType === 'user';
 
-            // Already registered
             if (member) {
-                try {
-                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `✅ ลงทะเบียนแล้ว: คุณ${member.name} (${member.role})\n🔑 ID: ${userId}` }] });
-                } catch(e) {}
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `✅ ลงทะเบียนแล้ว: คุณ${member.name} (${member.role})\n🔑 ID: ${userId}` }] }); } catch(e) {}
                 continue;
             }
 
-            // In group → tell them to DM
+            // Check if pending
+            try {
+                const db = require('./db');
+                const pending = await db.query(`SELECT * FROM team_members WHERE line_user_id = $1`, [userId]);
+                if (pending.rows.length > 0 && pending.rows[0].status === 'pending') {
+                    try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `⏳ รอ CEO อนุมัติอยู่ครับ กรุณารอสักครู่...` }] }); } catch(e) {}
+                    continue;
+                }
+            } catch(e) {}
+
             if (!isPrivate) {
-                try {
-                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📝 กรุณาลงทะเบียนในแชทส่วนตัวครับ\nแอด BookBox AI Agent เป็นเพื่อน แล้วพิมพ์:\nลงทะเบียน ชื่อ ตำแหน่ง\n\nตัวอย่าง: ลงทะเบียน หนึ่ง IT` }] });
-                } catch(e) {}
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📝 กรุณาลงทะเบียนในแชทส่วนตัวครับ\nแอด BookBox AI Agent เป็นเพื่อน แล้วพิมพ์:\nลงทะเบียน ชื่อ ตำแหน่ง\n\nตัวอย่าง: ลงทะเบียน หนึ่ง IT` }] }); } catch(e) {}
                 continue;
             }
 
-            // Private chat → self-register
             const parts = text.replace(/^(ลงทะเบียน|register)\s*/i, '').trim().split(/\s+/);
             if (parts.length === 0 || !parts[0]) {
-                try {
-                    await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `📝 พิมพ์ชื่อและตำแหน่งต่อท้ายครับ\n\nตัวอย่าง:\nลงทะเบียน หนึ่ง IT\nลงทะเบียน ซัน Production Manager\nลงทะเบียน อ้อ บัญชี` }] });
-                } catch(e) {}
+                try { await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `📝 พิมพ์ชื่อและตำแหน่งต่อท้ายครับ\n\nตัวอย่าง:\nลงทะเบียน หนึ่ง IT\nลงทะเบียน ซัน Production Manager\nลงทะเบียน อ้อ บัญชี` }] }); } catch(e) {}
                 continue;
             }
 
             const regName = parts[0];
             const regRole = parts.slice(1).join(' ') || 'Operator';
+            const CEO_LINE_ID = 'Ua944192ba939c444c52b4a435539c5a3';
 
             try {
                 const db = require('./db');
                 await db.query(
-                    `INSERT INTO team_members (line_user_id, name, role, status) VALUES ($1, $2, $3, 'active') ON CONFLICT (line_user_id) DO UPDATE SET name = $2, role = $3, status = 'active'`,
+                    `INSERT INTO team_members (line_user_id, name, role, status) VALUES ($1, $2, $3, 'pending') ON CONFLICT (line_user_id) DO UPDATE SET name = $2, role = $3, status = 'pending'`,
                     [userId, regName, regRole]
                 );
-                await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `✅ ลงทะเบียนสำเร็จ!\n\n👤 ชื่อ: ${regName}\n💼 ตำแหน่ง: ${regRole}\n🔑 ID: ${userId}\n\n🏭 เข้าใช้งาน Smart Factory ได้ที่:\nhttps://erp-bookandboxcom-production.up.railway.app/smart-factory` }] });
-                console.log(`✅ [Register] ${regName} (${regRole}) registered: ${userId}`);
+                // แจ้ง user
+                await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `📨 ส่งคำขอลงทะเบียนแล้ว!\n\n👤 ชื่อ: ${regName}\n💼 ตำแหน่ง: ${regRole}\n\n⏳ รอ CEO อนุมัติ...` }] });
+                // แจ้ง CEO ขออนุมัติ
+                await client.pushMessage({ to: CEO_LINE_ID, messages: [{ type: 'text', text: `🔔 มีคนขอลงทะเบียน!\n\n👤 ชื่อ: ${regName}\n💼 ตำแหน่ง: ${regRole}\n🔑 ID: ${userId}\n\n✅ พิมพ์ \"อนุมัติ ${regName}\" เพื่ออนุมัติ\n❌ พิมพ์ \"ปฏิเสธ ${regName}\" เพื่อปฏิเสธ` }] });
+                console.log(`📨 [Register] ${regName} pending approval`);
             } catch(e) {
                 console.error('❌ [Register]', e.message);
-                try { await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `❌ ลงทะเบียนไม่สำเร็จ: ${e.message}` }] }); } catch(e2) {}
+            }
+            continue;
+        }
+
+        // ══════════════════════════════════════════
+        // คำสั่ง "อนุมัติ/ปฏิเสธ" — CEO Only
+        // ══════════════════════════════════════════
+        if ((text.startsWith('อนุมัติ ') || text.startsWith('ปฏิเสธ ')) && sourceType === 'user') {
+            const CEO_LINE_ID = 'Ua944192ba939c444c52b4a435539c5a3';
+            if (userId !== CEO_LINE_ID) {
+                try { await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `⛔ เฉพาะ CEO เท่านั้นที่อนุมัติได้ครับ` }] }); } catch(e) {}
+                continue;
+            }
+
+            const isApprove = text.startsWith('อนุมัติ');
+            const targetName = text.replace(/^(อนุมัติ|ปฏิเสธ)\s+/, '').trim();
+            const newStatus = isApprove ? 'active' : 'rejected';
+
+            try {
+                const db = require('./db');
+                const found = await db.query(`SELECT * FROM team_members WHERE name = $1 AND status = 'pending'`, [targetName]);
+                if (found.rows.length === 0) {
+                    await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `⚠️ ไม่พบ "${targetName}" ในรายการรออนุมัติ` }] });
+                    continue;
+                }
+
+                const member = found.rows[0];
+                await db.query(`UPDATE team_members SET status = $1 WHERE id = $2`, [newStatus, member.id]);
+
+                // แจ้ง CEO
+                await client.pushMessage({ to: userId, messages: [{ type: 'text', text: isApprove ? `✅ อนุมัติ ${targetName} (${member.role}) เรียบร้อย!` : `❌ ปฏิเสธ ${targetName} แล้ว` }] });
+
+                // แจ้งผู้สมัคร
+                if (isApprove) {
+                    try { await client.pushMessage({ to: member.line_user_id, messages: [{ type: 'text', text: `🎉 ลงทะเบียนได้รับอนุมัติแล้ว!\n\n👤 คุณ${member.name} (${member.role})\n\n🏭 เข้าใช้งาน Smart Factory:\nhttps://erp-bookandboxcom-production.up.railway.app/smart-factory` }] }); } catch(e) {}
+                } else {
+                    try { await client.pushMessage({ to: member.line_user_id, messages: [{ type: 'text', text: `❌ คำขอลงทะเบียนถูกปฏิเสธครับ\nกรุณาติดต่อ CEO` }] }); } catch(e) {}
+                }
+                // Reload team cache
+                const { loadTeamFromDB } = require('./ai-agent');
+                if (loadTeamFromDB) await loadTeamFromDB();
+            } catch(e) {
+                console.error('❌ [Approve]', e.message);
             }
             continue;
         }
@@ -3428,6 +3475,19 @@ app.get('/api/factory/stats', async (req, res) => {
             urgent_jobs: parseInt(urgentJobs.rows[0].count),
             completed_today: parseInt(completedToday.rows[0].count)
         });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ══════════════════════════════════════════════════════════════
+// 🧠 NEXUS → ZERO RELAY — Push messages to LINE via API
+// ══════════════════════════════════════════════════════════════
+app.post('/api/nexus/push', async (req, res) => {
+    try {
+        const { targetId, message } = req.body;
+        if (!targetId || !message) return res.status(400).json({ error: 'targetId and message required' });
+        const client = agentLineClient || lineClient;
+        await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: message }] });
+        res.json({ success: true, sentTo: targetId });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

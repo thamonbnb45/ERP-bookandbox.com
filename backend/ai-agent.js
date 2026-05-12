@@ -438,4 +438,4 @@ function extractProposal(text) {
     return text.substring(startIdx);
 }
 
-module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal, classifyMessage, saveReport, REPORT_LABELS };
+module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal, classifyMessage, saveReport, REPORT_LABELS, loadTeamFromDB };
