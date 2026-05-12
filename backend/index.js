@@ -340,6 +340,14 @@ app.post('/api/webhook-agent', async (req, res) => {
         const targetId = groupId || userId;
 
         // ══════════════════════════════════════════
+        // คำสั่ง "id" ในกลุ่ม → แสดง Group ID เสมอ
+        // ══════════════════════════════════════════
+        if (text === 'id' && groupId) {
+            try { await client.pushMessage({ to: groupId, messages: [{ type: 'text', text: `🔑 Group ID:\n${groupId}\n\n📋 ใช้ ID นี้สำหรับส่งข้อความผ่าน Nexus` }] }); } catch(e) {}
+            continue;
+        }
+
+        // ══════════════════════════════════════════
         // คำสั่ง "ลงทะเบียน" — Self-service + CEO Approval
         // ══════════════════════════════════════════
         if (text === 'ลงทะเบียน' || text === 'register' || text === 'id' || text.startsWith('ลงทะเบียน ')) {
