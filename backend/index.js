@@ -368,8 +368,15 @@ app.post('/api/webhook-agent', async (req, res) => {
         // ══════════════════════════════════════════
         if (isGroupChat && !hasPrefix) {
             // ไม่มี @ai → เก็บข้อมูลเงียบๆ
-            if (!AI_API_KEY || !member) continue; // ข้ามถ้าไม่มี API key หรือไม่ใช่ทีม
+            if (!AI_API_KEY || !member) continue;
             
+            // ดึงชื่อกลุ่มจาก LINE API อัตโนมัติ
+            let groupName = '';
+            try {
+                const groupInfo = await client.getGroupSummary(groupId);
+                groupName = groupInfo.groupName || '';
+            } catch(e) { /* ไม่เป็นไร ถ้าดึงไม่ได้ */ }
+
             const { classifyMessage, saveReport, REPORT_LABELS } = require('./ai-agent');
             try {
                 const classification = await classifyMessage(text, AI_API_KEY);
@@ -380,6 +387,7 @@ app.post('/api/webhook-agent', async (req, res) => {
                         member: member,
                         lineUserId: userId,
                         groupId: groupId,
+                        groupName: groupName,
                         title: classification.title || label,
                         content: text,
                         rawMessage: text,
@@ -393,9 +401,8 @@ app.post('/api/webhook-agent', async (req, res) => {
                         to: targetId,
                         messages: [{ type: 'text', text: `${priorityEmoji} บันทึกแล้ว | ${refId} | ${classification.title || label}` }]
                     });
-                    console.log(`📝 [Agent] Logged report ${refId} from ${memberName} in group ${groupId}`);
+                    console.log(`📝 [Agent] Logged ${refId} from ${memberName} in "${groupName}" (${groupId})`);
                 }
-                // ไม่ใช่รายงาน → ข้ามเงียบๆ ไม่ตอบ
             } catch(classErr) {
                 console.log('⚠️ [Agent] Classify error:', classErr.message);
             }

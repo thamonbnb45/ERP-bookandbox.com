@@ -295,13 +295,14 @@ async function classifyMessage(text, apiKey) {
 }
 
 // บันทึกรายงานเข้า Supabase
-async function saveReport(supabase, { reportType, member, lineUserId, groupId, title, content, rawMessage, priority }) {
+async function saveReport(supabase, { reportType, member, lineUserId, groupId, groupName, title, content, rawMessage, priority }) {
     const { data, error } = await supabase.from('agent_reports').insert([{
         report_type: reportType,
         reporter_name: member?.name || 'ไม่ระบุ',
         reporter_role: member?.role || 'ไม่ระบุ',
         reporter_line_id: lineUserId,
         group_id: groupId || null,
+        group_name: groupName || null,
         title: title,
         content: content,
         raw_message: rawMessage,
