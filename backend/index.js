@@ -3215,6 +3215,192 @@ app.get('/api/timelog/suggest', async (req, res) => {
     }
 });
 
+// ══════════════════════════════════════════════════════════════
+// 🏭 SMART FACTORY — APS / Capacity Planning / OEE APIs
+// ══════════════════════════════════════════════════════════════
+
+// --- Work Centers CRUD ---
+app.get('/api/factory/work-centers', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('work_centers').select('*').order('created_at', { ascending: true });
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/factory/work-centers', async (req, res) => {
+    try {
+        const { name, type, capacity_per_hour, shift_hours, notes } = req.body;
+        const { data, error } = await supabase.from('work_centers').insert([{ name, type: type || 'general', capacity_per_hour: capacity_per_hour || 0, shift_hours: shift_hours || 8, notes }]).select('*');
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/factory/work-centers/:id', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('work_centers').update(req.body).eq('id', req.params.id).select('*');
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/factory/work-centers/:id', async (req, res) => {
+    try {
+        await supabase.from('work_centers').delete().eq('id', req.params.id);
+        res.json({ ok: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- Production Schedule CRUD ---
+app.get('/api/factory/schedule', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('production_schedule').select('*').order('scheduled_start', { ascending: true });
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/factory/schedule', async (req, res) => {
+    try {
+        const row = req.body;
+        // Finite capacity check
+        if (row.work_center_id && row.scheduled_start) {
+            const schedDate = new Date(row.scheduled_start).toISOString().slice(0, 10);
+            const db = require('./db');
+            const existing = await db.query(
+                `SELECT COALESCE(SUM(estimated_duration_min), 0) as booked FROM production_schedule WHERE work_center_id = $1 AND DATE(scheduled_start) = $2 AND status NOT IN ('completed', 'cancelled')`,
+                [row.work_center_id, schedDate]
+            );
+            const wcRes = await db.query(`SELECT shift_hours FROM work_centers WHERE id = $1`, [row.work_center_id]);
+            const shiftMin = (wcRes.rows[0]?.shift_hours || 8) * 60;
+            const bookedMin = existing.rows[0]?.booked || 0;
+            const estMin = row.estimated_duration_min || 60;
+            if (bookedMin + estMin > shiftMin && !row.is_urgent) {
+                return res.status(409).json({ error: 'CAPACITY_FULL', message: `กำลังผลิตเต็มแล้ว (${Math.round(bookedMin)}/${shiftMin} นาที) กรุณาเลือกวันอื่นหรือขอแทรกด่วน`, booked: bookedMin, capacity: shiftMin });
+            }
+        }
+        const { data, error } = await supabase.from('production_schedule').insert([row]).select('*');
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/factory/schedule/:id', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('production_schedule').update(req.body).eq('id', req.params.id).select('*');
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/factory/schedule/:id', async (req, res) => {
+    try {
+        await supabase.from('production_schedule').delete().eq('id', req.params.id);
+        res.json({ ok: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- Capacity Check (for Sales to see availability) ---
+app.get('/api/factory/capacity', async (req, res) => {
+    try {
+        const { date, work_center_id } = req.query;
+        const targetDate = date || new Date().toISOString().slice(0, 10);
+        const db = require('./db');
+        let sql = `SELECT wc.id, wc.name, wc.type, wc.shift_hours, wc.status, COALESCE(SUM(ps.estimated_duration_min), 0) as booked_min, (wc.shift_hours * 60) as capacity_min FROM work_centers wc LEFT JOIN production_schedule ps ON ps.work_center_id = wc.id AND DATE(ps.scheduled_start) = $1 AND ps.status NOT IN ('completed', 'cancelled') WHERE wc.status = 'active'`;
+        const params = [targetDate];
+        if (work_center_id) { sql += ` AND wc.id = $2`; params.push(work_center_id); }
+        sql += ` GROUP BY wc.id ORDER BY wc.name`;
+        const result = await db.query(sql, params);
+        const rows = result.rows.map(r => ({ ...r, utilization_pct: r.capacity_min > 0 ? Math.round((r.booked_min / r.capacity_min) * 100) : 0, available_min: r.capacity_min - r.booked_min }));
+        res.json(rows);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- 7-Day Capacity Heatmap ---
+app.get('/api/factory/capacity-week', async (req, res) => {
+    try {
+        const db = require('./db');
+        const startDate = req.query.start || new Date().toISOString().slice(0, 10);
+        const result = await db.query(`
+            SELECT wc.id, wc.name, wc.type, wc.shift_hours,
+                d.dt::date as calendar_date,
+                COALESCE(SUM(ps.estimated_duration_min), 0) as booked_min,
+                (wc.shift_hours * 60) as capacity_min
+            FROM work_centers wc
+            CROSS JOIN generate_series($1::date, ($1::date + interval '6 days'), interval '1 day') as d(dt)
+            LEFT JOIN production_schedule ps ON ps.work_center_id = wc.id AND DATE(ps.scheduled_start) = d.dt::date AND ps.status NOT IN ('completed', 'cancelled')
+            WHERE wc.status = 'active'
+            GROUP BY wc.id, wc.name, wc.type, wc.shift_hours, d.dt
+            ORDER BY wc.name, d.dt
+        `, [startDate]);
+        res.json(result.rows.map(r => ({ ...r, utilization_pct: r.capacity_min > 0 ? Math.round((r.booked_min / r.capacity_min) * 100) : 0 })));
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- OEE Records ---
+app.get('/api/factory/oee', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('oee_records').select('*').order('record_date', { ascending: false }).limit(50);
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/factory/oee', async (req, res) => {
+    try {
+        const row = req.body;
+        const avail = row.planned_time_min > 0 ? ((row.planned_time_min - (row.downtime_min || 0)) / row.planned_time_min) * 100 : 0;
+        const perf = (row.actual_run_time_min > 0 && row.ideal_cycle_time > 0) ? ((row.ideal_cycle_time * row.total_produced) / row.actual_run_time_min) * 100 : 0;
+        const qual = row.total_produced > 0 ? ((row.good_produced || 0) / row.total_produced) * 100 : 0;
+        const oee = (avail * perf * qual) / 10000;
+        row.availability = Math.round(avail * 10) / 10;
+        row.performance = Math.round(perf * 10) / 10;
+        row.quality = Math.round(qual * 10) / 10;
+        row.oee = Math.round(oee * 10) / 10;
+        const { data, error } = await supabase.from('oee_records').insert([row]).select('*');
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- Changeover / SMED Log ---
+app.get('/api/factory/changeover', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('changeover_log').select('*').order('created_at', { ascending: false }).limit(50);
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/factory/changeover', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('changeover_log').insert([req.body]).select('*');
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- Factory Dashboard Stats ---
+app.get('/api/factory/stats', async (req, res) => {
+    try {
+        const db = require('./db');
+        const today = new Date().toISOString().slice(0, 10);
+        const [wcCount, todayJobs, urgentJobs, completedToday] = await Promise.all([
+            db.query(`SELECT COUNT(*) as count FROM work_centers WHERE status = 'active'`),
+            db.query(`SELECT COUNT(*) as count FROM production_schedule WHERE DATE(scheduled_start) = $1 AND status NOT IN ('completed', 'cancelled')`, [today]),
+            db.query(`SELECT COUNT(*) as count FROM production_schedule WHERE is_urgent = true AND status NOT IN ('completed', 'cancelled')`),
+            db.query(`SELECT COUNT(*) as count FROM production_schedule WHERE DATE(actual_end) = $1 AND status = 'completed'`, [today])
+        ]);
+        res.json({
+            work_centers: parseInt(wcCount.rows[0].count),
+            today_jobs: parseInt(todayJobs.rows[0].count),
+            urgent_jobs: parseInt(urgentJobs.rows[0].count),
+            completed_today: parseInt(completedToday.rows[0].count)
+        });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 app.get('/api/debug-reports', async (req, res) => {
     try {
         const db = require('./db');

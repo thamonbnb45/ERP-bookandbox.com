@@ -17,6 +17,7 @@ import Settings from './pages/Settings';
 import Login from './pages/Login';
 import VirtualOffice from './pages/VirtualOffice';
 import TimeLogger from './pages/TimeLogger';
+import SmartFactory from './pages/SmartFactory';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
@@ -83,6 +84,9 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
           {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse', 'Driver']) && (
               <>
                 <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ผลิตและจัดส่ง (Production)</div>
+                <Link to="/smart-factory" className={`nav-item ${location.pathname === '/smart-factory' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-gears"></i> 🏭 Smart Factory (APS)
+                </Link>
                 <Link to="/print-flow" className={`nav-item ${location.pathname === '/print-flow' ? 'active' : ''}`} onClick={closeSidebar}>
                     <i className="fa-solid fa-print"></i> วางแผนผลิต (Print Flow)
                 </Link>
@@ -182,6 +186,7 @@ function MainLayout() {
           <Route path="/adweb" element={<><Topbar title="Chat" toggleSidebar={toggleSidebar} /><div className="view-container"><AdWeb /></div></>} />
           <Route path="/sales" element={<><Topbar title="Sales & Quotations" toggleSidebar={toggleSidebar} /><div className="view-container"><Sales /></div></>} />
           <Route path="/production" element={<><Topbar title="Production Control" toggleSidebar={toggleSidebar} /><div className="view-container"><Production /></div></>} />
+          <Route path="/smart-factory" element={<><Topbar title="🏭 Smart Factory" toggleSidebar={toggleSidebar} /><div className="view-container"><SmartFactory /></div></>} />
           <Route path="/print-flow" element={<><Topbar title="Print Flow Plan" toggleSidebar={toggleSidebar} /><div className="view-container"><PrintFlow /></div></>} />
           <Route path="/accounting" element={<><Topbar title="Finance & Billing" toggleSidebar={toggleSidebar} /><div className="view-container"><Accounting /></div></>} />
           <Route path="/hr" element={<><Topbar title="HR Workforce" toggleSidebar={toggleSidebar} /><div className="view-container"><HR /></div></>} />
