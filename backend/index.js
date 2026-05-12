@@ -322,18 +322,10 @@ app.post('/api/webhook-agent', async (req, res) => {
 
         console.log(`🤖 [Agent Webhook] type=${event.type} source=${sourceType} group=${groupId || 'N/A'} user=${userId}`);
 
-        // Bot join group → ทักทาย + log Group ID
+        // Bot join group → log Group ID เงียบๆ ไม่ต้องทักทาย
         if (event.type === 'join' || event.type === 'memberJoined') {
             const id = groupId || event.source?.roomId;
             console.log(`🤖 [Agent] Joined group: ${id}`);
-            if (id && event.replyToken) {
-                try {
-                    await client.replyMessage({
-                        replyToken: event.replyToken,
-                        messages: [{ type: 'text', text: `✅ BookBox AI Agent พร้อมให้บริการ!\n\nพิมพ์ @ai ตามด้วยคำถาม เพื่อสอบถามได้เลยครับ\nตัวอย่าง: @ai วิธีวางระบบ tracking ขนส่ง` }]
-                    });
-                } catch(e) { console.log('Agent join reply error:', e.message); }
-            }
             continue;
         }
 
