@@ -4,10 +4,11 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const line = require('@line/bot-sdk');
-const { createClient } = require('@supabase/supabase-js');
+const db = require('./db');
 const compression = require('compression');
 const multer = require('multer');
 const { processAgentQuery } = require('./ai-agent');
+const { runMigrations } = require('./migrate');
 
 // AI Agent Config
 const AI_API_KEY = process.env.AI_API_KEY || ''; // Gemini API key
@@ -18,6 +19,7 @@ const AI_TRIGGER_PREFIXES = ['@ai'];
 // Startup debug
 console.log('🔧 [ENV DEBUG] AI_API_KEY set:', !!process.env.AI_API_KEY, '| AI_MODEL:', process.env.AI_MODEL || 'NOT SET');
 console.log('🔧 [ENV DEBUG] CHANNEL_SECRET set:', !!process.env.CHANNEL_SECRET, '| CHANNEL_ACCESS_TOKEN set:', !!process.env.CHANNEL_ACCESS_TOKEN);
+console.log('🔧 [ENV DEBUG] DATABASE_URL set:', !!process.env.DATABASE_URL);
 
 const app = express();
 app.use(compression());
@@ -36,13 +38,15 @@ if (!fs.existsSync(chatUploadDir)) {
 }
 const chatUpload = multer({ dest: chatUploadDir });
 
-// Supabase Init
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-if(!supabaseUrl || !supabaseKey) {
-    console.error("Missing SUPABASE Credentials in .env!");
-}
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Database Init (Railway PostgreSQL)
+db.initDB();
+const supabase = db; // ← alias ให้โค้ดเดิมใช้ชื่อ supabase ได้เลย ไม่ต้องแก้ 175 จุด
+
+// Run migrations on startup
+runMigrations().then(ok => {
+    if (ok) console.log('✅ [Startup] Database ready');
+    else console.error('❌ [Startup] Migration failed');
+});
 
 const channelToken = process.env.CHANNEL_ACCESS_TOKEN || 'DUMMY_TOKEN';
 const { messagingApi } = line;
