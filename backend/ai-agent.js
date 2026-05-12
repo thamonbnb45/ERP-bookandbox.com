@@ -235,15 +235,77 @@ async function askAI(question, apiKey, model, roleContext) {
 }
 
 // ══════════════════════════════════════════
-// Main Agent Function (ไม่มี Database Query)
+// ระบบตรวจจับรายงาน (Report Detection)
 // ══════════════════════════════════════════
-async function processAgentQuery(supabase, question, aiApiKey, aiModel, lineUserId) {
+const REPORT_KEYWORDS = {
+    'nc': { triggers: ['nc:', 'nc ', 'งานเสีย', 'งานผิด', 'ผิดพลาด', 'ตีกลับ'], type: 'nc', label: 'แจ้ง NC (งานผิดพลาด)' },
+    'work_log': { triggers: ['รายงาน:', 'รายงาน ', 'บันทึกงาน:', 'บันทึกงาน ', 'วันนี้ทำ', 'ทำงาน:'], type: 'work_log', label: 'บันทึกงาน' },
+    'sales': { triggers: ['ยอดขาย:', 'ยอดขาย ', 'ยอดวันนี้', 'ลูกค้าเข้า'], type: 'sales', label: 'รายงานยอดขาย' },
+    'delivery': { triggers: ['ส่งของ:', 'ส่งของ ', 'จัดส่ง:', 'รับของ:', 'ของถึง'], type: 'delivery', label: 'รายงานจัดส่ง' },
+    'transfer': { triggers: ['โอนเงิน:', 'โอนแล้ว', 'โอนเรียบร้อย', 'อนุมัติโอน'], type: 'transfer', label: 'รายงานโอนเงิน' },
+};
+
+function detectReport(text) {
+    const lower = text.toLowerCase().trim();
+    for (const [key, config] of Object.entries(REPORT_KEYWORDS)) {
+        for (const trigger of config.triggers) {
+            if (lower.startsWith(trigger) || lower.includes(trigger)) {
+                return { type: config.type, label: config.label };
+            }
+        }
+    }
+    return null;
+}
+
+// บันทึกรายงานเข้า Supabase
+async function saveReport(supabase, { reportType, member, lineUserId, groupId, title, content, rawMessage }) {
+    const { data, error } = await supabase.from('agent_reports').insert([{
+        report_type: reportType,
+        reporter_name: member?.name || 'ไม่ระบุ',
+        reporter_role: member?.role || 'ไม่ระบุ',
+        reporter_line_id: lineUserId,
+        group_id: groupId || null,
+        title: title,
+        content: content,
+        raw_message: rawMessage,
+        status: 'logged',
+        priority: reportType === 'nc' ? 'high' : 'normal'
+    }]).select('id, created_at');
+
+    if (error) throw new Error(`บันทึกไม่สำเร็จ: ${error.message}`);
+    return data[0];
+}
+
+// ══════════════════════════════════════════
+// Main Agent Function
+// ══════════════════════════════════════════
+async function processAgentQuery(supabase, question, aiApiKey, aiModel, lineUserId, groupId) {
     try {
         // 1. ตรวจสอบตัวตน
         const member = getTeamMember(lineUserId);
         const roleContext = getRoleContext(member);
 
-        // 2. ถาม AI โดยไม่ส่งข้อมูลจาก Database ไป
+        // 2. ตรวจว่าเป็นรายงานหรือไม่
+        const report = detectReport(question);
+        if (report && member) {
+            // เป็นรายงาน → บันทึกเข้า Database เลย
+            const saved = await saveReport(supabase, {
+                reportType: report.type,
+                member: member,
+                lineUserId: lineUserId,
+                groupId: groupId,
+                title: report.label,
+                content: question,
+                rawMessage: question
+            });
+
+            const refId = `RPT-${String(saved.id).padStart(4, '0')}`;
+            const time = new Date(saved.created_at).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
+
+            return `✅ บันทึกเรียบร้อย!\n📋 ประเภท: ${report.label}\n🔖 เลขอ้างอิง: ${refId}\n👤 ผู้รายงาน: คุณ${member.name}\n🕐 เวลา: ${time}\n📝 เนื้อหา: ${question}\n\n💡 รายงานนี้ถูกบันทึกเข้าระบบแล้ว สามารถดูได้ที่ Dashboard ครับ`;
+        }
+
+        // 3. ไม่ใช่รายงาน → ถาม AI ตามปกติ
         const answer = await askAI(question, aiApiKey, aiModel, roleContext);
         return answer;
     } catch (e) {
@@ -274,4 +336,4 @@ function extractProposal(text) {
     return text.substring(startIdx);
 }
 
-module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal };
+module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal, detectReport, saveReport };

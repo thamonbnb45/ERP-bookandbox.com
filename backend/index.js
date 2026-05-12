@@ -399,8 +399,8 @@ app.post('/api/webhook-agent', async (req, res) => {
         }
 
         try {
-            // ส่ง userId ไปด้วยเพื่อตรวจสอบสิทธิ์
-            const answer = await processAgentQuery(supabase, cleanQ, AI_API_KEY, AI_MODEL, userId);
+            // ส่ง userId + groupId ไปด้วยเพื่อตรวจสอบสิทธิ์และบันทึกรายงาน
+            const answer = await processAgentQuery(supabase, cleanQ, AI_API_KEY, AI_MODEL, userId, groupId);
             const header = member ? `🤖 BookBox AI → ${memberName}` : '🤖 BookBox AI';
             const replyText = `${header}\n━━━━━━━━━━━━━━━\n${answer}`;
             await client.pushMessage({
