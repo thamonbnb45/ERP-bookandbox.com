@@ -469,7 +469,7 @@ app.post('/api/webhook-agent', async (req, res) => {
             try {
                 await client.pushMessage({
                     to: targetId,
-                    messages: [{ type: 'text', text: `❌ Agent Error: ${err.message?.substring(0, 200)}` }]
+                    messages: [{ type: 'text', text: '⚠️ ขอโทษครับ ตอนนี้ระบบยุ่งอยู่ ลองถามใหม่อีกทีนะครับ' }]
                 });
             } catch(e) {}
         }
