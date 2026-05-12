@@ -235,30 +235,67 @@ async function askAI(question, apiKey, model, roleContext) {
 }
 
 // ══════════════════════════════════════════
-// ระบบตรวจจับรายงาน (Report Detection)
+// ระบบวิเคราะห์ข้อความด้วย AI (ไม่ต้องมี keyword)
 // ══════════════════════════════════════════
-const REPORT_KEYWORDS = {
-    'nc': { triggers: ['nc:', 'nc ', 'งานเสีย', 'งานผิด', 'ผิดพลาด', 'ตีกลับ'], type: 'nc', label: 'แจ้ง NC (งานผิดพลาด)' },
-    'work_log': { triggers: ['รายงาน:', 'รายงาน ', 'บันทึกงาน:', 'บันทึกงาน ', 'วันนี้ทำ', 'ทำงาน:'], type: 'work_log', label: 'บันทึกงาน' },
-    'sales': { triggers: ['ยอดขาย:', 'ยอดขาย ', 'ยอดวันนี้', 'ลูกค้าเข้า'], type: 'sales', label: 'รายงานยอดขาย' },
-    'delivery': { triggers: ['ส่งของ:', 'ส่งของ ', 'จัดส่ง:', 'รับของ:', 'ของถึง'], type: 'delivery', label: 'รายงานจัดส่ง' },
-    'transfer': { triggers: ['โอนเงิน:', 'โอนแล้ว', 'โอนเรียบร้อย', 'อนุมัติโอน'], type: 'transfer', label: 'รายงานโอนเงิน' },
-};
+const CLASSIFY_PROMPT = `คุณเป็นระบบจำแนกข้อความของโรงพิมพ์ BookAndBox
+วิเคราะห์ข้อความที่ได้รับ แล้วตอบเป็น JSON เท่านั้น ห้ามตอบอย่างอื่น
 
-function detectReport(text) {
-    const lower = text.toLowerCase().trim();
-    for (const [key, config] of Object.entries(REPORT_KEYWORDS)) {
-        for (const trigger of config.triggers) {
-            if (lower.startsWith(trigger) || lower.includes(trigger)) {
-                return { type: config.type, label: config.label };
-            }
-        }
+ถ้าเป็นการรายงานงาน/แจ้งข้อมูล/บันทึกกิจกรรม:
+{"is_report":true,"type":"work_log|nc|sales|delivery|transfer|procurement|general","title":"สรุปสั้นๆ","priority":"normal|high|urgent"}
+
+ประเภท:
+- work_log = รายงานงานที่ทำ, บันทึกเวลา, ความคืบหน้า
+- nc = งานเสีย, งานผิด, ตีกลับ, ข้อผิดพลาด, ของเสีย
+- sales = ยอดขาย, ลูกค้าเข้า, ปิดงาน, ใบเสนอราคา
+- delivery = ส่งของ, รับของ, ขนส่ง, ถึงหน้างาน
+- transfer = โอนเงิน, จ่ายเงิน, รับเงิน
+- procurement = สั่งซื้อ, ราคาวัตถุดิบ, เปรียบเทียบราคา, supplier
+- general = รายงานอื่นๆ ที่ไม่เข้าหมวดข้างบน
+
+ถ้าเป็นคำถาม/คำขอ/การสนทนา/ทักทาย:
+{"is_report":false}
+
+ตัวอย่าง:
+"วันนี้ตัดซอย 200 แผ่น เสร็จแล้ว" → {"is_report":true,"type":"work_log","title":"ตัดซอย 200 แผ่น","priority":"normal"}
+"งาน 555 สีเพี้ยน ต้องพิมพ์ใหม่" → {"is_report":true,"type":"nc","title":"งาน 555 สีเพี้ยน","priority":"high"}
+"ส่ง BNI 3 กล่อง ถึงแล้วครับ" → {"is_report":true,"type":"delivery","title":"ส่ง BNI 3 กล่อง ถึงแล้ว","priority":"normal"}
+"หมึก CMYK ร้าน A เสนอ 2,500 ร้าน B เสนอ 2,200" → {"is_report":true,"type":"procurement","title":"เปรียบเทียบราคาหมึก CMYK","priority":"normal"}
+"ระบบ tracking ทำยังไง" → {"is_report":false}
+"สวัสดีครับ" → {"is_report":false}
+
+ตอบ JSON เท่านั้น:`;
+
+async function classifyMessage(text, apiKey) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: CLASSIFY_PROMPT + '\n\nข้อความ: "' + text + '"' }] }],
+                generationConfig: { temperature: 0, maxOutputTokens: 200 }
+            })
+        });
+
+        if (!response.ok) return { is_report: false };
+        
+        const data = await response.json();
+        const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        
+        // ดึง JSON จากคำตอบ
+        const jsonMatch = raw.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) return { is_report: false };
+        
+        return JSON.parse(jsonMatch[0]);
+    } catch (e) {
+        console.log('⚠️ [Classify] Error:', e.message);
+        return { is_report: false };
     }
-    return null;
 }
 
 // บันทึกรายงานเข้า Supabase
-async function saveReport(supabase, { reportType, member, lineUserId, groupId, title, content, rawMessage }) {
+async function saveReport(supabase, { reportType, member, lineUserId, groupId, title, content, rawMessage, priority }) {
     const { data, error } = await supabase.from('agent_reports').insert([{
         report_type: reportType,
         reporter_name: member?.name || 'ไม่ระบุ',
@@ -269,12 +306,22 @@ async function saveReport(supabase, { reportType, member, lineUserId, groupId, t
         content: content,
         raw_message: rawMessage,
         status: 'logged',
-        priority: reportType === 'nc' ? 'high' : 'normal'
+        priority: priority || 'normal'
     }]).select('id, created_at');
 
     if (error) throw new Error(`บันทึกไม่สำเร็จ: ${error.message}`);
     return data[0];
 }
+
+const REPORT_LABELS = {
+    'work_log': 'บันทึกงาน',
+    'nc': 'แจ้ง NC (งานผิดพลาด)',
+    'sales': 'รายงานยอดขาย',
+    'delivery': 'รายงานจัดส่ง',
+    'transfer': 'รายงานโอนเงิน',
+    'procurement': 'รายงานจัดซื้อ/วัตถุดิบ',
+    'general': 'รายงานทั่วไป'
+};
 
 // ══════════════════════════════════════════
 // Main Agent Function
@@ -285,24 +332,28 @@ async function processAgentQuery(supabase, question, aiApiKey, aiModel, lineUser
         const member = getTeamMember(lineUserId);
         const roleContext = getRoleContext(member);
 
-        // 2. ตรวจว่าเป็นรายงานหรือไม่
-        const report = detectReport(question);
-        if (report && member) {
+        // 2. ให้ AI วิเคราะห์ว่าเป็นรายงานหรือคำถาม
+        const classification = await classifyMessage(question, aiApiKey);
+        
+        if (classification.is_report && member) {
             // เป็นรายงาน → บันทึกเข้า Database เลย
+            const label = REPORT_LABELS[classification.type] || 'รายงานทั่วไป';
             const saved = await saveReport(supabase, {
-                reportType: report.type,
+                reportType: classification.type || 'general',
                 member: member,
                 lineUserId: lineUserId,
                 groupId: groupId,
-                title: report.label,
+                title: classification.title || label,
                 content: question,
-                rawMessage: question
+                rawMessage: question,
+                priority: classification.priority || 'normal'
             });
 
             const refId = `RPT-${String(saved.id).padStart(4, '0')}`;
             const time = new Date(saved.created_at).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
+            const priorityEmoji = classification.priority === 'urgent' ? '🔴' : classification.priority === 'high' ? '🟡' : '🟢';
 
-            return `✅ บันทึกเรียบร้อย!\n📋 ประเภท: ${report.label}\n🔖 เลขอ้างอิง: ${refId}\n👤 ผู้รายงาน: คุณ${member.name}\n🕐 เวลา: ${time}\n📝 เนื้อหา: ${question}\n\n💡 รายงานนี้ถูกบันทึกเข้าระบบแล้ว สามารถดูได้ที่ Dashboard ครับ`;
+            return `✅ บันทึกเรียบร้อย!\n${priorityEmoji} ${label}\n🔖 ${refId}\n📝 ${classification.title || question}\n👤 คุณ${member.name} | 🕐 ${time}`;
         }
 
         // 3. ไม่ใช่รายงาน → ถาม AI ตามปกติ
@@ -336,4 +387,4 @@ function extractProposal(text) {
     return text.substring(startIdx);
 }
 
-module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal, detectReport, saveReport };
+module.exports = { processAgentQuery, getTeamMember, getRoleContext, TEAM_WHITELIST, CEO_USER_ID, hasProposal, extractProposal, classifyMessage, saveReport, REPORT_LABELS };
