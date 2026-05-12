@@ -3215,12 +3215,6 @@ app.get('/api/timelog/suggest', async (req, res) => {
     }
 });
 
-// React router fallback
-app.get(/.*/, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-const PORT = process.env.PORT || 3001;
 app.get('/api/debug-reports', async (req, res) => {
     try {
         const db = require('./db');
@@ -3230,6 +3224,13 @@ app.get('/api/debug-reports', async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
+
+// React router fallback
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
     console.log(`Enterprise Supabase Backend API running on http://localhost:${PORT}`);
