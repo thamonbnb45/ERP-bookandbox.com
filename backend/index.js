@@ -541,6 +541,73 @@ app.post('/api/webhook-agent', async (req, res) => {
             continue;
         }
 
+        // ══════════════════════════════════════════
+        // 🏭 LINE Factory Commands — เพิ่มเครื่อง/งาน ผ่าน LINE
+        // ══════════════════════════════════════════
+        if (logName && text.startsWith('เพิ่มเครื่อง ')) {
+            const parts = text.replace('เพิ่มเครื่อง ', '').trim().split(/\s*[,|/]\s*/);
+            const machineName = parts[0];
+            const typeMap = { 'offset':'offset_press', 'digital':'digital_press', 'ไดคัท':'diecut', 'diecut':'diecut', 'พับ':'folding', 'เคลือบ':'lamination', 'เข้าเล่ม':'binding', 'เย็บ':'binding', 'prepress':'prepress', 'พรีเพรส':'prepress', 'แพ็ค':'packing', 'qc':'qc' };
+            const machineType = typeMap[(parts[1] || '').toLowerCase().trim()] || 'general';
+            const capPerHour = parseInt(parts[2]) || 100;
+            const shiftHours = parseInt(parts[3]) || 8;
+            try {
+                const db = require('./db');
+                await db.query(`INSERT INTO work_centers (name, type, capacity_per_hour, shift_hours, status) VALUES ($1, $2, $3, $4, 'active')`, [machineName, machineType, capPerHour, shiftHours]);
+                await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `✅ เพิ่มเครื่องจักรแล้ว!\n\n⚙️ ${machineName}\n📂 ${machineType}\n🏭 ${capPerHour}/ชม. • ${shiftHours}ชม./กะ` }] });
+            } catch(e) {
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `❌ Error: ${e.message}` }] }); } catch(e2) {}
+            }
+            continue;
+        }
+
+        if (logName && text.startsWith('เพิ่มงาน ')) {
+            const parts = text.replace('เพิ่มงาน ', '').trim().split(/\s*[,|/]\s*/);
+            const jobName = parts[0];
+            const customerName = parts[1] || '';
+            const quantity = parseInt(parts[2]) || 0;
+            const durationMin = parseInt(parts[3]) || 60;
+            try {
+                const db = require('./db');
+                await db.query(
+                    `INSERT INTO production_schedule (job_name, customer_name, quantity, estimated_duration_min, scheduled_start, status, priority) VALUES ($1, $2, $3, $4, NOW(), 'queued', 5)`,
+                    [jobName, customerName, quantity, durationMin]
+                );
+                await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `✅ เพิ่มงานผลิตแล้ว!\n\n📋 ${jobName}\n👤 ${customerName || '-'}\n📦 ${quantity > 0 ? quantity.toLocaleString() + ' ชิ้น' : '-'}\n⏱️ ${durationMin} นาที\n\n📊 สถานะ: รอผลิต` }] });
+            } catch(e) {
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `❌ Error: ${e.message}` }] }); } catch(e2) {}
+            }
+            continue;
+        }
+
+        if (logName && (text === 'สรุปผลิต' || text === 'สรุปงาน' || text === 'production' || text === 'report')) {
+            try {
+                const db = require('./db');
+                const [queued, inProg, done, wc] = await Promise.all([
+                    db.query(`SELECT COUNT(*) as c FROM production_schedule WHERE status = 'queued'`),
+                    db.query(`SELECT COUNT(*) as c FROM production_schedule WHERE status = 'in_progress'`),
+                    db.query(`SELECT COUNT(*) as c FROM production_schedule WHERE status = 'completed' AND DATE(actual_end) = CURRENT_DATE`),
+                    db.query(`SELECT COUNT(*) as c FROM work_centers WHERE status = 'active'`),
+                ]);
+                const jobs = await db.query(`SELECT job_name, customer_name, status, estimated_duration_min FROM production_schedule WHERE status IN ('queued','in_progress') ORDER BY priority ASC LIMIT 10`);
+                let msg = `📊 สรุปผลิตวันนี้\n\n⚙️ เครื่องจักร: ${wc.rows[0].c}\n📥 รอผลิต: ${queued.rows[0].c}\n⚙️ กำลังผลิต: ${inProg.rows[0].c}\n✅ เสร็จวันนี้: ${done.rows[0].c}\n`;
+                if (jobs.rows.length > 0) {
+                    msg += `\n📋 งานค้าง:\n`;
+                    jobs.rows.forEach((j, i) => {
+                        const icon = j.status === 'in_progress' ? '⚙️' : '📥';
+                        msg += `${i+1}. ${icon} ${j.job_name}${j.customer_name ? ` (${j.customer_name})` : ''}\n`;
+                    });
+                }
+                await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: msg }] });
+            } catch(e) {}
+            continue;
+        }
+
+        if (text === 'คำสั่ง' || text === 'help' || text === 'ช่วย') {
+            await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📖 คำสั่งที่ใช้ได้:\n\n⏱️ ลงเวลา:\n• เริ่ม [ชื่องาน]\n• จบงาน\n• งานของฉัน\n\n🏭 Smart Factory:\n• เพิ่มเครื่อง ชื่อ,ประเภท,กำลังผลิต/ชม,ชม/กะ\n• เพิ่มงาน ชื่องาน,ลูกค้า,จำนวน,นาที\n• สรุปผลิต\n\n📝 ลงทะเบียน:\n• ลงทะเบียน ชื่อ ตำแหน่ง\n\nตัวอย่าง:\nเพิ่มเครื่อง Offset #1,offset,5000,8\nเพิ่มงาน กล่อง BNI,บริษัท BNI,500,120` }] });
+            continue;
+        }
+
         // ตรวจว่าข้อความเริ่มต้นด้วย trigger prefix
         const hasPrefix = AI_TRIGGER_PREFIXES.some(p => text.toLowerCase().startsWith(p));
         
