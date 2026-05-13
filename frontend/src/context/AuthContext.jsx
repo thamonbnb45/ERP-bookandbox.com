@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [originalUser, setOriginalUser] = useState(null);
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -37,6 +38,7 @@ export function AuthProvider({ children }) {
             const res = await axios.post(`${API_URL}/login`, { username, pin_code });
             const loggedInUser = res.data.user;
             setUser(loggedInUser);
+            setOriginalUser(loggedInUser);
             localStorage.setItem('erp_user', JSON.stringify(loggedInUser));
             return { success: true };
         } catch (e) {
@@ -46,7 +48,20 @@ export function AuthProvider({ children }) {
 
     const logout = () => {
         setUser(null);
+        setOriginalUser(null);
         localStorage.removeItem('erp_user');
+    };
+
+    const switchRole = (demoUser) => {
+        if (!originalUser && user) setOriginalUser(user);
+        setUser(demoUser);
+    };
+
+    const switchBack = () => {
+        if (originalUser) {
+            setUser(originalUser);
+            setOriginalUser(null);
+        }
     };
 
     // Helper to check if a specific module is accessible based on settings and Role
@@ -65,7 +80,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading, settings, fetchSettings, canAccess }}>
+        <AuthContext.Provider value={{ user, originalUser, login, logout, loading, settings, fetchSettings, canAccess, switchRole, switchBack }}>
             {children}
         </AuthContext.Provider>
     );

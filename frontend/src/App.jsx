@@ -137,8 +137,21 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
 }
 
 function Topbar({ title, toggleSidebar }) {
-  const { user, logout } = useAuth();
-  
+  const { user, logout, originalUser, switchRole, switchBack } = useAuth();
+  const [showRolePicker, setShowRolePicker] = useState(false);
+  const isCEO = originalUser?.role === 'CEO' || (!originalUser && user?.role === 'CEO');
+  const isViewingAs = !!originalUser && originalUser.id !== user?.id;
+
+  const demoRoles = [
+    { full_name: 'เดโม่ เซลส์', role: 'Sales', icon: '💬' },
+    { full_name: 'เดโม่ ช่างพิมพ์', role: 'Operator', icon: '🖨️' },
+    { full_name: 'เดโม่ ผจก.ผลิต', role: 'Production Manager', icon: '📋' },
+    { full_name: 'เดโม่ บัญชี', role: 'Accountant', icon: '🧾' },
+    { full_name: 'เดโม่ คิดราคา', role: 'Pricing', icon: '🔢' },
+    { full_name: 'เดโม่ คนขับ', role: 'Driver', icon: '🚚' },
+    { full_name: 'เดโม่ คลัง', role: 'Warehouse', icon: '📦' },
+  ];
+
   return (
     <header className="topbar">
         <div className="flex align-center gap-4">
@@ -146,13 +159,46 @@ function Topbar({ title, toggleSidebar }) {
             <h2 className="text-primary" style={{ fontSize: '1.2rem', margin: 0 }}>{title}</h2>
         </div>
         <div className="topbar-right">
-            <div className="profile-wrap">
-                <div className="avatar" style={{ background: user?.role === 'CEO' ? '#e11d48' : 'var(--primary)' }}>{user?.full_name?.charAt(0) || 'U'}</div>
-                <div className="desktop-only text-right">
-                    <p style={{fontSize: '0.9rem', fontWeight: 500, margin:0}}>{user?.full_name || 'ไม่ระบุตัวตน'}</p>
-                    <p style={{fontSize: '0.8rem', margin:0, color: '#64748b'}}>{user?.role}</p>
+            {isViewingAs && (
+              <button onClick={switchBack} style={{ padding:'6px 12px', borderRadius:8, border:'none', background:'#ef4444', color:'#fff', fontWeight:700, cursor:'pointer', fontSize:'.75rem', marginRight:8 }}>
+                🔙 กลับเป็น CEO
+              </button>
+            )}
+            <div className="profile-wrap" style={{ position:'relative' }}>
+                <div className="avatar" style={{ background: user?.role === 'CEO' ? '#e11d48' : isViewingAs ? '#f59e0b' : 'var(--primary)', cursor: isCEO ? 'pointer' : 'default' }} onClick={() => isCEO && setShowRolePicker(!showRolePicker)}>
+                  {user?.full_name?.charAt(0) || 'U'}
+                </div>
+                <div className="desktop-only text-right" style={{ cursor: isCEO ? 'pointer' : 'default' }} onClick={() => isCEO && setShowRolePicker(!showRolePicker)}>
+                    <p style={{fontSize: '0.9rem', fontWeight: 500, margin:0}}>{user?.full_name || 'ไม่ระบุตัวตน'} {isCEO && !isViewingAs && '▾'}</p>
+                    <p style={{fontSize: '0.8rem', margin:0, color: isViewingAs ? '#f59e0b' : '#64748b'}}>{isViewingAs ? `👁️ ดูในมุม ${user?.role}` : user?.role}</p>
                 </div>
                 <i className="fa-solid fa-arrow-right-from-bracket ml-3 text-red-500 cursor-pointer" onClick={logout} title="ออกจากระบบ"></i>
+
+                {showRolePicker && (
+                  <div style={{ position:'absolute', top:'100%', right:0, background:'#fff', borderRadius:12, boxShadow:'0 8px 32px rgba(0,0,0,.18)', border:'1px solid #e2e8f0', zIndex:999, minWidth:220, padding:'8px 0', marginTop:8 }}>
+                    <div style={{ padding:'8px 16px', fontSize:'.7rem', color:'#94a3b8', fontWeight:700, borderBottom:'1px solid #f1f5f9' }}>👁️ ดูมุมมองแผนกอื่น</div>
+                    <div style={{ padding:'4px 8px', cursor:'pointer', display:'flex', alignItems:'center', gap:8, borderRadius:6, margin:'2px 6px', background: !isViewingAs ? '#eff6ff' : 'transparent' }} onClick={() => { switchBack(); setShowRolePicker(false); }}>
+                      <span>👑</span>
+                      <div>
+                        <div style={{ fontWeight:700, fontSize:'.85rem' }}>{originalUser?.full_name || user?.full_name}</div>
+                        <div style={{ fontSize:'.7rem', color:'#64748b' }}>CEO (ตัวจริง)</div>
+                      </div>
+                    </div>
+                    <div style={{ height:1, background:'#f1f5f9', margin:'4px 0' }}></div>
+                    {demoRoles.map(dr => (
+                      <div key={dr.role} style={{ padding:'4px 8px', cursor:'pointer', display:'flex', alignItems:'center', gap:8, borderRadius:6, margin:'2px 6px', background: user?.role === dr.role ? '#fef3c7' : 'transparent' }}
+                        onClick={() => { switchRole(dr); setShowRolePicker(false); }}
+                        onMouseEnter={e => e.currentTarget.style.background = '#f1f5f9'}
+                        onMouseLeave={e => e.currentTarget.style.background = user?.role === dr.role ? '#fef3c7' : 'transparent'}>
+                        <span>{dr.icon}</span>
+                        <div>
+                          <div style={{ fontWeight:600, fontSize:'.85rem' }}>{dr.full_name}</div>
+                          <div style={{ fontSize:'.7rem', color:'#64748b' }}>{dr.role}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
             </div>
         </div>
     </header>
