@@ -460,6 +460,87 @@ app.post('/api/webhook-agent', async (req, res) => {
             continue;
         }
 
+        // ══════════════════════════════════════════
+        // 📝 LINE Time Logger — เริ่มงาน/จบงาน ผ่าน LINE
+        // ══════════════════════════════════════════
+        const memberForLog = getTeamMember(userId);
+        const logName = memberForLog ? memberForLog.name : null;
+
+        if (logName && (text.startsWith('เริ่ม ') || text.startsWith('เริ่มงาน ') || text.startsWith('start '))) {
+            const taskText = text.replace(/^(เริ่มงาน|เริ่ม|start)\s+/i, '').trim();
+            if (!taskText) {
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📝 พิมพ์ชื่องานต่อท้ายครับ\n\nตัวอย่าง:\nเริ่ม JO-104 เช็คไฟล์\nเริ่ม พิมพ์ออฟเซท\nเริ่ม เคลือบ PVC` }] }); } catch(e) {}
+                continue;
+            }
+            try {
+                const db = require('./db');
+                await db.query(
+                    `INSERT INTO time_log (user_name, task_name, category, status, start_time) VALUES ($1, $2, $3, 'running', NOW())`,
+                    [logName, taskText, 'LINE']
+                );
+                await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `⏱️ เริ่มจับเวลาแล้ว!\n\n👤 ${logName}\n📋 ${taskText}\n\n💡 พิมพ์ "จบงาน" เมื่อเสร็จ` }] });
+            } catch(e) {
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `❌ Error: ${e.message}` }] }); } catch(e2) {}
+            }
+            continue;
+        }
+
+        if (logName && (text === 'จบงาน' || text === 'จบ' || text === 'เสร็จ' || text === 'done' || text.startsWith('จบงาน '))) {
+            try {
+                const db = require('./db');
+                // Get latest running task
+                const running = await db.query(
+                    `SELECT * FROM time_log WHERE user_name = $1 AND status = 'running' ORDER BY start_time DESC LIMIT 1`,
+                    [logName]
+                );
+                if (running.rows.length === 0) {
+                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `⚠️ ไม่มีงานที่กำลังทำอยู่ครับ\nพิมพ์ "เริ่ม ชื่องาน" เพื่อเริ่มงานใหม่` }] });
+                    continue;
+                }
+                const task = running.rows[0];
+                const durSec = Math.floor((Date.now() - new Date(task.start_time).getTime()) / 1000) + (task.duration_seconds || 0);
+                const h = Math.floor(durSec / 3600), m = Math.floor((durSec % 3600) / 60);
+                const durText = h > 0 ? `${h} ชม. ${m} นาที` : `${m} นาที`;
+
+                // Parse quantity from message if provided (e.g. "จบงาน 500")
+                const qtyMatch = text.match(/\d+/);
+                const qty = qtyMatch ? parseInt(qtyMatch[0]) : null;
+
+                await db.query(
+                    `UPDATE time_log SET status = 'finished', end_time = NOW(), duration_seconds = $1, quantity = $2 WHERE id = $3`,
+                    [durSec, qty, task.id]
+                );
+
+                await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `✅ จบงานแล้ว!\n\n📋 ${task.task_name}\n⏱️ ใช้เวลา: ${durText}${qty ? `\n📦 จำนวน: ${qty} ชิ้น` : ''}\n\n👍 บันทึกเรียบร้อย!` }] });
+            } catch(e) {
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `❌ Error: ${e.message}` }] }); } catch(e2) {}
+            }
+            continue;
+        }
+
+        if (logName && (text === 'งานของฉัน' || text === 'สถานะ' || text === 'status' || text === 'my tasks')) {
+            try {
+                const db = require('./db');
+                const running = await db.query(
+                    `SELECT * FROM time_log WHERE user_name = $1 AND status = 'running' ORDER BY start_time DESC`,
+                    [logName]
+                );
+                if (running.rows.length === 0) {
+                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📋 คุณ${logName} ไม่มีงานค้างอยู่ครับ\n\nพิมพ์ "เริ่ม ชื่องาน" เพื่อเริ่มงานใหม่` }] });
+                } else {
+                    let msg = `📋 งานที่กำลังทำ (${running.rows.length}):\n\n`;
+                    running.rows.forEach((t, i) => {
+                        const sec = Math.floor((Date.now() - new Date(t.start_time).getTime()) / 1000) + (t.duration_seconds || 0);
+                        const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
+                        msg += `${i+1}. ${t.task_name}\n   ⏱️ ${h > 0 ? `${h}ชม.${m}นาที` : `${m}นาที`}\n`;
+                    });
+                    msg += `\nพิมพ์ "จบงาน" เพื่อจบงานล่าสุด`;
+                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: msg }] });
+                }
+            } catch(e) {}
+            continue;
+        }
+
         // ตรวจว่าข้อความเริ่มต้นด้วย trigger prefix
         const hasPrefix = AI_TRIGGER_PREFIXES.some(p => text.toLowerCase().startsWith(p));
         

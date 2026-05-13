@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
-// Quick task buttons per role
 const QUICK_TASKS = {
     Operator: {
         'Prepress': [
@@ -127,17 +126,13 @@ export default function TimeLogger() {
                 videoRef.current.srcObject = stream;
                 videoRef.current.play();
             }
-            // Start scanning with BarcodeDetector if available
             if ('BarcodeDetector' in window) {
                 const detector = new BarcodeDetector({ formats: ['qr_code'] });
                 scanIntervalRef.current = setInterval(async () => {
                     if (!videoRef.current || videoRef.current.readyState < 2) return;
                     try {
                         const barcodes = await detector.detect(videoRef.current);
-                        if (barcodes.length > 0) {
-                            const raw = barcodes[0].rawValue;
-                            handleQRResult(raw);
-                        }
+                        if (barcodes.length > 0) handleQRResult(barcodes[0].rawValue);
                     } catch (e) {}
                 }, 500);
             }
@@ -155,40 +150,19 @@ export default function TimeLogger() {
 
     const handleQRResult = async (raw) => {
         closeCamera();
-        // Try to extract JO number from QR text
         const joMatch = raw.match(/(?:JO|JOB|jo|job)?[-#]?(\d+)/i);
         if (joMatch) {
-            await lookupJob(joMatch[1]);
+            setScannedJob({ id: joMatch[1], text: `JO-${joMatch[1]}`, customer: '', product: '' });
         } else {
-            // Use entire scanned text as task name
             setScannedJob({ id: null, text: raw, customer: '', product: '' });
         }
     };
 
-    const lookupJob = async (jobId) => {
-        try {
-            const res = await axios.get(`${API_URL}/job_orders`);
-            const job = res.data.find(j => j.id === parseInt(jobId));
-            if (job) {
-                setScannedJob({
-                    id: job.id,
-                    text: `JO-${job.id}`,
-                    customer: job.customer || '',
-                    product: job.product || '',
-                    qty: job.quantity,
-                    stage: job.production_stage
-                });
-            } else {
-                setScannedJob({ id: jobId, text: `JO-${jobId}`, customer: 'ไม่พบในระบบ', product: '' });
-            }
-        } catch (e) {
-            setScannedJob({ id: jobId, text: `JO-${jobId}`, customer: 'Error', product: '' });
-        }
-    };
-
-    const searchJO = async () => {
+    // Manual JO — ไม่ต้อง lookup จาก DB อีกต่อไป พิมพ์เลขแล้วใช้ได้เลย
+    const useManualJO = () => {
         if (!manualJO.trim()) return;
-        await lookupJob(manualJO.trim());
+        const clean = manualJO.trim().replace(/^(JO|JOB|jo|job)[-#]?\s*/i, '');
+        setScannedJob({ id: clean, text: `JO-${clean}`, customer: '', product: '' });
         setManualJO('');
     };
 
@@ -207,9 +181,7 @@ export default function TimeLogger() {
         } catch (e) { alert('เกิดข้อผิดพลาดในการเริ่มงาน'); }
     };
 
-    const startQuickTask = (task) => {
-        startTask(task.label, task.cat);
-    };
+    const startQuickTask = (task) => startTask(task.label, task.cat);
 
     const pauseTask = async (id) => {
         try { await axios.post(`${API_URL}/timelog/pause`, { id }); fetchData(); }
@@ -241,178 +213,164 @@ export default function TimeLogger() {
         return `${sec} วินาที`;
     };
 
-    // Get quick tasks for current user's role
     const roleQuickTasks = QUICK_TASKS[user?.role] || QUICK_TASKS['Operator'];
 
-    if (loading && activeTasks.length === 0) return <div className="p-4"><h2>กำลังโหลด...</h2></div>;
+    if (loading && activeTasks.length === 0) return <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>⏳ กำลังโหลด...</div>;
+
+    // ═══════════════════════════════════════════
+    // STYLES — Mobile-first, พอดีหน้าจอ
+    // ═══════════════════════════════════════════
+    const s = {
+        page: { padding: '0.75rem', maxWidth: 600, margin: '0 auto', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' },
+        card: { background: '#fff', borderRadius: 16, padding: '1rem', boxShadow: '0 1px 4px rgba(0,0,0,.06)', border: '1px solid #e2e8f0', marginBottom: '0.75rem' },
+        headerCard: { background: 'linear-gradient(135deg, #eff6ff, #dbeafe)', borderRadius: 16, padding: '1rem', marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+        badge: (bg) => ({ display: 'inline-block', padding: '3px 10px', borderRadius: 20, fontSize: '.7rem', fontWeight: 700, background: bg, color: '#fff' }),
+        btn: (bg) => ({ padding: '10px 16px', borderRadius: 12, border: 'none', background: bg || '#3b82f6', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '.9rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }),
+        btnSm: (bg) => ({ padding: '8px 12px', borderRadius: 10, border: 'none', background: bg || '#3b82f6', color: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: '.8rem', flex: 1, textAlign: 'center' }),
+        input: { padding: '10px 14px', borderRadius: 12, border: '1px solid #d1d5db', fontSize: '.95rem', width: '100%', boxSizing: 'border-box' },
+        quickBtn: { padding: '8px 12px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '.8rem', display: 'inline-flex', alignItems: 'center', gap: 4 },
+        sectionTitle: { fontSize: '.85rem', fontWeight: 700, color: '#334155', margin: '0.75rem 0 0.5rem', display: 'flex', alignItems: 'center', gap: 6 },
+    };
 
     return (
-        <div className="view-section active p-4">
-            {/* Header */}
-            <div className="flex justify-between align-center mb-4">
+        <div style={s.page}>
+            {/* ═══ HEADER ═══ */}
+            <div style={s.headerCard}>
                 <div>
-                    <h2 className="text-primary mb-2"><i className="fa-solid fa-stopwatch"></i> ระบบลงเวลาทำงาน</h2>
-                    <p className="text-muted">บันทึกเวลา Multi-tasking | สแกน QR ใบสั่งผลิตได้</p>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>⏱️ ลงเวลาทำงาน</div>
+                    <div style={{ fontSize: '.75rem', color: '#64748b' }}>Multi-tasking | สแกน QR ได้</div>
                 </div>
-                <div style={{ background: '#f0f9ff', border: '1px solid #bae6fd', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <i className="fa-solid fa-user-check" style={{ color: '#0284c7' }}></i>
-                    <div>
-                        <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0c4a6e' }}>{currentUser}</div>
-                        <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{user?.role}</div>
-                    </div>
+                <div style={{ background: '#fff', padding: '6px 12px', borderRadius: 10, border: '1px solid #bfdbfe' }}>
+                    <div style={{ fontWeight: 700, fontSize: '.85rem', color: '#1e40af' }}>{currentUser}</div>
+                    <div style={{ fontSize: '.65rem', color: '#64748b' }}>{user?.role}</div>
                 </div>
             </div>
 
-            {/* === START NEW TASK SECTION === */}
-            <div className="table-container p-4 shadow mb-4" style={{ borderLeft: '4px solid var(--primary)' }}>
-                <h3 className="mb-3">เริ่มงานใหม่</h3>
+            {/* ═══ เริ่มงานใหม่ ═══ */}
+            <div style={{ ...s.card, borderLeft: '4px solid #3b82f6' }}>
+                <div style={{ fontWeight: 700, fontSize: '.95rem', marginBottom: '0.75rem', color: '#1e3a5f' }}>เริ่มงานใหม่</div>
 
-                {/* Method Selector: Camera / Manual JO / Free Text */}
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                    <button className="btn" onClick={openCamera} style={{ background: '#0ea5e9', color: '#fff', padding: '0.6rem 1.2rem', fontSize: '1rem', borderRadius: '10px' }}>
-                        <i className="fa-solid fa-camera"></i> 📷 สแกน QR Code
-                    </button>
-                    <div style={{ display: 'flex', gap: '4px', flex: 1, minWidth: '200px' }}>
-                        <input type="text" placeholder="พิมพ์เลข JO (เช่น 104)" value={manualJO} onChange={e => setManualJO(e.target.value)} onKeyDown={e => e.key === 'Enter' && searchJO()}
-                            style={{ flex: 1, padding: '0.6rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }} />
-                        <button className="btn btn-outline" onClick={searchJO} style={{ padding: '0.6rem 1rem' }}>
-                            <i className="fa-solid fa-search"></i> ค้นหา JO
-                        </button>
-                    </div>
+                {/* QR + Manual JO */}
+                <button style={{ ...s.btn('#0ea5e9'), marginBottom: 8 }} onClick={openCamera}>
+                    📷 สแกน QR Code
+                </button>
+
+                <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
+                    <input style={{ ...s.input, flex: 1 }} placeholder="พิมพ์เลข JO (เช่น 104)" value={manualJO}
+                        onChange={e => setManualJO(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && useManualJO()} />
+                    <button style={{ ...s.btnSm('#3b82f6'), flex: 'none', width: 70 }} onClick={useManualJO}>🔍 ค้นหา</button>
                 </div>
 
-                {/* Scanned Job Info */}
+                {/* Scanned Job Badge */}
                 {scannedJob && (
-                    <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '10px', padding: '1rem', marginBottom: '1rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div>
-                                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#166534' }}>
-                                    <i className="fa-solid fa-qrcode"></i> {scannedJob.text}
-                                </div>
-                                {scannedJob.customer && <div style={{ color: '#15803d', fontSize: '0.9rem' }}>👤 {scannedJob.customer} | 📦 {scannedJob.product} {scannedJob.qty ? `(${scannedJob.qty.toLocaleString()} ใบ)` : ''}</div>}
-                            </div>
-                            <button onClick={() => setScannedJob(null)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.2rem' }}>✕</button>
+                    <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 12, padding: '10px 14px', marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <div style={{ fontWeight: 800, color: '#166534', fontSize: '.95rem' }}>📋 {scannedJob.text}</div>
+                            {scannedJob.customer && <div style={{ fontSize: '.75rem', color: '#15803d' }}>👤 {scannedJob.customer}</div>}
                         </div>
+                        <button onClick={() => setScannedJob(null)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.1rem' }}>✕</button>
                     </div>
                 )}
 
-                {/* Quick Task Buttons */}
-                <div style={{ marginBottom: '1rem' }}>
-                    <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '0.5rem', fontWeight: 600 }}>⚡ ปุ่มลัด — กดแล้วจับเวลาทันที:</p>
-                    {Object.entries(roleQuickTasks).map(([group, tasks]) => (
-                        <div key={group} style={{ marginBottom: '0.5rem' }}>
-                            <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: 700 }}>{group}:</span>
-                            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
-                                {tasks.map((t, i) => (
-                                    <button key={i} onClick={() => startQuickTask(t)}
-                                        style={{ padding: '0.5rem 0.8rem', borderRadius: '8px', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px', transition: 'all 0.15s' }}
-                                        onMouseOver={e => { e.currentTarget.style.background = '#eff6ff'; e.currentTarget.style.borderColor = '#93c5fd'; }}
-                                        onMouseOut={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#e2e8f0'; }}>
-                                        <span>{t.icon}</span> {t.label}
-                                    </button>
-                                ))}
-                            </div>
+                {/* Quick Tasks */}
+                <div style={{ fontSize: '.7rem', color: '#94a3b8', fontWeight: 700, marginBottom: 4 }}>⚡ ปุ่มลัด — กดแล้วจับเวลาทันที:</div>
+                {Object.entries(roleQuickTasks).map(([group, tasks]) => (
+                    <div key={group} style={{ marginBottom: 6 }}>
+                        <span style={{ fontSize: '.65rem', color: '#94a3b8', fontWeight: 700 }}>{group}:</span>
+                        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginTop: 3 }}>
+                            {tasks.map((t, i) => (
+                                <button key={i} onClick={() => startQuickTask(t)} style={s.quickBtn}>
+                                    <span>{t.icon}</span> {t.label}
+                                </button>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
 
                 {/* Free text input */}
-                <div style={{ display: 'flex', gap: '8px', position: 'relative' }}>
+                <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
                     <div style={{ flex: 1, position: 'relative' }}>
-                        <input type="text" placeholder="หรือพิมพ์ชื่องานเอง..." value={newTaskName}
+                        <input style={s.input} placeholder="หรือพิมพ์ชื่องานเอง..." value={newTaskName}
                             onChange={e => { setNewTaskName(e.target.value); fetchSuggestions(e.target.value); }}
-                            style={{ width: '100%', padding: '0.7rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem' }} />
+                            onKeyDown={e => e.key === 'Enter' && startTask(newTaskName, 'General')} />
                         {suggestions.length > 0 && (
-                            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', border: '1px solid #ccc', zIndex: 10, borderRadius: '4px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-                                {suggestions.map((s, i) => (
-                                    <div key={i} style={{ padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #eee' }}
-                                        onClick={() => { setNewTaskName(s); setSuggestions([]); }}>
-                                        <i className="fa-solid fa-clock-rotate-left text-muted"></i> {s}
+                            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', border: '1px solid #e2e8f0', zIndex: 10, borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', maxHeight: 200, overflow: 'auto' }}>
+                                {suggestions.map((sg, i) => (
+                                    <div key={i} style={{ padding: '10px 14px', cursor: 'pointer', borderBottom: '1px solid #f1f5f9', fontSize: '.85rem' }}
+                                        onClick={() => { setNewTaskName(sg); setSuggestions([]); }}>
+                                        🕐 {sg}
                                     </div>
                                 ))}
                             </div>
                         )}
                     </div>
-                    <button className="btn btn-primary" onClick={() => startTask(newTaskName, 'General')} style={{ padding: '0 1.5rem', fontSize: '1rem' }}>
-                        <i className="fa-solid fa-play"></i> เริ่ม
-                    </button>
+                    <button style={{ ...s.btnSm('#22c55e'), flex: 'none', width: 60 }} onClick={() => startTask(newTaskName, 'General')}>▶️ เริ่ม</button>
                 </div>
             </div>
 
-            {/* === ACTIVE TASKS === */}
-            <h3 className="mb-3"><i className="fa-solid fa-bolt text-accent"></i> งานที่กำลังทำอยู่ ({activeTasks.length})</h3>
+            {/* ═══ งานที่กำลังทำ ═══ */}
+            <div style={s.sectionTitle}>⚡ งานที่กำลังทำ ({activeTasks.length})</div>
             {activeTasks.length === 0 ? (
-                <div className="p-4 text-center text-muted" style={{ background: '#f8fafc', borderRadius: '8px' }}>ไม่มีงานที่ค้างอยู่</div>
+                <div style={{ ...s.card, textAlign: 'center', color: '#94a3b8', padding: '1.5rem' }}>ไม่มีงานค้าง — กดปุ่มด้านบนเพื่อเริ่มงาน</div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1rem' }}>
-                    {activeTasks.map(task => (
-                        <div key={task.id} className="table-container p-4 shadow" style={{ borderTop: `4px solid ${task.status === 'running' ? 'var(--success)' : '#cbd5e1'}`, position: 'relative' }}>
-                            {task.status === 'running' && <span style={{ float: 'right', background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>● RUNNING</span>}
-                            {task.status === 'paused' && <span style={{ float: 'right', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>⏸ PAUSED</span>}
-                            <h4 style={{ fontSize: '1.1rem', paddingRight: '80px' }}>{task.task_name}</h4>
-                            <p className="text-muted mb-3" style={{ fontSize: '0.8rem' }}>{task.category || ''}</p>
-                            <div className="text-center mb-3" style={{ fontFamily: 'monospace', fontSize: '1.8rem', fontWeight: 700, color: task.status === 'running' ? 'var(--success)' : '#475569' }}>
-                                {formatDuration(task)}
-                            </div>
-                            <div className="flex gap-2 justify-center">
-                                {task.status === 'running' ? (
-                                    <button className="btn btn-outline flex-1" onClick={() => pauseTask(task.id)}><i className="fa-solid fa-pause"></i> พัก</button>
-                                ) : (
-                                    <button className="btn flex-1" style={{ background: '#10b981', color: '#fff' }} onClick={() => resumeTask(task.id)}><i className="fa-solid fa-play"></i> ทำต่อ</button>
-                                )}
-                                <button className="btn btn-primary flex-1" onClick={() => finishTask(task.id)}><i className="fa-solid fa-check"></i> จบ</button>
-                            </div>
+                activeTasks.map(task => (
+                    <div key={task.id} style={{ ...s.card, borderTop: `3px solid ${task.status === 'running' ? '#22c55e' : '#94a3b8'}` }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                            <div style={{ fontWeight: 700, fontSize: '.9rem', flex: 1, paddingRight: 8 }}>{task.task_name}</div>
+                            <span style={s.badge(task.status === 'running' ? '#22c55e' : '#94a3b8')}>
+                                {task.status === 'running' ? '● RUN' : '⏸ PAUSE'}
+                            </span>
                         </div>
-                    ))}
-                </div>
+                        {task.category && <div style={{ fontSize: '.7rem', color: '#64748b', marginBottom: 6 }}>{task.category}</div>}
+                        <div style={{ textAlign: 'center', fontFamily: 'monospace', fontSize: '1.6rem', fontWeight: 800, color: task.status === 'running' ? '#22c55e' : '#475569', margin: '8px 0' }}>
+                            {formatDuration(task)}
+                        </div>
+                        <div style={{ display: 'flex', gap: 6 }}>
+                            {task.status === 'running' ? (
+                                <button style={s.btnSm('#f59e0b')} onClick={() => pauseTask(task.id)}>⏸ พัก</button>
+                            ) : (
+                                <button style={s.btnSm('#22c55e')} onClick={() => resumeTask(task.id)}>▶️ ทำต่อ</button>
+                            )}
+                            <button style={s.btnSm('#3b82f6')} onClick={() => finishTask(task.id)}>✅ จบงาน</button>
+                        </div>
+                    </div>
+                ))
             )}
 
-            {/* === HISTORY === */}
-            <h3 className="mb-3 mt-5"><i className="fa-solid fa-list-check text-success"></i> ประวัติการทำงาน</h3>
-            <div className="table-container shadow" style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
-                    <thead>
-                        <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-                            <th className="p-3" style={{ textAlign: 'left' }}>ชื่องาน</th>
-                            <th className="p-3">เวลาที่ใช้</th>
-                            <th className="p-3">ผลงาน</th>
-                            <th className="p-3">เวลาจบ</th>
-                            <th className="p-3">หมายเหตุ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {historyTasks.length === 0 ? (
-                            <tr><td colSpan="5" className="p-4 text-center text-muted">ยังไม่มีประวัติ</td></tr>
-                        ) : historyTasks.map(task => (
-                            <tr key={task.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
-                                <td className="p-3" style={{ fontWeight: 600 }}>{task.task_name}</td>
-                                <td className="p-3 text-center" style={{ fontFamily: 'monospace', color: 'var(--primary)' }}>{formatDuration(task)}</td>
-                                <td className="p-3 text-center">
-                                    {task.completion_percent ? <span style={{ background: '#dbeafe', color: '#1e3a8a', padding: '2px 6px', borderRadius: '4px', fontSize: '0.8rem' }}>{task.completion_percent}%</span> : ''}
-                                    {task.quantity ? <span style={{ background: '#fef3c7', color: '#92400e', padding: '2px 6px', borderRadius: '4px', fontSize: '0.8rem', marginLeft: '4px' }}>{task.quantity} ชิ้น</span> : ''}
-                                    {!task.completion_percent && !task.quantity ? '-' : ''}
-                                </td>
-                                <td className="p-3 text-center text-muted">{task.end_time ? new Date(task.end_time).toLocaleTimeString('th-TH') : '-'}</td>
-                                <td className="p-3 text-muted">{task.notes || '-'}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {/* ═══ ประวัติ ═══ */}
+            <div style={s.sectionTitle}>📋 ประวัติวันนี้</div>
+            {historyTasks.length === 0 ? (
+                <div style={{ ...s.card, textAlign: 'center', color: '#94a3b8' }}>ยังไม่มีประวัติ</div>
+            ) : (
+                historyTasks.map(task => (
+                    <div key={task.id} style={{ ...s.card, padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 600, fontSize: '.85rem' }}>{task.task_name}</div>
+                            <div style={{ fontSize: '.7rem', color: '#64748b' }}>
+                                {task.end_time ? new Date(task.end_time).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) : ''}
+                                {task.quantity ? ` • ${task.quantity} ชิ้น` : ''}
+                                {task.notes ? ` • ${task.notes}` : ''}
+                            </div>
+                        </div>
+                        <div style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '.85rem', color: '#3b82f6', whiteSpace: 'nowrap' }}>
+                            {formatDuration(task)}
+                        </div>
+                    </div>
+                ))
+            )}
 
-            {/* === CAMERA MODAL === */}
+            {/* ═══ CAMERA MODAL ═══ */}
             {showCamera && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '1rem', fontWeight: 700 }}>
-                        <i className="fa-solid fa-qrcode"></i> สแกน QR Code ใบสั่งผลิต
-                    </div>
-                    <div style={{ position: 'relative', width: '90%', maxWidth: '500px', aspectRatio: '4/3', borderRadius: '16px', overflow: 'hidden', border: '3px solid #38bdf8' }}>
+                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+                    <div style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '1rem', fontWeight: 700 }}>📷 สแกน QR Code</div>
+                    <div style={{ position: 'relative', width: '100%', maxWidth: 400, aspectRatio: '1/1', borderRadius: 16, overflow: 'hidden', border: '3px solid #38bdf8' }}>
                         <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '200px', height: '200px', border: '3px solid rgba(56,189,248,0.7)', borderRadius: '12px' }}></div>
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 180, height: 180, border: '3px solid rgba(56,189,248,0.7)', borderRadius: 12 }}></div>
                     </div>
-                    <p style={{ color: '#94a3b8', marginTop: '1rem', fontSize: '0.9rem' }}>หันกล้องไปที่ QR Code บนใบสั่งผลิต</p>
-                    <button onClick={closeCamera} style={{ marginTop: '1rem', padding: '0.8rem 2rem', background: '#ef4444', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '1rem', cursor: 'pointer' }}>
-                        <i className="fa-solid fa-xmark"></i> ปิดกล้อง
+                    <p style={{ color: '#94a3b8', marginTop: '1rem', fontSize: '.85rem' }}>หันกล้องไปที่ QR Code</p>
+                    <button onClick={closeCamera} style={{ marginTop: '0.5rem', padding: '12px 2rem', background: '#ef4444', color: '#fff', border: 'none', borderRadius: 12, fontSize: '1rem', cursor: 'pointer', fontWeight: 700 }}>
+                        ✕ ปิดกล้อง
                     </button>
                 </div>
             )}
