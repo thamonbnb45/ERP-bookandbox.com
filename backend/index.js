@@ -3746,3 +3746,58 @@ app.listen(PORT, () => {
     console.log(`Enterprise Supabase Backend API running on http://localhost:${PORT}`);
     console.log(`[AI Worker] Background pipeline monitor active (every 30min)`);
 });
+
+// ══════════════════════════════════════════════════════════════
+// ⏰ Daily Production Summary — ส่งสรุปทุกวัน 17:00 เวลาไทย
+// ══════════════════════════════════════════════════════════════
+const TEAM_GROUP_ID = 'C3ce2c0a20dd4c74fb559cd2f42bc54e0';
+
+async function sendDailySummary() {
+    try {
+        const db = require('./db');
+        const [queued, inProg, done, timeWorkers] = await Promise.all([
+            db.query(`SELECT COUNT(*) as c, COALESCE(SUM(quantity),0) as qty FROM production_schedule WHERE status = 'queued'`),
+            db.query(`SELECT COUNT(*) as c FROM production_schedule WHERE status = 'in_progress'`),
+            db.query(`SELECT COUNT(*) as c, COALESCE(SUM(quantity),0) as qty FROM production_schedule WHERE status = 'completed' AND DATE(actual_end) = CURRENT_DATE`),
+            db.query(`SELECT user_name, COUNT(*) as tasks, COALESCE(SUM(duration_seconds),0) as secs FROM time_log WHERE DATE(start_time) = CURRENT_DATE AND status = 'finished' GROUP BY user_name ORDER BY secs DESC LIMIT 5`),
+        ]);
+        
+        let msg = `📊 สรุปผลิตประจำวัน\n${new Date().toLocaleDateString('th-TH', { dateStyle: 'full' })}\n\n`;
+        msg += `📥 รอผลิต: ${queued.rows[0].c} งาน (${parseInt(queued.rows[0].qty).toLocaleString()} ชิ้น)\n`;
+        msg += `⚙️ กำลังผลิต: ${inProg.rows[0].c} งาน\n`;
+        msg += `✅ เสร็จวันนี้: ${done.rows[0].c} งาน (${parseInt(done.rows[0].qty).toLocaleString()} ชิ้น)\n`;
+        
+        if (timeWorkers.rows.length > 0) {
+            msg += `\n👷 Top ผลงาน:\n`;
+            timeWorkers.rows.forEach((w, i) => {
+                const h = Math.floor(w.secs / 3600), m = Math.floor((w.secs % 3600) / 60);
+                msg += `${['🥇','🥈','🥉','4️⃣','5️⃣'][i]} ${w.user_name} — ${w.tasks} งาน (${h > 0 ? `${h}ชม.${m}นาที` : `${m}นาที`})\n`;
+            });
+        }
+        msg += `\n— Zero 🤖 Auto Report`;
+        
+        const client = agentLineClient || lineClient;
+        if (client) {
+            await client.pushMessage({ to: TEAM_GROUP_ID, messages: [{ type: 'text', text: msg }] });
+            console.log('📊 [Daily Summary] Sent to group');
+        }
+    } catch(e) { console.error('❌ [Daily Summary]', e.message); }
+}
+
+// Check every minute, send at 17:00 Thai time (UTC+7)
+let lastSummaryDate = '';
+setInterval(() => {
+    const now = new Date();
+    const thaiHour = (now.getUTCHours() + 7) % 24;
+    const today = now.toISOString().slice(0, 10);
+    if (thaiHour === 17 && now.getMinutes() === 0 && lastSummaryDate !== today) {
+        lastSummaryDate = today;
+        sendDailySummary();
+    }
+}, 60000);
+
+// Manual trigger
+app.post('/api/factory/send-summary', async (req, res) => {
+    await sendDailySummary();
+    res.json({ success: true, sent: true });
+});
