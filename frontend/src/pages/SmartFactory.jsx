@@ -196,7 +196,16 @@ export default function SmartFactory() {
 
 // ═══════════════════ KANBAN ═══════════════════
 function Kanban({ schedule, wcs, updateJob, deleteJob, s }) {
+  const [qrJob, setQrJob] = useState(null);
   const columns = ['queued','in_progress','completed'];
+  
+  const elapsed = (start) => {
+    if (!start) return '';
+    const ms = Date.now() - new Date(start).getTime();
+    const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
+    return h > 0 ? `${h}ชม.${m}นาที` : `${m}นาที`;
+  };
+
   return (
     <div>
       {columns.map(stage => {
@@ -214,13 +223,25 @@ function Kanban({ schedule, wcs, updateJob, deleteJob, s }) {
                 <div key={j.id} style={{ background:'#f8fafc', borderRadius:12, padding:'10px 14px', marginBottom:6, border: j.is_urgent ? '2px solid #ef4444' : '1px solid #e2e8f0' }}>
                   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
                     <div style={{ fontWeight:700, fontSize:'.85rem', flex:1 }}>{j.is_urgent && '🔴 '}{j.job_name || 'ไม่มีชื่อ'}</div>
-                    <button style={{ background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:'.8rem' }} onClick={() => deleteJob(j.id)}>✕</button>
+                    <div style={{ display:'flex', gap:4 }}>
+                      <button style={{ background:'none', border:'none', color:'#3b82f6', cursor:'pointer', fontSize:'.8rem' }} onClick={() => setQrJob(qrJob === j.id ? null : j.id)} title="QR Code">📱</button>
+                      <button style={{ background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:'.8rem' }} onClick={() => deleteJob(j.id)}>✕</button>
+                    </div>
                   </div>
                   <div style={{ fontSize:'.7rem', color:'#64748b', marginTop:2 }}>
                     {j.customer_name && <span>👤 {j.customer_name} • </span>}
                     {wc && <span>{getTypeInfo(wc.type).label} {wc.name} • </span>}
                     {j.estimated_duration_min}นาที{j.quantity > 0 && ` • ${j.quantity.toLocaleString()} ชิ้น`}
                   </div>
+                  {stage === 'in_progress' && j.actual_start && (
+                    <div style={{ fontSize:'.7rem', color:'#f59e0b', fontWeight:700, marginTop:4 }}>⏱️ {elapsed(j.actual_start)}</div>
+                  )}
+                  {qrJob === j.id && (
+                    <div style={{ textAlign:'center', marginTop:8, padding:8, background:'#fff', borderRadius:8, border:'1px solid #e2e8f0' }}>
+                      <img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(JSON.stringify({type:'JOB',id:j.id,name:j.job_name}))}`} alt="QR" style={{ width:120, height:120 }} />
+                      <div style={{ fontSize:'.65rem', color:'#94a3b8', marginTop:4 }}>สแกนเพื่อเริ่มจับเวลา</div>
+                    </div>
+                  )}
                   <div style={{ display:'flex', gap:4, marginTop:8 }}>
                     {stage === 'queued' && <button style={s.btnSm('#f59e0b')} onClick={() => updateJob(j.id,'in_progress')}>▶️ เริ่มผลิต</button>}
                     {stage === 'in_progress' && <button style={s.btnSm('#22c55e')} onClick={() => updateJob(j.id,'completed')}>✅ เสร็จ</button>}

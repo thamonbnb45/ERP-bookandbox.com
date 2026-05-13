@@ -3580,6 +3580,17 @@ app.delete('/api/factory/schedule/:id', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// 📱 QR Code for Job Tickets — สร้าง QR สำหรับแสกนเริ่มงาน
+app.get('/api/factory/schedule/:id/qr', async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('production_schedule').select('*').eq('id', req.params.id).single();
+        if (error) throw error;
+        const qrData = JSON.stringify({ type:'JOB', id: data.id, name: data.job_name, qty: data.quantity });
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+        res.json({ job: data, qr_url: qrUrl, qr_data: qrData });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // --- Capacity Check (for Sales to see availability) ---
 app.get('/api/factory/capacity', async (req, res) => {
     try {
