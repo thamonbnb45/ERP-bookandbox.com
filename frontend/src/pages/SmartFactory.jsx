@@ -31,17 +31,19 @@ export default function SmartFactory() {
   const [showAddWC, setShowAddWC] = useState(false);
   const [jobForm, setJobForm] = useState({ job_name:'', customer_name:'', work_center_id:'', scheduled_start: new Date().toISOString().slice(0,10), estimated_duration_min:60, quantity:0, priority:5 });
   const [wcForm, setWcForm] = useState({ name:'', type:'offset_press', capacity_per_hour:100, shift_hours:8 });
+  const [workers, setWorkers] = useState([]);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const [w, s, st, wk] = await Promise.all([
+      const [w, s, st, wk, wkrs] = await Promise.all([
         fetch(`${API}/api/factory/work-centers`).then(r=>r.json()),
         fetch(`${API}/api/factory/schedule`).then(r=>r.json()),
         fetch(`${API}/api/factory/stats`).then(r=>r.json()),
         fetch(`${API}/api/factory/capacity-week`).then(r=>r.json()),
+        fetch(`${API}/api/factory/productivity`).then(r=>r.json()),
       ]);
-      setWcs(Array.isArray(w)?w:[]); setSchedule(Array.isArray(s)?s:[]); setStats(st||{}); setWeekCap(Array.isArray(wk)?wk:[]);
+      setWcs(Array.isArray(w)?w:[]); setSchedule(Array.isArray(s)?s:[]); setStats(st||{}); setWeekCap(Array.isArray(wk)?wk:[]); setWorkers(Array.isArray(wkrs)?wkrs:[]);
     } catch(e) { console.error(e); }
     setLoading(false);
   }, []);
@@ -105,7 +107,7 @@ export default function SmartFactory() {
 
       {/* Tabs */}
       <div style={{ display:'flex', gap:3 }}>
-        {[['kanban','📋 Kanban'],['dashboard','📊 ภาพรวม'],['machines','⚙️ เครื่องจักร']].map(([k,l]) =>
+        {[['kanban','📋 Kanban'],['dashboard','📊 ภาพรวม'],['workers','👷 คนงาน'],['machines','⚙️ เครื่อง']].map(([k,l]) =>
           <button key={k} style={s.tab(tab===k)} onClick={() => setTab(k)}>{l}</button>
         )}
       </div>
@@ -114,6 +116,7 @@ export default function SmartFactory() {
         {loading ? <p style={{ textAlign:'center', padding:'2rem', color:'#94a3b8' }}>⏳ โหลด...</p> :
          tab === 'kanban' ? <Kanban schedule={schedule} wcs={wcs} updateJob={updateJob} deleteJob={deleteJob} s={s} /> :
          tab === 'dashboard' ? <Dashboard stats={stats} weekByMachine={weekByMachine} s={s} /> :
+         tab === 'workers' ? <Workers workers={workers} s={s} /> :
          <Machines wcs={wcs} deleteWC={deleteWC} s={s} />
         }
       </div>
@@ -322,6 +325,42 @@ function Machines({ wcs, deleteWC, s }) {
             </div>
           );
         })
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════ WORKERS ═══════════════════
+function Workers({ workers, s }) {
+  const fmtTime = (secs) => {
+    const h = Math.floor(secs / 3600), m = Math.floor((secs % 3600) / 60);
+    return h > 0 ? `${h}ชม. ${m}นาที` : `${m}นาที`;
+  };
+  return (
+    <div>
+      <h4 style={{ margin:'0 0 .75rem', fontSize:'.9rem' }}>👷 ผลงานพนักงานวันนี้</h4>
+      {workers.length === 0 ? (
+        <div style={{ textAlign:'center', padding:'2rem', color:'#94a3b8' }}>
+          <div style={{ fontSize:'2.5rem', marginBottom:8 }}>👷</div>
+          <p style={{ fontSize:'.85rem' }}>ยังไม่มีข้อมูลลงเวลาวันนี้</p>
+          <p style={{ fontSize:'.75rem', color:'#cbd5e1' }}>พนักงาน DM Zero พิมพ์ "เริ่ม ชื่องาน" เพื่อเริ่มบันทึก</p>
+        </div>
+      ) : (
+        workers.map((w, i) => (
+          <div key={w.user_name} style={{ ...s.card, display:'flex', alignItems:'center', gap:12, borderLeft:`4px solid ${i === 0 ? '#f59e0b' : '#3b82f6'}` }}>
+            <div style={{ fontSize:'1.5rem', width:36, textAlign:'center' }}>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '👤'}</div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontWeight:700, fontSize:'.9rem' }}>{w.user_name}</div>
+              <div style={{ fontSize:'.7rem', color:'#64748b' }}>
+                ✅ {w.finished} งานเสร็จ{w.running > 0 ? ` • ⚙️ ${w.running} กำลังทำ` : ''}{w.total_quantity > 0 ? ` • 📦 ${parseInt(w.total_quantity).toLocaleString()} ชิ้น` : ''}
+              </div>
+            </div>
+            <div style={{ textAlign:'right' }}>
+              <div style={{ fontFamily:'monospace', fontWeight:700, fontSize:'.9rem', color:'#3b82f6' }}>{fmtTime(parseInt(w.total_seconds))}</div>
+              <div style={{ fontSize:'.65rem', color:'#94a3b8' }}>{w.total_tasks} tasks</div>
+            </div>
+          </div>
+        ))
       )}
     </div>
   );

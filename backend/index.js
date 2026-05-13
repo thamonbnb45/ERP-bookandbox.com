@@ -3680,6 +3680,38 @@ app.get('/api/factory/stats', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// 📊 Worker Productivity — ผลงานรายคนวันนี้
+app.get('/api/factory/productivity', async (req, res) => {
+    try {
+        const db = require('./db');
+        const workers = await db.query(`
+            SELECT user_name, 
+                   COUNT(*) as total_tasks,
+                   COUNT(CASE WHEN status = 'finished' THEN 1 END) as finished,
+                   COUNT(CASE WHEN status = 'running' THEN 1 END) as running,
+                   COALESCE(SUM(CASE WHEN status = 'finished' THEN duration_seconds END), 0) as total_seconds,
+                   COALESCE(SUM(quantity), 0) as total_quantity
+            FROM time_log 
+            WHERE DATE(start_time) = CURRENT_DATE
+            GROUP BY user_name ORDER BY total_seconds DESC
+        `);
+        res.json(workers.rows);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// 📋 Daily Report
+app.get('/api/factory/daily-report', async (req, res) => {
+    try {
+        const db = require('./db');
+        const [prodJobs, timeLog, machines] = await Promise.all([
+            db.query(`SELECT status, COUNT(*) as c, COALESCE(SUM(quantity),0) as qty FROM production_schedule WHERE DATE(scheduled_start) = CURRENT_DATE OR status = 'in_progress' GROUP BY status`),
+            db.query(`SELECT user_name, COUNT(*) as tasks, COALESCE(SUM(duration_seconds),0) as secs FROM time_log WHERE DATE(start_time) = CURRENT_DATE AND status = 'finished' GROUP BY user_name ORDER BY secs DESC`),
+            db.query(`SELECT COUNT(*) as c FROM work_centers WHERE status = 'active'`),
+        ]);
+        res.json({ production: prodJobs.rows, workers: timeLog.rows, machine_count: parseInt(machines.rows[0].c) });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ══════════════════════════════════════════════════════════════
 // 🧠 NEXUS → ZERO RELAY — Push messages to LINE via API
 // ══════════════════════════════════════════════════════════════
