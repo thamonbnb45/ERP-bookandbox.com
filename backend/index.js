@@ -426,13 +426,29 @@ app.post('/api/webhook-agent', async (req, res) => {
                 const member = found.rows[0];
                 await db.query(`UPDATE team_members SET status = $1 WHERE id = $2`, [newStatus, member.id]);
 
-                // แจ้ง CEO
-                await client.pushMessage({ to: userId, messages: [{ type: 'text', text: isApprove ? `✅ อนุมัติ ${targetName} (${member.role}) เรียบร้อย!` : `❌ ปฏิเสธ ${targetName} แล้ว` }] });
-
-                // แจ้งผู้สมัคร
                 if (isApprove) {
-                    try { await client.pushMessage({ to: member.line_user_id, messages: [{ type: 'text', text: `🎉 ลงทะเบียนได้รับอนุมัติแล้ว!\n\n👤 คุณ${member.name} (${member.role})\n\n🏭 เข้าใช้งาน Smart Factory:\nhttps://erp-bookandboxcom-production.up.railway.app/smart-factory` }] }); } catch(e) {}
+                    // Auto-create ERP login account
+                    const erpUsername = member.name.toLowerCase().replace(/\s+/g, '');
+                    const erpPin = String(Math.floor(1000 + Math.random() * 9000)); // 4-digit PIN
+                    const roleMap = { 'IT': 'Production Manager', 'Production Manager': 'Production Manager', 'บัญชี': 'Accountant', 'Accountant': 'Accountant', 'HR': 'HR', 'Sales': 'Sales', 'Driver': 'Driver', 'Operator': 'Operator' };
+                    const erpRole = roleMap[member.role] || 'Operator';
+
+                    try {
+                        await db.query(
+                            `INSERT INTO erp_users (username, pin_code, full_name, role, active) VALUES ($1, $2, $3, $4, true) ON CONFLICT (username) DO UPDATE SET pin_code = $2, full_name = $3, role = $4, active = true`,
+                            [erpUsername, erpPin, member.name, erpRole]
+                        );
+                    } catch(e) { console.error('❌ [ERP User Create]', e.message); }
+
+                    // แจ้ง CEO
+                    await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `✅ อนุมัติ ${targetName} (${member.role}) เรียบร้อย!\n\n🔐 สร้าง account แล้ว:\nUsername: ${erpUsername}\nPIN: ${erpPin}` }] });
+
+                    // DM ผู้สมัคร — ส่ง credentials ส่วนตัว
+                    try {
+                        await client.pushMessage({ to: member.line_user_id, messages: [{ type: 'text', text: `🎉 ลงทะเบียนได้รับอนุมัติแล้ว!\n\n👤 คุณ${member.name} (${erpRole})\n\n🔐 ข้อมูลเข้าใช้งานระบบ ERP:\n👤 Username: ${erpUsername}\n🔑 PIN: ${erpPin}\n\n🏭 เข้าใช้งานได้ที่:\nhttps://erp-bookandboxcom-production.up.railway.app\n\n⚠️ กรุณาเก็บ PIN เป็นความลับ!` }] });
+                    } catch(e) {}
                 } else {
+                    await client.pushMessage({ to: userId, messages: [{ type: 'text', text: `❌ ปฏิเสธ ${targetName} แล้ว` }] });
                     try { await client.pushMessage({ to: member.line_user_id, messages: [{ type: 'text', text: `❌ คำขอลงทะเบียนถูกปฏิเสธครับ\nกรุณาติดต่อ CEO` }] }); } catch(e) {}
                 }
                 // Reload team cache
