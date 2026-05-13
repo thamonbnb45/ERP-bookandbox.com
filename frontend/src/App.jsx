@@ -96,6 +96,9 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
                 <Link to="/logistics" className={`nav-item ${location.pathname === '/logistics' ? 'active' : ''}`} onClick={closeSidebar}>
                     <i className="fa-solid fa-truck-fast"></i> จัดส่ง Logistics
                 </Link>
+                <Link to="/time-logger" className={`nav-item ${location.pathname === '/time-logger' ? 'active' : ''}`} onClick={closeSidebar}>
+                    <i className="fa-solid fa-stopwatch"></i> ⏱️ ลงเวลาทำงาน
+                </Link>
               </>
           )}
 
