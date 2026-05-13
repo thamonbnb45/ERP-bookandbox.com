@@ -603,8 +603,38 @@ app.post('/api/webhook-agent', async (req, res) => {
             continue;
         }
 
+        // 🔄 อัพเดทสถานะงานผลิตผ่าน LINE
+        if (logName && (text.startsWith('เริ่มผลิต ') || text.startsWith('เสร็จงาน ') || text.startsWith('พักงาน '))) {
+            const isStart = text.startsWith('เริ่มผลิต');
+            const isDone = text.startsWith('เสร็จงาน');
+            const keyword = text.replace(/^(เริ่มผลิต|เสร็จงาน|พักงาน)\s+/, '').trim();
+            const newStatus = isStart ? 'in_progress' : isDone ? 'completed' : 'on_hold';
+            try {
+                const db = require('./db');
+                const found = await db.query(
+                    `SELECT * FROM production_schedule WHERE LOWER(job_name) LIKE $1 AND status NOT IN ('completed','cancelled') ORDER BY priority ASC LIMIT 1`,
+                    [`%${keyword.toLowerCase()}%`]
+                );
+                if (found.rows.length === 0) {
+                    await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `⚠️ ไม่พบงาน "${keyword}" ที่ค้างอยู่` }] });
+                    continue;
+                }
+                const job = found.rows[0];
+                const updates = { status: newStatus };
+                if (isStart) updates.actual_start = new Date().toISOString();
+                if (isDone) updates.actual_end = new Date().toISOString();
+                const setClauses = Object.entries(updates).map(([k,v], i) => `${k} = $${i+1}`).join(', ');
+                await db.query(`UPDATE production_schedule SET ${setClauses} WHERE id = $${Object.keys(updates).length + 1}`, [...Object.values(updates), job.id]);
+                const icons = { 'in_progress': '⚙️ เริ่มผลิต', 'completed': '✅ เสร็จ', 'on_hold': '⏸️ พัก' };
+                await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `${icons[newStatus]}!\n\n📋 ${job.job_name}\n👤 ${job.customer_name || '-'}\n📦 ${job.quantity ? job.quantity.toLocaleString() + ' ชิ้น' : '-'}` }] });
+            } catch(e) {
+                try { await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `❌ Error: ${e.message}` }] }); } catch(e2) {}
+            }
+            continue;
+        }
+
         if (text === 'คำสั่ง' || text === 'help' || text === 'ช่วย') {
-            await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📖 คำสั่งที่ใช้ได้:\n\n⏱️ ลงเวลา:\n• เริ่ม [ชื่องาน]\n• จบงาน\n• งานของฉัน\n\n🏭 Smart Factory:\n• เพิ่มเครื่อง ชื่อ,ประเภท,กำลังผลิต/ชม,ชม/กะ\n• เพิ่มงาน ชื่องาน,ลูกค้า,จำนวน,นาที\n• สรุปผลิต\n\n📝 ลงทะเบียน:\n• ลงทะเบียน ชื่อ ตำแหน่ง\n\nตัวอย่าง:\nเพิ่มเครื่อง Offset #1,offset,5000,8\nเพิ่มงาน กล่อง BNI,บริษัท BNI,500,120` }] });
+            await client.pushMessage({ to: targetId, messages: [{ type: 'text', text: `📖 คำสั่ง Zero:\n\n⏱️ ลงเวลา:\n• เริ่ม [ชื่องาน]\n• จบงาน / จบงาน 500\n• งานของฉัน\n\n🏭 Smart Factory:\n• เพิ่มเครื่อง ชื่อ,ประเภท,กำลัง,ชม/กะ\n• เพิ่มงาน ชื่อ,ลูกค้า,จำนวน,นาที\n• เริ่มผลิต [ชื่องาน]\n• เสร็จงาน [ชื่องาน]\n• พักงาน [ชื่องาน]\n• สรุปผลิต\n\n📝 อื่นๆ:\n• ลงทะเบียน ชื่อ ตำแหน่ง` }] });
             continue;
         }
 
