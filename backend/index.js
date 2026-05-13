@@ -1704,7 +1704,7 @@ app.post('/api/line-push', async (req, res) => {
     try {
         const { to, message } = req.body;
         if (!to || !message) return res.status(400).json({ error: 'Missing to or message' });
-        await client.pushMessage({ to, messages: [{ type: 'text', text: message }] });
+        await (agentLineClient || lineClient).pushMessage({ to, messages: [{ type: 'text', text: message }] });
         res.json({ success: true });
     } catch (e) {
         res.status(500).json({ error: e.message });
