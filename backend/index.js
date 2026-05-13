@@ -1407,7 +1407,113 @@ app.get('/api/dashboard/metrics', async (req, res) => {
     }
 });
 
+// ====== PRODUCTION REAL DATA (from Excel import) ======
+
+// Get all production jobs with filters
+app.get('/api/production/jobs', async (req, res) => {
+    try {
+        const { status, machine, search, limit = 50, offset = 0, sort = 'due_date', order = 'ASC' } = req.query;
+        let where = [];
+        let params = [];
+        let pi = 1;
+
+        if (status && status !== 'all') { where.push(`status = $${pi++}`); params.push(status); }
+        if (machine) { where.push(`machine = $${pi++}`); params.push(machine); }
+        if (search) { where.push(`(jog_no ILIKE $${pi} OR job_name ILIKE $${pi})`); params.push(`%${search}%`); pi++; }
+
+        const whereClause = where.length ? 'WHERE ' + where.join(' AND ') : '';
+        const validSort = ['due_date','jog_no','status','created_at','sheets_actual'].includes(sort) ? sort : 'due_date';
+        const validOrder = order === 'DESC' ? 'DESC' : 'ASC';
+
+        const countQ = await db.query(`SELECT COUNT(*) as total FROM production_jobs_real ${whereClause}`, params);
+        const dataQ = await db.query(
+            `SELECT * FROM production_jobs_real ${whereClause} 
+             ORDER BY ${validSort} ${validOrder} NULLS LAST 
+             LIMIT $${pi++} OFFSET $${pi++}`,
+            [...params, parseInt(limit), parseInt(offset)]
+        );
+
+        res.json({ 
+            total: parseInt(countQ.rows[0].total),
+            jobs: dataQ.rows,
+            limit: parseInt(limit),
+            offset: parseInt(offset)
+        });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Production dashboard summary
+app.get('/api/production/dashboard', async (req, res) => {
+    try {
+        const statusSummary = await db.query(`
+            SELECT status, COUNT(*) as count, COALESCE(SUM(sheets_actual),0) as total_sheets
+            FROM production_jobs_real GROUP BY status ORDER BY count DESC
+        `);
+
+        const machineSummary = await db.query(`
+            SELECT COALESCE(machine,'ไม่ระบุ') as machine, COUNT(*) as count,
+                   COALESCE(SUM(sheets_actual),0) as total_sheets,
+                   COUNT(*) FILTER (WHERE status='queued') as queued,
+                   COUNT(*) FILTER (WHERE status='printing') as printing,
+                   COUNT(*) FILTER (WHERE status='completed') as completed
+            FROM production_jobs_real GROUP BY machine ORDER BY count DESC
+        `);
+
+        const postPressSummary = await db.query(`
+            SELECT 
+                COUNT(*) FILTER (WHERE coating NOT IN ('ไม่ทำ','')) as needs_coating,
+                COUNT(*) FILTER (WHERE hot_stamp NOT IN ('ไม่ทำ','')) as needs_hotstamp,
+                COUNT(*) FILTER (WHERE emboss NOT IN ('ไม่ทำ','')) as needs_emboss,
+                COUNT(*) FILTER (WHERE die_cut NOT IN ('ไม่ทำ','')) as needs_diecut,
+                COUNT(*) FILTER (WHERE glue NOT IN ('ไม่ทำ','')) as needs_glue,
+                COUNT(*) FILTER (WHERE fold NOT IN ('ไม่ทำ','')) as needs_fold,
+                COUNT(*) FILTER (WHERE binding NOT IN ('ไม่ทำ','')) as needs_binding
+            FROM production_jobs_real WHERE status NOT IN ('completed','cancelled')
+        `);
+
+        const urgentJobs = await db.query(`
+            SELECT jog_no, job_name, due_date, status, sheets_actual, machine
+            FROM production_jobs_real 
+            WHERE status NOT IN ('completed','cancelled') AND due_date IS NOT NULL
+            ORDER BY due_date ASC LIMIT 10
+        `);
+
+        const totalJobs = await db.query('SELECT COUNT(*) as c FROM production_jobs_real');
+
+        res.json({
+            total_jobs: parseInt(totalJobs.rows[0].c),
+            by_status: statusSummary.rows,
+            by_machine: machineSummary.rows,
+            post_press: postPressSummary.rows[0],
+            urgent_jobs: urgentJobs.rows
+        });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Update job status
+app.put('/api/production/jobs/:jog_no/status', async (req, res) => {
+    try {
+        const { status } = req.body;
+        const result = await db.query(
+            'UPDATE production_jobs_real SET status = $1 WHERE jog_no = $2 RETURNING *',
+            [status, req.params.jog_no]
+        );
+        if (result.rows.length === 0) return res.status(404).json({ error: 'Job not found' });
+        res.json(result.rows[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Get single job detail
+app.get('/api/production/jobs/:jog_no', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM production_jobs_real WHERE jog_no = $1', [req.params.jog_no]);
+        if (result.rows.length === 0) return res.status(404).json({ error: 'Job not found' });
+        res.json(result.rows[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ====== PRODUCTION LOG & OEE ======
+
 
 // Auto-create production_log table
 app.get('/api/production_log/init', async (req, res) => {
