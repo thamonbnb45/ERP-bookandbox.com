@@ -72,6 +72,7 @@ export default function TimeLogger() {
     const [historyTasks, setHistoryTasks] = useState([]);
     const [newTaskName, setNewTaskName] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [factoryJobs, setFactoryJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const currentUser = user?.full_name || 'ไม่ระบุตัวตน';
 
@@ -95,13 +96,15 @@ export default function TimeLogger() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const [activeRes, historyRes] = await Promise.all([
+            const [activeRes, historyRes, jobsRes] = await Promise.all([
                 axios.get(`${API_URL}/timelog/active?user=${currentUser}`),
-                axios.get(`${API_URL}/timelog/history?user=${currentUser}`)
+                axios.get(`${API_URL}/timelog/history?user=${currentUser}`),
+                axios.get(`${API_URL}/factory/schedule`)
             ]);
             setActiveTasks(activeRes.data);
             setHistoryTasks(historyRes.data);
-        } catch (error) { console.error('Error fetching time logs', error); }
+            setFactoryJobs(jobsRes.data.filter(j => j.status !== 'completed' && j.status !== 'cancelled'));
+        } catch (error) { console.error('Error fetching data', error); }
         setLoading(false);
     };
 
@@ -260,6 +263,20 @@ export default function TimeLogger() {
                         onChange={e => setManualJO(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && useManualJO()} />
                     <button style={{ ...s.btnSm('#3b82f6'), flex: 'none', width: 70 }} onClick={useManualJO}>🔍 ค้นหา</button>
+                </div>
+
+                {/* Select from Smart Factory */}
+                <div style={{ marginBottom: 10 }}>
+                    <select style={s.input} value="" onChange={e => {
+                        if (!e.target.value) return;
+                        const job = factoryJobs.find(j => j.id === e.target.value);
+                        if (job) setScannedJob({ id: job.id, text: `JO-${job.id} ${job.job_name}`, customer: job.customer_name, product: '' });
+                    }}>
+                        <option value="">-- หรืองานจาก Smart Factory Kanban --</option>
+                        {factoryJobs.map(j => (
+                            <option key={j.id} value={j.id}>{j.is_urgent ? '🔴 ' : ''}[JO-{j.id}] {j.job_name} {j.customer_name ? `(${j.customer_name})` : ''}</option>
+                        ))}
+                    </select>
                 </div>
 
                 {/* Scanned Job Badge */}
