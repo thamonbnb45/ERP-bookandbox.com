@@ -48,7 +48,8 @@ export default function SmartFactory() {
     setLoading(false);
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => { load(); const iv = setInterval(load, 30000); return () => clearInterval(iv); }, [load]);
+  const sendSummary = async () => { await fetch(`${API}/api/factory/send-summary`, { method:'POST' }); alert('📊 ส่งสรุปผลิตลงกลุ่มแล้ว!'); };
 
   const addJob = async () => {
     if (!jobForm.job_name) return alert('กรุณาใส่ชื่องาน');
@@ -100,6 +101,7 @@ export default function SmartFactory() {
           <div style={{ fontSize:'.7rem', color:'#64748b' }}>Kanban • Capacity • Production</div>
         </div>
         <div style={{ display:'flex', gap:6 }}>
+          <button style={{ ...s.btn('#64748b'), padding:'10px 12px' }} onClick={load} title="รีเฟรช">🔄</button>
           <button style={s.btn('#22c55e')} onClick={() => setShowAddWC(true)}>+ เครื่อง</button>
           <button style={s.btn('#3b82f6')} onClick={() => setShowAdd(true)}>+ งาน</button>
         </div>
@@ -115,7 +117,7 @@ export default function SmartFactory() {
       <div style={{ ...s.card, borderTopLeftRadius:0, marginBottom:0 }}>
         {loading ? <p style={{ textAlign:'center', padding:'2rem', color:'#94a3b8' }}>⏳ โหลด...</p> :
          tab === 'kanban' ? <Kanban schedule={schedule} wcs={wcs} updateJob={updateJob} deleteJob={deleteJob} s={s} /> :
-         tab === 'dashboard' ? <Dashboard stats={stats} weekByMachine={weekByMachine} s={s} /> :
+         tab === 'dashboard' ? <Dashboard stats={stats} weekByMachine={weekByMachine} s={s} sendSummary={sendSummary} /> :
          tab === 'workers' ? <Workers workers={workers} s={s} /> :
          <Machines wcs={wcs} deleteWC={deleteWC} s={s} />
         }
@@ -259,7 +261,7 @@ function Kanban({ schedule, wcs, updateJob, deleteJob, s }) {
 }
 
 // ═══════════════════ DASHBOARD ═══════════════════
-function Dashboard({ stats, weekByMachine, s }) {
+function Dashboard({ stats, weekByMachine, s, sendSummary }) {
   return (
     <div>
       <div style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:10, marginBottom:16 }}>
@@ -317,6 +319,10 @@ function Dashboard({ stats, weekByMachine, s }) {
           </table>
         </div>
       )}
+
+      <button style={{ ...s.btn('#8b5cf6'), width:'100%', marginTop:16, padding:'12px' }} onClick={sendSummary}>
+        📊 ส่งสรุปผลิตลงกลุ่ม LINE
+      </button>
     </div>
   );
 }
