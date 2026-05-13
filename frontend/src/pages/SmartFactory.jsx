@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const API = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
 const WC_TYPES = [
@@ -21,6 +22,8 @@ function getTypeInfo(t) { return WC_TYPES.find(w => w.value === t) || WC_TYPES[W
 function utilColor(pct) { return pct >= 90 ? '#ef4444' : pct >= 70 ? '#f59e0b' : pct >= 40 ? '#3b82f6' : '#22c55e'; }
 
 export default function SmartFactory() {
+  const { user } = useAuth();
+  const isSales = user?.role === 'Sales';
   const [tab, setTab] = useState('kanban');
   const [wcs, setWcs] = useState([]);
   const [schedule, setSchedule] = useState([]);
@@ -102,22 +105,25 @@ export default function SmartFactory() {
         </div>
         <div style={{ display:'flex', gap:6 }}>
           <button style={{ ...s.btn('#64748b'), padding:'10px 12px' }} onClick={load} title="รีเฟรช">🔄</button>
-          <button style={s.btn('#22c55e')} onClick={() => setShowAddWC(true)}>+ เครื่อง</button>
-          <button style={s.btn('#3b82f6')} onClick={() => setShowAdd(true)}>+ งาน</button>
+          {!isSales && <button style={s.btn('#22c55e')} onClick={() => setShowAddWC(true)}>+ เครื่อง</button>}
+          {!isSales && <button style={s.btn('#3b82f6')} onClick={() => setShowAdd(true)}>+ งาน</button>}
         </div>
       </div>
 
       {/* Tabs */}
       <div style={{ display:'flex', gap:3 }}>
-        {[['kanban','📋 Kanban'],['dashboard','📊 ภาพรวม'],['workers','👷 คนงาน'],['machines','⚙️ เครื่อง']].map(([k,l]) =>
+        {(isSales
+          ? [['kanban','📋 Kanban'],['dashboard','📊 ภาพรวม']]
+          : [['kanban','📋 Kanban'],['dashboard','📊 ภาพรวม'],['workers','👷 คนงาน'],['machines','⚙️ เครื่อง']]
+        ).map(([k,l]) =>
           <button key={k} style={s.tab(tab===k)} onClick={() => setTab(k)}>{l}</button>
         )}
       </div>
 
       <div style={{ ...s.card, borderTopLeftRadius:0, marginBottom:0 }}>
         {loading ? <p style={{ textAlign:'center', padding:'2rem', color:'#94a3b8' }}>⏳ โหลด...</p> :
-         tab === 'kanban' ? <Kanban schedule={schedule} wcs={wcs} updateJob={updateJob} deleteJob={deleteJob} s={s} /> :
-         tab === 'dashboard' ? <Dashboard stats={stats} weekByMachine={weekByMachine} s={s} sendSummary={sendSummary} /> :
+         tab === 'kanban' ? <Kanban schedule={schedule} wcs={wcs} updateJob={updateJob} deleteJob={deleteJob} s={s} readOnly={isSales} /> :
+         tab === 'dashboard' ? <Dashboard stats={stats} weekByMachine={weekByMachine} s={s} sendSummary={isSales ? null : sendSummary} /> :
          tab === 'workers' ? <Workers workers={workers} s={s} /> :
          <Machines wcs={wcs} deleteWC={deleteWC} s={s} />
         }
@@ -197,7 +203,7 @@ export default function SmartFactory() {
 }
 
 // ═══════════════════ KANBAN ═══════════════════
-function Kanban({ schedule, wcs, updateJob, deleteJob, s }) {
+function Kanban({ schedule, wcs, updateJob, deleteJob, s, readOnly }) {
   const [qrJob, setQrJob] = useState(null);
   const columns = ['queued','in_progress','completed'];
   
@@ -226,8 +232,8 @@ function Kanban({ schedule, wcs, updateJob, deleteJob, s }) {
                   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
                     <div style={{ fontWeight:700, fontSize:'.85rem', flex:1 }}>{j.is_urgent && '🔴 '}{j.job_name || 'ไม่มีชื่อ'}</div>
                     <div style={{ display:'flex', gap:4 }}>
-                      <button style={{ background:'none', border:'none', color:'#3b82f6', cursor:'pointer', fontSize:'.8rem' }} onClick={() => setQrJob(qrJob === j.id ? null : j.id)} title="QR Code">📱</button>
-                      <button style={{ background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:'.8rem' }} onClick={() => deleteJob(j.id)}>✕</button>
+                      {!readOnly && <button style={{ background:'none', border:'none', color:'#3b82f6', cursor:'pointer', fontSize:'.8rem' }} onClick={() => setQrJob(qrJob === j.id ? null : j.id)} title="QR Code">📱</button>}
+                      {!readOnly && <button style={{ background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:'.8rem' }} onClick={() => deleteJob(j.id)}>✕</button>}
                     </div>
                   </div>
                   <div style={{ fontSize:'.7rem', color:'#64748b', marginTop:2 }}>
@@ -244,12 +250,13 @@ function Kanban({ schedule, wcs, updateJob, deleteJob, s }) {
                       <div style={{ fontSize:'.65rem', color:'#94a3b8', marginTop:4 }}>สแกนเพื่อเริ่มจับเวลา</div>
                     </div>
                   )}
-                  <div style={{ display:'flex', gap:4, marginTop:8 }}>
+                  {!readOnly && <div style={{ display:'flex', gap:4, marginTop:8 }}>
                     {stage === 'queued' && <button style={s.btnSm('#f59e0b')} onClick={() => updateJob(j.id,'in_progress')}>▶️ เริ่มผลิต</button>}
                     {stage === 'in_progress' && <button style={s.btnSm('#22c55e')} onClick={() => updateJob(j.id,'completed')}>✅ เสร็จ</button>}
                     {stage === 'in_progress' && <button style={s.btnSm('#ef4444')} onClick={() => updateJob(j.id,'on_hold')}>⏸️ พัก</button>}
                     {stage === 'completed' && <span style={{ fontSize:'.7rem', color:'#22c55e', fontWeight:600 }}>✅ เสร็จแล้ว</span>}
-                  </div>
+                  </div>}
+                  {readOnly && stage === 'completed' && <div style={{ marginTop:6 }}><span style={{ fontSize:'.7rem', color:'#22c55e', fontWeight:600 }}>✅ เสร็จแล้ว</span></div>}
                 </div>
               );
             })}
@@ -320,9 +327,9 @@ function Dashboard({ stats, weekByMachine, s, sendSummary }) {
         </div>
       )}
 
-      <button style={{ ...s.btn('#8b5cf6'), width:'100%', marginTop:16, padding:'12px' }} onClick={sendSummary}>
+      {sendSummary && <button style={{ ...s.btn('#8b5cf6'), width:'100%', marginTop:16, padding:'12px' }} onClick={sendSummary}>
         📊 ส่งสรุปผลิตลงกลุ่ม LINE
-      </button>
+      </button>}
     </div>
   );
 }

@@ -81,7 +81,7 @@ function Sidebar({ isOpen, closeSidebar, isCollapsed }) {
           )}
 
           {/* 🏭 ผลิตและจัดส่ง (Production & Logistics) */}
-          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse', 'Driver']) && (
+          {canAccess('production_module', ['CEO', 'Production Manager', 'Operator', 'Warehouse', 'Driver', 'Sales']) && (
               <>
                 <div style={{ fontSize: '0.65rem', fontWeight: 'bold', color: '#94a3b8', margin: '1rem 0 0.2rem 1rem', textTransform: 'uppercase' }}>ผลิตและจัดส่ง (Production)</div>
                 <Link to="/smart-factory" className={`nav-item ${location.pathname === '/smart-factory' ? 'active' : ''}`} onClick={closeSidebar}>
