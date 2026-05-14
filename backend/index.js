@@ -4235,6 +4235,162 @@ app.delete('/api/production/schedule/:id', async (req, res) => {
     }
 });
 
+// ====== PRODUCTION SEED (Real Data) ======
+app.get('/api/production/seed', async (req, res) => {
+    try {
+        // Seed Production Schedules (Gantt)
+        await db.query('DELETE FROM production_schedule');
+        
+        const today = new Date();
+        const d = (offset) => {
+            const dt = new Date(today);
+            dt.setDate(dt.getDate() + offset);
+            return dt.toISOString().split('T')[0];
+        };
+        
+        const schedules = [
+            {
+                job_ref: '6805-0012', job_name: 'กล่อง Salonpas (งานด่วน)', quantity: 5000,
+                start_date: d(-2), end_date: d(8),
+                steps: [
+                    { id: 'prepress', label: 'เตรียมพิมพ์', color: '#818cf8', start: d(-2), end: d(-1) },
+                    { id: 'printing', label: 'พิมพ์', color: '#3b82f6', start: d(-1), end: d(1) },
+                    { id: 'coating', label: 'เคลือบ', color: '#06b6d4', start: d(1), end: d(2) },
+                    { id: 'diecut', label: 'ปั๊มไดคัท', color: '#f97316', start: d(2), end: d(4) },
+                    { id: 'folding', label: 'พับ/ปะกาว', color: '#eab308', start: d(4), end: d(6) },
+                    { id: 'qc', label: 'QC', color: '#22c55e', start: d(6), end: d(7) },
+                    { id: 'packing', label: 'Packing', color: '#8b5cf6', start: d(7), end: d(8) },
+                ]
+            },
+            {
+                job_ref: '6805-0013', job_name: 'ป้ายโปรโมชั่น PTT ×200', quantity: 200,
+                start_date: d(0), end_date: d(5),
+                steps: [
+                    { id: 'prepress', label: 'เตรียมพิมพ์', color: '#818cf8', start: d(0), end: d(1) },
+                    { id: 'printing', label: 'พิมพ์', color: '#3b82f6', start: d(1), end: d(2) },
+                    { id: 'coating', label: 'เคลือบ', color: '#06b6d4', start: d(2), end: d(3) },
+                    { id: 'diecut', label: 'ปั๊มไดคัท', color: '#f97316', start: d(3), end: d(4) },
+                    { id: 'qc', label: 'QC', color: '#22c55e', start: d(4), end: d(5) },
+                ]
+            },
+            {
+                job_ref: '6805-0014', job_name: 'แค็ตตาล็อก Chevrolet 2026', quantity: 1000,
+                start_date: d(1), end_date: d(12),
+                steps: [
+                    { id: 'prepress', label: 'เตรียมพิมพ์', color: '#818cf8', start: d(1), end: d(3) },
+                    { id: 'printing', label: 'พิมพ์', color: '#3b82f6', start: d(3), end: d(6) },
+                    { id: 'coating', label: 'เคลือบ', color: '#06b6d4', start: d(6), end: d(7) },
+                    { id: 'folding', label: 'พับ/เย็บเล่ม', color: '#eab308', start: d(7), end: d(10) },
+                    { id: 'qc', label: 'QC', color: '#22c55e', start: d(10), end: d(11) },
+                    { id: 'packing', label: 'Packing', color: '#8b5cf6', start: d(11), end: d(12) },
+                ]
+            },
+            {
+                job_ref: '6805-0015', job_name: 'นามบัตร Premium ลูกค้า VIP', quantity: 500,
+                start_date: d(2), end_date: d(6),
+                steps: [
+                    { id: 'prepress', label: 'เตรียมพิมพ์', color: '#818cf8', start: d(2), end: d(3) },
+                    { id: 'printing', label: 'พิมพ์', color: '#3b82f6', start: d(3), end: d(4) },
+                    { id: 'diecut', label: 'ปั๊มฟอยล์', color: '#f97316', start: d(4), end: d(5) },
+                    { id: 'qc', label: 'QC', color: '#22c55e', start: d(5), end: d(6) },
+                ]
+            },
+            {
+                job_ref: '6805-0016', job_name: 'กล่องขนม ฮาร์ดบอกซ์ (คิงเพาเวอร์)', quantity: 3000,
+                start_date: d(3), end_date: d(15),
+                steps: [
+                    { id: 'prepress', label: 'เตรียมพิมพ์', color: '#818cf8', start: d(3), end: d(4) },
+                    { id: 'printing', label: 'พิมพ์', color: '#3b82f6', start: d(4), end: d(7) },
+                    { id: 'coating', label: 'เคลือบ', color: '#06b6d4', start: d(7), end: d(8) },
+                    { id: 'diecut', label: 'ปั๊มไดคัท', color: '#f97316', start: d(8), end: d(10) },
+                    { id: 'folding', label: 'พับ/ปะกาว', color: '#eab308', start: d(10), end: d(12) },
+                    { id: 'qc', label: 'QC', color: '#22c55e', start: d(12), end: d(13) },
+                    { id: 'packing', label: 'Packing', color: '#8b5cf6', start: d(13), end: d(14) },
+                    { id: 'shipping', label: 'จัดส่ง', color: '#ef4444', start: d(14), end: d(15) },
+                ]
+            },
+        ];
+        
+        for (const s of schedules) {
+            await db.query(
+                `INSERT INTO production_schedule (job_ref, job_name, quantity, start_date, end_date, steps, status)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+                [s.job_ref, s.job_name, s.quantity, s.start_date, s.end_date, JSON.stringify(s.steps), 'planned']
+            );
+        }
+        
+        // Seed Production Logs (for OEE + History)
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS production_log (
+                id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+                machine TEXT,
+                operator TEXT,
+                jog_no TEXT,
+                product TEXT,
+                target_qty INT DEFAULT 0,
+                good_qty INT DEFAULT 0,
+                defect_qty INT DEFAULT 0,
+                start_time TIMESTAMPTZ,
+                end_time TIMESTAMPTZ,
+                downtime_minutes INT DEFAULT 0,
+                notes TEXT,
+                created_at TIMESTAMPTZ DEFAULT NOW()
+            );
+        `);
+        // Add missing columns
+        const logMigrations = [
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS machine TEXT',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS operator TEXT',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS jog_no TEXT',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS product TEXT',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS target_qty INT DEFAULT 0',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS good_qty INT DEFAULT 0',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS defect_qty INT DEFAULT 0',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS start_time TIMESTAMPTZ',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS end_time TIMESTAMPTZ',
+            'ALTER TABLE production_log ADD COLUMN IF NOT EXISTS downtime_minutes INT DEFAULT 0',
+        ];
+        for (const m of logMigrations) {
+            try { await db.query(m); } catch(e) {}
+        }
+        
+        await db.query('DELETE FROM production_log');
+        
+        const logs = [
+            ['SM74F', 'น้อย (ช่างพิมพ์ มือ 1)', '6805-0010', 'กล่อง Salonpas', 5000, 4850, 45, d(-5), d(-5), 30, 'สี Cyan ต้องปรับ 2 ครั้ง'],
+            ['SM74F', 'วุฒิ (ช่างพิมพ์ มือ 1)', '6805-0008', 'โบรชัวร์ Samsung', 3000, 2940, 20, d(-4), d(-4), 15, ''],
+            ['SM74F', 'น้อย (ช่างพิมพ์ มือ 1)', '6805-0009', 'สติ๊กเกอร์ Nestle', 10000, 9800, 80, d(-4), d(-3), 45, 'กระดาษชื้น ต้องรอ'],
+            ['CUT-1', 'ปอนด์ (ช่างตัด)', '6805-0010', 'กล่อง Salonpas', 4850, 4820, 10, d(-3), d(-3), 0, ''],
+            ['DIE-1', 'ปู (ช่างปั๊ม)', '6805-0010', 'กล่อง Salonpas', 4820, 4780, 15, d(-3), d(-2), 20, 'เปลี่ยนแม่พิมพ์'],
+            ['SM74F', 'โจ (ช่างพิมพ์ มือ 2)', '6805-0011', 'ป้าย PTT Station', 200, 198, 2, d(-2), d(-2), 10, ''],
+            ['FOLD-1', 'จักร (ช่างพับ)', '6805-0008', 'โบรชัวร์ Samsung', 2940, 2920, 8, d(-2), d(-2), 0, ''],
+            ['SM74F', 'น้อย (ช่างพิมพ์ มือ 1)', '6805-0012', 'กล่อง Salonpas (ด่วน)', 5000, 4900, 35, d(-1), d(-1), 25, 'งานด่วน Rush 3 ชม.'],
+            ['PASTE-1', 'อิง (ช่างปะ)', '6805-0010', 'กล่อง Salonpas', 4780, 4760, 5, d(-1), d(-1), 0, ''],
+            ['CUT-1', 'ปอนด์ (ช่างตัด)', '6805-0012', 'กล่อง Salonpas (ด่วน)', 4900, 4870, 12, d(0), d(0), 0, ''],
+            ['SM74F', 'วุฒิ (ช่างพิมพ์ มือ 1)', '6805-0013', 'ป้ายโปรโมชั่น PTT', 200, 197, 3, d(0), d(0), 10, ''],
+            ['DIE-1', 'ปู (ช่างปั๊ม)', '6805-0012', 'กล่อง Salonpas (ด่วน)', 4870, 4830, 18, d(0), d(0), 15, ''],
+        ];
+        
+        for (const [machine, operator, jog_no, product, target, good, defect, start, end, downtime, notes] of logs) {
+            await db.query(
+                `INSERT INTO production_log (machine, operator, jog_no, product, target_qty, good_qty, defect_qty, start_time, end_time, downtime_minutes, notes)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+                [machine, operator, jog_no, product, target, good, defect, start + 'T08:00:00+07:00', end + 'T17:00:00+07:00', downtime, notes]
+            );
+        }
+        
+        res.json({ 
+            success: true, 
+            schedules: schedules.length, 
+            logs: logs.length, 
+            message: `Seeded ${schedules.length} production schedules + ${logs.length} production logs!` 
+        });
+    } catch (e) {
+        console.error('Production seed error:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // ====== SPA CATCH-ALL (Next.js Static Export) ======
 // Any non-API route → serve the matching static HTML or fallback to index.html
 app.get('/{*splat}', (req, res) => {
