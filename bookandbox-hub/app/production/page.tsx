@@ -36,12 +36,30 @@ const SUB_TABS = [
   { id: 'log', label: 'บันทึกรายวัน (Logs)', icon: 'fa-solid fa-clipboard-list' },
 ];
 
+// Operator list from real employee data
+const OPERATORS = [
+  'สมชาย', 'สมหญิง', 'วิชัย', 'ประเสริฐ', 'สุรชัย', 'นิพนธ์', 'อนุชา',
+  'วรพจน์', 'กิตติ', 'ธนา', 'ศักดิ์ชัย', 'อภิชาต', 'มานพ', 'ชัยวัฒน์',
+  'พรชัย', 'สุทธิ', 'วิทยา', 'สมศักดิ์', 'ภูวนาท', 'ก้อย', 'ซัน'
+];
+
+// Downtime reason presets
+const DOWNTIME_REASONS = [
+  'รอเพลท', 'ล้างเครื่อง', 'เครื่องเสีย', 'รอกระดาษ', 'รอหมึก',
+  'ตั้งเครื่อง (Makeready)', 'เปลี่ยนงาน', 'พักเครื่อง', 'ไฟดับ', 'อื่นๆ'
+];
+
 export default function Production() {
   const [activeTab, setActiveTab] = useState('board');
   const [jobOrders, setJobOrders] = useState<any[]>([]);
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [operatorSearch, setOperatorSearch] = useState('');
+  const [showOperatorList, setShowOperatorList] = useState(false);
+  const [jogSearch, setJogSearch] = useState('');
+  const [showJogList, setShowJogList] = useState(false);
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
   
   // Log System States
   const [productionLogs, setProductionLogs] = useState<any[]>([]);
@@ -50,7 +68,7 @@ export default function Production() {
     machine: '',
     operator_name: '',
     job_ref: '',
-    actual_run_min: 0,
+    actual_run_min: 480,
     downtime_min: 0,
     downtime_reason: '',
     good_qty: 0,
@@ -67,9 +85,17 @@ export default function Production() {
       document.head.appendChild(link);
     }
     
-    fetchData();
+    // Timeout: ถ้าโหลดไม่เสร็จใน 5 วินาที ให้แสดงผลเลย
+    const timeout = setTimeout(() => setLoading(false), 5000);
+    fetchData().finally(() => { clearTimeout(timeout); setLoading(false); });
+    
+    // Fetch team members for operator dropdown
+    fetch(`${API_URL}/team-members`).then(r => r.json()).then(d => {
+      if (Array.isArray(d) && d.length > 0) setTeamMembers(d);
+    }).catch(() => {});
+    
     const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); clearTimeout(timeout); };
   }, []);
 
   const fetchData = async () => {
@@ -162,7 +188,29 @@ export default function Production() {
     }
   };
 
-  if (loading) return <div style={{padding:'2rem', textAlign:'center', marginTop: '100px', fontSize: '1.2rem', color: '#64748b'}}><i className="fa-solid fa-spinner fa-spin"></i> กำลังโหลดข้อมูลผลิตจริง...</div>;
+  // คำนวณความเร็วเฉลี่ย
+  const calcSpeed = () => {
+    if (newLog.actual_run_min > 0 && newLog.good_qty > 0) {
+      return Math.round((newLog.good_qty / newLog.actual_run_min) * 60);
+    }
+    return 0;
+  };
+
+  // Operator list (from API or fallback)
+  const operatorList = teamMembers.length > 0 
+    ? teamMembers.map((t: any) => t.name)
+    : OPERATORS;
+  
+  const filteredOperators = operatorList.filter((name: string) =>
+    name.toLowerCase().includes(operatorSearch.toLowerCase())
+  );
+
+  // JOG autocomplete from loaded jobs
+  const filteredJogs = (Array.isArray(jobOrders) ? jobOrders : []).filter((j: any) => 
+    j.jog_no && j.jog_no.toLowerCase().includes(jogSearch.toLowerCase())
+  ).slice(0, 8);
+
+  if (loading) return <div style={{padding:'2rem', textAlign:'center', marginTop: '100px', fontSize: '1.2rem', color: '#64748b'}}><i className="fa-solid fa-spinner fa-spin"></i> กำลังโหลดข้อมูลผลิตจริง...<br/><span style={{fontSize:'0.85rem', color:'#94a3b8', marginTop:'0.5rem', display:'block'}}>ถ้าค้างนานกว่า 5 วินาที จะแสดงผลอัตโนมัติ</span></div>;
 
   return (
     <div style={{ padding: '0', display: 'flex', flexDirection: 'column', height: '100vh', background: '#f8fafc', color: '#0f172a' }}>
@@ -402,67 +450,145 @@ export default function Production() {
             </h4>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {/* 1. เครื่องจักร — Quick Select Buttons */}
               <div>
-                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>เครื่องจักร (Machine)</label>
-                <select className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                  value={newLog.machine} onChange={e => setNewLog({...newLog, machine: e.target.value})}>
-                  <option value="">-- เลือกเครื่องจักร --</option>
-                  {MACHINES.map(m => <option key={m.id} value={m.name}>{m.name}</option>)}
-                </select>
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>พนักงานคุมเครื่อง (Operator)</label>
-                <input type="text" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                  value={newLog.operator_name} onChange={e => setNewLog({...newLog, operator_name: e.target.value})} placeholder="เช่น สมชาย สายพิมพ์" />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>หมายเลขงาน (JOG No.)</label>
-                <input type="text" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                  value={newLog.job_ref} onChange={e => setNewLog({...newLog, job_ref: e.target.value})} placeholder="เช่น 6801-0001" />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>เวลาเดินเครื่อง (นาที)</label>
-                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                    value={newLog.actual_run_min} onChange={e => setNewLog({...newLog, actual_run_min: Number(e.target.value)})} />
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>เวลาสูญเสีย (นาที)</label>
-                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #fca5a5' }}
-                    value={newLog.downtime_min} onChange={e => setNewLog({...newLog, downtime_min: Number(e.target.value)})} />
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.5rem' }}>เครื่องจักร (Machine)</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                  {MACHINES.map(m => (
+                    <button key={m.id} onClick={() => setNewLog({...newLog, machine: m.name})}
+                      style={{ padding: '0.5rem 0.8rem', borderRadius: '8px', border: newLog.machine === m.name ? `2px solid ${m.color}` : '1px solid #e2e8f0',
+                        background: newLog.machine === m.name ? `${m.color}15` : 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
+                        color: newLog.machine === m.name ? m.color : '#64748b', transition: 'all 0.15s' }}>
+                      <i className={m.icon} style={{marginRight:'0.3rem'}}/> {m.id}
+                    </button>
+                  ))}
                 </div>
               </div>
 
+              {/* 2. พนักงาน — Searchable Dropdown */}
+              <div style={{ position: 'relative' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>👤 พนักงานคุมเครื่อง</label>
+                <input type="text" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+                  value={newLog.operator_name || operatorSearch}
+                  onChange={e => { setOperatorSearch(e.target.value); setNewLog({...newLog, operator_name: ''}); setShowOperatorList(true); }}
+                  onFocus={() => setShowOperatorList(true)}
+                  placeholder="🔍 พิมพ์ชื่อเพื่อค้นหา..." />
+                {showOperatorList && (
+                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'white', border: '1px solid #e2e8f0', borderRadius: '0 0 8px 8px', maxHeight: '200px', overflowY: 'auto', zIndex: 50, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                    {filteredOperators.map((name: string) => (
+                      <div key={name} onClick={() => { setNewLog({...newLog, operator_name: name}); setOperatorSearch(''); setShowOperatorList(false); }}
+                        style={{ padding: '0.6rem 0.8rem', cursor: 'pointer', fontSize: '0.9rem', borderBottom: '1px solid #f1f5f9',
+                          background: newLog.operator_name === name ? '#eff6ff' : 'white' }}
+                        onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
+                        onMouseLeave={e => e.currentTarget.style.background = newLog.operator_name === name ? '#eff6ff' : 'white'}>
+                        👤 {name}
+                      </div>
+                    ))}
+                    {filteredOperators.length === 0 && <div style={{ padding: '0.6rem', color: '#94a3b8', fontSize: '0.85rem' }}>ไม่พบ — พิมพ์ชื่อใหม่ได้เลย</div>}
+                  </div>
+                )}
+              </div>
+
+              {/* 3. JOG No. — Autocomplete */}
+              <div style={{ position: 'relative' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>📋 หมายเลขงาน (JOG No.)</label>
+                <input type="text" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+                  value={newLog.job_ref || jogSearch}
+                  onChange={e => { setJogSearch(e.target.value); setNewLog({...newLog, job_ref: e.target.value}); setShowJogList(true); }}
+                  onFocus={() => setShowJogList(true)}
+                  placeholder="🔍 พิมพ์เลข JOG เพื่อค้นหา..." />
+                {showJogList && jogSearch.length > 0 && filteredJogs.length > 0 && (
+                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'white', border: '1px solid #e2e8f0', borderRadius: '0 0 8px 8px', maxHeight: '200px', overflowY: 'auto', zIndex: 50, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                    {filteredJogs.map((j: any) => (
+                      <div key={j.jog_no} onClick={() => { setNewLog({...newLog, job_ref: j.jog_no}); setJogSearch(''); setShowJogList(false); }}
+                        style={{ padding: '0.5rem 0.8rem', cursor: 'pointer', fontSize: '0.85rem', borderBottom: '1px solid #f1f5f9' }}
+                        onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'white'}>
+                        <strong>{j.jog_no}</strong> — <span style={{color:'#64748b'}}>{j.job_name?.substring(0,30)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* 4. Quick Time Buttons + Number inputs */}
+              <div>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>⏱️ เวลาเดินเครื่อง (นาที)</label>
+                <div style={{ display: 'flex', gap: '0.3rem', marginBottom: '0.3rem' }}>
+                  {[120, 240, 360, 480].map(v => (
+                    <button key={v} onClick={() => setNewLog({...newLog, actual_run_min: v})}
+                      style={{ padding: '0.3rem 0.6rem', borderRadius: '6px', border: newLog.actual_run_min === v ? '2px solid #3b82f6' : '1px solid #e2e8f0',
+                        background: newLog.actual_run_min === v ? '#eff6ff' : 'white', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600 }}>
+                      {v/60}ชม. ({v}นาที)
+                    </button>
+                  ))}
+                </div>
+                <input type="number" style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1.1rem', fontWeight: 700, textAlign: 'center' }}
+                  value={newLog.actual_run_min} onChange={e => setNewLog({...newLog, actual_run_min: Number(e.target.value)})} />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>⏸️ เวลาสูญเสีย (นาที)</label>
+                <div style={{ display: 'flex', gap: '0.3rem', marginBottom: '0.3rem' }}>
+                  {[0, 15, 30, 60, 90].map(v => (
+                    <button key={v} onClick={() => setNewLog({...newLog, downtime_min: v})}
+                      style={{ padding: '0.3rem 0.6rem', borderRadius: '6px', border: newLog.downtime_min === v ? '2px solid #ef4444' : '1px solid #e2e8f0',
+                        background: newLog.downtime_min === v ? '#fef2f2' : 'white', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600 }}>
+                      {v === 0 ? 'ไม่มี' : `${v} นาที`}
+                    </button>
+                  ))}
+                </div>
+                <input type="number" style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #fca5a5', fontSize: '1.1rem', fontWeight: 700, textAlign: 'center' }}
+                  value={newLog.downtime_min} onChange={e => setNewLog({...newLog, downtime_min: Number(e.target.value)})} />
+              </div>
+
+              {/* Downtime reason — Quick Select */}
               {newLog.downtime_min > 0 && (
                 <div>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>สาเหตุเวลาสูญเสีย (Downtime Reason)</label>
-                  <input type="text" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #fca5a5' }}
-                    value={newLog.downtime_reason} onChange={e => setNewLog({...newLog, downtime_reason: e.target.value})} placeholder="เช่น รอเพลท, ล้างเครื่อง, เครื่องเสีย" />
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>สาเหตุ Downtime</label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                    {DOWNTIME_REASONS.map(r => (
+                      <button key={r} onClick={() => setNewLog({...newLog, downtime_reason: r})}
+                        style={{ padding: '0.3rem 0.6rem', borderRadius: '6px', border: newLog.downtime_reason === r ? '2px solid #ef4444' : '1px solid #e2e8f0',
+                          background: newLog.downtime_reason === r ? '#fef2f2' : 'white', cursor: 'pointer', fontSize: '0.75rem' }}>
+                        {r}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              {/* 5. Good / Defect with large inputs */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
                 <div>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#22c55e', display: 'block', marginBottom: '0.3rem' }}>ยอดงานดี (ชิ้น)</label>
-                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #bbf7d0' }}
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#22c55e', display: 'block', marginBottom: '0.3rem' }}>✅ ยอดงานดี</label>
+                  <input type="number" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '2px solid #bbf7d0', fontSize: '1.3rem', fontWeight: 800, textAlign: 'center', color: '#16a34a' }}
                     value={newLog.good_qty} onChange={e => setNewLog({...newLog, good_qty: Number(e.target.value)})} />
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>ยอดงานเสีย (ชิ้น)</label>
-                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #fca5a5' }}
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>❌ ยอดงานเสีย</label>
+                  <input type="number" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '2px solid #fca5a5', fontSize: '1.3rem', fontWeight: 800, textAlign: 'center', color: '#ef4444' }}
                     value={newLog.defect_qty} onChange={e => setNewLog({...newLog, defect_qty: Number(e.target.value)})} />
                 </div>
               </div>
 
+              {/* Auto Speed Calculation */}
+              {calcSpeed() > 0 && (
+                <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '0.8rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.8rem', color: '#64748b' }}>⚡ ความเร็วเฉลี่ย (คำนวณอัตโนมัติ)</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: calcSpeed() > 10000 ? '#22c55e' : calcSpeed() > 6000 ? '#3b82f6' : '#f59e0b' }}>
+                    {calcSpeed().toLocaleString()} ใบ/ชม.
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>มาตรฐาน: 6,000–13,000 ใบ/ชม.</div>
+                </div>
+              )}
+
               <button 
                 onClick={submitLog}
-                style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '0.8rem', borderRadius: '8px', fontWeight: 700, fontSize: '1rem', marginTop: '1rem', cursor: 'pointer', transition: 'background 0.2s' }}
+                style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '1rem', borderRadius: '10px', fontWeight: 800, fontSize: '1.1rem', marginTop: '0.5rem', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(59,130,246,0.3)' }}
                 onMouseEnter={e=>e.currentTarget.style.background='#2563eb'} onMouseLeave={e=>e.currentTarget.style.background='#3b82f6'}
               >
-                บันทึกข้อมูล (Save Log)
+                💾 บันทึกข้อมูล (Save Log)
               </button>
             </div>
           </div>

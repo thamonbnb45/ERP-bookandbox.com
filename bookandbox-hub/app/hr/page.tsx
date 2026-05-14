@@ -37,21 +37,29 @@ export default function HRPage() {
       link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
       document.head.appendChild(link);
     }
-    fetchData();
+    // Timeout: ถ้าโหลดไม่เสร็จใน 5 วินาที ให้แสดงผลเลย
+    const timeout = setTimeout(() => setLoading(false), 5000);
+    fetchData().finally(() => { clearTimeout(timeout); setLoading(false); });
+    return () => clearTimeout(timeout);
   }, []);
 
   const fetchData = async () => {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       const [empRes, logRes] = await Promise.all([
-        fetch(`${API_URL}/hr/employees`),
-        fetch(`${API_URL}/hr/task_logs`)
+        fetch(`${API_URL}/hr/employees`, { signal: controller.signal }),
+        fetch(`${API_URL}/hr/task_logs`, { signal: controller.signal })
       ]);
+      clearTimeout(timeoutId);
+      
       const empData = await empRes.json();
       const logData = await logRes.json();
-      setEmployees(empData || []);
-      setTaskLogs(logData || []);
+      setEmployees(Array.isArray(empData) ? empData : []);
+      setTaskLogs(Array.isArray(logData) ? logData : []);
     } catch (err: any) {
-      console.error('Error fetching logs:', err);
+      console.error('Error fetching HR data:', err.message);
     }
     setLoading(false);
   };
