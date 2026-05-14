@@ -64,5 +64,237 @@
       "status": "action_required",
       "assignedTo": "จัดซื้อ"
     }
-  ]
+  ],
+  "projects": {
+    "summary": {
+      "total_projects": 12,
+      "total_departments": 7,
+      "total_subtasks": 58,
+      "completed": 4,
+      "in_progress": 6,
+      "planned": 2,
+      "overall_progress": 52
+    },
+    "departments": [
+      {
+        "id": "sales",
+        "name": "ฝ่ายขาย (Sales & CRM)",
+        "icon": "💼",
+        "color": "#3b82f6",
+        "projects": [
+          {
+            "id": "PRJ-S01",
+            "name": "ระบบ CRM + LINE OA เชื่อมต่อ Lead",
+            "status": "completed",
+            "progress": 100,
+            "subtasks": [
+              {"name": "LINE Webhook รับ Lead อัตโนมัติ", "done": true},
+              {"name": "ระบบจัดลำดับ Lead (Hot/Warm/Cold)", "done": true},
+              {"name": "LINE Push Notification แจ้งเตือนเซลส์", "done": true},
+              {"name": "Dashboard ยอดขายรายวัน/เดือน", "done": true}
+            ],
+            "owner": "กวาง"
+          },
+          {
+            "id": "PRJ-S02",
+            "name": "Smart Price Hub (ระบบตั้งราคาอัจฉริยะ)",
+            "status": "completed",
+            "progress": 100,
+            "subtasks": [
+              {"name": "ฐานข้อมูลราคาสินค้า + Interpolation", "done": true},
+              {"name": "ระบบ Price Request (ขอราคาภายใน)", "done": true},
+              {"name": "ต้นทุน Supplier + Markup คำนวณ", "done": true},
+              {"name": "Chat thread ในแต่ละ Ticket", "done": true}
+            ],
+            "owner": "กวาง"
+          }
+        ]
+      },
+      {
+        "id": "production",
+        "name": "ฝ่ายผลิต (Production & IE)",
+        "icon": "🏭",
+        "color": "#f59e0b",
+        "projects": [
+          {
+            "id": "PRJ-P01",
+            "name": "Production Kanban Board (Drag & Drop)",
+            "status": "completed",
+            "progress": 100,
+            "subtasks": [
+              {"name": "Import ข้อมูลจริงจาก Excel 1,775 งาน", "done": true},
+              {"name": "Kanban 4 สถานะ (รอ/กำลังทำ/เสร็จ/ยกเลิก)", "done": true},
+              {"name": "Drag & Drop เปลี่ยนสถานะ", "done": true},
+              {"name": "Machine Workload Cards", "done": true},
+              {"name": "ค้นหา JOG No. / ชื่องาน", "done": true}
+            ],
+            "owner": "ก้อย"
+          },
+          {
+            "id": "PRJ-P02",
+            "name": "Production Log & OEE Monitoring",
+            "status": "in_progress",
+            "progress": 75,
+            "subtasks": [
+              {"name": "ฟอร์มบันทึกผลผลิตรายวัน", "done": true},
+              {"name": "OEE Summary Dashboard (7 วัน)", "done": true},
+              {"name": "ตาราง Production Log ย้อนหลัง", "done": true},
+              {"name": "วิเคราะห์ Defect Rate รายเครื่อง/รายคน", "done": false},
+              {"name": "แจ้งเตือน LINE เมื่อ Defect > 3%", "done": false}
+            ],
+            "owner": "ก้อย"
+          },
+          {
+            "id": "PRJ-P03",
+            "name": "Workload Predictor (ระบบคาดการณ์ภาระงาน)",
+            "status": "in_progress",
+            "progress": 40,
+            "subtasks": [
+              {"name": "คำนวณ Backlog เป็นวัน/ชม.", "done": true},
+              {"name": "Machine Standard Speed Database", "done": false},
+              {"name": "แจ้งเตือนเมื่องานน้อย → เซลส์หางาน", "done": false},
+              {"name": "แจ้งเตือนเมื่องานล้น → จัดโอที/กระจายงาน", "done": false},
+              {"name": "แจ้งเตือนเมื่อว่าง → PM เครื่องจักร + ฝึกคน", "done": false}
+            ],
+            "owner": "ซัน"
+          }
+        ]
+      },
+      {
+        "id": "hr",
+        "name": "ฝ่ายบุคคล (HR & Skill)",
+        "icon": "👥",
+        "color": "#8b5cf6",
+        "projects": [
+          {
+            "id": "PRJ-H01",
+            "name": "HR Dashboard + FTE Calculator",
+            "status": "completed",
+            "progress": 100,
+            "subtasks": [
+              {"name": "ผังองค์กร 42 คน", "done": true},
+              {"name": "FTE Calculator (คนจริง vs คนที่ต้องการ)", "done": true},
+              {"name": "Utilization % รายบุคคล", "done": true},
+              {"name": "Pie Chart สัดส่วนแผนก", "done": true}
+            ],
+            "owner": "ซัน"
+          },
+          {
+            "id": "PRJ-H02",
+            "name": "Skill Matrix & Risk Assessment",
+            "status": "in_progress",
+            "progress": 30,
+            "subtasks": [
+              {"name": "ตาราง Skill Database", "done": true},
+              {"name": "Radar Chart ทักษะรายบุคคล", "done": true},
+              {"name": "Single Point of Failure Alert", "done": false},
+              {"name": "แผนฝึกอบรมอัตโนมัติ", "done": false},
+              {"name": "Skill Gap Analysis ตามแผนก", "done": false}
+            ],
+            "owner": "ซัน"
+          }
+        ]
+      },
+      {
+        "id": "quality",
+        "name": "ฝ่ายคุณภาพ (QC & Prepress)",
+        "icon": "🔍",
+        "color": "#ef4444",
+        "projects": [
+          {
+            "id": "PRJ-Q01",
+            "name": "Prepress QA AI (ตรวจไฟล์ก่อนพิมพ์)",
+            "status": "in_progress",
+            "progress": 70,
+            "subtasks": [
+              {"name": "อัพโหลดไฟล์ PDF เปรียบเทียบ", "done": true},
+              {"name": "ตรวจจับสีเพี้ยน/ภาพเบลอ", "done": true},
+              {"name": "ตรวจจับข้อความหาย/สลับหน้า", "done": true},
+              {"name": "Session-based inspection history", "done": false},
+              {"name": "รายงาน QC Summary ส่งลูกค้า", "done": false}
+            ],
+            "owner": "พรีเพรส"
+          }
+        ]
+      },
+      {
+        "id": "logistics",
+        "name": "ฝ่ายจัดส่ง (Logistics & Fleet)",
+        "icon": "🚚",
+        "color": "#22c55e",
+        "projects": [
+          {
+            "id": "PRJ-L01",
+            "name": "Fleet Management + เบิกน้ำมัน",
+            "status": "in_progress",
+            "progress": 60,
+            "subtasks": [
+              {"name": "บันทึกทริปจัดส่ง + เลขกม.", "done": true},
+              {"name": "บันทึกเบิกน้ำมัน + ใบเสร็จ", "done": true},
+              {"name": "3PL Tracking (Kerry/Flash)", "done": true},
+              {"name": "Proof of Delivery (ถ่ายรูป)", "done": false},
+              {"name": "Dashboard ต้นทุนจัดส่ง/ทริป", "done": false}
+            ],
+            "owner": "ฝ่ายส่ง"
+          }
+        ]
+      },
+      {
+        "id": "finance",
+        "name": "ฝ่ายบัญชี (Finance & Costing)",
+        "icon": "💰",
+        "color": "#0ea5e9",
+        "projects": [
+          {
+            "id": "PRJ-F01",
+            "name": "Activity-Based Costing (ต้นทุนตามกิจกรรม)",
+            "status": "planned",
+            "progress": 10,
+            "subtasks": [
+              {"name": "ตารางค่าแรงรายชั่วโมง/คน", "done": false},
+              {"name": "ตารางค่าเสื่อม+ค่าไฟเครื่องจักร/ชม.", "done": false},
+              {"name": "คำนวณต้นทุนจริงต่อ Job", "done": false},
+              {"name": "เปรียบเทียบราคาขาย vs ต้นทุนจริง", "done": false},
+              {"name": "Dashboard กำไร/ขาดทุนรายงาน", "done": true}
+            ],
+            "owner": "บัญชี"
+          }
+        ]
+      },
+      {
+        "id": "it",
+        "name": "ฝ่าย IT & AI (Digital Transformation)",
+        "icon": "🤖",
+        "color": "#6366f1",
+        "projects": [
+          {
+            "id": "PRJ-I01",
+            "name": "AI Agent (BCD AI ถาม-ตอบ + แจ้งปัญหา)",
+            "status": "in_progress",
+            "progress": 50,
+            "subtasks": [
+              {"name": "Chat UI + Quick Actions", "done": true},
+              {"name": "เชื่อมต่อ Gemini AI API", "done": true},
+              {"name": "Bug Report / Suggestion ส่ง LINE", "done": false},
+              {"name": "AI วิเคราะห์ข้อมูลจาก DB อัตโนมัติ", "done": false}
+            ],
+            "owner": "นาม (CEO)"
+          },
+          {
+            "id": "PRJ-I02",
+            "name": "ระบบแจ้งเตือนอัจฉริยะ (Smart Notification Engine)",
+            "status": "planned",
+            "progress": 5,
+            "subtasks": [
+              {"name": "Rule Engine (If/Then conditions)", "done": false},
+              {"name": "LINE Notify ตามเงื่อนไข", "done": false},
+              {"name": "Daily Summary Report อัตโนมัติ 17:00", "done": true},
+              {"name": "แจ้งเตือน Defect/Backlog/Skill Risk", "done": false}
+            ],
+            "owner": "นาม (CEO)"
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -24,7 +24,7 @@ const MACHINES = [
   { id: 'Stitcher', name: 'เครื่องเก็บเย็บ', maxPlates: 15, icon: 'fa-solid fa-book', color: '#ec4899', keywords: ['เย็บ', 'เก็บ'] },
 ];
 
-const getMachineConfig = (machineName) => {
+const getMachineConfig = (machineName: string) => {
   if (!machineName) return { id: 'อื่นๆ', icon: 'fa-solid fa-cogs', color: '#94a3b8' };
   const found = MACHINES.find(m => m.keywords.some(k => machineName.toUpperCase().includes(k.toUpperCase())));
   return found || { id: machineName, icon: 'fa-solid fa-cogs', color: '#64748b' };
@@ -105,7 +105,7 @@ export default function Production() {
     }
   };
 
-  const handleSearch = async (e) => {
+  const handleSearch = async (e: any) => {
     setSearchQuery(e.target.value);
     if (e.target.value.length > 2 || e.target.value === '') {
       const jobsRes = await fetch(`${API_URL}/production/jobs?limit=300&status=all&search=${e.target.value}`);
@@ -115,14 +115,14 @@ export default function Production() {
   };
 
   // Drag & Drop
-  const handleDragStart = (e, jogNo) => { 
+  const handleDragStart = (e: any, jogNo: string) => { 
     e.dataTransfer.setData('jogNo', jogNo); 
     e.currentTarget.style.opacity = '0.5'; 
   };
-  const handleDragEnd = (e) => { e.currentTarget.style.opacity = '1'; };
-  const handleDragOver = (e) => { e.preventDefault(); e.currentTarget.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,0.1)'; };
-  const handleDragLeave = (e) => { e.currentTarget.style.boxShadow = 'none'; };
-  const handleDrop = async (e, targetStageId) => {
+  const handleDragEnd = (e: any) => { e.currentTarget.style.opacity = '1'; };
+  const handleDragOver = (e: any) => { e.preventDefault(); e.currentTarget.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,0.1)'; };
+  const handleDragLeave = (e: any) => { e.currentTarget.style.boxShadow = 'none'; };
+  const handleDrop = async (e: any, targetStageId: string) => {
     e.preventDefault();
     e.currentTarget.style.boxShadow = 'none';
     const jogNo = e.dataTransfer.getData('jogNo');
@@ -173,7 +173,7 @@ export default function Production() {
           <h2 style={{ margin: 0, fontWeight: 800, color: '#1e293b' }}>🏭 Smart Production Board</h2>
           <p style={{ margin: 0, color: '#64748b', fontSize: '0.9rem', marginTop: '0.3rem' }}>
             อ้างอิงข้อมูลจริง: <strong style={{color:'#10b981'}}>{dashboardData?.total_jobs?.toLocaleString() || 0}</strong> งานทั้งหมด | 
-            ค้างผลิต: <strong>{dashboardData?.by_status?.find(s=>s.status==='queued')?.count || 0}</strong> งาน
+            ค้างผลิต: <strong>{dashboardData?.by_status?.find((s: any)=>s.status==='queued')?.count || 0}</strong> งาน
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -200,7 +200,7 @@ export default function Production() {
 
       {/* Machine Workload Bar (Summary) */}
       <div style={{ padding: '1rem 2rem', display: 'flex', gap: '1rem', overflowX: 'auto', flexShrink: 0 }}>
-        {dashboardData?.by_machine?.map(m => {
+        {dashboardData?.by_machine?.map((m: any) => {
           const config = getMachineConfig(m.machine);
           if (m.queued === 0 && m.printing === 0 && m.machine === 'ไม่ระบุ') return null; // hide empty
           return (
@@ -365,7 +365,7 @@ export default function Production() {
                   </tr>
                 </thead>
                 <tbody>
-                  {dashboardData.urgent_jobs.map(job => (
+                  {dashboardData.urgent_jobs.map((job: any) => (
                     <tr key={job.jog_no} style={{ borderBottom: '1px solid #f1f5f9', transition: 'background 0.2s' }} onMouseEnter={e=>e.currentTarget.style.background='#f8fafc'} onMouseLeave={e=>e.currentTarget.style.background='white'}>
                       <td style={{ padding: '1rem', color: '#ef4444', fontWeight: 800 }}>
                         {new Date(job.due_date).toLocaleDateString('th-TH')}
@@ -377,7 +377,7 @@ export default function Production() {
                           background: job.status === 'queued' ? '#f1f5f9' : '#fef08a', 
                           padding: '0.3rem 0.8rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600
                         }}>
-                          {STAGES.find(s=>s.id===job.status)?.label || job.status}
+                          {STAGES.find((s: any)=>s.id===job.status)?.label || job.status}
                         </span>
                       </td>
                       <td style={{ padding: '1rem', fontWeight: 600, color: '#3b82f6' }}>{job.machine || '-'}</td>
@@ -511,7 +511,7 @@ export default function Production() {
                     </tr>
                   </thead>
                   <tbody>
-                    {productionLogs.slice(0, 10).map((log, i) => (
+                    {productionLogs.slice(0, 10).map((log: any, i: number) => (
                       <tr key={log.id || i} style={{ borderBottom: '1px solid #f1f5f9' }}>
                         <td style={{ padding: '0.8rem', color: '#64748b' }}>{new Date(log.created_at).toLocaleString('th-TH', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</td>
                         <td style={{ padding: '0.8rem', fontWeight: 700, color: '#1e293b' }}>{log.job_ref}</td>
