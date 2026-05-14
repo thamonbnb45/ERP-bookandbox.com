@@ -68,8 +68,10 @@ export default function StrategyCockpitPage() {
   const { kpis, okrs, problems, projects } = strategyData as any;
   const [liveStats, setLiveStats] = React.useState<any>(null);
   const [dbStatus, setDbStatus] = React.useState<'loading' | 'connected' | 'error'>('loading');
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
+    setMounted(true);
     getDashboardStats()
       .then((stats) => { setLiveStats(stats); setDbStatus('connected'); })
       .catch(() => setDbStatus('error'));
@@ -243,12 +245,14 @@ export default function StrategyCockpitPage() {
             <div className="text-3xl font-black text-slate-800">{formatCurrency(kpis.sales.actual)}</div>
             <p className="text-xs text-slate-500 mt-1">เป้าหมาย: {formatCurrency(kpis.sales.target)}</p>
             <div className="h-12 mt-3 -mx-6 -mb-6 opacity-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={kpis.sales.trendData}>
-                  <defs><linearGradient id="cs" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#2E75B6" stopOpacity={0.3}/><stop offset="95%" stopColor="#2E75B6" stopOpacity={0}/></linearGradient></defs>
-                  <Area type="monotone" dataKey="sales" stroke="#2E75B6" strokeWidth={2} fill="url(#cs)" />
-                </AreaChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={kpis.sales.trendData}>
+                    <defs><linearGradient id="cs" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#2E75B6" stopOpacity={0.3}/><stop offset="95%" stopColor="#2E75B6" stopOpacity={0}/></linearGradient></defs>
+                    <Area type="monotone" dataKey="sales" stroke="#2E75B6" strokeWidth={2} fill="url(#cs)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
             </div>
           </CardContent>
         </Card>

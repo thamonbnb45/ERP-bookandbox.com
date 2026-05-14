@@ -39,6 +39,8 @@ const workloadData = [
 
 export default function WorkloadDashboard() {
   const [timeframe, setTimeframe] = useState("week"); // week, month
+  const [mounted, setMounted] = useState(false);
+  React.useEffect(() => setMounted(true), []);
   
   // Calculate stats based on timeframe mock (If month, multiply by 4 for demo purposes)
   const multiplier = timeframe === "month" ? 4 : 1;
@@ -187,21 +189,23 @@ export default function WorkloadDashboard() {
               </div>
             </CardHeader>
             <CardContent className="h-96 pt-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="department" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                  <Bar dataKey="capacityHours" name="กำลังคนที่มี (Capacity)" fill="#e2e8f0" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="loadHours" name="งานที่ต้องทำ (Load)" radius={[4, 4, 0, 0]}>
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.loadHours > entry.capacityHours ? '#ef4444' : '#2E75B6'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <XAxis dataKey="department" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                    <Bar dataKey="capacityHours" name="กำลังคนที่มี (Capacity)" fill="#e2e8f0" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="loadHours" name="งานที่ต้องทำ (Load)" radius={[4, 4, 0, 0]}>
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.loadHours > entry.capacityHours ? '#ef4444' : '#2E75B6'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
         </div>

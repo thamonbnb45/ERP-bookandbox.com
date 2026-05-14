@@ -27,8 +27,10 @@ export default function HRPage() {
   
   // Add form
   const [newEmp, setNewEmp] = useState({ name: '', role: '', department: 'pre_press', salary: 15000, cost_type: 'cogs' });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Add fontawesome if not exists
     if (!document.querySelector('#fa-link')) {
       const link = document.createElement('link');
@@ -167,29 +169,33 @@ export default function HRPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem' }}>
         <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0', height: '350px' }}>
           <h4 style={{ marginBottom: '1rem', fontSize: '1.1rem', fontWeight: 700, color: '#334155', textAlign: 'center' }}>สัดส่วนพนักงานแต่ละแผนก</h4>
-          <ResponsiveContainer width="100%" height="85%">
-            <PieChart>
-              <Pie data={deptData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value">
-                {deptData.map((entry, index) => <Cell key={index} fill={entry.color} />)}
-              </Pie>
-              <RechartsTooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          {mounted && (
+            <ResponsiveContainer width="100%" height="85%">
+              <PieChart>
+                <Pie data={deptData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value">
+                  {deptData.map((entry, index) => <Cell key={index} fill={entry.color} />)}
+                </Pie>
+                <RechartsTooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          )}
         </div>
 
         <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0', height: '350px' }}>
           <h4 style={{ marginBottom: '1rem', fontSize: '1.1rem', fontWeight: 700, color: '#334155', textAlign: 'center' }}>FTE: จำนวนคนจริง vs คนที่ต้องการ</h4>
-          <ResponsiveContainer width="100%" height="85%">
-            <BarChart data={fteData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-              <XAxis dataKey="department" tick={{fontSize: 11, fill: '#64748b'}} axisLine={false} tickLine={false} />
-              <YAxis tick={{fontSize: 11, fill: '#64748b'}} axisLine={false} tickLine={false} />
-              <RechartsTooltip cursor={{fill: '#f1f5f9'}} />
-              <Bar dataKey="headcount" fill="#3b82f6" name="จำนวนคนจริง" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="fteRequired" fill="#f59e0b" name="FTE ที่ต้องการ" radius={[4, 4, 0, 0]} />
-              <Legend wrapperStyle={{ fontSize: '12px' }}/>
-            </BarChart>
-          </ResponsiveContainer>
+          {mounted && (
+            <ResponsiveContainer width="100%" height="85%">
+              <BarChart data={fteData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="department" tick={{fontSize: 11, fill: '#64748b'}} axisLine={false} tickLine={false} />
+                <YAxis tick={{fontSize: 11, fill: '#64748b'}} axisLine={false} tickLine={false} />
+                <RechartsTooltip cursor={{fill: '#f1f5f9'}} />
+                <Bar dataKey="headcount" fill="#3b82f6" name="จำนวนคนจริง" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="fteRequired" fill="#f59e0b" name="FTE ที่ต้องการ" radius={[4, 4, 0, 0]} />
+                <Legend wrapperStyle={{ fontSize: '12px' }}/>
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </div>
 

@@ -11,6 +11,8 @@ import Link from 'next/link';
 
 export default function DashboardPage() {
   const [filterDept, setFilterDept] = useState("all");
+  const [mounted, setMounted] = useState(false);
+  React.useEffect(() => setMounted(true), []);
 
   const employees = employeesRaw as any[];
 
@@ -168,20 +170,22 @@ export default function DashboardPage() {
               <CardDescription>วิเคราะห์ต้นทุนแรงงานรวม OT เทียบกับงบที่ตั้งไว้ในปี 2026</CardDescription>
             </CardHeader>
             <CardContent className="h-72 pt-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={budgetData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9"/>
-                  <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val/1000}k`} />
-                  <Tooltip 
-                    formatter={(value: any) => `฿${value.toLocaleString()}`}
-                    contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  />
-                  <Legend wrapperStyle={{ paddingTop: '10px' }} />
-                  <Line type="monotone" dataKey="budget" name="งบประมาณ (Budget)" stroke="#94a3b8" strokeWidth={2} strokeDasharray="5 5" dot={false} />
-                  <Line type="monotone" dataKey="actual" name="จ่ายจริงรวม OT (Actual)" stroke="#ef4444" strokeWidth={3} activeDot={{ r: 8 }} />
-                </LineChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={budgetData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9"/>
+                    <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val/1000}k`} />
+                    <Tooltip 
+                      formatter={(value: any) => `฿${value.toLocaleString()}`}
+                      contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                    />
+                    <Legend wrapperStyle={{ paddingTop: '10px' }} />
+                    <Line type="monotone" dataKey="budget" name="งบประมาณ (Budget)" stroke="#94a3b8" strokeWidth={2} strokeDasharray="5 5" dot={false} />
+                    <Line type="monotone" dataKey="actual" name="จ่ายจริงรวม OT (Actual)" stroke="#ef4444" strokeWidth={3} activeDot={{ r: 8 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
 
@@ -191,18 +195,20 @@ export default function DashboardPage() {
               <CardDescription>แสดงจำนวนคนในแต่ละกระบอกเงินเดือน</CardDescription>
             </CardHeader>
             <CardContent className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stats.gradeData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}/>
-                  <Bar dataKey="headcount" radius={[4, 4, 0, 0]}>
-                    {stats.gradeData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.name.startsWith('G') ? '#2E75B6' : '#FFC000'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={stats.gradeData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                    <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                    <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}/>
+                    <Bar dataKey="headcount" radius={[4, 4, 0, 0]}>
+                      {stats.gradeData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.name.startsWith('G') ? '#2E75B6' : '#FFC000'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
         </div>
