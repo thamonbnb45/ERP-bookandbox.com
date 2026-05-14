@@ -69,12 +69,25 @@ export default function Production() {
     machine: '',
     operator_name: '',
     job_ref: '',
-    actual_run_min: 480,
+    start_time: '',
+    end_time: '',
+    actual_run_min: 0,
     downtime_min: 0,
     downtime_reason: '',
     good_qty: 0,
     defect_qty: 0
   });
+
+  const handleTimeChange = (field: 'start_time' | 'end_time', value: string) => {
+    const updated = { ...newLog, [field]: value };
+    if (updated.start_time && updated.end_time) {
+      const start = new Date(`2000-01-01T${updated.start_time}:00`);
+      let end = new Date(`2000-01-01T${updated.end_time}:00`);
+      if (end < start) end.setDate(end.getDate() + 1); // handle overnight
+      updated.actual_run_min = Math.round((end.getTime() - start.getTime()) / 60000);
+    }
+    setNewLog(updated);
+  };
 
   useEffect(() => {
     // Add fontawesome if not exists
@@ -181,8 +194,8 @@ export default function Production() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newLog)
       });
-      alert('บันทึกข้อมูลเรียบร้อยแล้ว');
-      setNewLog({ machine: '', operator_name: '', job_ref: '', actual_run_min: 0, downtime_min: 0, downtime_reason: '', good_qty: 0, defect_qty: 0 });
+      alert('✅ บันทึกข้อมูลเรียบร้อยแล้ว!');
+      setNewLog({ machine: newLog.machine, operator_name: newLog.operator_name, job_ref: '', start_time: '', end_time: '', actual_run_min: 0, downtime_min: 0, downtime_reason: '', good_qty: 0, defect_qty: 0 });
       fetchData();
     } catch (err: any) {
       alert('Failed to submit log: ' + err.message);
@@ -512,20 +525,26 @@ export default function Production() {
                 )}
               </div>
 
-              {/* 4. Quick Time Buttons + Number inputs */}
+              {/* 4. Time inputs */}
               <div>
-                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>⏱️ เวลาเดินเครื่อง (นาที)</label>
-                <div style={{ display: 'flex', gap: '0.3rem', marginBottom: '0.3rem' }}>
-                  {[120, 240, 360, 480].map(v => (
-                    <button key={v} onClick={() => setNewLog({...newLog, actual_run_min: v})}
-                      style={{ padding: '0.3rem 0.6rem', borderRadius: '6px', border: newLog.actual_run_min === v ? '2px solid #3b82f6' : '1px solid #e2e8f0',
-                        background: newLog.actual_run_min === v ? '#eff6ff' : 'white', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600 }}>
-                      {v/60}ชม. ({v}นาที)
-                    </button>
-                  ))}
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>⏱️ เวลาเดินเครื่อง</label>
+                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '0.75rem', color: '#94a3b8' }}>เริ่ม (Start)</label>
+                    <input type="time" value={newLog.start_time} onChange={e => handleTimeChange('start_time', e.target.value)}
+                      style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1rem' }} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '0.75rem', color: '#94a3b8' }}>เสร็จ (End)</label>
+                    <input type="time" value={newLog.end_time} onChange={e => handleTimeChange('end_time', e.target.value)}
+                      style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1rem' }} />
+                  </div>
                 </div>
-                <input type="number" style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1.1rem', fontWeight: 700, textAlign: 'center' }}
-                  value={newLog.actual_run_min} onChange={e => setNewLog({...newLog, actual_run_min: Number(e.target.value)})} />
+                {newLog.actual_run_min > 0 && (
+                  <div style={{ background: '#eff6ff', padding: '0.5rem', borderRadius: '8px', textAlign: 'center', fontSize: '0.9rem', color: '#3b82f6', fontWeight: 700 }}>
+                    ใช้เวลาทั้งหมด: {newLog.actual_run_min} นาที
+                  </div>
+                )}
               </div>
 
               <div>
