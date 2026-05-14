@@ -2372,7 +2372,7 @@ app.post('/api/ai/suggest', async (req, res) => {
 
 // ====== HR MODULE ======
 
-// Ensure employee table exists
+// Ensure employee table exists + migrate missing columns
 (async () => {
     try {
         await db.query(`
@@ -2396,6 +2396,17 @@ app.post('/api/ai/suggest', async (req, res) => {
                 duration_minutes INT DEFAULT 0
             );
         `);
+        // Migrate: add missing columns to existing table
+        const migrations = [
+            'ALTER TABLE employee ADD COLUMN IF NOT EXISTS department TEXT',
+            'ALTER TABLE employee ADD COLUMN IF NOT EXISTS salary INT DEFAULT 0',
+            'ALTER TABLE employee ADD COLUMN IF NOT EXISTS cost_type TEXT DEFAULT \'cogs\'',
+            'ALTER TABLE employee ADD COLUMN IF NOT EXISTS status TEXT DEFAULT \'active\'',
+            'ALTER TABLE employee ADD COLUMN IF NOT EXISTS role TEXT',
+        ];
+        for (const m of migrations) {
+            try { await db.query(m); } catch (e) { /* column may already exist */ }
+        }
         console.log('✅ employee + task_log tables ready');
     } catch (e) { console.error('HR table error:', e.message); }
 })();
