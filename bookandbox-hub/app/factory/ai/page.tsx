@@ -79,7 +79,7 @@ export default function AIAgentPage() {
           timestamp: new Date().toISOString(),
         }]);
       }
-    } catch (err) {
+    } catch (err: any) {
       setMessages(prev => [...prev, {
         role: 'ai',
         content: '❌ ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ ตรวจสอบอินเตอร์เน็ต',

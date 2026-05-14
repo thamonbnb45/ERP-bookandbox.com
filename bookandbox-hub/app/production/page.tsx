@@ -38,10 +38,24 @@ const SUB_TABS = [
 
 export default function Production() {
   const [activeTab, setActiveTab] = useState('board');
-  const [jobOrders, setJobOrders] = useState([]);
-  const [dashboardData, setDashboardData] = useState(null);
+  const [jobOrders, setJobOrders] = useState<any[]>([]);
+  const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Log System States
+  const [productionLogs, setProductionLogs] = useState<any[]>([]);
+  const [oeeSummary, setOeeSummary] = useState<any>(null);
+  const [newLog, setNewLog] = useState({
+    machine: '',
+    operator_name: '',
+    job_ref: '',
+    actual_run_min: 0,
+    downtime_min: 0,
+    downtime_reason: '',
+    good_qty: 0,
+    defect_qty: 0
+  });
 
   useEffect(() => {
     // Add fontawesome if not exists
@@ -69,8 +83,23 @@ export default function Production() {
       const jobsRes = await fetch(`${API_URL}/production/jobs?limit=300&status=all`);
       const jobsData = await jobsRes.json();
       setJobOrders(jobsData.jobs);
+
+      // Fetch Logs & OEE Summary
+      try {
+        const [logsRes, oeeRes] = await Promise.all([
+          fetch(`${API_URL}/production_log`),
+          fetch(`${API_URL}/production_log/summary?days=7`)
+        ]);
+        const logsData = await logsRes.json();
+        const oeeData = await oeeRes.json();
+        setProductionLogs(logsData || []);
+        setOeeSummary(oeeData || null);
+      } catch (logErr) {
+        console.error('Failed to fetch logs', logErr);
+      }
+
       setLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to fetch production data', err);
       setLoading(false);
     }
@@ -109,9 +138,27 @@ export default function Production() {
         body: JSON.stringify({ status: targetStageId })
       });
       fetchData(); // sync real dashboard
-    } catch (err) { 
+    } catch (err: any) { 
       alert('Failed to update status'); 
       fetchData(); // revert
+    }
+  };
+
+  const submitLog = async () => {
+    if (!newLog.machine || !newLog.operator_name || !newLog.job_ref) {
+      return alert('กรุณากรอก เครื่องจักร, ชื่อพนักงาน และ JOG No.');
+    }
+    try {
+      await fetch(`${API_URL}/production_log`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newLog)
+      });
+      alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+      setNewLog({ machine: '', operator_name: '', job_ref: '', actual_run_min: 0, downtime_min: 0, downtime_reason: '', good_qty: 0, defect_qty: 0 });
+      fetchData();
+    } catch (err: any) {
+      alert('Failed to submit log: ' + err.message);
     }
   };
 
@@ -346,10 +393,143 @@ export default function Production() {
 
       {/* ========== TAB: LOGS ========== */}
       {activeTab === 'log' && (
-        <div style={{ padding: '4rem 2rem', textAlign: 'center', color: '#94a3b8' }}>
-          <i className="fa-solid fa-person-digging" style={{ fontSize: '4rem', marginBottom: '1.5rem', color: '#cbd5e1' }}></i>
-          <h2 style={{color: '#475569', fontWeight: 800, marginBottom: '0.5rem'}}>กำลังปรับปรุงระบบ Log เชื่อมต่อกับข้อมูลจริง</h2>
-          <p style={{fontSize: '1.1rem'}}>ฟีเจอร์นี้จะเชื่อมกับข้อมูล JOG No. จริงและ Operator เร็วๆ นี้</p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
+          
+          {/* Form */}
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderTop: '4px solid #3b82f6', height: 'fit-content' }}>
+            <h4 style={{ margin: '0 0 1.5rem 0', color: '#1e293b', fontSize: '1.2rem', fontWeight: 800 }}>
+              <i className="fa-solid fa-clipboard-list text-blue-500 mr-2"></i> บันทึกผลการผลิต (Production Log)
+            </h4>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>เครื่องจักร (Machine)</label>
+                <select className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                  value={newLog.machine} onChange={e => setNewLog({...newLog, machine: e.target.value})}>
+                  <option value="">-- เลือกเครื่องจักร --</option>
+                  {MACHINES.map(m => <option key={m.id} value={m.name}>{m.name}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>พนักงานคุมเครื่อง (Operator)</label>
+                <input type="text" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                  value={newLog.operator_name} onChange={e => setNewLog({...newLog, operator_name: e.target.value})} placeholder="เช่น สมชาย สายพิมพ์" />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>หมายเลขงาน (JOG No.)</label>
+                <input type="text" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                  value={newLog.job_ref} onChange={e => setNewLog({...newLog, job_ref: e.target.value})} placeholder="เช่น 6801-0001" />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '0.3rem' }}>เวลาเดินเครื่อง (นาที)</label>
+                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                    value={newLog.actual_run_min} onChange={e => setNewLog({...newLog, actual_run_min: Number(e.target.value)})} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>เวลาสูญเสีย (นาที)</label>
+                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #fca5a5' }}
+                    value={newLog.downtime_min} onChange={e => setNewLog({...newLog, downtime_min: Number(e.target.value)})} />
+                </div>
+              </div>
+
+              {newLog.downtime_min > 0 && (
+                <div>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>สาเหตุเวลาสูญเสีย (Downtime Reason)</label>
+                  <input type="text" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #fca5a5' }}
+                    value={newLog.downtime_reason} onChange={e => setNewLog({...newLog, downtime_reason: e.target.value})} placeholder="เช่น รอเพลท, ล้างเครื่อง, เครื่องเสีย" />
+                </div>
+              )}
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#22c55e', display: 'block', marginBottom: '0.3rem' }}>ยอดงานดี (ชิ้น)</label>
+                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #bbf7d0' }}
+                    value={newLog.good_qty} onChange={e => setNewLog({...newLog, good_qty: Number(e.target.value)})} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', display: 'block', marginBottom: '0.3rem' }}>ยอดงานเสีย (ชิ้น)</label>
+                  <input type="number" className="form-control" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #fca5a5' }}
+                    value={newLog.defect_qty} onChange={e => setNewLog({...newLog, defect_qty: Number(e.target.value)})} />
+                </div>
+              </div>
+
+              <button 
+                onClick={submitLog}
+                style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '0.8rem', borderRadius: '8px', fontWeight: 700, fontSize: '1rem', marginTop: '1rem', cursor: 'pointer', transition: 'background 0.2s' }}
+                onMouseEnter={e=>e.currentTarget.style.background='#2563eb'} onMouseLeave={e=>e.currentTarget.style.background='#3b82f6'}
+              >
+                บันทึกข้อมูล (Save Log)
+              </button>
+            </div>
+          </div>
+
+          {/* History / OEE Display */}
+          <div>
+            <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderTop: '4px solid #10b981', marginBottom: '1.5rem' }}>
+              <h4 style={{ margin: '0 0 1.5rem 0', color: '#1e293b', fontSize: '1.2rem', fontWeight: 800 }}>
+                <i className="fa-solid fa-gauge-high text-emerald-500 mr-2"></i> ภาพรวมประสิทธิภาพ (OEE Summary 7 วัน)
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+                <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+                  <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>อัตราเดินเครื่อง (Availability)</div>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: (oeeSummary?.availability || 0) > 80 ? '#10b981' : '#f59e0b' }}>
+                    {oeeSummary?.availability || 0}%
+                  </div>
+                </div>
+                <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+                  <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>คุณภาพงาน (Quality)</div>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: (oeeSummary?.quality || 0) > 95 ? '#10b981' : '#f59e0b' }}>
+                    {oeeSummary?.quality || 0}%
+                  </div>
+                </div>
+                <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+                  <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>รวม (Overall OEE)</div>
+                  <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#3b82f6' }}>
+                    {oeeSummary?.oee || 0}%
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderTop: '4px solid #8b5cf6' }}>
+              <h4 style={{ margin: '0 0 1.5rem 0', color: '#1e293b', fontSize: '1.2rem', fontWeight: 800 }}>
+                <i className="fa-solid fa-history text-purple-500 mr-2"></i> ประวัติการบันทึกล่าสุด
+              </h4>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                  <thead>
+                    <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0', textAlign: 'left' }}>
+                      <th style={{ padding: '0.8rem', color: '#64748b' }}>เวลา</th>
+                      <th style={{ padding: '0.8rem', color: '#64748b' }}>JOG No.</th>
+                      <th style={{ padding: '0.8rem', color: '#64748b' }}>เครื่องจักร</th>
+                      <th style={{ padding: '0.8rem', color: '#64748b' }}>พนักงาน</th>
+                      <th style={{ padding: '0.8rem', color: '#64748b' }}>ผลิต (ดี/เสีย)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {productionLogs.slice(0, 10).map((log, i) => (
+                      <tr key={log.id || i} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                        <td style={{ padding: '0.8rem', color: '#64748b' }}>{new Date(log.created_at).toLocaleString('th-TH', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</td>
+                        <td style={{ padding: '0.8rem', fontWeight: 700, color: '#1e293b' }}>{log.job_ref}</td>
+                        <td style={{ padding: '0.8rem', color: '#3b82f6', fontWeight: 600 }}>{log.machine}</td>
+                        <td style={{ padding: '0.8rem' }}>{log.operator_name}</td>
+                        <td style={{ padding: '0.8rem' }}>
+                          <span style={{ color: '#10b981', fontWeight: 700 }}>{log.good_qty}</span> / <span style={{ color: '#ef4444' }}>{log.defect_qty}</span>
+                        </td>
+                      </tr>
+                    ))}
+                    {productionLogs.length === 0 && (
+                      <tr><td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>ยังไม่มีประวัติการบันทึก</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
