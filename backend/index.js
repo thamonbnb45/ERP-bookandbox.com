@@ -1512,6 +1512,182 @@ app.get('/api/production/jobs/:jog_no', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ====== SMART IE: MACHINE PROFILES ======
+
+app.get('/api/machine_profiles', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM machine_profiles ORDER BY machine_id');
+        res.json(result.rows || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/machine_profiles', async (req, res) => {
+    try {
+        const { machine_id, machine_name, department, standard_speed_per_hour, setup_time_min, max_shift_hours, cost_per_hour, notes } = req.body;
+        await db.query(
+            `INSERT INTO machine_profiles (machine_id, machine_name, department, standard_speed_per_hour, setup_time_min, max_shift_hours, cost_per_hour, notes)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+             ON CONFLICT (machine_id) DO UPDATE SET machine_name=$2, department=$3, standard_speed_per_hour=$4, setup_time_min=$5, max_shift_hours=$6, cost_per_hour=$7, notes=$8`,
+            [machine_id, machine_name, department || 'production', standard_speed_per_hour || 0, setup_time_min || 30, max_shift_hours || 8, cost_per_hour || 0, notes || '']
+        );
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/machine_profiles/seed', async (req, res) => {
+    try {
+        const machines = [
+            { id: 'SM74F', name: 'SM74F (Heidelberg 2003)', speed: 10000, setup: 30, cost: 350 },
+            { id: 'SM102F', name: 'SM102F (Heidelberg 1999)', speed: 8000, setup: 45, cost: 450 },
+            { id: 'KM_C12000', name: 'Konica 12000 (Digital)', speed: 1200, setup: 5, cost: 200 },
+            { id: 'KM_C4070', name: 'Konica 4070 (Digital)', speed: 800, setup: 5, cost: 150 },
+            { id: 'Cutter', name: 'เครื่องตัด (Polar)', speed: 5000, setup: 10, cost: 100 },
+            { id: 'Diecut', name: 'เครื่องปั๊มไดคัท/ฟอยล์', speed: 3000, setup: 20, cost: 250 },
+            { id: 'Folder', name: 'เครื่องพับ', speed: 6000, setup: 15, cost: 120 },
+            { id: 'Stitcher', name: 'เครื่องเก็บเย็บ', speed: 4000, setup: 10, cost: 100 },
+        ];
+        for (const m of machines) {
+            await db.query(
+                `INSERT INTO machine_profiles (machine_id, machine_name, standard_speed_per_hour, setup_time_min, cost_per_hour)
+                 VALUES ($1,$2,$3,$4,$5) ON CONFLICT (machine_id) DO UPDATE SET machine_name=$2, standard_speed_per_hour=$3, setup_time_min=$4, cost_per_hour=$5`,
+                [m.id, m.name, m.speed, m.setup, m.cost]
+            );
+        }
+        res.json({ success: true, count: machines.length });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ====== SMART IE: WORKLOAD ANALYSIS ======
+
+app.get('/api/workload/analysis', async (req, res) => {
+    try {
+        // 1. Get machine profiles
+        const machinesRes = await db.query('SELECT * FROM machine_profiles WHERE status = $1', ['active']);
+        const machines = machinesRes.rows || [];
+
+        // 2. Get backlog per machine from production_jobs_real
+        const backlogRes = await db.query(`
+            SELECT COALESCE(machine,'ไม่ระบุ') as machine, 
+                   COUNT(*) as job_count,
+                   COALESCE(SUM(sheets_actual),0) as total_sheets
+            FROM production_jobs_real 
+            WHERE status IN ('queued','printing')
+            GROUP BY machine ORDER BY total_sheets DESC
+        `);
+
+        // 3. Calculate backlog days per machine
+        const analysis = backlogRes.rows.map(b => {
+            const profile = machines.find(m => b.machine && b.machine.toUpperCase().includes(m.machine_id.toUpperCase()));
+            const speed = profile ? profile.standard_speed_per_hour : 5000; // fallback
+            const shiftHours = profile ? profile.max_shift_hours : 8;
+            const setupPerJob = profile ? profile.setup_time_min / 60 : 0.5; // hours
+            const totalProductionHours = (b.total_sheets / speed) + (b.job_count * setupPerJob);
+            const backlogDays = totalProductionHours / shiftHours;
+            const costPerHour = profile ? profile.cost_per_hour : 0;
+
+            let status = 'normal';
+            let recommendation = '';
+            if (backlogDays > 5) {
+                status = 'overload';
+                recommendation = '🔴 ภาระงานล้น — แนะนำจัดโอที หรือกระจายงานให้เครื่องอื่น';
+            } else if (backlogDays > 3) {
+                status = 'warning';
+                recommendation = '🟡 ภาระงานสูง — ควรเตรียมแผนสำรอง';
+            } else if (backlogDays < 1) {
+                status = 'idle';
+                recommendation = '🟢 งานน้อย — แจ้งเซลส์หางานเพิ่ม / ซ่อมบำรุงเครื่อง / ฝึกทักษะพนักงาน';
+            } else {
+                recommendation = '✅ ภาระงานสมดุล';
+            }
+
+            return {
+                machine: b.machine,
+                job_count: parseInt(b.job_count),
+                total_sheets: parseInt(b.total_sheets),
+                speed_per_hour: speed,
+                backlog_hours: Math.round(totalProductionHours * 10) / 10,
+                backlog_days: Math.round(backlogDays * 10) / 10,
+                estimated_cost: Math.round(totalProductionHours * costPerHour),
+                status,
+                recommendation
+            };
+        });
+
+        const totalBacklogHours = analysis.reduce((s, a) => s + a.backlog_hours, 0);
+        const overloaded = analysis.filter(a => a.status === 'overload').length;
+        const idle = analysis.filter(a => a.status === 'idle').length;
+
+        res.json({
+            machines: analysis,
+            summary: {
+                total_backlog_hours: Math.round(totalBacklogHours),
+                total_backlog_days: Math.round(totalBacklogHours / 8 * 10) / 10,
+                overloaded_machines: overloaded,
+                idle_machines: idle,
+                total_machines: analysis.length
+            }
+        });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ====== SMART IE: EMPLOYEE SKILLS ======
+
+app.get('/api/employee_skills', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM employee_skills ORDER BY employee_name, skill_name');
+        res.json(result.rows || []);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/employee_skills', async (req, res) => {
+    try {
+        const { employee_name, department, skill_name, skill_level, assessed_by } = req.body;
+        await db.query(
+            `INSERT INTO employee_skills (employee_name, department, skill_name, skill_level, assessed_by)
+             VALUES ($1,$2,$3,$4,$5)
+             ON CONFLICT (employee_name, skill_name) DO UPDATE SET skill_level=$4, assessed_by=$5, assessed_at=NOW()`,
+            [employee_name, department, skill_name, skill_level || 0, assessed_by || 'system']
+        );
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/employee_skills/risk', async (req, res) => {
+    try {
+        // Find skills where fewer than 2 employees have level >= 2
+        const result = await db.query(`
+            SELECT skill_name, 
+                   COUNT(*) FILTER (WHERE skill_level >= 2) as capable_count,
+                   COUNT(*) FILTER (WHERE skill_level >= 3) as expert_count,
+                   COUNT(*) as total_assessed,
+                   ARRAY_AGG(employee_name) FILTER (WHERE skill_level >= 2) as capable_names
+            FROM employee_skills
+            GROUP BY skill_name
+            ORDER BY capable_count ASC
+        `);
+
+        const risks = (result.rows || []).map(r => ({
+            ...r,
+            risk_level: r.capable_count <= 1 ? 'critical' : r.capable_count <= 2 ? 'high' : r.capable_count <= 3 ? 'medium' : 'low',
+            recommendation: r.capable_count <= 1 
+                ? `⚠️ วิกฤต! ทักษะ "${r.skill_name}" มีคนทำได้เพียง ${r.capable_count} คน — ต้องฝึกเพิ่มด่วน`
+                : r.capable_count <= 2 
+                ? `🟡 เสี่ยง: "${r.skill_name}" มีคนทำได้ ${r.capable_count} คน — ควรฝึกสำรอง`
+                : `✅ ปลอดภัย: "${r.skill_name}" มี ${r.capable_count} คนที่ทำได้`
+        }));
+
+        res.json({
+            skills: risks,
+            summary: {
+                critical: risks.filter(r => r.risk_level === 'critical').length,
+                high: risks.filter(r => r.risk_level === 'high').length,
+                medium: risks.filter(r => r.risk_level === 'medium').length,
+                low: risks.filter(r => r.risk_level === 'low').length
+            }
+        });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ====== PRODUCTION LOG & OEE ======
 
 
