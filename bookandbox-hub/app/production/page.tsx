@@ -848,7 +848,7 @@ function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string
             <tbody>
               {schedules.length === 0 && (
                 <tr><td colSpan={22} style={{ padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
-                  📅 ยังไม่มีแผนงาน — กด "+เพิ่มแผนงาน" ด้านบน
+                  📅 ยังไม่มีแผนงาน — กด +เพิ่มแผนงาน ด้านบน
                 </td></tr>
               )}
               {schedules.map(sch => (
