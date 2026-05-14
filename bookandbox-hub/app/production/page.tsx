@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+
 
 // Call the Express Backend
 const API_URL = 'http://localhost:3001/api';
@@ -61,12 +61,14 @@ export default function Production() {
   const fetchData = async () => {
     try {
       // Fetch Dashboard
-      const dashRes = await axios.get(`${API_URL}/production/dashboard`);
-      setDashboardData(dashRes.data);
+      const dashRes = await fetch(`${API_URL}/production/dashboard`);
+      const dashData = await dashRes.json();
+      setDashboardData(dashData);
 
       // Fetch Jobs (limit 300 for board performance)
-      const jobsRes = await axios.get(`${API_URL}/production/jobs?limit=300&status=all`);
-      setJobOrders(jobsRes.data.jobs);
+      const jobsRes = await fetch(`${API_URL}/production/jobs?limit=300&status=all`);
+      const jobsData = await jobsRes.json();
+      setJobOrders(jobsData.jobs);
       setLoading(false);
     } catch (err) {
       console.error('Failed to fetch production data', err);
@@ -77,8 +79,9 @@ export default function Production() {
   const handleSearch = async (e) => {
     setSearchQuery(e.target.value);
     if (e.target.value.length > 2 || e.target.value === '') {
-      const jobsRes = await axios.get(`${API_URL}/production/jobs?limit=300&status=all&search=${e.target.value}`);
-      setJobOrders(jobsRes.data.jobs);
+      const jobsRes = await fetch(`${API_URL}/production/jobs?limit=300&status=all&search=${e.target.value}`);
+      const jobsData = await jobsRes.json();
+      setJobOrders(jobsData.jobs);
     }
   };
 
@@ -100,7 +103,11 @@ export default function Production() {
     setJobOrders(prev => prev.map(j => j.jog_no === jogNo ? { ...j, status: targetStageId } : j));
     
     try { 
-      await axios.put(`${API_URL}/production/jobs/${jogNo}/status`, { status: targetStageId }); 
+      await fetch(`${API_URL}/production/jobs/${jogNo}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: targetStageId })
+      });
       fetchData(); // sync real dashboard
     } catch (err) { 
       alert('Failed to update status'); 
