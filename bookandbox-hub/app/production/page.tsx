@@ -710,23 +710,25 @@ const PROCESS_STEPS = [
 function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string }) {
   const [schedules, setSchedules] = useState<any[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [newSchedule, setNewSchedule] = useState({
     job_ref: '', job_name: '', quantity: 0, start_date: new Date().toISOString().split('T')[0],
     steps: PROCESS_STEPS.map(s => ({ ...s, enabled: true }))
   });
 
   useEffect(() => {
-    // Load saved schedules
-    const saved = localStorage.getItem('production_schedules');
-    if (saved) setSchedules(JSON.parse(saved));
-  }, []);
+    // Load schedules from API
+    fetch(`${API_URL}/production/schedule`)
+      .then(r => r.json())
+      .then(data => setSchedules(Array.isArray(data) ? data : []))
+      .catch(() => {
+        // Fallback to localStorage
+        const saved = localStorage.getItem('production_schedules');
+        if (saved) setSchedules(JSON.parse(saved));
+      });
+  }, [API_URL]);
 
-  const saveSchedules = (data: any[]) => {
-    setSchedules(data);
-    localStorage.setItem('production_schedules', JSON.stringify(data));
-  };
-
-  const addSchedule = () => {
+  const addSchedule = async () => {
     if (!newSchedule.job_ref || !newSchedule.job_name) return alert('กรุณากรอก JOG No. และชื่องาน');
     
     // Calculate dates for each step
@@ -739,7 +741,6 @@ function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string
     });
 
     const schedule = {
-      id: Date.now(),
       job_ref: newSchedule.job_ref,
       job_name: newSchedule.job_name,
       quantity: newSchedule.quantity,
@@ -747,16 +748,33 @@ function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string
       end_date: steps[steps.length - 1]?.end || newSchedule.start_date,
       steps,
       status: 'planned',
-      created_at: new Date().toISOString()
     };
 
-    saveSchedules([schedule, ...schedules]);
-    setShowAddForm(false);
-    setNewSchedule({ job_ref: '', job_name: '', quantity: 0, start_date: new Date().toISOString().split('T')[0], steps: PROCESS_STEPS.map(s => ({ ...s, enabled: true })) });
+    setSaving(true);
+    try {
+      const res = await fetch(`${API_URL}/production/schedule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(schedule)
+      });
+      const result = await res.json();
+      if (result?.success && result?.data) {
+        setSchedules(prev => [result.data, ...prev]);
+      }
+      setShowAddForm(false);
+      setNewSchedule({ job_ref: '', job_name: '', quantity: 0, start_date: new Date().toISOString().split('T')[0], steps: PROCESS_STEPS.map(s => ({ ...s, enabled: true })) });
+    } catch (err: any) {
+      alert('บันทึกไม่สำเร็จ: ' + err.message);
+    }
+    setSaving(false);
   };
 
-  const removeSchedule = (id: number) => {
-    if (confirm('ลบแผนงานนี้?')) saveSchedules(schedules.filter(s => s.id !== id));
+  const removeSchedule = async (id: number) => {
+    if (!confirm('ลบแผนงานนี้?')) return;
+    try {
+      await fetch(`${API_URL}/production/schedule/${id}`, { method: 'DELETE' });
+      setSchedules(prev => prev.filter(s => s.id !== id));
+    } catch { /* ignore */ }
   };
 
   // Generate date columns for the next 21 days
@@ -851,9 +869,9 @@ function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string
             </div>
           </div>
 
-          <button onClick={addSchedule}
-            style={{ background: '#22c55e', color: 'white', border: 'none', padding: '0.6rem 1.5rem', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
-            ✅ เพิ่มแผนงาน
+          <button onClick={addSchedule} disabled={saving}
+            style={{ background: saving ? '#94a3b8' : '#22c55e', color: 'white', border: 'none', padding: '0.6rem 1.5rem', borderRadius: '8px', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: '0.9rem' }}>
+            {saving ? '⏳ กำลังบันทึก...' : '✅ เพิ่มแผนงาน'}
           </button>
         </div>
       )}
