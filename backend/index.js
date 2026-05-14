@@ -4117,3 +4117,31 @@ app.post('/api/factory/send-summary', async (req, res) => {
     await sendDailySummary();
     res.json({ success: true, sent: true });
 });
+
+// ====== SPA CATCH-ALL (Next.js Static Export) ======
+// Any non-API route → serve the matching static HTML or fallback to index.html
+app.get('*', (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'API not found' });
+    
+    const publicDir = path.join(__dirname, 'public');
+    
+    // Try exact match (e.g. /production → /production.html or /production/index.html)
+    const htmlPath = path.join(publicDir, req.path + '.html');
+    const indexPath = path.join(publicDir, req.path, 'index.html');
+    
+    if (fs.existsSync(htmlPath)) {
+        return res.sendFile(htmlPath);
+    }
+    if (fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath);
+    }
+    
+    // Fallback to index.html (SPA mode)
+    const fallback = path.join(publicDir, 'index.html');
+    if (fs.existsSync(fallback)) {
+        return res.sendFile(fallback);
+    }
+    
+    res.status(404).send('Page not found');
+});

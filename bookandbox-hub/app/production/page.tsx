@@ -92,7 +92,7 @@ export default function Production() {
         ]);
         const logsData = await logsRes.json();
         const oeeData = await oeeRes.json();
-        setProductionLogs(logsData || []);
+        setProductionLogs(Array.isArray(logsData) ? logsData : []);
         setOeeSummary(oeeData || null);
       } catch (logErr) {
         console.error('Failed to fetch logs', logErr);
@@ -511,7 +511,7 @@ export default function Production() {
                     </tr>
                   </thead>
                   <tbody>
-                    {productionLogs.slice(0, 10).map((log: any, i: number) => (
+                    {(Array.isArray(productionLogs) ? productionLogs : []).slice(0, 10).map((log: any, i: number) => (
                       <tr key={log.id || i} style={{ borderBottom: '1px solid #f1f5f9' }}>
                         <td style={{ padding: '0.8rem', color: '#64748b' }}>{new Date(log.created_at).toLocaleString('th-TH', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</td>
                         <td style={{ padding: '0.8rem', fontWeight: 700, color: '#1e293b' }}>{log.job_ref}</td>
@@ -522,7 +522,7 @@ export default function Production() {
                         </td>
                       </tr>
                     ))}
-                    {productionLogs.length === 0 && (
+                    {(!Array.isArray(productionLogs) || productionLogs.length === 0) && (
                       <tr><td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>ยังไม่มีประวัติการบันทึก</td></tr>
                     )}
                   </tbody>
