@@ -189,16 +189,25 @@ export default function Production() {
       return alert('กรุณากรอก เครื่องจักร, ชื่อพนักงาน และ JOG No.');
     }
     try {
-      await fetch(`${API_URL}/production_log`, {
+      const res = await fetch(`${API_URL}/production_log`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newLog)
       });
+      const result = await res.json();
+      
+      // เพิ่มเข้า history ทันที ไม่ต้องรอ refetch
+      if (result?.success && result?.data) {
+        setProductionLogs(prev => [result.data, ...prev]);
+      }
+      
       alert('✅ บันทึกข้อมูลเรียบร้อยแล้ว!');
       setNewLog({ machine: newLog.machine, operator_name: newLog.operator_name, job_ref: '', start_time: '', end_time: '', actual_run_min: 0, downtime_min: 0, downtime_reason: '', good_qty: 0, defect_qty: 0 });
+      
+      // Refetch ใน background เพื่อ sync OEE
       fetchData();
     } catch (err: any) {
-      alert('Failed to submit log: ' + err.message);
+      alert('บันทึกไม่สำเร็จ: ' + err.message);
     }
   };
 
