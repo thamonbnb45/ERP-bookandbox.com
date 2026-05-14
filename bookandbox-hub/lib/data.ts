@@ -1,27 +1,22 @@
-import { supabase } from './supabase';
-
-// Fetch real-time stats from Supabase (existing live tables)
+// Fetch real-time stats from backend API (not Supabase directly)
 export async function getDashboardStats() {
-  const [jobRes, leadRes, customerRes] = await Promise.all([
-    supabase.from('job_order').select('id, total_price, status, created_at'),
-    supabase.from('lead_contact').select('id, sales_status, created_at').not('line_user_id', 'like', 'U_SEED_%'),
-    supabase.from('customer').select('id'),
-  ]);
+  const API_URL = typeof window !== 'undefined'
+    ? (process.env.NEXT_PUBLIC_API_URL || `${window.location.origin}/api`)
+    : 'http://localhost:4001/api';
 
-  const jobs = jobRes.data || [];
-  const leads = leadRes.data || [];
-  const customers = customerRes.data || [];
+  try {
+    const res = await fetch(`${API_URL}/production/dashboard`, { cache: 'no-store' });
+    const data = await res.json();
 
-  const totalRevenue = jobs.reduce((sum: number, j: any) => sum + (j.total_price || 0), 0);
-  const completedJobs = jobs.filter((j: any) => j.status === 'completed').length;
-  const pendingJobs = jobs.filter((j: any) => j.status !== 'completed').length;
-
-  return {
-    totalRevenue,
-    totalJobs: jobs.length,
-    completedJobs,
-    pendingJobs,
-    totalLeads: leads.length,
-    totalCustomers: customers.length,
-  };
+    return {
+      totalRevenue: data?.summary?.totalValue || 0,
+      totalJobs: data?.summary?.total || 0,
+      completedJobs: data?.summary?.completed || 0,
+      pendingJobs: (data?.summary?.total || 0) - (data?.summary?.completed || 0),
+      totalLeads: 0,
+      totalCustomers: 0,
+    };
+  } catch {
+    return { totalRevenue: 0, totalJobs: 0, completedJobs: 0, pendingJobs: 0, totalLeads: 0, totalCustomers: 0 };
+  }
 }
