@@ -2,7 +2,9 @@
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL || `${window.location.origin}/api`)
+  : 'http://localhost:4001/api';
 
 const DEPARTMENTS = [
   { id: 'pre_press', label: 'Pre-press (เตรียมไฟล์)', color: '#818cf8', icon: 'fa-solid fa-pen-ruler' },

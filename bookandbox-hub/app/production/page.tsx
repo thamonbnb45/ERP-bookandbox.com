@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 
 
 // Call the Express Backend
-const API_URL = 'http://localhost:3001/api';
+const API_URL = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL || `${window.location.origin}/api`)
+  : 'http://localhost:4001/api';
 
 const STAGES = [
   { id: 'queued', label: '📅 รอผลิต (Queued)', color: '#f1f5f9', header: '#94a3b8' },
