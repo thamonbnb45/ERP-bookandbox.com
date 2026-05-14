@@ -4125,7 +4125,7 @@ app.post('/api/factory/send-summary', async (req, res) => {
 
 // ====== SPA CATCH-ALL (Next.js Static Export) ======
 // Any non-API route → serve the matching static HTML or fallback to index.html
-app.get('*', (req, res) => {
+app.get('/{*splat}', (req, res) => {
     // Skip API routes
     if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'API not found' });
     
