@@ -34,6 +34,7 @@ const SUB_TABS = [
   { id: 'board', label: 'บอร์ดคิวงาน (Kanban)', icon: 'fa-solid fa-columns' },
   { id: 'dashboard', label: 'ภาพรวมผลิต (Dashboard)', icon: 'fa-solid fa-chart-pie' },
   { id: 'log', label: 'บันทึกรายวัน (Logs)', icon: 'fa-solid fa-clipboard-list' },
+  { id: 'schedule', label: 'วางแผนผลิต (Schedule)', icon: 'fa-solid fa-calendar-days' },
 ];
 
 // Operator list from real employee data
@@ -602,20 +603,20 @@ export default function Production() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
                 <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
                   <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>อัตราเดินเครื่อง (Availability)</div>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: (oeeSummary?.availability || 0) > 80 ? '#10b981' : '#f59e0b' }}>
-                    {oeeSummary?.availability || 0}%
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: (oeeSummary?.overall?.availability || 0) > 80 ? '#10b981' : '#f59e0b' }}>
+                    {oeeSummary?.overall?.availability || 0}%
                   </div>
                 </div>
                 <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
                   <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>คุณภาพงาน (Quality)</div>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: (oeeSummary?.quality || 0) > 95 ? '#10b981' : '#f59e0b' }}>
-                    {oeeSummary?.quality || 0}%
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: (oeeSummary?.overall?.quality || 0) > 95 ? '#10b981' : '#f59e0b' }}>
+                    {oeeSummary?.overall?.quality || 0}%
                   </div>
                 </div>
                 <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
                   <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>รวม (Overall OEE)</div>
                   <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#3b82f6' }}>
-                    {oeeSummary?.oee || 0}%
+                    {oeeSummary?.overall?.oee || 0}%
                   </div>
                 </div>
               </div>
@@ -658,7 +659,239 @@ export default function Production() {
           </div>
         </div>
       )}
+      {activeTab === 'schedule' && (
+        <ScheduleTab jobOrders={jobOrders} API_URL={API_URL} />
+      )}
 
+    </div>
+  );
+}
+
+// ====== PRODUCTION SCHEDULE TAB ======
+const PROCESS_STEPS = [
+  { id: 'prepress', label: 'เตรียมพิมพ์', color: '#818cf8', days: 1 },
+  { id: 'printing', label: 'พิมพ์', color: '#3b82f6', days: 2 },
+  { id: 'coating', label: 'เคลือบ', color: '#06b6d4', days: 1 },
+  { id: 'diecut', label: 'ปั๊มไดคัท', color: '#f97316', days: 2 },
+  { id: 'folding', label: 'พับ/ปะกาว', color: '#eab308', days: 2 },
+  { id: 'qc', label: 'QC', color: '#22c55e', days: 1 },
+  { id: 'packing', label: 'Packing', color: '#8b5cf6', days: 1 },
+  { id: 'shipping', label: 'จัดส่ง', color: '#ef4444', days: 1 },
+];
+
+function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string }) {
+  const [schedules, setSchedules] = useState<any[]>([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newSchedule, setNewSchedule] = useState({
+    job_ref: '', job_name: '', quantity: 0, start_date: new Date().toISOString().split('T')[0],
+    steps: PROCESS_STEPS.map(s => ({ ...s, enabled: true }))
+  });
+
+  useEffect(() => {
+    // Load saved schedules
+    const saved = localStorage.getItem('production_schedules');
+    if (saved) setSchedules(JSON.parse(saved));
+  }, []);
+
+  const saveSchedules = (data: any[]) => {
+    setSchedules(data);
+    localStorage.setItem('production_schedules', JSON.stringify(data));
+  };
+
+  const addSchedule = () => {
+    if (!newSchedule.job_ref || !newSchedule.job_name) return alert('กรุณากรอก JOG No. และชื่องาน');
+    
+    // Calculate dates for each step
+    let currentDate = new Date(newSchedule.start_date);
+    const steps = newSchedule.steps.filter(s => s.enabled).map(step => {
+      const startDate = new Date(currentDate);
+      currentDate.setDate(currentDate.getDate() + step.days);
+      const endDate = new Date(currentDate);
+      return { ...step, start: startDate.toISOString().split('T')[0], end: endDate.toISOString().split('T')[0] };
+    });
+
+    const schedule = {
+      id: Date.now(),
+      job_ref: newSchedule.job_ref,
+      job_name: newSchedule.job_name,
+      quantity: newSchedule.quantity,
+      start_date: newSchedule.start_date,
+      end_date: steps[steps.length - 1]?.end || newSchedule.start_date,
+      steps,
+      status: 'planned',
+      created_at: new Date().toISOString()
+    };
+
+    saveSchedules([schedule, ...schedules]);
+    setShowAddForm(false);
+    setNewSchedule({ job_ref: '', job_name: '', quantity: 0, start_date: new Date().toISOString().split('T')[0], steps: PROCESS_STEPS.map(s => ({ ...s, enabled: true })) });
+  };
+
+  const removeSchedule = (id: number) => {
+    if (confirm('ลบแผนงานนี้?')) saveSchedules(schedules.filter(s => s.id !== id));
+  };
+
+  // Generate date columns for the next 21 days
+  const today = new Date();
+  const dateColumns: string[] = [];
+  for (let i = 0; i < 21; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() + i);
+    dateColumns.push(d.toISOString().split('T')[0]);
+  }
+
+  const getDayLabel = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return `${d.getDate()}/${d.getMonth()+1}`;
+  };
+
+  const isWeekend = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return d.getDay() === 0 || d.getDay() === 6;
+  };
+
+  return (
+    <div style={{ padding: '0' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <div>
+          <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#1e293b' }}>
+            📅 แผนการผลิต (Production Timeline)
+          </h3>
+          <p style={{ margin: '0.3rem 0 0', color: '#64748b', fontSize: '0.85rem' }}>
+            วางแผนงานแต่ละขั้นตอน เชื่อมเครื่อง+คน เห็นโหลดจริง
+          </p>
+        </div>
+        <button onClick={() => setShowAddForm(!showAddForm)}
+          style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
+          {showAddForm ? '✕ ปิด' : '+ เพิ่มแผนงาน'}
+        </button>
+      </div>
+
+      {/* Add Form */}
+      {showAddForm && (
+        <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', marginBottom: '1rem', border: '2px solid #3b82f6', boxShadow: '0 4px 12px rgba(59,130,246,0.15)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr 1fr', gap: '0.8rem', marginBottom: '1rem' }}>
+            <div>
+              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b' }}>JOG No.</label>
+              <input type="text" value={newSchedule.job_ref} onChange={e => setNewSchedule({...newSchedule, job_ref: e.target.value})}
+                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.9rem' }} placeholder="6801-0001" />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b' }}>ชื่องาน</label>
+              <input type="text" value={newSchedule.job_name} onChange={e => setNewSchedule({...newSchedule, job_name: e.target.value})}
+                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.9rem' }} placeholder="กล่อง Salonpas" />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b' }}>จำนวน (ใบ)</label>
+              <input type="number" value={newSchedule.quantity} onChange={e => setNewSchedule({...newSchedule, quantity: Number(e.target.value)})}
+                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.9rem' }} />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b' }}>วันเริ่ม</label>
+              <input type="date" value={newSchedule.start_date} onChange={e => setNewSchedule({...newSchedule, start_date: e.target.value})}
+                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.9rem' }} />
+            </div>
+          </div>
+
+          {/* Step toggles + days */}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', marginBottom: '0.4rem', display: 'block' }}>ขั้นตอนงาน (เลือกเฉพาะงาน + ปรับวัน):</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {newSchedule.steps.map((step, idx) => (
+                <div key={step.id} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', padding: '0.4rem 0.6rem', borderRadius: '8px',
+                  border: step.enabled ? `2px solid ${step.color}` : '1px solid #e2e8f0', background: step.enabled ? `${step.color}15` : '#f8fafc', cursor: 'pointer' }}
+                  onClick={() => {
+                    const steps = [...newSchedule.steps];
+                    steps[idx] = { ...steps[idx], enabled: !steps[idx].enabled };
+                    setNewSchedule({...newSchedule, steps});
+                  }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: step.enabled ? step.color : '#94a3b8' }}>{step.label}</span>
+                  {step.enabled && (
+                    <input type="number" value={step.days} min={1} max={10}
+                      onClick={e => e.stopPropagation()}
+                      onChange={e => {
+                        const steps = [...newSchedule.steps];
+                        steps[idx] = { ...steps[idx], days: Number(e.target.value) || 1 };
+                        setNewSchedule({...newSchedule, steps});
+                      }}
+                      style={{ width: '35px', padding: '0.1rem', borderRadius: '4px', border: '1px solid #cbd5e1', textAlign: 'center', fontSize: '0.75rem' }} />
+                  )}
+                  <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>วัน</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button onClick={addSchedule}
+            style={{ background: '#22c55e', color: 'white', border: 'none', padding: '0.6rem 1.5rem', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
+            ✅ เพิ่มแผนงาน
+          </button>
+        </div>
+      )}
+
+      {/* Gantt Chart */}
+      <div style={{ background: 'white', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '900px' }}>
+            <thead>
+              <tr>
+                <th style={{ padding: '0.6rem 0.8rem', background: '#f1f5f9', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, color: '#475569', position: 'sticky', left: 0, minWidth: '200px', borderRight: '2px solid #e2e8f0', zIndex: 10 }}>งาน</th>
+                {dateColumns.map(d => (
+                  <th key={d} style={{ padding: '0.4rem 0.2rem', background: isWeekend(d) ? '#fef2f2' : '#f1f5f9', textAlign: 'center', fontSize: '0.7rem', fontWeight: 600,
+                    color: isWeekend(d) ? '#ef4444' : '#64748b', minWidth: '45px', borderLeft: '1px solid #e2e8f0' }}>
+                    {getDayLabel(d)}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {schedules.length === 0 && (
+                <tr><td colSpan={22} style={{ padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
+                  📅 ยังไม่มีแผนงาน — กด "+เพิ่มแผนงาน" ด้านบน
+                </td></tr>
+              )}
+              {schedules.map(sch => (
+                <tr key={sch.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                  <td style={{ padding: '0.5rem 0.8rem', position: 'sticky', left: 0, background: 'white', borderRight: '2px solid #e2e8f0', zIndex: 5 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b' }}>{sch.job_ref}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{sch.job_name}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{sch.quantity?.toLocaleString()} ใบ</div>
+                      </div>
+                      <button onClick={() => removeSchedule(sch.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.8rem' }}>✕</button>
+                    </div>
+                  </td>
+                  {dateColumns.map(d => {
+                    const step = sch.steps?.find((s: any) => d >= s.start && d < s.end);
+                    return (
+                      <td key={d} style={{ padding: '0.2rem', borderLeft: '1px solid #f1f5f9', background: isWeekend(d) ? '#fef2f220' : 'transparent' }}>
+                        {step && (
+                          <div style={{ background: step.color, color: 'white', borderRadius: '4px', padding: '0.2rem 0.3rem', fontSize: '0.6rem', fontWeight: 600, textAlign: 'center', lineHeight: 1.3,
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.15)' }}>
+                            {step.label}
+                          </div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Legend */}
+        <div style={{ padding: '0.8rem 1rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+          {PROCESS_STEPS.map(s => (
+            <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.75rem' }}>
+              <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: s.color }} />
+              {s.label}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
