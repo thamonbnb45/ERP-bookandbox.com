@@ -152,7 +152,7 @@ export default function Production() {
           return (
             <div key={m.machine} style={{
               flex: '0 0 auto', width: '240px', background: 'white', borderRadius: '12px', padding: '1rem',
-              border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderLeft: \`4px solid \${config.color}\`
+              border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderLeft: `4px solid ${config.color}`
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
                 <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#334155', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
