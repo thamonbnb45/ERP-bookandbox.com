@@ -27,7 +27,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'public'))); // Serve React Frontend
+app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] })); // Serve Next.js static export
 
 const PUBLIC_URL = process.env.PUBLIC_URL || 'https://erp-bookandboxcom-production.up.railway.app';
 
