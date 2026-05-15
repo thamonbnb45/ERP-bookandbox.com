@@ -142,10 +142,6 @@ export default function JobsPage() {
             <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>ยอดรวม</div>
             <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1e293b' }}>฿{formatMoney(parseFloat(stats.summary.total_revenue))}</div>
           </div>
-          <div style={{ ...cardStyle, borderTop: '3px solid #8b5cf6' }}>
-            <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>กำไรรวม</div>
-            <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1e293b' }}>฿{formatMoney(parseFloat(stats.summary.total_profit))}</div>
-          </div>
           <div style={{ ...cardStyle, borderTop: '3px solid #06b6d4' }}>
             <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>พนักงานขาย</div>
             <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1e293b' }}>{parseInt(stats.summary.total_sales).toLocaleString()}</div>
@@ -226,7 +222,7 @@ export default function JobsPage() {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #e2e8f0' }}>
-                    {['เลขที่ JOG', 'วันที่', 'ลูกค้า', 'ชื่องาน', 'ประเภท', 'จำนวน', 'ยอดเงิน', 'กำไร', 'เซลส์'].map(h => (
+                    {['เลขที่ JOG', 'วันที่', 'ลูกค้า', 'ชื่องาน', 'ประเภท', 'จำนวน', 'ยอดเงิน', 'เซลส์'].map(h => (
                       <th key={h} style={{ padding: '0.75rem 0.5rem', textAlign: 'left', fontWeight: 700, color: '#475569', whiteSpace: 'nowrap' }}>{h}</th>
                     ))}
                   </tr>
@@ -245,9 +241,6 @@ export default function JobsPage() {
                       </td>
                       <td style={{ padding: '0.6rem 0.5rem', textAlign: 'right' }}>{jo.qty?.toLocaleString() || '-'}</td>
                       <td style={{ padding: '0.6rem 0.5rem', textAlign: 'right', fontWeight: 600 }}>{jo.amount ? `฿${formatMoney(jo.amount)}` : '-'}</td>
-                      <td style={{ padding: '0.6rem 0.5rem', textAlign: 'right', color: jo.profit > 0 ? '#16a34a' : jo.profit < 0 ? '#dc2626' : '#94a3b8', fontWeight: 600 }}>
-                        {jo.profit ? `฿${formatMoney(jo.profit)}` : '-'}
-                      </td>
                       <td style={{ padding: '0.6rem 0.5rem', fontSize: '0.8rem', color: '#64748b', maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{jo.salesperson}</td>
                     </tr>
                   ))}
