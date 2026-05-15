@@ -44,14 +44,34 @@ export default function RootLayout({
                 Bookandbox Hub
               </div>
             </div>
-            <nav style={{ display: 'flex', gap: '1rem' }}>
-              <a href="/production" style={{ padding: '0.5rem 1rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', transition: 'all 0.2s' }} 
+            <nav style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
+              <a href="/" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
                  className="nav-link hover:bg-slate-100 hover:text-blue-600">
-                <i className="fa-solid fa-industry mr-2"></i> ระบบผลิต (Production)
+                📊 Dashboard
               </a>
-              <a href="/hr" style={{ padding: '0.5rem 1rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', transition: 'all 0.2s' }}
+              <a href="/jobs" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
                  className="nav-link hover:bg-slate-100 hover:text-blue-600">
-                <i className="fa-solid fa-users-gear mr-2"></i> ระบบบุคคล (HR & Workload)
+                📋 ใบสั่งงาน
+              </a>
+              <a href="/production" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
+                 className="nav-link hover:bg-slate-100 hover:text-blue-600">
+                🏭 ระบบผลิต
+              </a>
+              <a href="/hr" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
+                 className="nav-link hover:bg-slate-100 hover:text-blue-600">
+                👥 HR
+              </a>
+              <a href="/chat" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
+                 className="nav-link hover:bg-slate-100 hover:text-blue-600">
+                💬 Chat/LINE
+              </a>
+              <a href="/sales" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
+                 className="nav-link hover:bg-slate-100 hover:text-blue-600">
+                💰 Sales
+              </a>
+              <a href="/accounting" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px', color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.2s' }}
+                 className="nav-link hover:bg-slate-100 hover:text-blue-600">
+                📒 บัญชี
               </a>
             </nav>
           </header>
