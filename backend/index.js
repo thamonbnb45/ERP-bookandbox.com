@@ -4108,10 +4108,7 @@ app.get('/api/debug-reports', async (req, res) => {
     }
 });
 
-// React router fallback
-app.get(/.*/, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// (Old catch-all removed — using SPA catch-all at end of file instead)
 
 const PORT = process.env.PORT || 3001;
 
