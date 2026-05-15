@@ -4235,6 +4235,18 @@ app.delete('/api/production/schedule/:id', async (req, res) => {
 // ====== PRODUCTION SEED (Real Data) ======
 app.get('/api/production/seed', async (req, res) => {
     try {
+        // Migrate: add missing columns if table was created by Supabase
+        const migrations = [
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS job_ref TEXT',
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS job_name TEXT',
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS quantity INT DEFAULT 0',
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS start_date DATE',
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS end_date DATE',
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS steps JSONB DEFAULT \'[]\'',
+            'ALTER TABLE production_schedule ADD COLUMN IF NOT EXISTS status TEXT DEFAULT \'planned\'',
+        ];
+        for (const m of migrations) { try { await db.query(m); } catch(e) {} }
+        
         // Seed Production Schedules (Gantt)
         await db.query('DELETE FROM production_schedule');
         
