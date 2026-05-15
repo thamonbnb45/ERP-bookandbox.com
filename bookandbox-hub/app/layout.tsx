@@ -22,7 +22,8 @@ const modules = [
     children: [
       { label: 'ใบสั่งงาน (JO)', href: '/jobs', icon: '📋' },
       { label: 'CRM / LINE Chat', href: '/chat', icon: '💬' },
-      { label: 'เสนอราคา', href: '/sales', icon: '🧮' },
+      { label: 'คิดราคา (Estimate)', href: '/sales/estimate', icon: '🧮' },
+      { label: 'เสนอราคา', href: '/sales', icon: '📄' },
     ]
   },
   {
