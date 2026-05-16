@@ -3382,7 +3382,7 @@ app.get('/api/pricing/finishing', async (req, res) => {
 app.post('/api/pricing/finishing', async (req, res) => {
   try {
     const { data, error } = await supabase.from('finishing_rates').insert([req.body]).select().single();
-    if(error) throw error;
+    if (error) throw error;
     res.json(data);
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
@@ -3846,6 +3846,9 @@ app.get('/api/timelog/suggest', async (req, res) => {
             .select('task_name')
             .ilike('task_name', `%${q}%`)
             .limit(100);
+        let msg = `📊 สรุปงานวันนี้: ${stuck.rows.length} ปัญหา, ${overdue.rows.length} ค้าง, ${pending.rows.length} รอคิว\n`;
+        msg += `✅ งานเสร็จ 24 ชม. ที่ผ่านมา: ${doneYesterday.rows.length} รายการ\n`;
+        msg += `🔗 ดูรายละเอียดเพิ่มเติม: https://erp-bookandboxcom-production.up.railway.app/tasks`;
         if (error) throw error;
         
         const uniqueNames = [...new Set((data || []).map(d => d.task_name))].slice(0, 5);
