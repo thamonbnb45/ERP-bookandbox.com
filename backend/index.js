@@ -4209,20 +4209,18 @@ async function checkStuckTasks() {
         const client = agentLineClient || lineClient;
         if (!client) return;
         
-        let msg = `⚠️ แจ้งเตือนงานค้าง!\n\n`;
-        msg += `มี ${result.rows.length} งานที่ค้างเกิน 24 ชม.:\n\n`;
-        result.rows.forEach((t, i) => {
-            const overdue = t.due_date && new Date(t.due_date) < new Date();
-            msg += `${i + 1}. ${overdue ? '🔥' : '⚠️'} ${t.title}\n`;
-            msg += `   ${t.from_person} → ${t.to_person}\n`;
-            if (t.due_date) msg += `   📅 กำหนด: ${t.due_date}${overdue ? ' (เกิน!)' : ''}\n`;
-            msg += `\n`;
+        let msg = `⚠️ งานค้าง ${result.rows.length} รายการ!
+`;
+        result.rows.slice(0, 3).forEach(t => {
+            msg += `• ${t.title} (${t.to_person})
+`;
         });
-        msg += `📋 ดูทั้งหมดที่ ERP → ติดตามงาน\n— Zero 🤖 Auto-Reminder`;
+        if (result.rows.length > 3) msg += `... อีก ${result.rows.length - 3} งาน
+`;
+        msg += `👉 https://erp-bookandboxcom-production.up.railway.app/tasks`;
         
         await client.pushMessage({ to: TEAM_GROUP_ID, messages: [{ type: 'text', text: msg }] });
         
-        // Mark as reminded
         const ids = result.rows.map(r => r.id);
         await db.query(`UPDATE tasks SET reminder_sent = true, reminder_count = reminder_count + 1 WHERE id = ANY($1)`, [ids]);
         console.log(`🔔 [Task Reminder] Sent for ${ids.length} stuck tasks`);
