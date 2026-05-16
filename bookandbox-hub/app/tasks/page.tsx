@@ -14,7 +14,7 @@ const TEAM = [
 ];
 const STATUS = { pending: { l: '📋 รอรับ', bg: '#f1f5f9', c: '#64748b', b: '#cbd5e1' }, doing: { l: '⚙️ กำลังทำ', bg: '#dbeafe', c: '#1d4ed8', b: '#93c5fd' }, stuck: { l: '🚨 ติดปัญหา', bg: '#fef2f2', c: '#dc2626', b: '#fca5a5' }, done: { l: '✅ เสร็จ', bg: '#f0fdf4', c: '#15803d', b: '#86efac' } };
 const PRI = { urgent: { l: '🔥 ด่วนมาก', c: '#dc2626' }, high: { l: '⚡ สำคัญ', c: '#f59e0b' }, normal: { l: '📌 ปกติ', c: '#64748b' } };
-type Task = { id: string; title: string; detail: string; from_person: string; to_person: string; status: string; priority: string; due_date: string; stuck_reason?: string; created_at: string; };
+type Task = { id: string; title: string; detail: string; from_person: string; to_person: string; status: string; priority: string; due_date: string; stuck_reason?: string; image_url?: string; created_at: string; };
 const tm = (id: string) => TEAM.find(t => t.id === id) || { id, name: id, role: '', color: '#888', emoji: '👤' };
 const dl = (d: string) => d ? Math.ceil((new Date(d).getTime() - Date.now()) / 86400000) : 999;
 
@@ -26,7 +26,7 @@ export default function TaskTracker() {
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string|null>(null);
   const [selectedTask, setSelectedTask] = useState<Task|null>(null);
-  const [form, setForm] = useState({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '' });
+  const [form, setForm] = useState({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '', image_url: '' });
   const [calMonth, setCalMonth] = useState(() => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), 1); });
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState<any[]>([]);
@@ -45,7 +45,7 @@ export default function TaskTracker() {
     } else {
       await fetch(`${API}/api/tasks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
     }
-    setShowForm(false); setEditId(null); setForm({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '' }); load();
+    setShowForm(false); setEditId(null); setForm({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '', image_url: '' }); load();
   };
   const setStatus = async (id: string, status: string, stuck_reason?: string) => {
     const body: any = { status };
@@ -84,6 +84,7 @@ export default function TaskTracker() {
         </div>
         <div onClick={() => { setSelectedTask(t); loadComments(t.id); }} style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3, textDecoration: 'underline', textDecorationColor: '#e2e8f0' }}>{t.title}</div>
         {t.detail && <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: 6 }}>{t.detail}</div>}
+        {t.image_url && <img src={t.image_url} alt="" style={{ width: '100%', borderRadius: 8, marginBottom: 6, maxHeight: 120, objectFit: 'cover' }} />}
         {t.status === 'stuck' && t.stuck_reason && <div style={{ fontSize: '0.7rem', color: '#dc2626', background: '#fef2f2', padding: 4, borderRadius: 6, marginBottom: 6, fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, padding: '4px 8px', background: `${to.color}10`, borderRadius: 8 }}>
           <span style={{ fontSize: '1.2rem' }}>{to.emoji}</span>
@@ -96,7 +97,7 @@ export default function TaskTracker() {
           {t.status === 'doing' && <button onClick={() => { const r = prompt('ติดปัญหาอะไร?'); if (r) setStatus(t.id, 'stuck', r); }} style={btn('#dc2626')}>🚨 ติด</button>}
           {t.status === 'stuck' && <button onClick={() => setStatus(t.id, 'doing')} style={btn('#3b82f6')}>▶ แก้แล้ว</button>}
           {t.status === 'done' && <button onClick={() => setStatus(t.id, 'pending')} style={btn('#64748b')}>↩ เปิดใหม่</button>}
-          <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '' }); setShowForm(true); }} style={btn('#8b5cf6')}>✏️ แก้ไข</button>
+          <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '', image_url: t.image_url || '' }); setShowForm(true); }} style={btn('#8b5cf6')}>✏️ แก้ไข</button>
           <button onClick={() => del(t.id)} style={btn('#94a3b8')}>🗑</button>
         </div>
       </div>
@@ -154,7 +155,9 @@ export default function TaskTracker() {
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}><span style={{ fontSize: '0.78rem', color: pr.c, fontWeight: 700 }}>{pr.l}</span><span style={{ padding: '2px 8px', borderRadius: 6, background: st.bg, color: st.c, fontWeight: 600, fontSize: '0.78rem' }}>{st.l}</span></div>
             <h2 style={{ margin: '0 0 8px', fontSize: '1.2rem' }}>{t.title}</h2>
             <p style={{ color: '#64748b', margin: '0 0 12px', fontSize: '0.9rem' }}>{t.detail || 'ไม่มีรายละเอียด'}</p>
+            {t.image_url && <img src={t.image_url} alt="" style={{ width: '100%', borderRadius: 10, marginBottom: 12, maxHeight: 250, objectFit: 'cover' }} />}
             {t.stuck_reason && <div style={{ background: '#fef2f2', padding: 8, borderRadius: 8, marginBottom: 12, color: '#dc2626', fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
+            <div style={{ fontSize: '0.68rem', color: '#94a3b8', marginBottom: 8 }}>Task ID: #{t.id} — พิมพ์ใน LINE: <code>เสร็จ #{t.id}</code></div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
               <div style={{ padding: 10, background: '#f8fafc', borderRadius: 10 }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>จาก</div><div style={{ fontSize: '1rem', fontWeight: 700, color: f.color }}>{f.emoji} {f.name}</div></div>
               <div style={{ padding: 10, background: `${to.color}10`, borderRadius: 10, border: `2px solid ${to.color}30` }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>ผู้รับผิดชอบ</div><div style={{ fontSize: '1.1rem', fontWeight: 800, color: to.color }}>{to.emoji} {to.name}</div></div>
@@ -166,7 +169,7 @@ export default function TaskTracker() {
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
               {t.status==='pending' && <button onClick={() => { setStatus(t.id,'doing'); setSelectedTask(null); }} style={{ ...btn('#3b82f6'), padding: '6px 14px', fontSize: '0.8rem' }}>▶ เริ่มทำ</button>}
               {t.status==='doing' && <button onClick={() => { setStatus(t.id,'done'); setSelectedTask(null); }} style={{ ...btn('#15803d'), padding: '6px 14px', fontSize: '0.8rem' }}>✅ เสร็จ</button>}
-              <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '' }); setSelectedTask(null); setShowForm(true); }} style={{ ...btn('#8b5cf6'), padding: '6px 14px', fontSize: '0.8rem' }}>✏️ แก้ไข</button>
+              <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '', image_url: t.image_url || '' }); setSelectedTask(null); setShowForm(true); }} style={{ ...btn('#8b5cf6'), padding: '6px 14px', fontSize: '0.8rem' }}>✏️ แก้ไข</button>
               <button onClick={() => setSelectedTask(null)} style={{ ...btn('#94a3b8'), padding: '6px 14px', fontSize: '0.8rem', marginLeft: 'auto' }}>ปิด</button>
             </div>
             {/* Comments */}
@@ -199,6 +202,7 @@ export default function TaskTracker() {
             <select value={form.priority} onChange={e => setForm({...form, priority: e.target.value})} style={inp}>{Object.entries(PRI).map(([k,v]) => <option key={k} value={k}>{v.l}</option>)}</select>
             <input type="date" value={form.due_date} onChange={e => setForm({...form, due_date: e.target.value})} style={inp} />
           </div>
+          <input placeholder="📎 แปะลิงก์รูปภาพ (ไม่บังคับ)" value={form.image_url} onChange={e => setForm({...form, image_url: e.target.value})} style={{...inp, marginBottom: 12}} />
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={save} style={{ flex: 1, padding: '10px', borderRadius: 10, border: 'none', background: '#2EC4B6', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>💾 บันทึก</button>
             <button onClick={() => setShowForm(false)} style={{ padding: '10px 20px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer' }}>ยกเลิก</button>

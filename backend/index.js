@@ -4126,6 +4126,7 @@ app.post('/api/nexus/push', async (req, res) => {
         `);
         await db.query(`CREATE INDEX IF NOT EXISTS idx_tasks_to ON tasks(to_person);`);
         await db.query(`CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status);`);
+        await db.query(`ALTER TABLE tasks ADD COLUMN IF NOT EXISTS image_url TEXT`).catch(() => {});
         console.log('✅ tasks table ready');
     } catch (e) { console.error('Tasks table error:', e.message); }
 })();
@@ -4282,6 +4283,38 @@ setInterval(() => {
 app.post('/api/tasks/check-reminder', async (req, res) => { await checkStuckTasks(); res.json({ ok: true }); });
 app.post('/api/tasks/pre-meeting', async (req, res) => { await sendPreMeetingReport(); res.json({ ok: true }); });
 
+// ── 📱 LINE Quick Action: พิมพ์ "เสร็จ #1" หรือ "ติด #2 เครื่องเสีย" ──
+app.post('/api/tasks/line-action', async (req, res) => {
+    try {
+        const { text, userId } = req.body;
+        if (!text) return res.status(400).json({ error: 'text required' });
+        
+        const doneMatch = text.match(/^(เสร็จ|done)\s*#?(\d+)/i);
+        const stuckMatch = text.match(/^(ติด|stuck)\s*#?(\d+)\s*(.*)/i);
+        const startMatch = text.match(/^(เริ่ม|start)\s*#?(\d+)/i);
+        
+        let result, reply;
+        if (doneMatch) {
+            result = await db.query('UPDATE tasks SET status=$1, completed_at=NOW(), updated_at=NOW() WHERE id=$2 RETURNING title, to_person', ['done', doneMatch[2]]);
+            if (result.rows[0]) reply = `✅ "${result.rows[0].title}" เสร็จแล้ว!`;
+        } else if (stuckMatch) {
+            const reason = stuckMatch[3] || 'ไม่ระบุ';
+            result = await db.query('UPDATE tasks SET status=$1, stuck_reason=$2, updated_at=NOW() WHERE id=$3 RETURNING title, to_person', ['stuck', reason, stuckMatch[2]]);
+            if (result.rows[0]) reply = `🚨 "${result.rows[0].title}" ติดปัญหา: ${reason}`;
+        } else if (startMatch) {
+            result = await db.query('UPDATE tasks SET status=$1, updated_at=NOW() WHERE id=$2 RETURNING title, to_person', ['doing', startMatch[2]]);
+            if (result.rows[0]) reply = `▶ "${result.rows[0].title}" เริ่มทำแล้ว!`;
+        }
+        
+        if (reply) {
+            const client = agentLineClient || lineClient;
+            if (client && TEAM_GROUP_ID) await client.pushMessage({ to: TEAM_GROUP_ID, messages: [{ type: 'text', text: reply }] });
+            res.json({ ok: true, reply });
+        } else {
+            res.json({ ok: false, hint: 'พิมพ์: เสร็จ #ID / ติด #ID เหตุผล / เริ่ม #ID' });
+        }
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
 // ── 💬 Task Comments ──
 (async () => {
     try {
