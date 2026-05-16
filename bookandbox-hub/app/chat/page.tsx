@@ -1,12 +1,19 @@
 "use client";
 import { useState, useEffect } from 'react';
 
-const API = typeof window !== 'undefined' ? `${window.location.origin}/api` : '';
-
 interface Chat {
   id: string; line_user_id: string; original_name: string; erp_name: string;
   status: string; last_message: string; created_at: string; updated_at: string;
 }
+
+// Mock data - จะเปลี่ยนเป็น real API เมื่อเชื่อมต่อ LINE OA
+const MOCK_CHATS: Chat[] = [
+  { id: '1', line_user_id: 'U1234567890abcdef', original_name: 'สมชาย', erp_name: 'คุณสมชาย ทองดี', status: 'customer', last_message: 'ส่งไฟล์มาให้แล้วนะครับ', created_at: '2026-05-15', updated_at: '2026-05-15T10:30:00' },
+  { id: '2', line_user_id: 'U2345678901bcdefg', original_name: 'วิไล', erp_name: 'คุณวิไล สุขใจ', status: 'lead', last_message: 'ขอใบเสนอราคากล่อง 1000 ใบค่ะ', created_at: '2026-05-14', updated_at: '2026-05-14T16:45:00' },
+  { id: '3', line_user_id: 'U3456789012cdefgh', original_name: 'Natcha', erp_name: '', status: 'new', last_message: 'สอบถามราคาพิมพ์หนังสือค่ะ', created_at: '2026-05-13', updated_at: '2026-05-13T09:15:00' },
+  { id: '4', line_user_id: 'U4567890123defghi', original_name: 'PrintShop', erp_name: 'บจก.พริ้นท์ชอป', status: 'quoted', last_message: 'รับทราบครับ รอใบ PO', created_at: '2026-05-12', updated_at: '2026-05-12T14:20:00' },
+  { id: '5', line_user_id: 'U5678901234efghij', original_name: 'อรุณ', erp_name: 'คุณอรุณ แสงทอง', status: 'customer', last_message: 'ขอบคุณครับ งานออกมาสวยมาก', created_at: '2026-05-11', updated_at: '2026-05-11T11:00:00' },
+];
 
 export default function ChatPage() {
   const [chats, setChats] = useState<Chat[]>([]);
@@ -14,7 +21,8 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API}/chats`).then(r => r.json()).then(d => { setChats(d || []); setLoading(false); }).catch(() => setLoading(false));
+    // Use mock data (replace with real API when LINE OA is connected)
+    setTimeout(() => { setChats(MOCK_CHATS); setLoading(false); }, 300);
   }, []);
 
   const statusColors: Record<string, { bg: string; label: string }> = {

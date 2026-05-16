@@ -2,12 +2,12 @@
 import { useState } from 'react';
 import { EstimateData, JOB_TYPES, STATUS_OPTIONS } from '../types';
 
-const fieldRow: React.CSSProperties = { display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' };
-const label: React.CSSProperties = { fontSize: '0.78rem', fontWeight: 600, color: '#64748b', marginBottom: '0.3rem', display: 'block', letterSpacing: '0.01em' };
-const input: React.CSSProperties = { width: '100%', padding: '0.55rem 0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.85rem', fontFamily: 'inherit', outline: 'none', background: '#f8fafc', transition: 'border-color 0.2s' };
+const fieldRow: React.CSSProperties = { display: 'flex', gap: '0.75rem', marginBottom: '0.6rem', flexWrap: 'wrap' };
+const label: React.CSSProperties = { fontSize: '0.72rem', fontWeight: 600, color: '#64748b', marginBottom: '0.2rem', display: 'block' };
+const input: React.CSSProperties = { width: '100%', padding: '0.4rem 0.6rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.82rem', fontFamily: 'inherit', outline: 'none', background: '#f8fafc', transition: 'border-color 0.2s' };
 const select: React.CSSProperties = { ...input, cursor: 'pointer' };
-const section: React.CSSProperties = { background: 'white', borderRadius: '12px', padding: '1.25rem', border: '1px solid #e2e8f0', marginBottom: '1rem', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' };
-const sectionTitle: React.CSSProperties = { fontSize: '0.9rem', fontWeight: 700, color: '#0B1320', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', paddingBottom: '0.6rem', borderBottom: '2px solid rgba(46,196,182,0.15)' };
+const section: React.CSSProperties = { background: '#fafbfc', borderRadius: '10px', padding: '0.85rem', border: '1px solid #e8ecf0', marginBottom: '0.6rem' };
+const sectionTitle: React.CSSProperties = { fontSize: '0.82rem', fontWeight: 700, color: '#0B1320', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: '0.4rem', paddingBottom: '0.4rem', borderBottom: '1.5px solid rgba(46,196,182,0.15)' };
 
 export default function TabJobInfo({ data, onChange }: { data: EstimateData; onChange: (d: Partial<EstimateData>) => void }) {
   const [customerItems, setCustomerItems] = useState({ paper: false, artwork: false, plate: false, slip: false });
@@ -28,7 +28,7 @@ export default function TabJobInfo({ data, onChange }: { data: EstimateData; onC
               <input type="date" style={input} value={data.createdAt} onChange={e => onChange({ createdAt: e.target.value })} />
             </div>
           </div>
-          <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.5rem' }}>
             <label style={label}>ชื่องาน</label>
             <input style={input} value={data.name} onChange={e => onChange({ name: e.target.value })} placeholder="ชื่องาน..." />
           </div>
@@ -113,15 +113,15 @@ export default function TabJobInfo({ data, onChange }: { data: EstimateData; onC
       <div>
         <div style={section}>
           <div style={sectionTitle}>👤 ข้อมูลลูกค้า</div>
-          <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.5rem' }}>
             <label style={label}>ชื่อบริษัท/ลูกค้า</label>
             <input style={input} value={data.customer} onChange={e => onChange({ customer: e.target.value })} />
           </div>
-          <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.5rem' }}>
             <label style={label}>ชื่อผู้ติดต่อ</label>
             <input style={input} value={data.customerContact} onChange={e => onChange({ customerContact: e.target.value })} />
           </div>
-          <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.5rem' }}>
             <label style={label}>สิ่งที่ลูกค้าให้มา</label>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               {Object.entries({ paper: 'กระดาษ', artwork: 'อาร์ตเวิร์ค', plate: 'เพลทพร้อมปรู๊ฟ', slip: 'มี Slip' }).map(([k, v]) => (
@@ -155,7 +155,7 @@ export default function TabJobInfo({ data, onChange }: { data: EstimateData; onC
             <div style={{ flex: 1 }}><label style={label}>ทีม</label><input style={input} value={data.team} onChange={e => onChange({ team: e.target.value })} /></div>
             <div style={{ flex: 1 }}><label style={label}>ผู้คิดราคา</label><input style={input} value={data.estimator} onChange={e => onChange({ estimator: e.target.value })} /></div>
           </div>
-          <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.5rem' }}>
             <label style={label}>สร้างโดย</label>
             <input style={{ ...input, background: '#e2e8f0' }} value={data.createdBy} readOnly />
           </div>

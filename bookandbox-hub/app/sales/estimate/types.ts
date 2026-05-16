@@ -84,6 +84,20 @@ export const MOCK_ESTIMATE: EstimateData = {
   sellingPrice: [5000, 5300, 6000, 7750],
 };
 
+export const EMPTY_ESTIMATE: EstimateData = {
+  id: '', name: '', customer: '', type: 'หนังสือ Catalog',
+  status: 'อยู่ระหว่างเสนอราคา',
+  createdAt: new Date().toISOString().slice(0, 10),
+  createdBy: '', width: 0, height: 0, unit: 'ซม.',
+  orientation: 'แนวตั้ง', binding: '', pagesCover: 4, pagesInner: 0,
+  quantities: [1000, 2000, 3000, 5000],
+  customerContact: '', salesperson: '', company: '', team: '', poNumber: '',
+  note: '', estimator: '',
+  costDesign: [], costPrint: [], costPaper: [], costPlate: [],
+  costFold: [], costCoating: [], costDieCut: [], costBinding: [],
+  costShipping: [], costAdmin: 0, profitPercent: 0, sellingPrice: [],
+};
+
 export const JOB_TYPES = [
   'หนังสือ Catalog', 'BNB Web', 'โบรชัวร์', 'ใบปลิว',
   'กล่อง', 'นามบัตร', 'สติกเกอร์', 'ปฏิทิน',
