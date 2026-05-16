@@ -55,6 +55,13 @@ export default function TaskTracker() {
   const del = async (id: string) => { if (!confirm('ลบงานนี้?')) return; await fetch(`${API}/api/tasks/${id}`, { method: 'DELETE' }); load(); };
   const loadComments = async (id: string) => { try { const r = await fetch(`${API}/api/tasks/${id}/comments`); setComments(await r.json()); } catch(e) { console.error(e); } };
   const addComment = async (taskId: string) => { if (!newComment.trim()) return; await fetch(`${API}/api/tasks/${taskId}/comments`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ author: commentAs, content: newComment }) }); setNewComment(''); loadComments(taskId); };
+  const exportCSV = () => {
+    const headers = 'ชื่องาน,รายละเอียด,จาก,ผู้รับผิดชอบ,สถานะ,ความเร่ง,กำหนดส่ง,ติดปัญหา,สร้างเมื่อ';
+    const rows = filtered.map(t => `"${t.title}","${t.detail}","${t.from_person}","${t.to_person}","${t.status}","${t.priority}","${t.due_date ? t.due_date.slice(0,10) : ''}","${t.stuck_reason||''}","${t.created_at ? t.created_at.slice(0,10) : ''}"`);
+    const csv = '\uFEFF' + headers + '\n' + rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `tasks_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+  };
 
   const filtered = tasks.filter(t => { if (fp !== 'all' && t.to_person !== fp && t.from_person !== fp) return false; if (fs !== 'all' && t.status !== fs) return false; return true; });
   const cnt = (s: string) => tasks.filter(t => t.status === s).length;
@@ -109,6 +116,7 @@ export default function TaskTracker() {
         <div style={{ display: 'flex', gap: 6 }}>
           {(['board','list','calendar'] as const).map(v => <button key={v} onClick={() => setView(v)} style={{ padding: '6px 12px', borderRadius: 8, border: view === v ? '2px solid #2EC4B6' : '1px solid #e2e8f0', background: view === v ? 'rgba(46,196,182,0.1)' : '#fff', color: view === v ? '#0d9488' : '#64748b', fontWeight: 600, fontSize: '0.76rem', cursor: 'pointer' }}>{v === 'board' ? '📊 Board' : v === 'list' ? '📋 List' : '📅 Calendar'}</button>)}
           <button onClick={() => setShowForm(true)} style={{ padding: '6px 14px', borderRadius: 8, border: 'none', background: '#2EC4B6', color: '#fff', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer' }}>＋ เพิ่มงาน</button>
+          <button onClick={exportCSV} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #10b981', background: '#fff', color: '#10b981', fontWeight: 600, fontSize: '0.76rem', cursor: 'pointer' }}>📄 Export CSV</button>
         </div>
       </div>
 
