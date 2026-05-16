@@ -75,7 +75,7 @@ export default function TaskTracker() {
         {t.status === 'stuck' && t.stuck_reason && <div style={{ fontSize: '0.7rem', color: '#dc2626', background: '#fef2f2', padding: 4, borderRadius: 6, marginBottom: 6, fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, padding: '4px 8px', background: `${to.color}10`, borderRadius: 8 }}>
           <span style={{ fontSize: '1.2rem' }}>{to.emoji}</span>
-          <div><div style={{ fontSize: '0.95rem', fontWeight: 800, color: to.color }}>{to.name}</div><div style={{ fontSize: '0.62rem', color: '#94a3b8' }}>สั่งโดย {f.name}</div></div>
+          <div><div style={{ fontSize: '0.95rem', fontWeight: 800, color: to.color }}>{to.name}</div><div style={{ fontSize: '0.62rem', color: '#94a3b8' }}>จาก {f.name}</div></div>
           <div style={{ marginLeft: 'auto', color: od ? '#dc2626' : d <= 1 ? '#f59e0b' : '#64748b', fontWeight: od ? 700 : 400, fontSize: '0.72rem' }}>{!t.due_date ? '' : od ? `⏰ เกิน ${Math.abs(d)} วัน!` : d === 0 ? '📅 วันนี้!' : `${d} วัน`}</div>
         </div>
         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
@@ -141,7 +141,7 @@ export default function TaskTracker() {
             <p style={{ color: '#64748b', margin: '0 0 12px', fontSize: '0.9rem' }}>{t.detail || 'ไม่มีรายละเอียด'}</p>
             {t.stuck_reason && <div style={{ background: '#fef2f2', padding: 8, borderRadius: 8, marginBottom: 12, color: '#dc2626', fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-              <div style={{ padding: 10, background: '#f8fafc', borderRadius: 10 }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>สั่งโดย</div><div style={{ fontSize: '1rem', fontWeight: 700, color: f.color }}>{f.emoji} {f.name}</div></div>
+              <div style={{ padding: 10, background: '#f8fafc', borderRadius: 10 }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>จาก</div><div style={{ fontSize: '1rem', fontWeight: 700, color: f.color }}>{f.emoji} {f.name}</div></div>
               <div style={{ padding: 10, background: `${to.color}10`, borderRadius: 10, border: `2px solid ${to.color}30` }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>ผู้รับผิดชอบ</div><div style={{ fontSize: '1.1rem', fontWeight: 800, color: to.color }}>{to.emoji} {to.name}</div></div>
             </div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
@@ -164,7 +164,7 @@ export default function TaskTracker() {
           <input placeholder="ชื่องาน *" value={form.title} onChange={e => setForm({...form, title: e.target.value})} style={inp} />
           <input placeholder="รายละเอียด" value={form.detail} onChange={e => setForm({...form, detail: e.target.value})} style={inp} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
-            <select value={form.from_person} onChange={e => setForm({...form, from_person: e.target.value})} style={inp}><option value="">— สั่งโดย —</option>{TEAM.map(t => <option key={t.id} value={t.id}>{t.emoji} {t.name}</option>)}</select>
+            <select value={form.from_person} onChange={e => setForm({...form, from_person: e.target.value})} style={inp}><option value="">— จาก —</option>{TEAM.map(t => <option key={t.id} value={t.id}>{t.emoji} {t.name}</option>)}</select>
             <select value={form.to_person} onChange={e => setForm({...form, to_person: e.target.value})} style={inp}><option value="">— ผู้รับผิดชอบ * —</option>{TEAM.map(t => <option key={t.id} value={t.id}>{t.emoji} {t.name}</option>)}</select>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
