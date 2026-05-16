@@ -2,18 +2,18 @@
 import { useState } from 'react';
 import { EstimateData, JOB_TYPES, STATUS_OPTIONS } from '../types';
 
-const fieldRow: React.CSSProperties = { display: 'flex', gap: '1rem', marginBottom: '0.75rem', flexWrap: 'wrap' };
-const label: React.CSSProperties = { fontSize: '0.78rem', fontWeight: 600, color: '#64748b', marginBottom: '0.25rem', display: 'block' };
-const input: React.CSSProperties = { width: '100%', padding: '0.5rem 0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.85rem', fontFamily: 'inherit', outline: 'none', background: '#f8fafc' };
+const fieldRow: React.CSSProperties = { display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' };
+const label: React.CSSProperties = { fontSize: '0.78rem', fontWeight: 600, color: '#64748b', marginBottom: '0.3rem', display: 'block', letterSpacing: '0.01em' };
+const input: React.CSSProperties = { width: '100%', padding: '0.55rem 0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.85rem', fontFamily: 'inherit', outline: 'none', background: '#f8fafc', transition: 'border-color 0.2s' };
 const select: React.CSSProperties = { ...input, cursor: 'pointer' };
-const section: React.CSSProperties = { background: 'rgba(46,196,182,0.03)', borderRadius: '12px', padding: '1rem', border: '1px solid rgba(46,196,182,0.1)', marginBottom: '1rem' };
-const sectionTitle: React.CSSProperties = { fontSize: '0.85rem', fontWeight: 700, color: '#0B1320', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' };
+const section: React.CSSProperties = { background: 'white', borderRadius: '12px', padding: '1.25rem', border: '1px solid #e2e8f0', marginBottom: '1rem', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' };
+const sectionTitle: React.CSSProperties = { fontSize: '0.9rem', fontWeight: 700, color: '#0B1320', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', paddingBottom: '0.6rem', borderBottom: '2px solid rgba(46,196,182,0.15)' };
 
 export default function TabJobInfo({ data, onChange }: { data: EstimateData; onChange: (d: Partial<EstimateData>) => void }) {
   const [customerItems, setCustomerItems] = useState({ paper: false, artwork: false, plate: false, slip: false });
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: '1.5rem' }}>
       {/* Left Column */}
       <div>
         <div style={section}>

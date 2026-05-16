@@ -5,6 +5,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const prompt = Prompt({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -92,14 +93,15 @@ const modules = [
 
 function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const [openModules, setOpenModules] = useState<string[]>(['sales']);
-  const [currentPath, setCurrentPath] = useState('/');
+  const currentPath = usePathname();
 
   useEffect(() => {
-    setCurrentPath(window.location.pathname);
     // Auto-expand module containing current path
-    const activeModule = modules.find(m => m.children.some(c => c.href === window.location.pathname));
+    const activeModule = modules.find(m => m.children.some(c =>
+      c.href === '/' ? currentPath === '/' : currentPath.startsWith(c.href)
+    ));
     if (activeModule) setOpenModules(prev => prev.includes(activeModule.id) ? prev : [...prev, activeModule.id]);
-  }, []);
+  }, [currentPath]);
 
   const toggleModule = (id: string) => {
     setOpenModules(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
@@ -150,7 +152,9 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
       <div style={{ flex: 1, overflowY: 'auto', padding: '0.5rem 0' }}>
         {modules.map(mod => {
           const isOpen = openModules.includes(mod.id);
-          const isActive = mod.children.some(c => c.href === currentPath);
+          const isActive = mod.children.some(c =>
+            c.href === '/' ? currentPath === '/' : currentPath.startsWith(c.href)
+          );
 
           return (
             <div key={mod.id} style={{ marginBottom: '2px' }}>
@@ -197,7 +201,7 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
                   animation: 'slideDown 0.2s ease-out',
                 }}>
                   {mod.children.map(child => {
-                    const isChildActive = child.href === currentPath;
+                    const isChildActive = child.href === '/' ? currentPath === '/' : currentPath.startsWith(child.href);
                     const isExternal = (child as any).external;
                     const Tag = isExternal ? 'a' : Link;
                     const extraProps = isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {};
