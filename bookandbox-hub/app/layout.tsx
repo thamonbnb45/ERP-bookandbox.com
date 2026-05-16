@@ -36,6 +36,7 @@ const modules = [
       { label: 'ภาพรวมผลิต', href: '/production', icon: '📊' },
       { label: 'ติดตาม Live', href: '/production/live-tracking', icon: '🔴' },
       { label: 'ปริมาณงาน', href: '/production/workload', icon: '⚖️' },
+      { label: 'กำลังผลิต (Capacity)', href: '/production/capacity', icon: '🏭' },
       { label: 'บันทึกผลิต', href: '/factory/log', icon: '📝' },
     ]
   },
