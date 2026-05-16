@@ -16,6 +16,15 @@ const prompt = Prompt({
 // Module definitions with sub-pages
 const modules = [
   {
+    id: 'tasks',
+    label: 'ติดตามงาน',
+    icon: '📋',
+    color: '#dc2626',
+    children: [
+      { label: 'Task Tracker', href: '/tasks', icon: '📋' },
+    ]
+  },
+  {
     id: 'sales',
     label: 'ขาย / CRM',
     icon: '💰',
