@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useCallback } from 'react';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'https://erp-bookandboxcom-production.up.railway.app';
+const API = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+  ? '' : 'https://erp-bookandboxcom-production.up.railway.app';
 const TEAM = [
   { id: 'หน่ำ', name: 'หน่ำ', role: 'CEO', color: '#dc2626', emoji: '👔' },
   { id: 'ซัน', name: 'ซัน', role: 'GM', color: '#8b5cf6', emoji: '🎯' },
@@ -24,7 +25,9 @@ export default function TaskTracker() {
   const [view, setView] = useState<'board'|'list'|'calendar'>('board');
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string|null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task|null>(null);
   const [form, setForm] = useState({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '' });
+  const [calMonth, setCalMonth] = useState(() => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), 1); });
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
@@ -34,8 +37,12 @@ export default function TaskTracker() {
 
   const save = async () => {
     if (!form.title || !form.to_person) return alert('กรุณาใส่ชื่องาน + ผู้รับผิดชอบ');
-    await fetch(`${API}/api/tasks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-    setShowForm(false); setForm({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '' }); load();
+    if (editId) {
+      await fetch(`${API}/api/tasks/${editId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+    } else {
+      await fetch(`${API}/api/tasks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+    }
+    setShowForm(false); setEditId(null); setForm({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '' }); load();
   };
   const setStatus = async (id: string, status: string, stuck_reason?: string) => {
     const body: any = { status };
@@ -63,12 +70,13 @@ export default function TaskTracker() {
           <span style={{ fontSize: '0.68rem', color: pr.c, fontWeight: 700 }}>{pr.l}</span>
           <span style={{ fontSize: '0.62rem', padding: '1px 6px', borderRadius: 6, background: st.bg, color: st.c, fontWeight: 600, border: `1px solid ${st.b}` }}>{st.l}</span>
         </div>
-        <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3 }}>{t.title}</div>
+        <div onClick={() => setSelectedTask(t)} style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3, textDecoration: 'underline', textDecorationColor: '#e2e8f0' }}>{t.title}</div>
         {t.detail && <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: 6 }}>{t.detail}</div>}
         {t.status === 'stuck' && t.stuck_reason && <div style={{ fontSize: '0.7rem', color: '#dc2626', background: '#fef2f2', padding: 4, borderRadius: 6, marginBottom: 6, fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', marginBottom: 6 }}>
-          <span><span style={{ color: f.color }}>{f.emoji}{f.name}</span> → <b style={{ color: to.color }}>{to.emoji}{to.name}</b></span>
-          <span style={{ color: od ? '#dc2626' : d <= 1 ? '#f59e0b' : '#64748b', fontWeight: od ? 700 : 400 }}>{!t.due_date ? '' : od ? `⏰ เกิน ${Math.abs(d)} วัน!` : d === 0 ? '📅 วันนี้!' : `${d} วัน`}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, padding: '4px 8px', background: `${to.color}10`, borderRadius: 8 }}>
+          <span style={{ fontSize: '1.2rem' }}>{to.emoji}</span>
+          <div><div style={{ fontSize: '0.95rem', fontWeight: 800, color: to.color }}>{to.name}</div><div style={{ fontSize: '0.62rem', color: '#94a3b8' }}>สั่งโดย {f.name}</div></div>
+          <div style={{ marginLeft: 'auto', color: od ? '#dc2626' : d <= 1 ? '#f59e0b' : '#64748b', fontWeight: od ? 700 : 400, fontSize: '0.72rem' }}>{!t.due_date ? '' : od ? `⏰ เกิน ${Math.abs(d)} วัน!` : d === 0 ? '📅 วันนี้!' : `${d} วัน`}</div>
         </div>
         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
           {t.status === 'pending' && <button onClick={() => setStatus(t.id, 'doing')} style={btn('#3b82f6')}>▶ เริ่มทำ</button>}
@@ -76,6 +84,7 @@ export default function TaskTracker() {
           {t.status === 'doing' && <button onClick={() => { const r = prompt('ติดปัญหาอะไร?'); if (r) setStatus(t.id, 'stuck', r); }} style={btn('#dc2626')}>🚨 ติด</button>}
           {t.status === 'stuck' && <button onClick={() => setStatus(t.id, 'doing')} style={btn('#3b82f6')}>▶ แก้แล้ว</button>}
           {t.status === 'done' && <button onClick={() => setStatus(t.id, 'pending')} style={btn('#64748b')}>↩ เปิดใหม่</button>}
+          <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '' }); setShowForm(true); }} style={btn('#8b5cf6')}>✏️ แก้ไข</button>
           <button onClick={() => del(t.id)} style={btn('#94a3b8')}>🗑</button>
         </div>
       </div>
@@ -123,10 +132,35 @@ export default function TaskTracker() {
         <button onClick={load} style={{ padding: '4px 10px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.76rem', cursor: 'pointer' }}>🔄 รีเฟรช</button>
       </div>
 
-      {/* New Task Modal */}
-      {showForm && <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowForm(false)}>
+      {/* Detail Modal */}
+      {selectedTask && (() => { const t = selectedTask; const st = (STATUS as any)[t.status]||STATUS.pending; const pr = (PRI as any)[t.priority]||PRI.normal; const f = tm(t.from_person), to = tm(t.to_person); const d = dl(t.due_date); const od = d < 0 && t.status !== 'done';
+        return <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setSelectedTask(null)}>
+          <div style={{ background: '#fff', borderRadius: 16, padding: '1.5rem', width: '90%', maxWidth: 520, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}><span style={{ fontSize: '0.78rem', color: pr.c, fontWeight: 700 }}>{pr.l}</span><span style={{ padding: '2px 8px', borderRadius: 6, background: st.bg, color: st.c, fontWeight: 600, fontSize: '0.78rem' }}>{st.l}</span></div>
+            <h2 style={{ margin: '0 0 8px', fontSize: '1.2rem' }}>{t.title}</h2>
+            <p style={{ color: '#64748b', margin: '0 0 12px', fontSize: '0.9rem' }}>{t.detail || 'ไม่มีรายละเอียด'}</p>
+            {t.stuck_reason && <div style={{ background: '#fef2f2', padding: 8, borderRadius: 8, marginBottom: 12, color: '#dc2626', fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+              <div style={{ padding: 10, background: '#f8fafc', borderRadius: 10 }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>สั่งโดย</div><div style={{ fontSize: '1rem', fontWeight: 700, color: f.color }}>{f.emoji} {f.name}</div></div>
+              <div style={{ padding: 10, background: `${to.color}10`, borderRadius: 10, border: `2px solid ${to.color}30` }}><div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>ผู้รับผิดชอบ</div><div style={{ fontSize: '1.1rem', fontWeight: 800, color: to.color }}>{to.emoji} {to.name}</div></div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+              <div style={{ flex: 1, padding: 8, background: '#f8fafc', borderRadius: 8, textAlign: 'center' }}><div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>กำหนดส่ง</div><div style={{ fontWeight: 700, color: od ? '#dc2626' : '#1e293b', fontSize: '0.9rem' }}>{t.due_date ? t.due_date.slice(0,10) : '-'}</div></div>
+              <div style={{ flex: 1, padding: 8, background: '#f8fafc', borderRadius: 8, textAlign: 'center' }}><div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>สร้างเมื่อ</div><div style={{ fontWeight: 600, fontSize: '0.8rem' }}>{t.created_at ? t.created_at.slice(0,10) : '-'}</div></div>
+            </div>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {t.status==='pending' && <button onClick={() => { setStatus(t.id,'doing'); setSelectedTask(null); }} style={{ ...btn('#3b82f6'), padding: '6px 14px', fontSize: '0.8rem' }}>▶ เริ่มทำ</button>}
+              {t.status==='doing' && <button onClick={() => { setStatus(t.id,'done'); setSelectedTask(null); }} style={{ ...btn('#15803d'), padding: '6px 14px', fontSize: '0.8rem' }}>✅ เสร็จ</button>}
+              <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '' }); setSelectedTask(null); setShowForm(true); }} style={{ ...btn('#8b5cf6'), padding: '6px 14px', fontSize: '0.8rem' }}>✏️ แก้ไข</button>
+              <button onClick={() => setSelectedTask(null)} style={{ ...btn('#94a3b8'), padding: '6px 14px', fontSize: '0.8rem', marginLeft: 'auto' }}>ปิด</button>
+            </div>
+          </div>
+        </div>; })()}
+
+      {/* New/Edit Task Modal */}
+      {showForm && <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { setShowForm(false); setEditId(null); }}>
         <div style={{ background: '#fff', borderRadius: 16, padding: '1.5rem', width: '90%', maxWidth: 480, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
-          <h3 style={{ margin: '0 0 1rem', fontSize: '1.1rem' }}>＋ เพิ่มงานใหม่</h3>
+          <h3 style={{ margin: '0 0 1rem', fontSize: '1.1rem' }}>{editId ? '✏️ แก้ไขงาน' : '＋ เพิ่มงานใหม่'}</h3>
           <input placeholder="ชื่องาน *" value={form.title} onChange={e => setForm({...form, title: e.target.value})} style={inp} />
           <input placeholder="รายละเอียด" value={form.detail} onChange={e => setForm({...form, detail: e.target.value})} style={inp} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
@@ -181,16 +215,39 @@ export default function TaskTracker() {
         </table>
       </div>}
 
-      {/* Calendar */}
-      {view === 'calendar' && (() => { const days: string[] = []; for (let i = -1; i < 13; i++) { const d = new Date(); d.setDate(d.getDate() + i); days.push(d.toISOString().split('T')[0]); } const dn = ['อา','จ','อ','พ','พฤ','ศ','ส']; const today = new Date().toISOString().split('T')[0];
-        return <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.4rem' }}>
-          {days.map(d => { const dt = filtered.filter(t => t.due_date && t.due_date.slice(0,10) === d && t.status !== 'done'); const isT = d === today; const dow = new Date(d).getDay();
-            return <div key={d} style={{ background: isT ? '#eff6ff' : dow===0||dow===6 ? '#fafafa' : '#fff', borderRadius: 10, padding: '0.5rem', border: isT ? '2px solid #3b82f6' : '1px solid #e2e8f0', minHeight: 100 }}>
-              <div style={{ fontSize: '0.7rem', color: isT ? '#1d4ed8' : '#64748b', fontWeight: 700, marginBottom: 4 }}>{dn[dow]} {new Date(d).getDate()}/{new Date(d).getMonth()+1} {isT && <span style={{ background: '#3b82f6', color: '#fff', padding: '1px 4px', borderRadius: 4, fontSize: '0.58rem' }}>วันนี้</span>}</div>
-              {dt.length === 0 && <div style={{ fontSize: '0.68rem', color: '#cbd5e1' }}>—</div>}
-              {dt.map(t => { const pr = (PRI as any)[t.priority]||PRI.normal; const to = tm(t.to_person);
-                return <div key={t.id} style={{ fontSize: '0.66rem', padding: '2px 4px', borderRadius: 5, background: t.status==='stuck' ? '#fef2f2' : '#f8fafc', marginBottom: 3, borderLeft: `3px solid ${pr.c}` }}><span style={{ color: to.color, fontWeight: 600 }}>{to.emoji}</span> {t.title.substring(0,16)}</div>; })}
-            </div>; })}
+      {/* Calendar — Full Month */}
+      {view === 'calendar' && (() => {
+        const year = calMonth.getFullYear(), month = calMonth.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const today = new Date().toISOString().split('T')[0];
+        const cells: (number|null)[] = [];
+        for (let i = 0; i < firstDay; i++) cells.push(null);
+        for (let i = 1; i <= daysInMonth; i++) cells.push(i);
+        while (cells.length % 7 !== 0) cells.push(null);
+        const mName = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+        const prev = () => setCalMonth(new Date(year, month - 1, 1));
+        const next = () => setCalMonth(new Date(year, month + 1, 1));
+        return <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <button onClick={prev} style={{ padding: '4px 12px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '0.9rem' }}>◀</button>
+            <span style={{ fontWeight: 700, fontSize: '1rem' }}>{mName[month]} {year + 543}</span>
+            <button onClick={next} style={{ padding: '4px 12px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '0.9rem' }}>▶</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2 }}>
+            {['อา','จ','อ','พ','พฤ','ศ','ส'].map(d => <div key={d} style={{ textAlign: 'center', fontWeight: 700, fontSize: '0.75rem', color: d==='อา'||d==='ส' ? '#dc2626' : '#64748b', padding: 4 }}>{d}</div>)}
+            {cells.map((day, i) => {
+              if (day === null) return <div key={`e${i}`} style={{ background: '#fafafa', borderRadius: 6, minHeight: 70 }} />;
+              const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+              const dt = filtered.filter(t => t.due_date && t.due_date.slice(0,10) === ds);
+              const isT = ds === today; const dow = new Date(ds).getDay();
+              return <div key={ds} style={{ background: isT ? '#eff6ff' : dow===0||dow===6 ? '#fafafa' : '#fff', borderRadius: 6, padding: 3, border: isT ? '2px solid #3b82f6' : '1px solid #f1f5f9', minHeight: 70 }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: isT ? '#1d4ed8' : dow===0 ? '#dc2626' : '#64748b', marginBottom: 2 }}>{day} {isT && <span style={{ background: '#3b82f6', color: '#fff', padding: '0 3px', borderRadius: 3, fontSize: '0.55rem' }}>วันนี้</span>}</div>
+                {dt.map(t => { const pr = (PRI as any)[t.priority]||PRI.normal; const to = tm(t.to_person); const st = (STATUS as any)[t.status]||STATUS.pending;
+                  return <div key={t.id} onClick={() => setSelectedTask(t)} style={{ fontSize: '0.6rem', padding: '1px 3px', borderRadius: 4, background: st.bg, marginBottom: 1, borderLeft: `2px solid ${pr.c}`, cursor: 'pointer', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}><b style={{ color: to.color }}>{to.emoji}</b> {t.title.substring(0,10)}</div>; })}
+              </div>;
+            })}
+          </div>
         </div>; })()}
     </div>
   );
