@@ -4239,36 +4239,16 @@ async function sendPreMeetingReport() {
             db.query(`SELECT * FROM tasks WHERE status = 'done' AND completed_at >= NOW() - INTERVAL '24 hours'`),
         ]);
         
-        let msg = `📊 สรุปก่อนประชุม Daily (${new Date().toLocaleDateString('th-TH')})\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-        
-        if (stuck.rows.length > 0) {
-            msg += `🚨 ติดปัญหา (${stuck.rows.length} งาน):\n`;
-            stuck.rows.forEach(t => { msg += `• ${t.title} (${t.to_person}) — ${t.stuck_reason || 'ไม่ระบุเหตุผล'}\n`; });
-            msg += `\n`;
+        let msg = `📊 สรุปก่อนประชุม (${new Date().toLocaleDateString('th-TH')})
+`;
+        msg += `🚨 ติด ${stuck.rows.length} | ⏰ เกิน ${overdue.rows.length} | 📋 รอ ${pending.rows.length} | ✅ เสร็จ ${doneYesterday.rows.length}
+`;
+        if (stuck.rows.length > 0 || overdue.rows.length > 0) {
+            const urgent = [...stuck.rows.slice(0,2), ...overdue.rows.slice(0,2)];
+            msg += `⚡ คุย: ${urgent.map(t => t.title+'('+t.to_person+')').join(', ')}
+`;
         }
-        
-        if (overdue.rows.length > 0) {
-            msg += `⏰ เกินกำหนด (${overdue.rows.length} งาน):\n`;
-            overdue.rows.forEach(t => { msg += `• ${t.title} (${t.to_person}) กำหนด ${t.due_date}\n`; });
-            msg += `\n`;
-        }
-        
-        if (pending.rows.length > 0) {
-            msg += `📋 รอรับงาน (${pending.rows.length} งาน):\n`;
-            pending.rows.slice(0, 5).forEach(t => { msg += `• ${t.title} → ${t.to_person}\n`; });
-            msg += `\n`;
-        }
-        
-        if (doneYesterday.rows.length > 0) {
-            msg += `✅ เสร็จ 24 ชม.ล่าสุด: ${doneYesterday.rows.length} งาน\n\n`;
-        }
-        
-        if (stuck.rows.length === 0 && overdue.rows.length === 0) {
-            msg += `✅ ไม่มีงานค้างหรือติดปัญหา!\n\n`;
-        }
-        
-        msg += `💬 ประชุมวันนี้เน้นแค่ปัญหาที่ยังแก้ไม่ได้\n— Zero 🤖 Pre-Meeting Report`;
+        msg += `👉 https://erp-bookandboxcom-production.up.railway.app/tasks`;
         
         const client = agentLineClient || lineClient;
         if (client) {
