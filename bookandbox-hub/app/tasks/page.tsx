@@ -29,6 +29,9 @@ export default function TaskTracker() {
   const [form, setForm] = useState({ title: '', detail: '', from_person: 'หน่ำ', to_person: '', priority: 'normal', due_date: '' });
   const [calMonth, setCalMonth] = useState(() => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), 1); });
   const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState<any[]>([]);
+  const [newComment, setNewComment] = useState('');
+  const [commentAs, setCommentAs] = useState('หน่ำ');
 
   const load = useCallback(async () => {
     try { const r = await fetch(`${API}/api/tasks`); setTasks(await r.json()); } catch(e) { console.error(e); } finally { setLoading(false); }
@@ -50,6 +53,8 @@ export default function TaskTracker() {
     await fetch(`${API}/api/tasks/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); load();
   };
   const del = async (id: string) => { if (!confirm('ลบงานนี้?')) return; await fetch(`${API}/api/tasks/${id}`, { method: 'DELETE' }); load(); };
+  const loadComments = async (id: string) => { try { const r = await fetch(`${API}/api/tasks/${id}/comments`); setComments(await r.json()); } catch(e) { console.error(e); } };
+  const addComment = async (taskId: string) => { if (!newComment.trim()) return; await fetch(`${API}/api/tasks/${taskId}/comments`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ author: commentAs, content: newComment }) }); setNewComment(''); loadComments(taskId); };
 
   const filtered = tasks.filter(t => { if (fp !== 'all' && t.to_person !== fp && t.from_person !== fp) return false; if (fs !== 'all' && t.status !== fs) return false; return true; });
   const cnt = (s: string) => tasks.filter(t => t.status === s).length;
@@ -70,7 +75,7 @@ export default function TaskTracker() {
           <span style={{ fontSize: '0.68rem', color: pr.c, fontWeight: 700 }}>{pr.l}</span>
           <span style={{ fontSize: '0.62rem', padding: '1px 6px', borderRadius: 6, background: st.bg, color: st.c, fontWeight: 600, border: `1px solid ${st.b}` }}>{st.l}</span>
         </div>
-        <div onClick={() => setSelectedTask(t)} style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3, textDecoration: 'underline', textDecorationColor: '#e2e8f0' }}>{t.title}</div>
+        <div onClick={() => { setSelectedTask(t); loadComments(t.id); }} style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3, textDecoration: 'underline', textDecorationColor: '#e2e8f0' }}>{t.title}</div>
         {t.detail && <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: 6 }}>{t.detail}</div>}
         {t.status === 'stuck' && t.stuck_reason && <div style={{ fontSize: '0.7rem', color: '#dc2626', background: '#fef2f2', padding: 4, borderRadius: 6, marginBottom: 6, fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, padding: '4px 8px', background: `${to.color}10`, borderRadius: 8 }}>
@@ -130,6 +135,8 @@ export default function TaskTracker() {
           {Object.entries(STATUS).map(([k, v]) => <option key={k} value={k}>{v.l}</option>)}
         </select>
         <button onClick={load} style={{ padding: '4px 10px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.76rem', cursor: 'pointer' }}>🔄 รีเฟรช</button>
+        <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>|</span>
+        {TEAM.map(t => <button key={t.id} onClick={() => setFp(fp === t.id ? 'all' : t.id)} style={{ padding: '3px 8px', borderRadius: 6, border: fp === t.id ? `2px solid ${t.color}` : '1px solid #e2e8f0', background: fp === t.id ? `${t.color}15` : '#fff', fontSize: '0.7rem', cursor: 'pointer', fontWeight: fp === t.id ? 700 : 400 }}>{t.emoji}</button>)}
       </div>
 
       {/* Detail Modal */}
@@ -148,11 +155,24 @@ export default function TaskTracker() {
               <div style={{ flex: 1, padding: 8, background: '#f8fafc', borderRadius: 8, textAlign: 'center' }}><div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>กำหนดส่ง</div><div style={{ fontWeight: 700, color: od ? '#dc2626' : '#1e293b', fontSize: '0.9rem' }}>{t.due_date ? t.due_date.slice(0,10) : '-'}</div></div>
               <div style={{ flex: 1, padding: 8, background: '#f8fafc', borderRadius: 8, textAlign: 'center' }}><div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>สร้างเมื่อ</div><div style={{ fontWeight: 600, fontSize: '0.8rem' }}>{t.created_at ? t.created_at.slice(0,10) : '-'}</div></div>
             </div>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
               {t.status==='pending' && <button onClick={() => { setStatus(t.id,'doing'); setSelectedTask(null); }} style={{ ...btn('#3b82f6'), padding: '6px 14px', fontSize: '0.8rem' }}>▶ เริ่มทำ</button>}
               {t.status==='doing' && <button onClick={() => { setStatus(t.id,'done'); setSelectedTask(null); }} style={{ ...btn('#15803d'), padding: '6px 14px', fontSize: '0.8rem' }}>✅ เสร็จ</button>}
               <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '' }); setSelectedTask(null); setShowForm(true); }} style={{ ...btn('#8b5cf6'), padding: '6px 14px', fontSize: '0.8rem' }}>✏️ แก้ไข</button>
               <button onClick={() => setSelectedTask(null)} style={{ ...btn('#94a3b8'), padding: '6px 14px', fontSize: '0.8rem', marginLeft: 'auto' }}>ปิด</button>
+            </div>
+            {/* Comments */}
+            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: 12 }}>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}>💬 คอมเมนต์ ({comments.length})</div>
+              <div style={{ maxHeight: 200, overflowY: 'auto', marginBottom: 8 }}>
+                {comments.length === 0 && <div style={{ fontSize: '0.78rem', color: '#94a3b8', padding: 8 }}>ยังไม่มีคอมเมนต์</div>}
+                {comments.map((c: any) => { const a = tm(c.author); return <div key={c.id} style={{ padding: '6px 8px', background: '#f8fafc', borderRadius: 8, marginBottom: 4, fontSize: '0.8rem' }}><span style={{ fontWeight: 700, color: a.color }}>{a.emoji}{a.name}</span> <span style={{ color: '#94a3b8', fontSize: '0.65rem' }}>{new Date(c.created_at).toLocaleString('th-TH')}</span><div style={{ marginTop: 2 }}>{c.content}</div></div>; })}
+              </div>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <select value={commentAs} onChange={e => setCommentAs(e.target.value)} style={{ padding: '6px', borderRadius: 6, border: '1px solid #e2e8f0', fontSize: '0.78rem', width: 80 }}>{TEAM.map(t => <option key={t.id} value={t.id}>{t.emoji}{t.name}</option>)}</select>
+                <input value={newComment} onChange={e => setNewComment(e.target.value)} onKeyDown={e => e.key === 'Enter' && addComment(t.id)} placeholder="พิมพ์คอมเมนต์..." style={{ flex: 1, padding: '6px 10px', borderRadius: 6, border: '1px solid #e2e8f0', fontSize: '0.82rem' }} />
+                <button onClick={() => addComment(t.id)} style={{ padding: '6px 12px', borderRadius: 6, border: 'none', background: '#2EC4B6', color: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' }}>ส่ง</button>
+              </div>
             </div>
           </div>
         </div>; })()}
