@@ -69,7 +69,7 @@
     "summary": {
       "total_projects": 13,
       "total_departments": 7,
-      "total_subtasks": 70,
+      "total_subtasks": 71,
       "completed": 5,
       "in_progress": 6,
       "planned": 2,
@@ -295,20 +295,21 @@
           },
           {
             "id": "PRJ-I03",
-            "name": "Task Tracker (ติดตามงาน + LINE Quick Action)",
+            "name": "Task Tracker V3 (Kanban + Time Tracking + LINE)",
             "status": "completed",
             "progress": 100,
             "subtasks": [
+              {"name": "Drag & Drop Kanban Board (ลากเปลี่ยนสถานะ)", "done": true},
+              {"name": "Detail Panel แบบ Trello (slide-in + inline edit)", "done": true},
+              {"name": "☑️ Checklist รายการตรวจสอบ + progress %", "done": true},
+              {"name": "📊 Activity Log (ใครทำอะไรเมื่อไหร่)", "done": true},
+              {"name": "⏱️ Auto Time Tracking (บันทึกเวลาอัตโนมัติ)", "done": true},
+              {"name": "🔗 Gang Run (รวม/แยก Job)", "done": true},
               {"name": "Board / List / Calendar View", "done": true},
-              {"name": "สร้าง/แก้ไข/ลบ Task จากเว็บ", "done": true},
-              {"name": "คอมเมนต์ + แนบรูปภาพ", "done": true},
-              {"name": "My Tasks กรองรายคน", "done": true},
-              {"name": "ปฏิทินทั้งเดือน + เลื่อนเดือน", "done": true},
-              {"name": "Export CSV สำหรับ Google Sheets", "done": true},
-              {"name": "Auto-Reminder งานค้าง 24 ชม. ผ่าน LINE", "done": true},
-              {"name": "Pre-Meeting Report 9:30 อัตโนมัติ", "done": true},
-              {"name": "LINE Quick Action (เสร็จ/ติด/เริ่ม #ID)", "done": true},
-              {"name": "แสดง % ความสำเร็จ Real-time", "done": true}
+              {"name": "Comments + รูปภาพ + Export CSV", "done": true},
+              {"name": "My Tasks กรองรายคน + สถานะ", "done": true},
+              {"name": "LINE Quick Action + Auto-Reminder", "done": true},
+              {"name": "Pre-Meeting Report 9:30 อัตโนมัติ", "done": true}
             ],
             "owner": "นาม (CEO)"
           }
