@@ -70,10 +70,10 @@
       "total_projects": 13,
       "total_departments": 7,
       "total_subtasks": 71,
-      "completed": 10,
+      "completed": 11,
       "in_progress": 2,
-      "planned": 1,
-      "overall_progress": 80
+      "planned": 0,
+      "overall_progress": 87
     },
     "departments": [
       {
@@ -248,13 +248,13 @@
           {
             "id": "PRJ-F01",
             "name": "Activity-Based Costing (ต้นทุนตามกิจกรรม)",
-            "status": "planned",
-            "progress": 10,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
-              {"name": "ตารางค่าแรงรายชั่วโมง/คน", "done": false},
-              {"name": "ตารางค่าเสื่อม+ค่าไฟเครื่องจักร/ชม.", "done": false},
-              {"name": "คำนวณต้นทุนจริงต่อ Job", "done": false},
-              {"name": "เปรียบเทียบราคาขาย vs ต้นทุนจริง", "done": false},
+              {"name": "ตารางค่าแรงรายชั่วโมง/คน", "done": true},
+              {"name": "ตารางค่าเสื่อม+ค่าไฟเครื่องจักร/ชม.", "done": true},
+              {"name": "คำนวณต้นทุนจริงต่อ Job", "done": true},
+              {"name": "เปรียบเทียบราคาขาย vs ต้นทุนจริง", "done": true},
               {"name": "Dashboard กำไร/ขาดทุนรายงาน", "done": true}
             ],
             "owner": "บัญชี"
