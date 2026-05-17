@@ -70,10 +70,10 @@
       "total_projects": 13,
       "total_departments": 7,
       "total_subtasks": 71,
-      "completed": 6,
-      "in_progress": 5,
-      "planned": 2,
-      "overall_progress": 62
+      "completed": 9,
+      "in_progress": 3,
+      "planned": 1,
+      "overall_progress": 76
     },
     "departments": [
       {
@@ -147,14 +147,14 @@
           {
             "id": "PRJ-P03",
             "name": "Workload Predictor (ระบบคาดการณ์ภาระงาน)",
-            "status": "in_progress",
-            "progress": 40,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
               {"name": "คำนวณ Backlog เป็นวัน/ชม.", "done": true},
-              {"name": "Machine Standard Speed Database", "done": false},
-              {"name": "แจ้งเตือนเมื่องานน้อย → เซลส์หางาน", "done": false},
-              {"name": "แจ้งเตือนเมื่องานล้น → จัดโอที/กระจายงาน", "done": false},
-              {"name": "แจ้งเตือนเมื่อว่าง → PM เครื่องจักร + ฝึกคน", "done": false}
+              {"name": "Machine Standard Speed Database", "done": true},
+              {"name": "แจ้งเตือนเมื่องานน้อย → เซลส์หางาน", "done": true},
+              {"name": "แจ้งเตือนเมื่องานล้น → จัดโอที/กระจายงาน", "done": true},
+              {"name": "แจ้งเตือนเมื่อว่าง → PM เครื่องจักร + ฝึกคน", "done": true}
             ],
             "owner": "ซัน"
           }
@@ -182,14 +182,14 @@
           {
             "id": "PRJ-H02",
             "name": "Skill Matrix & Risk Assessment",
-            "status": "in_progress",
-            "progress": 30,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
               {"name": "ตาราง Skill Database", "done": true},
               {"name": "Radar Chart ทักษะรายบุคคล", "done": true},
-              {"name": "Single Point of Failure Alert", "done": false},
-              {"name": "แผนฝึกอบรมอัตโนมัติ", "done": false},
-              {"name": "Skill Gap Analysis ตามแผนก", "done": false}
+              {"name": "Single Point of Failure Alert", "done": true},
+              {"name": "แผนฝึกอบรมอัตโนมัติ", "done": true},
+              {"name": "Skill Gap Analysis ตามแผนก", "done": true}
             ],
             "owner": "ซัน"
           }
@@ -226,14 +226,14 @@
           {
             "id": "PRJ-L01",
             "name": "Fleet Management + เบิกน้ำมัน",
-            "status": "in_progress",
-            "progress": 60,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
               {"name": "บันทึกทริปจัดส่ง + เลขกม.", "done": true},
               {"name": "บันทึกเบิกน้ำมัน + ใบเสร็จ", "done": true},
               {"name": "3PL Tracking (Kerry/Flash)", "done": true},
-              {"name": "Proof of Delivery (ถ่ายรูป)", "done": false},
-              {"name": "Dashboard ต้นทุนจัดส่ง/ทริป", "done": false}
+              {"name": "Proof of Delivery (ถ่ายรูป)", "done": true},
+              {"name": "Dashboard ต้นทุนจัดส่ง/ทริป", "done": true}
             ],
             "owner": "ฝ่ายส่ง"
           }
@@ -271,11 +271,11 @@
             "id": "PRJ-I01",
             "name": "AI Agent (BCD AI ถาม-ตอบ + แจ้งปัญหา)",
             "status": "in_progress",
-            "progress": 50,
+            "progress": 75,
             "subtasks": [
               {"name": "Chat UI + Quick Actions", "done": true},
               {"name": "เชื่อมต่อ Gemini AI API", "done": true},
-              {"name": "Bug Report / Suggestion ส่ง LINE", "done": false},
+              {"name": "Bug Report / Suggestion ส่ง LINE", "done": true},
               {"name": "AI วิเคราะห์ข้อมูลจาก DB อัตโนมัติ", "done": false}
             ],
             "owner": "นาม (CEO)"
