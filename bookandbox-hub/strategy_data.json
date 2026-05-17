@@ -70,10 +70,10 @@
       "total_projects": 13,
       "total_departments": 7,
       "total_subtasks": 71,
-      "completed": 9,
-      "in_progress": 3,
+      "completed": 10,
+      "in_progress": 2,
       "planned": 1,
-      "overall_progress": 76
+      "overall_progress": 80
     },
     "departments": [
       {
@@ -283,10 +283,10 @@
           {
             "id": "PRJ-I02",
             "name": "ระบบแจ้งเตือนอัจฉริยะ (Smart Notification Engine)",
-            "status": "in_progress",
-            "progress": 75,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
-              {"name": "Rule Engine (If/Then conditions)", "done": false},
+              {"name": "Rule Engine (If/Then conditions)", "done": true},
               {"name": "LINE Notify ตามเงื่อนไข", "done": true},
               {"name": "Daily Summary Report อัตโนมัติ 9:30", "done": true},
               {"name": "แจ้งเตือน Defect/Backlog/Skill Risk", "done": true}
