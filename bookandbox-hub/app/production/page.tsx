@@ -12,6 +12,7 @@ const STAGES = [
   { id: 'queued', label: '📅 รอผลิต (Queued)', color: '#f1f5f9', header: '#94a3b8' },
   { id: 'printing', label: '🖨️ กำลังพิมพ์ / ผลิต', color: '#fef08a', header: '#eab308' },
   { id: 'completed', label: '✅ เสร็จแล้ว / พร้อมส่ง', color: '#bbf7d0', header: '#22c55e' },
+  { id: 'shipped', label: '🚚 จัดส่งแล้ว', color: '#dbeafe', header: '#3b82f6' },
   { id: 'cancelled', label: '❌ ยกเลิก / มีปัญหา', color: '#fecaca', header: '#ef4444' }
 ];
 
@@ -361,14 +362,14 @@ export default function Production() {
             </button>
           </div>
 
-          <div style={{ display: 'flex', gap: '1.2rem', padding: '0 2rem 2rem', flex: 1, overflowX: 'auto', overflowY: 'hidden' }}>
+          <div style={{ display: 'flex', gap: '1rem', padding: '0 2rem 2rem', flex: 1, overflowX: 'auto', overflowY: 'hidden' }}>
             {STAGES.map(stage => {
               const columnJobs = jobOrders.filter(j => j.status === stage.id);
               return (
                 <div key={stage.id}
                   onDragOver={handleDragOver} onDragLeave={handleDragLeave}
                   onDrop={(e) => handleDrop(e, stage.id)}
-                  style={{ minWidth: '320px', flex: 1, background: stage.color, borderRadius: '12px', display: 'flex', flexDirection: 'column', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}>
+                  style={{ minWidth: '280px', flex: 1, background: stage.color, borderRadius: '12px', display: 'flex', flexDirection: 'column', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}>
                   
                   <div style={{ background: stage.header, color: 'white', padding: '1rem', borderTopLeftRadius: '12px', borderTopRightRadius: '12px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', fontSize: '1rem' }}>
                     <span>{stage.label}</span>
@@ -411,9 +412,25 @@ export default function Production() {
                               <i className={mcConfig.icon}></i> {job.machine}
                             </span>}
                             <span style={{ fontSize: '0.75rem', background: '#f8fafc', border: '1px solid #e2e8f0', color: '#64748b', padding: '0.2rem 0.5rem', borderRadius: '6px' }}>
-                              <i className="fa-solid fa-layer-group"></i> {(parseInt(job.sheets_actual)||0).toLocaleString()} แผ่น
+                              <i className="fa-solid fa-layer-group"></i> {(parseInt(job.sheets_actual)||0).toLocaleString()} / {(parseInt(job.sheets_plan)||0).toLocaleString()}
                             </span>
                           </div>
+
+                          {/* Progress bar */}
+                          {parseInt(job.sheets_plan) > 0 && (() => {
+                            const pct = Math.min(100, Math.round(((parseInt(job.sheets_actual)||0) / parseInt(job.sheets_plan)) * 100));
+                            return (
+                              <div style={{ marginBottom: '0.5rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: '#64748b', marginBottom: '0.2rem' }}>
+                                  <span>ความคืบหน้า</span>
+                                  <span style={{ fontWeight: 700, color: pct >= 100 ? '#16a34a' : pct > 50 ? '#3b82f6' : '#f59e0b' }}>{pct}%</span>
+                                </div>
+                                <div style={{ height: '5px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
+                                  <div style={{ height: '100%', width: `${pct}%`, background: pct >= 100 ? '#22c55e' : pct > 50 ? '#3b82f6' : '#f59e0b', borderRadius: '3px', transition: 'width 0.3s' }} />
+                                </div>
+                              </div>
+                            );
+                          })()}
 
                           {/* Post-press tags */}
                           <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
