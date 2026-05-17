@@ -71,6 +71,7 @@ export default function Production() {
   const [saving, setSaving] = useState(false);
   const emptyJob = { jog_no:'', job_name:'', customer:'', machine:'SM74F', paper:'', paper_size:'A4', sheets_plan:0, sheets_actual:0, colors:'4/4', coating:'ไม่ทำ', die_cut:'ไม่ทำ', fold:'ไม่ทำ', glue:'ไม่ทำ', hot_stamp:'ไม่ทำ', due_date: new Date().toISOString().split('T')[0], status:'queued', notes:'' };
   const [addForm, setAddForm] = useState({...emptyJob});
+  const [quickUpdate, setQuickUpdate] = useState<{jogNo: string, value: number} | null>(null);
   
   // Log System States
   const [productionLogs, setProductionLogs] = useState<any[]>([]);
@@ -221,6 +222,18 @@ export default function Production() {
       await fetch(`${API_URL}/production/jobs/${jogNo}`, { method:'DELETE' });
       setSelectedJob(null); fetchData();
     } catch(e:any) { alert('ลบไม่สำเร็จ'); }
+  };
+
+  const quickUpdateSheets = async (jogNo: string, newActual: number) => {
+    try {
+      await fetch(`${API_URL}/production/jobs/${jogNo}`, { 
+        method: 'PUT', 
+        headers: {'Content-Type':'application/json'}, 
+        body: JSON.stringify({ sheets_actual: newActual }) 
+      });
+      setJobOrders(prev => prev.map(j => j.jog_no === jogNo ? {...j, sheets_actual: newActual} : j));
+      setQuickUpdate(null);
+    } catch(e:any) { alert('อัพเดทไม่สำเร็จ'); }
   };
 
   const submitLog = async () => {
@@ -440,6 +453,35 @@ export default function Production() {
                             {job.glue && job.glue !== 'ไม่ทำ' && <span style={{ fontSize: '0.7rem', background: '#fef08a', color: '#a16207', padding: '0.2rem 0.4rem', borderRadius: '6px', fontWeight: 600 }}>ปะกาว</span>}
                           </div>
 
+                          {/* Quick Update Button */}
+                          {job.status === 'printing' && (
+                            <div style={{ marginTop: '0.5rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.5rem' }}>
+                              {quickUpdate?.jogNo === job.jog_no ? (
+                                <div onClick={e => e.stopPropagation()} style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+                                  <input type="number" autoFocus value={quickUpdate!.value}
+                                    onChange={e => setQuickUpdate({ jogNo: job.jog_no, value: Number(e.target.value) })}
+                                    onKeyDown={e => { if (e.key === 'Enter') quickUpdateSheets(job.jog_no, quickUpdate!.value); if (e.key === 'Escape') setQuickUpdate(null); }}
+                                    style={{ flex: 1, padding: '0.3rem 0.5rem', borderRadius: '6px', border: '2px solid #3b82f6', fontSize: '0.85rem', fontWeight: 700, textAlign: 'center' }}
+                                    placeholder="ยอดจริง" />
+                                  <button onClick={() => quickUpdateSheets(job.jog_no, quickUpdate!.value)}
+                                    style={{ background: '#22c55e', color: 'white', border: 'none', padding: '0.3rem 0.5rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 700 }}>
+                                    ✓
+                                  </button>
+                                  <button onClick={() => setQuickUpdate(null)}
+                                    style={{ background: '#ef4444', color: 'white', border: 'none', padding: '0.3rem 0.5rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.75rem' }}>
+                                    ✕
+                                  </button>
+                                </div>
+                              ) : (
+                                <button 
+                                  onClick={e => { e.stopPropagation(); setQuickUpdate({ jogNo: job.jog_no, value: parseInt(job.sheets_actual)||0 }); }}
+                                  style={{ width: '100%', background: '#eff6ff', color: '#3b82f6', border: '1px dashed #93c5fd', padding: '0.3rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600 }}>
+                                  <i className="fa-solid fa-pen-to-square" style={{ marginRight: '0.3rem' }}></i> อัพเดทยอดพิมพ์
+                                </button>
+                              )}
+                            </div>
+                          )}
+
                         </div>
                       )
                     })}
@@ -455,6 +497,22 @@ export default function Production() {
       {activeTab === 'dashboard' && dashboardData && dashboardData.post_press && (
         <div style={{ padding: '0 2rem 2rem', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
+          {/* Job Status Summary */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem' }}>
+            {[
+              { label: 'รอผลิต', count: jobOrders.filter(j => j.status === 'queued').length, color: '#94a3b8', bg: '#f1f5f9', icon: '📅' },
+              { label: 'กำลังผลิต', count: jobOrders.filter(j => j.status === 'printing').length, color: '#eab308', bg: '#fef9c3', icon: '🖨️' },
+              { label: 'เสร็จแล้ว', count: jobOrders.filter(j => j.status === 'completed').length, color: '#22c55e', bg: '#dcfce7', icon: '✅' },
+              { label: 'จัดส่งแล้ว', count: jobOrders.filter(j => j.status === 'shipped').length, color: '#3b82f6', bg: '#dbeafe', icon: '🚚' },
+              { label: 'มีปัญหา', count: jobOrders.filter(j => j.status === 'cancelled' || j.status === 'issue').length, color: '#ef4444', bg: '#fef2f2', icon: '❌' },
+            ].map(s => (
+              <div key={s.label} style={{ background: s.bg, padding: '1.5rem 1rem', borderRadius: '12px', textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: s.color }}>{s.count}</div>
+                <div style={{ fontSize: '0.85rem', color: s.color, fontWeight: 700, marginTop: '0.3rem' }}>{s.icon} {s.label}</div>
+              </div>
+            ))}
+          </div>
+
           <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderTop: '4px solid #8b5cf6' }}>
             <h4 style={{ margin: '0 0 1.5rem 0', color: '#1e293b', fontSize: '1.2rem', fontWeight: 800 }}><i className="fa-solid fa-chart-pie" style={{color:'#8b5cf6', marginRight:'0.5rem'}}></i> ภาพรวมงานหลังพิมพ์ (Post-Press Load)</h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.5rem' }}>
