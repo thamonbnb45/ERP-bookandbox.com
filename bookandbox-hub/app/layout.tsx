@@ -31,9 +31,12 @@ const modules = [
     color: '#2EC4B6',
     children: [
       { label: 'ใบสั่งงาน (JO)', href: '/jobs', icon: '📋' },
+      { label: 'Sales Pipeline', href: '/sales/pipeline', icon: '📊' },
       { label: 'CRM / LINE Chat', href: '/chat', icon: '💬' },
       { label: 'คิดราคา (Estimate)', href: '/sales/estimate', icon: '🧮' },
       { label: 'เสนอราคา', href: '/sales', icon: '📄' },
+      { label: 'รายงานขาย', href: '/sales/report', icon: '📈' },
+      { label: 'Sales Intelligence', href: '/sales/analysis', icon: '🔍' },
     ]
   },
   {
@@ -47,6 +50,15 @@ const modules = [
       { label: 'ปริมาณงาน', href: '/production/workload', icon: '⚖️' },
       { label: 'กำลังผลิต (Capacity)', href: '/production/capacity', icon: '🏭' },
       { label: 'บันทึกผลิต', href: '/factory/log', icon: '📝' },
+    ]
+  },
+  {
+    id: 'logistics',
+    label: 'Logistics',
+    icon: '🚚',
+    color: '#22c55e',
+    children: [
+      { label: 'จัดส่ง / Fleet', href: '/logistics', icon: '🚚' },
     ]
   },
   {
