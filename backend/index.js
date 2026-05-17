@@ -5713,6 +5713,14 @@ app.get('/api/jo/seed', async (req, res) => {
     }
 });
 
+// ====== LEGACY FRONTEND (Chat Center / AdWeb) ======
+app.use('/legacy', express.static(path.join(__dirname, 'public-legacy')));
+app.get('/adweb', (req, res) => {
+    const legacyIndex = path.join(__dirname, 'public-legacy', 'index.html');
+    if (fs.existsSync(legacyIndex)) return res.sendFile(legacyIndex);
+    res.redirect('/chat');
+});
+
 // ====== SPA CATCH-ALL (Next.js Static Export) ======
 // Any non-API route → serve the matching static HTML or fallback to index.html
 app.get('/{*splat}', (req, res) => {
