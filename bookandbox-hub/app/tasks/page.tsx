@@ -76,13 +76,13 @@ export default function TaskTracker() {
     const d = dl(t.due_date); const od = d < 0 && t.status !== 'done';
     const f = tm(t.from_person), to = tm(t.to_person);
     return (
-      <div key={t.id} style={{ background: '#fff', borderRadius: 12, padding: '0.8rem', border: `1px solid ${od ? '#fca5a5' : '#e2e8f0'}`, borderLeft: `4px solid ${od ? '#dc2626' : pr.c}`, marginBottom: '0.5rem', transition: 'transform .15s', cursor: 'pointer' }}
+      <div key={t.id} onClick={() => { setSelectedTask(t); loadComments(t.id); }} style={{ background: '#fff', borderRadius: 12, padding: '0.8rem', border: `1px solid ${od ? '#fca5a5' : '#e2e8f0'}`, borderLeft: `4px solid ${od ? '#dc2626' : pr.c}`, marginBottom: '0.5rem', transition: 'transform .15s', cursor: 'pointer' }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')} onMouseLeave={e => (e.currentTarget.style.transform = 'none')}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
           <span style={{ fontSize: '0.68rem', color: pr.c, fontWeight: 700 }}>{pr.l}</span>
           <span style={{ fontSize: '0.62rem', padding: '1px 6px', borderRadius: 6, background: st.bg, color: st.c, fontWeight: 600, border: `1px solid ${st.b}` }}>{st.l}</span>
         </div>
-        <div onClick={() => { setSelectedTask(t); loadComments(t.id); }} style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3, textDecoration: 'underline', textDecorationColor: '#e2e8f0' }}>{t.title}</div>
+        <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 3 }}>{t.title}</div>
         {t.detail && <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: 6 }}>{t.detail}</div>}
         {t.image_url && <img src={t.image_url} alt="" style={{ width: '100%', borderRadius: 8, marginBottom: 6, maxHeight: 120, objectFit: 'cover' }} />}
         {t.status === 'stuck' && t.stuck_reason && <div style={{ fontSize: '0.7rem', color: '#dc2626', background: '#fef2f2', padding: 4, borderRadius: 6, marginBottom: 6, fontWeight: 600 }}>🚨 {t.stuck_reason}</div>}
@@ -91,13 +91,12 @@ export default function TaskTracker() {
           <div><div style={{ fontSize: '0.95rem', fontWeight: 800, color: to.color }}>{to.name}</div><div style={{ fontSize: '0.62rem', color: '#94a3b8' }}>จาก {f.name}</div></div>
           <div style={{ marginLeft: 'auto', color: od ? '#dc2626' : d <= 1 ? '#f59e0b' : '#64748b', fontWeight: od ? 700 : 400, fontSize: '0.72rem' }}>{!t.due_date ? '' : od ? `⏰ เกิน ${Math.abs(d)} วัน!` : d === 0 ? '📅 วันนี้!' : `${d} วัน`}</div>
         </div>
-        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }} onClick={e => e.stopPropagation()}>
           {t.status === 'pending' && <button onClick={() => setStatus(t.id, 'doing')} style={btn('#3b82f6')}>▶ เริ่มทำ</button>}
           {t.status === 'doing' && <button onClick={() => setStatus(t.id, 'done')} style={btn('#15803d')}>✅ เสร็จ</button>}
           {t.status === 'doing' && <button onClick={() => { const r = prompt('ติดปัญหาอะไร?'); if (r) setStatus(t.id, 'stuck', r); }} style={btn('#dc2626')}>🚨 ติด</button>}
           {t.status === 'stuck' && <button onClick={() => setStatus(t.id, 'doing')} style={btn('#3b82f6')}>▶ แก้แล้ว</button>}
           {t.status === 'done' && <button onClick={() => setStatus(t.id, 'pending')} style={btn('#64748b')}>↩ เปิดใหม่</button>}
-          <button onClick={() => { setEditId(t.id); setForm({ title: t.title, detail: t.detail, from_person: t.from_person, to_person: t.to_person, priority: t.priority, due_date: t.due_date ? t.due_date.slice(0,10) : '', image_url: t.image_url || '' }); setShowForm(true); }} style={btn('#8b5cf6')}>✏️ แก้ไข</button>
           <button onClick={() => del(t.id)} style={btn('#94a3b8')}>🗑</button>
         </div>
       </div>
