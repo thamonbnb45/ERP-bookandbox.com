@@ -3,6 +3,13 @@ import { useState, useEffect } from 'react';
 
 const API = 'https://erp-bookandboxcom-production.up.railway.app/api';
 
+// Safely parse tags — API may return string, null, or array
+function safeTags(raw: any): string[] {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw === 'string') { try { const p = JSON.parse(raw); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
+
 const STAGES = [
   { id: 'new_lead', label: 'ลูกค้าทักใหม่', icon: '💬', color: '#7c3aed', maxHours: 1, warnText: 'ยังไม่ตอบ!' },
   { id: 'qualifying', label: 'ถามสเปค', icon: '📝', color: '#3b82f6', maxHours: 4, warnText: 'รอนาน!' },
@@ -17,7 +24,7 @@ const STAGES = [
 ];
 
 const mapLeadToStage = (lead: any) => {
-  const tags = lead.tags || [];
+  const tags = safeTags(lead.tags);
   const status = lead.sales_status || 'i';
   if (status === 'c') return 'won';
   if (['nt', 'na', 'al'].includes(status)) return 'lost';
@@ -63,7 +70,7 @@ export default function PipelinePage() {
     if (!lead) return;
     const stageTagMap: Record<string, string> = { wait_price: 'รอราคา', quoted: 'รอยืนยัน', wait_file: 'รอไฟล์', proofing: 'รอตรวจแบบ', wait_payment: 'รอโอน', production: 'เข้าผลิต' };
     const stageTags = Object.values(stageTagMap);
-    let newTags = (lead.tags || []).filter((t: string) => !stageTags.includes(t));
+    let newTags = safeTags(lead.tags).filter((t: string) => !stageTags.includes(t));
     if (stageTagMap[newStageId]) newTags.push(stageTagMap[newStageId]);
     let newStatus = lead.sales_status;
     if (newStageId === 'won') newStatus = 'c';
@@ -124,7 +131,7 @@ export default function PipelinePage() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.6rem', color: '#94a3b8', marginTop: '0.2rem' }}>
                         <span>{salesPerson ? `👤 ${salesPerson}` : '—'}</span><span>⏱ {formatHours(stuckHrs)}</span>
                       </div>
-                      {(lead.tags || []).length > 0 && (<div style={{ display: 'flex', gap: '0.15rem', flexWrap: 'wrap', marginTop: '0.3rem' }}>{(lead.tags || []).slice(0, 3).map((t: string) => (<span key={t} style={{ background: '#f1f5f9', color: '#475569', padding: '0.05rem 0.3rem', borderRadius: '6px', fontSize: '0.55rem' }}>{t}</span>))}</div>)}
+                      {safeTags(lead.tags).length > 0 && (<div style={{ display: 'flex', gap: '0.15rem', flexWrap: 'wrap', marginTop: '0.3rem' }}>{safeTags(lead.tags).slice(0, 3).map((t: string) => (<span key={t} style={{ background: '#f1f5f9', color: '#475569', padding: '0.05rem 0.3rem', borderRadius: '6px', fontSize: '0.55rem' }}>{t}</span>))}</div>)}
                       {selectedCard === lead.id && (
                         <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px dashed #e2e8f0' }}>
                           <div style={{ display: 'flex', gap: '0.2rem', flexWrap: 'wrap' }}>

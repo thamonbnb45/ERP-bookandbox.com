@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react';
 
 const API = 'https://erp-bookandboxcom-production.up.railway.app/api';
 
+function safeTags(raw: any): string[] {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw === 'string') { try { const p = JSON.parse(raw); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
+
 const STATUS_MAP: Record<string, { label: string; color: string; icon: string }> = {
   'i': { label: 'สนใจ', color: '#f59e0b', icon: '🟡' },
   'o': { label: 'เสนอราคา', color: '#3b82f6', icon: '🔵' },
@@ -44,7 +50,7 @@ export default function SalesReportPage() {
 
   const toggleTag = async (leadId: string, tag: string) => {
     const lead = leads.find(l => l.id === leadId); if (!lead) return;
-    const currentTags = lead.tags || [];
+    const currentTags = safeTags(lead.tags);
     const newTags = currentTags.includes(tag) ? currentTags.filter((t: string) => t !== tag) : [...currentTags, tag];
     try { await fetch(`${API}/leads/${leadId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ erp_alias_name: lead.erp_alias_name || lead.original_name, tags: newTags, sales_status: lead.sales_status }) }); fetchData(); } catch {}
   };
@@ -66,8 +72,8 @@ export default function SalesReportPage() {
 
   const waitingReplyLeads = leads.filter(l => l.messages?.length > 0 && l.messages[l.messages.length - 1].sender === 'client');
   const tagBreakdown: Record<string, number> = {};
-  waitingReplyLeads.forEach(l => { const tags = l.tags || []; if (!tags.length) tagBreakdown['ไม่มี tag'] = (tagBreakdown['ไม่มี tag'] || 0) + 1; tags.forEach((t: string) => { tagBreakdown[t] = (tagBreakdown[t] || 0) + 1; }); });
-  const filteredPending = tagFilter === 'all' ? waitingReplyLeads : waitingReplyLeads.filter(l => (l.tags || []).includes(tagFilter));
+  waitingReplyLeads.forEach(l => { const tags = safeTags(l.tags); if (!tags.length) tagBreakdown['ไม่มี tag'] = (tagBreakdown['ไม่มี tag'] || 0) + 1; tags.forEach((t: string) => { tagBreakdown[t] = (tagBreakdown[t] || 0) + 1; }); });
+  const filteredPending = tagFilter === 'all' ? waitingReplyLeads : waitingReplyLeads.filter(l => safeTags(l.tags).includes(tagFilter));
 
   const salesStats: Record<string, { total: number; closed: number; pending: number; lost: number }> = {};
   activeLeads.forEach(l => { const sp = ((l.erp_alias_name || '').split('-')[1]) || 'ยังไม่มีเซล'; if (!salesStats[sp]) salesStats[sp] = { total: 0, closed: 0, pending: 0, lost: 0 }; salesStats[sp].total++; if (l.sales_status === 'c') salesStats[sp].closed++; else if (['nt', 'na', 'al'].includes(l.sales_status)) salesStats[sp].lost++; else salesStats[sp].pending++; });
@@ -113,8 +119,8 @@ export default function SalesReportPage() {
             {filteredPending.map(l => { const lastMsg = l.messages[l.messages.length - 1]; const mins = Math.round((Date.now() - new Date(lastMsg.created_at).getTime()) / 60000); const timeLabel = mins < 60 ? `${mins} นาที` : mins < 1440 ? `${Math.round(mins / 60)} ชม.` : `${Math.round(mins / 1440)} วัน`; return (
               <div key={l.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem', borderBottom: '1px solid #f1f5f9', gap: '0.3rem' }}>
                 <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontWeight: 'bold', fontSize: '0.8rem' }}>{l.erp_alias_name || l.original_name}</div><div style={{ fontSize: '0.65rem', color: '#dc2626' }}>⏰ ค้าง {timeLabel}</div></div>
-                <div style={{ display: 'flex', gap: '0.2rem', flexWrap: 'wrap', maxWidth: '200px' }}>{(l.tags || []).map((t: string) => { const qtConf = QUICK_TAGS.find(q => q.tag === t); return (<span key={t} onClick={() => toggleTag(l.id, t)} style={{ background: qtConf?.bg || '#f1f5f9', color: qtConf?.color || '#475569', padding: '0.1rem 0.4rem', borderRadius: '10px', fontSize: '0.6rem', fontWeight: 'bold', cursor: 'pointer' }}>{qtConf?.icon} {t} ✕</span>); })}</div>
-                <select value="" onChange={e => { if (e.target.value) toggleTag(l.id, e.target.value); }} style={{ padding: '0.2rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.65rem' }}><option value="">+ Tag</option>{QUICK_TAGS.filter(qt => !(l.tags || []).includes(qt.tag)).map(qt => (<option key={qt.tag} value={qt.tag}>{qt.icon} {qt.tag}</option>))}</select>
+                <div style={{ display: 'flex', gap: '0.2rem', flexWrap: 'wrap', maxWidth: '200px' }}>{safeTags(l.tags).map((t: string) => { const qtConf = QUICK_TAGS.find(q => q.tag === t); return (<span key={t} onClick={() => toggleTag(l.id, t)} style={{ background: qtConf?.bg || '#f1f5f9', color: qtConf?.color || '#475569', padding: '0.1rem 0.4rem', borderRadius: '10px', fontSize: '0.6rem', fontWeight: 'bold', cursor: 'pointer' }}>{qtConf?.icon} {t} ✕</span>); })}</div>
+                <select value="" onChange={e => { if (e.target.value) toggleTag(l.id, e.target.value); }} style={{ padding: '0.2rem', borderRadius: '6px', border: '1px solid #e2e8f0', fontSize: '0.65rem' }}><option value="">+ Tag</option>{QUICK_TAGS.filter(qt => !safeTags(l.tags).includes(qt.tag)).map(qt => (<option key={qt.tag} value={qt.tag}>{qt.icon} {qt.tag}</option>))}</select>
               </div>
             ); })}
           </div>
@@ -129,7 +135,7 @@ export default function SalesReportPage() {
           </div>
           {/* Tag Summary */}
           <div style={card}><h3 style={{ margin: '0 0 0.8rem', fontSize: '0.9rem' }}>🏷️ สรุป Tag</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>{QUICK_TAGS.map(qt => { const cnt = leads.filter(l => (l.tags || []).includes(qt.tag)).length; return (<div key={qt.tag} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: qt.bg, padding: '0.3rem 0.6rem', borderRadius: '8px' }}><span style={{ fontSize: '0.7rem', color: qt.color, fontWeight: 'bold' }}>{qt.icon} {qt.tag}</span><span style={{ background: qt.color, color: 'white', padding: '0 0.3rem', borderRadius: '10px', fontSize: '0.65rem', fontWeight: 'bold' }}>{cnt}</span></div>); })}</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>{QUICK_TAGS.map(qt => { const cnt = leads.filter(l => safeTags(l.tags).includes(qt.tag)).length; return (<div key={qt.tag} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: qt.bg, padding: '0.3rem 0.6rem', borderRadius: '8px' }}><span style={{ fontSize: '0.7rem', color: qt.color, fontWeight: 'bold' }}>{qt.icon} {qt.tag}</span><span style={{ background: qt.color, color: 'white', padding: '0 0.3rem', borderRadius: '10px', fontSize: '0.65rem', fontWeight: 'bold' }}>{cnt}</span></div>); })}</div>
           </div>
           {/* Sales Person */}
           <div style={card}><h3 style={{ margin: '0 0 0.8rem', fontSize: '0.9rem' }}>👔 ผลงานเซลส์</h3>
