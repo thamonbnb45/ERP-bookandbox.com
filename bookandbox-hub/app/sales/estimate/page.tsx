@@ -29,6 +29,25 @@ const STATUS_MAP: Record<string, { bg: string; color: string; dot: string }> = {
 const JOB_TYPES = ['ทั้งหมด', 'หนังสือ Catalog', 'โบรชัวร์', 'กล่อง', 'นามบัตร', 'ใบปลิว', 'ปฏิทิน', 'สติกเกอร์', 'โปสเตอร์', 'บัตรพลาสติก'];
 const STATUS_OPTIONS = ['ทั้งหมด', 'ร่าง', 'รออนุมัติ', 'อนุมัติ', 'ยกเลิก'];
 
+// สถานะการทำรายการ — ตาม Chang system
+const DOC_WORKFLOW_OPTIONS = [
+  'ทั้งหมด',
+  'ผู้สร้างใบประเมิน',
+  'สร้างใบเสนอ (ใบเสนอราคาแทน)',
+  'แปลงใบเสนอ',
+  'คัดลอกจากงานเดิม (Copy Pattern)',
+  'ใบเสนอราคา (Quotation)',
+  'ใบเรียกเก็บ',
+  'ผู้อนุมัติราคา',
+];
+
+const TAB_OPTIONS = [
+  { key: 'all', label: 'เลือกทั้งหมด', icon: '📋' },
+  { key: 'je', label: 'Job ใบคิดราคา', icon: '🧮' },
+  { key: 'incoming', label: 'Incoming Request', icon: '📥' },
+  { key: 'note', label: 'หมายเหตุข้อมูลฯ', icon: '📝' },
+];
+
 export default function EstimateSearchPage() {
   const router = useRouter();
   const [search, setSearch] = useState('');
@@ -36,6 +55,8 @@ export default function EstimateSearchPage() {
   const [filterType, setFilterType] = useState('ทั้งหมด');
   const [sortField, setSortField] = useState<'createdAt' | 'id'>('createdAt');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
+  const [docWorkflow, setDocWorkflow] = useState('ทั้งหมด');
+  const [activeTab, setActiveTab] = useState('all');
 
   const filtered = useMemo(() => {
     let items = [...MOCK_ESTIMATES];
@@ -159,10 +180,33 @@ export default function EstimateSearchPage() {
             }}>
             {JOB_TYPES.map(t => <option key={t} value={t}>{t === 'ทั้งหมด' ? '📦 ประเภททั้งหมด' : t}</option>)}
           </select>
+          {/* Doc Workflow Filter — ตาม Chang */}
+          <select value={docWorkflow} onChange={e => setDocWorkflow(e.target.value)}
+            style={{
+              padding: '0.6rem 0.75rem', borderRadius: '10px', border: '1px solid #2EC4B6',
+              fontSize: '0.85rem', fontFamily: 'inherit', background: 'rgba(46,196,182,0.05)', cursor: 'pointer',
+              outline: 'none', minWidth: '200px', color: '#0B1320', fontWeight: 600,
+            }}>
+            {DOC_WORKFLOW_OPTIONS.map(d => <option key={d} value={d}>{d === 'ทั้งหมด' ? '📑 สถานะการทำรายการ' : d}</option>)}
+          </select>
           {/* Result count */}
           <div style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600, whiteSpace: 'nowrap' }}>
             พบ {filtered.length} รายการ
           </div>
+        </div>
+        {/* Tabs — ตาม Chang system */}
+        <div style={{ display: 'flex', gap: '2px', marginTop: '0.75rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.75rem' }}>
+          {TAB_OPTIONS.map(t => (
+            <button key={t.key} onClick={() => setActiveTab(t.key)}
+              style={{
+                padding: '0.4rem 1rem', borderRadius: '8px',
+                border: activeTab === t.key ? '2px solid #2EC4B6' : '1px solid #e2e8f0',
+                background: activeTab === t.key ? 'rgba(46,196,182,0.08)' : 'white',
+                color: activeTab === t.key ? '#0d9488' : '#64748b',
+                fontWeight: 600, fontSize: '0.78rem', cursor: 'pointer', fontFamily: 'inherit',
+                transition: 'all 0.15s',
+              }}>{t.icon} {t.label}</button>
+          ))}
         </div>
       </div>
 
@@ -277,9 +321,14 @@ export default function EstimateSearchPage() {
         <div style={{
           padding: '0.75rem 1.25rem', borderTop: '1px solid #f1f5f9',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          fontSize: '0.8rem', color: '#94a3b8',
+          fontSize: '0.8rem', color: '#94a3b8', flexWrap: 'wrap', gap: '0.5rem',
         }}>
           <span>แสดง {filtered.length} จาก {MOCK_ESTIMATES.length} รายการ</span>
+          <Link href="/sales/quotation" style={{
+            padding: '0.35rem 0.8rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600,
+            border: '1px solid #3b82f6', background: 'rgba(59,130,246,0.05)', color: '#1d4ed8',
+            cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.3rem',
+          }}>📄 แปลงเป็นใบเสนอราคา</Link>
           <span style={{ fontStyle: 'italic' }}>Chang Estimate v2.0 — BookAndBox ERP</span>
         </div>
       </div>
