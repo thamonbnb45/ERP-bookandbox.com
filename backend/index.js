@@ -1848,6 +1848,9 @@ app.post('/api/production_log', async (req, res) => {
             [machine || '', operator_name || '', job_ref || '', actual_run_min || 0, downtime_min || 0, downtime_reason || '', good_qty || 0, defect_qty || 0, speed, notes || '']
         );
         
+        // Auto-check defect rate and alert LINE if > 3%
+        checkDefectAlert(result.rows[0]);
+        
         res.json({ success: true, data: result.rows[0] });
     } catch (e) {
         console.error('❌ production_log POST error:', e.message);
@@ -1913,6 +1916,57 @@ app.get('/api/production_log/summary', async (req, res) => {
         res.json({ totalLogs: 0, overall: { availability: 0, quality: 0, oee: 0 } });
     }
 });
+
+// Defect Rate Analysis — by machine & operator
+app.get('/api/production_log/defect-rate', async (req, res) => {
+    try {
+        const { days = 30 } = req.query;
+        const byMachine = await db.query(`
+            SELECT machine, 
+                   SUM(good_qty) as total_good, 
+                   SUM(defect_qty) as total_defect,
+                   COUNT(*) as log_count,
+                   ROUND(SUM(defect_qty)::numeric / NULLIF(SUM(good_qty) + SUM(defect_qty), 0) * 100, 2) as defect_rate
+            FROM production_log 
+            WHERE created_at >= NOW() - INTERVAL '${parseInt(days)} days'
+            GROUP BY machine ORDER BY defect_rate DESC
+        `);
+        const byOperator = await db.query(`
+            SELECT operator_name, 
+                   SUM(good_qty) as total_good, 
+                   SUM(defect_qty) as total_defect,
+                   COUNT(*) as log_count,
+                   ROUND(SUM(defect_qty)::numeric / NULLIF(SUM(good_qty) + SUM(defect_qty), 0) * 100, 2) as defect_rate
+            FROM production_log 
+            WHERE created_at >= NOW() - INTERVAL '${parseInt(days)} days'
+            GROUP BY operator_name ORDER BY defect_rate DESC
+        `);
+        res.json({ by_machine: byMachine.rows, by_operator: byOperator.rows });
+    } catch (e) { res.json({ by_machine: [], by_operator: [], error: e.message }); }
+});
+
+// LINE Alert: Auto-check defect > 3% on new log
+async function checkDefectAlert(logData) {
+    try {
+        if (!logData || !logData.good_qty) return;
+        const total = logData.good_qty + logData.defect_qty;
+        if (total === 0) return;
+        const rate = (logData.defect_qty / total * 100).toFixed(1);
+        if (parseFloat(rate) > 3) {
+            const LINE_TOKEN = process.env.LINE_CHANNEL_TOKEN;
+            if (!LINE_TOKEN) return;
+            const msg = `🚨 แจ้งเตือน Defect สูง!\n\nเครื่อง: ${logData.machine}\nพนักงาน: ${logData.operator_name}\nJOG: ${logData.job_ref}\nDefect Rate: ${rate}% (เกิน 3%)\nงานดี: ${logData.good_qty} | งานเสีย: ${logData.defect_qty}\n\n⚠️ กรุณาตรวจสอบเครื่องจักรและคุณภาพงาน`;
+            const GROUP_ID = process.env.LINE_GROUP_ID;
+            if (GROUP_ID) {
+                await fetch('https://api.line.me/v2/bot/message/push', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${LINE_TOKEN}` },
+                    body: JSON.stringify({ to: GROUP_ID, messages: [{ type: 'text', text: msg }] })
+                });
+            }
+        }
+    } catch (e) { console.error('Defect alert error:', e.message); }
+}
 
 // ====== LOGISTICS & FLEET ======
 

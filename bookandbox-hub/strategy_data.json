@@ -70,10 +70,10 @@
       "total_projects": 13,
       "total_departments": 7,
       "total_subtasks": 71,
-      "completed": 5,
-      "in_progress": 6,
+      "completed": 6,
+      "in_progress": 5,
       "planned": 2,
-      "overall_progress": 58
+      "overall_progress": 62
     },
     "departments": [
       {
@@ -133,14 +133,14 @@
           {
             "id": "PRJ-P02",
             "name": "Production Log & OEE Monitoring",
-            "status": "in_progress",
-            "progress": 75,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
               {"name": "ฟอร์มบันทึกผลผลิตรายวัน", "done": true},
               {"name": "OEE Summary Dashboard (7 วัน)", "done": true},
               {"name": "ตาราง Production Log ย้อนหลัง", "done": true},
-              {"name": "วิเคราะห์ Defect Rate รายเครื่อง/รายคน", "done": false},
-              {"name": "แจ้งเตือน LINE เมื่อ Defect > 3%", "done": false}
+              {"name": "วิเคราะห์ Defect Rate รายเครื่อง/รายคน", "done": true},
+              {"name": "แจ้งเตือน LINE เมื่อ Defect > 3%", "done": true}
             ],
             "owner": "ก้อย"
           },
@@ -284,12 +284,12 @@
             "id": "PRJ-I02",
             "name": "ระบบแจ้งเตือนอัจฉริยะ (Smart Notification Engine)",
             "status": "in_progress",
-            "progress": 50,
+            "progress": 75,
             "subtasks": [
               {"name": "Rule Engine (If/Then conditions)", "done": false},
               {"name": "LINE Notify ตามเงื่อนไข", "done": true},
               {"name": "Daily Summary Report อัตโนมัติ 9:30", "done": true},
-              {"name": "แจ้งเตือน Defect/Backlog/Skill Risk", "done": false}
+              {"name": "แจ้งเตือน Defect/Backlog/Skill Risk", "done": true}
             ],
             "owner": "นาม (CEO)"
           },
