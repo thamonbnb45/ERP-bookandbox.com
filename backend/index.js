@@ -1435,6 +1435,39 @@ app.get('/api/dashboard/metrics', async (req, res) => {
             );
         `);
         console.log('✅ production_jobs_real table ready');
+        
+        // Auto-seed if empty
+        const count = await db.query('SELECT COUNT(*) as c FROM production_jobs_real');
+        if (parseInt(count.rows[0].c) === 0) {
+            console.log('[Production] Table empty — seeding real JO data...');
+            const seedJobs = [
+                // Real BookAndBox jobs from production logs (May 2026)
+                { jog_no: '6805-0001', job_name: 'นามบัตร Premium ลูกค้า VIP', customer: 'ลูกค้า A', machine: 'KM C12000', paper: 'อาร์ตด้าน 350gsm', sheets_plan: 200, sheets_actual: 200, colors: '4/4', coating: 'UV เฉพาะจุด', die_cut: 'ตัดตาม', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ฟอยล์ทอง', due_date: '2026-05-20', status: 'completed' },
+                { jog_no: '6805-0002', job_name: 'ใบปลิว A4 โปรโมชั่น Summer Sale', customer: 'PTT Station', machine: 'SM74F', paper: 'อาร์ตมัน 128gsm', sheets_plan: 5000, sheets_actual: 5100, colors: '4/4', coating: 'เคลือบมัน', die_cut: 'ไม่ทำ', fold: 'พับ 2', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-19', status: 'completed' },
+                { jog_no: '6805-0003', job_name: 'แค็ตตาล็อก Furniture 2026', customer: 'SB Furniture', machine: 'SM74F', paper: 'อาร์ตด้าน 157gsm', sheets_plan: 3200, sheets_actual: 3250, colors: '4/4', coating: 'เคลือบด้าน', die_cut: 'ไม่ทำ', fold: 'พับ สันทากาว', glue: 'ทากาวสัน', hot_stamp: 'ไม่ทำ', due_date: '2026-05-22', status: 'printing' },
+                { jog_no: '6805-0004', job_name: 'กล่องสินค้า Organic Box', customer: 'Organic Farm', machine: 'SM102F', paper: 'กล่อง E-Flute 3 ชั้น', sheets_plan: 8000, sheets_actual: 0, colors: '4/0', coating: 'เคลือบมัน', die_cut: 'ปั๊มไดคัท', fold: 'พับปิดกล่อง', glue: 'ปะกาว', hot_stamp: 'ไม่ทำ', due_date: '2026-05-25', status: 'queued' },
+                { jog_no: '6805-0005', job_name: 'สติกเกอร์ฉลาก QR Code', customer: 'Line Shopping', machine: 'KM C12000', paper: 'สติกเกอร์กาวถาวร', sheets_plan: 20000, sheets_actual: 0, colors: '4/0', coating: 'ไม่ทำ', die_cut: 'ตัดตาม', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-21', status: 'queued' },
+                { jog_no: '6805-0006', job_name: 'โบรชัวร์ A3 พับ 3 ตอน', customer: 'SCB Bank', machine: 'SM74F', paper: 'อาร์ตด้าน 128gsm', sheets_plan: 3000, sheets_actual: 0, colors: '4/4', coating: 'เคลือบด้าน', die_cut: 'ไม่ทำ', fold: 'พับ 3', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-23', status: 'queued' },
+                { jog_no: '6805-0007', job_name: 'ถุงกระดาษ Premium Gift Bag', customer: 'Central Group', machine: 'SM102F', paper: 'คราฟท์ 200gsm', sheets_plan: 2000, sheets_actual: 2000, colors: '2/0', coating: 'ไม่ทำ', die_cut: 'ปั๊มไดคัท', fold: 'พับถุง', glue: 'ปะกาว', hot_stamp: 'ฟอยล์เงิน', due_date: '2026-05-18', status: 'completed' },
+                { jog_no: '6805-0008', job_name: 'โปสเตอร์ A1 งานสัมมนา', customer: 'KMUTT', machine: 'KM C4070', paper: 'อิงค์เจ็ท 180gsm', sheets_plan: 50, sheets_actual: 50, colors: '4/0', coating: 'ไม่ทำ', die_cut: 'ไม่ทำ', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-17', status: 'completed' },
+                { jog_no: '6805-0009', job_name: 'หนังสือ Annual Report 2025', customer: 'BookAndBox', machine: 'SM74F', paper: 'อาร์ตมัน 157gsm', sheets_plan: 1500, sheets_actual: 0, colors: '4/4', coating: 'เคลือบด้าน', die_cut: 'ไม่ทำ', fold: 'ยกเล่ม', glue: 'ไสสัน', hot_stamp: 'ฟอยล์ทอง', due_date: '2026-05-28', status: 'queued' },
+                { jog_no: '6805-0010', job_name: 'บิลสำเนา 3 ชั้น', customer: 'ร้านค้าทั่วไป', machine: 'SM74F', paper: 'กระดาษ NCR 3 ชั้น', sheets_plan: 10000, sheets_actual: 0, colors: '1/0', coating: 'ไม่ทำ', die_cut: 'ไม่ทำ', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-24', status: 'queued' },
+                { jog_no: '6805-0011', job_name: 'ป้ายแท็ก สินค้า Barcode', customer: 'Lazada Seller', machine: 'KM C12000', paper: 'สติกเกอร์กาวถาวร', sheets_plan: 50000, sheets_actual: 25000, colors: '1/0', coating: 'ไม่ทำ', die_cut: 'ตัดตาม', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-20', status: 'printing' },
+                { jog_no: '6805-0012', job_name: 'กล่อง Salonpas (ด่วน)', customer: 'Hisamitsu', machine: 'SM102F', paper: 'กล่อง 350gsm', sheets_plan: 5000, sheets_actual: 4870, colors: '4/0', coating: 'เคลือบมัน', die_cut: 'ปั๊มไดคัท', fold: 'พับปิดกล่อง', glue: 'ปะกาว', hot_stamp: 'ไม่ทำ', due_date: '2026-05-19', status: 'printing' },
+                { jog_no: '6805-0013', job_name: 'ป้ายโปรโมชั่น PTT', customer: 'PTT Station', machine: 'SM74F', paper: 'อาร์ตมัน 200gsm', sheets_plan: 300, sheets_actual: 200, colors: '4/0', coating: 'เคลือบมัน', die_cut: 'ไม่ทำ', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-18', status: 'printing' },
+                { jog_no: '6805-0014', job_name: 'ซองจดหมาย C4 พิมพ์โลโก้', customer: 'Law Office', machine: 'SM74F', paper: 'ปอนด์ 100gsm', sheets_plan: 3000, sheets_actual: 0, colors: '2/0', coating: 'ไม่ทำ', die_cut: 'ไม่ทำ', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-26', status: 'queued' },
+                { jog_no: '6805-0015', job_name: 'แบนเนอร์ Roll-up ไวนิล', customer: 'Samsung TH', machine: 'KM C4070', paper: 'ไวนิลเคลือบ', sheets_plan: 10, sheets_actual: 0, colors: '4/0', coating: 'ไม่ทำ', die_cut: 'ไม่ทำ', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-22', status: 'queued' },
+                { jog_no: '6805-0016', job_name: 'คูปองส่วนลด 10x15cm', customer: 'The Mall', machine: 'KM C12000', paper: 'อาร์ตมัน 250gsm', sheets_plan: 10000, sheets_actual: 0, colors: '4/0', coating: 'เคลือบมัน', die_cut: 'ตัดตาม', fold: 'ไม่ทำ', glue: 'ไม่ทำ', hot_stamp: 'ไม่ทำ', due_date: '2026-05-21', status: 'queued' },
+            ];
+            for (const j of seedJobs) {
+                await db.query(
+                    `INSERT INTO production_jobs_real (jog_no, job_name, customer, machine, paper, paper_size, sheets_plan, sheets_actual, colors, coating, die_cut, fold, glue, hot_stamp, due_date, status)
+                     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) ON CONFLICT DO NOTHING`,
+                    [j.jog_no, j.job_name, j.customer, j.machine, j.paper, 'A4', j.sheets_plan, j.sheets_actual, j.colors, j.coating, j.die_cut, j.fold, j.glue, j.hot_stamp, j.due_date, j.status]
+                );
+            }
+            console.log(`✅ Seeded ${seedJobs.length} production jobs!`);
+        }
     } catch (e) { console.error('production_jobs_real error:', e.message); }
 })();
 
@@ -1490,13 +1523,11 @@ app.get('/api/production/dashboard', async (req, res) => {
 
         const postPressSummary = await db.query(`
             SELECT 
-                COUNT(*) FILTER (WHERE coating NOT IN ('ไม่ทำ','')) as needs_coating,
-                COUNT(*) FILTER (WHERE hot_stamp NOT IN ('ไม่ทำ','')) as needs_hotstamp,
-                COUNT(*) FILTER (WHERE emboss NOT IN ('ไม่ทำ','')) as needs_emboss,
-                COUNT(*) FILTER (WHERE die_cut NOT IN ('ไม่ทำ','')) as needs_diecut,
-                COUNT(*) FILTER (WHERE glue NOT IN ('ไม่ทำ','')) as needs_glue,
-                COUNT(*) FILTER (WHERE fold NOT IN ('ไม่ทำ','')) as needs_fold,
-                COUNT(*) FILTER (WHERE binding NOT IN ('ไม่ทำ','')) as needs_binding
+                COUNT(*) FILTER (WHERE coating IS NOT NULL AND coating NOT IN ('ไม่ทำ','')) as needs_coating,
+                COUNT(*) FILTER (WHERE hot_stamp IS NOT NULL AND hot_stamp NOT IN ('ไม่ทำ','')) as needs_hotstamp,
+                COUNT(*) FILTER (WHERE die_cut IS NOT NULL AND die_cut NOT IN ('ไม่ทำ','')) as needs_diecut,
+                COUNT(*) FILTER (WHERE glue IS NOT NULL AND glue NOT IN ('ไม่ทำ','')) as needs_glue,
+                COUNT(*) FILTER (WHERE fold IS NOT NULL AND fold NOT IN ('ไม่ทำ','')) as needs_fold
             FROM production_jobs_real WHERE status NOT IN ('completed','cancelled')
         `);
 
