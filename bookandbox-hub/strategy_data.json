@@ -70,10 +70,10 @@
       "total_projects": 13,
       "total_departments": 7,
       "total_subtasks": 71,
-      "completed": 13,
-      "in_progress": 0,
-      "planned": 0,
-      "overall_progress": 100
+      "completed": 3,
+      "in_progress": 9,
+      "planned": 1,
+      "overall_progress": 60
     },
     "departments": [
       {
@@ -85,26 +85,34 @@
           {
             "id": "PRJ-S01",
             "name": "ระบบ CRM + LINE OA เชื่อมต่อ Lead",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 55,
+            "version": "V2 — มี API + mock UI, ขาด Pipeline จริง",
             "subtasks": [
-              {"name": "LINE Webhook รับ Lead อัตโนมัติ", "done": true},
-              {"name": "ระบบจัดลำดับ Lead (Hot/Warm/Cold)", "done": true},
-              {"name": "LINE Push Notification แจ้งเตือนเซลส์", "done": true},
-              {"name": "Dashboard ยอดขายรายวัน/เดือน", "done": true}
+              {"name": "LINE Webhook รับ Lead อัตโนมัติ [API]", "done": true},
+              {"name": "ระบบจัดลำดับ Lead (Hot/Warm/Cold) [API]", "done": true},
+              {"name": "LINE Push Notification แจ้งเตือนเซลส์ [API]", "done": true},
+              {"name": "⚠️ Sales Pipeline 10 สถานะ [หน้าเก่าหาย — ต้องดึงกลับ]", "done": false},
+              {"name": "⚠️ LINE OA Rich Menu / Quick Reply", "done": false},
+              {"name": "⚠️ Auto-assign Lead ให้เซลส์ตาม tier", "done": false},
+              {"name": "⚠️ Conversation history / chat log จริง", "done": false}
             ],
             "owner": "กวาง"
           },
           {
             "id": "PRJ-S02",
             "name": "Smart Price Hub (ระบบตั้งราคาอัจฉริยะ)",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 35,
+            "version": "V1 — มี Estimator เก่า 1004 บรรทัด, ต้องดึงกลับ+วิจัยราคา",
             "subtasks": [
-              {"name": "ฐานข้อมูลราคาสินค้า + Interpolation", "done": true},
-              {"name": "ระบบ Price Request (ขอราคาภายใน)", "done": true},
-              {"name": "ต้นทุน Supplier + Markup คำนวณ", "done": true},
-              {"name": "Chat thread ในแต่ละ Ticket", "done": true}
+              {"name": "คำนวณต้นทุนงานพิมพ์ (Cost Calculator) [V1 มี]", "done": true},
+              {"name": "ฐานข้อมูลราคา + Interpolation [V1 มี]", "done": true},
+              {"name": "ต้นทุน Supplier + Markup [V1 มี]", "done": true},
+              {"name": "⚠️ วิจัยจากงานเก่าที่เคยคิดราคา", "done": false},
+              {"name": "⚠️ คิดราคาสเปคแปลก (ขนาดพิเศษ/กระดาษแกรมพิเศษ)", "done": false},
+              {"name": "⚠️ Auto-quote สำหรับ LINE chat", "done": false},
+              {"name": "⚠️ Oversea sourcing pricing (จีน+CBM)", "done": false}
             ],
             "owner": "กวาง"
           }
@@ -120,41 +128,45 @@
             "id": "PRJ-P01",
             "name": "Production Kanban Board (Drag & Drop)",
             "status": "completed",
-            "progress": 100,
+            "progress": 95,
+            "version": "V3 — ใช้งานจริง, รอข้อมูลจริงจากโรงงาน",
             "subtasks": [
               {"name": "Import ข้อมูลจริงจาก Excel 1,775 งาน", "done": true},
-              {"name": "Kanban 4 สถานะ (รอ/กำลังทำ/เสร็จ/ยกเลิก)", "done": true},
-              {"name": "Drag & Drop เปลี่ยนสถานะ", "done": true},
+              {"name": "Kanban 4 สถานะ + Drag & Drop", "done": true},
               {"name": "Machine Workload Cards", "done": true},
               {"name": "ค้นหา JOG No. / ชื่องาน", "done": true}
             ],
-            "owner": "ก้อย"
+            "owner": "บิ๊ก"
           },
           {
             "id": "PRJ-P02",
             "name": "Production Log & OEE Monitoring",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 70,
+            "version": "V2 — API ครบ, ขาดข้อมูลเครื่องจริง",
             "subtasks": [
-              {"name": "ฟอร์มบันทึกผลผลิตรายวัน", "done": true},
-              {"name": "OEE Summary Dashboard (7 วัน)", "done": true},
-              {"name": "ตาราง Production Log ย้อนหลัง", "done": true},
-              {"name": "วิเคราะห์ Defect Rate รายเครื่อง/รายคน", "done": true},
-              {"name": "แจ้งเตือน LINE เมื่อ Defect > 3%", "done": true}
+              {"name": "ฟอร์มบันทึกผลผลิตรายวัน [API]", "done": true},
+              {"name": "OEE Summary Dashboard [API]", "done": true},
+              {"name": "Defect Rate + LINE alert [API]", "done": true},
+              {"name": "⚠️ ข้อมูลเครื่องจริง (speed/hr): SM74F, SM102F, KM", "done": false},
+              {"name": "⚠️ Downtime categories กำหนด", "done": false},
+              {"name": "⚠️ มีคนใช้บันทึกจริง (ปัจจุบัน 0 records)", "done": false}
             ],
-            "owner": "ก้อย"
+            "owner": "บิ๊ก"
           },
           {
             "id": "PRJ-P03",
             "name": "Workload Predictor (ระบบคาดการณ์ภาระงาน)",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 50,
+            "version": "V1 — API มี, ขาด machine speed จริง",
             "subtasks": [
-              {"name": "คำนวณ Backlog เป็นวัน/ชม.", "done": true},
-              {"name": "Machine Standard Speed Database", "done": true},
-              {"name": "แจ้งเตือนเมื่องานน้อย → เซลส์หางาน", "done": true},
-              {"name": "แจ้งเตือนเมื่องานล้น → จัดโอที/กระจายงาน", "done": true},
-              {"name": "แจ้งเตือนเมื่อว่าง → PM เครื่องจักร + ฝึกคน", "done": true}
+              {"name": "คำนวณ Backlog API", "done": true},
+              {"name": "LINE alerts (งานล้น/ว่าง) [API]", "done": true},
+              {"name": "⚠️ Machine speed จริง (ตัวเลขสมมติอยู่)", "done": false},
+              {"name": "⚠️ Setup time จริงแต่ละเครื่อง", "done": false},
+              {"name": "⚠️ Import production_jobs_real (ปัจจุบันว่าง)", "done": false},
+              {"name": "⚠️ Hour-by-Hour plan", "done": false}
             ],
             "owner": "ซัน"
           }
@@ -182,14 +194,15 @@
           {
             "id": "PRJ-H02",
             "name": "Skill Matrix & Risk Assessment",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 40,
+            "version": "V1 — API + UI มี, ขาดข้อมูลจริง 43 คน x 28 ทักษะ",
             "subtasks": [
-              {"name": "ตาราง Skill Database", "done": true},
-              {"name": "Radar Chart ทักษะรายบุคคล", "done": true},
-              {"name": "Single Point of Failure Alert", "done": true},
-              {"name": "แผนฝึกอบรมอัตโนมัติ", "done": true},
-              {"name": "Skill Gap Analysis ตามแผนก", "done": true}
+              {"name": "ตาราง Skill Database [API+UI]", "done": true},
+              {"name": "Radar Chart + Skill Gap API", "done": true},
+              {"name": "⚠️ Import 28 competencies จาก SQL schema", "done": false},
+              {"name": "⚠️ ประเมินทักษะ 43 คน (1,204 data points)", "done": false},
+              {"name": "⚠️ needs_training auto-calculation", "done": false}
             ],
             "owner": "ซัน"
           }
@@ -204,14 +217,17 @@
           {
             "id": "PRJ-Q01",
             "name": "Prepress QA AI (ตรวจไฟล์ก่อนพิมพ์)",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 60,
+            "version": "V2 — ตรวจจับได้ แต่ยังมี bugs 4 จุด",
             "subtasks": [
               {"name": "อัพโหลดไฟล์ PDF เปรียบเทียบ", "done": true},
               {"name": "ตรวจจับสีเพี้ยน/ภาพเบลอ", "done": true},
-              {"name": "ตรวจจับข้อความหาย/สลับหน้า", "done": true},
-              {"name": "Session-based inspection history", "done": true},
-              {"name": "รายงาน QC Summary ส่งลูกค้า", "done": true}
+              {"name": "Session-based + QC Summary API", "done": true},
+              {"name": "⚠️ Bug: ตัวหนังสือหาย → ไม่แจ้ง", "done": false},
+              {"name": "⚠️ Bug: เครื่องหมายถูกหาย → ไม่ฟ้อง", "done": false},
+              {"name": "⚠️ Bug: รูปสลับด้าน → วงผิดจุด", "done": false},
+              {"name": "⚠️ QC Summary UI ยังไม่ได้ทำบน frontend", "done": false}
             ],
             "owner": "พรีเพรส"
           }
@@ -226,14 +242,15 @@
           {
             "id": "PRJ-L01",
             "name": "Fleet Management + เบิกน้ำมัน",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 55,
+            "version": "V1 — API ครบ + หน้า Logistics เก่า 446 บรรทัด ต้องดึงกลับ",
             "subtasks": [
-              {"name": "บันทึกทริปจัดส่ง + เลขกม.", "done": true},
-              {"name": "บันทึกเบิกน้ำมัน + ใบเสร็จ", "done": true},
-              {"name": "3PL Tracking (Kerry/Flash)", "done": true},
-              {"name": "Proof of Delivery (ถ่ายรูป)", "done": true},
-              {"name": "Dashboard ต้นทุนจัดส่ง/ทริป", "done": true}
+              {"name": "API: trips, fuel, 3PL, dashboard", "done": true},
+              {"name": "หน้า Logistics เก่า (V1) [ต้องดึงกลับ]", "done": true},
+              {"name": "⚠️ Frontend UI ใน bookandbox-hub ยังไม่มี", "done": false},
+              {"name": "⚠️ ข้อมูลจริง (trips=0, fuel=0)", "done": false},
+              {"name": "⚠️ Proof of Delivery upload ปรับปรุง", "done": false}
             ],
             "owner": "ฝ่ายส่ง"
           }
@@ -248,14 +265,16 @@
           {
             "id": "PRJ-F01",
             "name": "Activity-Based Costing (ต้นทุนตามกิจกรรม)",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 25,
+            "version": "V1 — API+tables สร้างแล้ว, ข้อมูลเป็นตัวเลขสมมติ",
             "subtasks": [
-              {"name": "ตารางค่าแรงรายชั่วโมง/คน", "done": true},
-              {"name": "ตารางค่าเสื่อม+ค่าไฟเครื่องจักร/ชม.", "done": true},
-              {"name": "คำนวณต้นทุนจริงต่อ Job", "done": true},
-              {"name": "เปรียบเทียบราคาขาย vs ต้นทุนจริง", "done": true},
-              {"name": "Dashboard กำไร/ขาดทุนรายงาน", "done": true}
+              {"name": "API: labor_rates + machine_costs [tables]", "done": true},
+              {"name": "API: job costing + dashboard", "done": true},
+              {"name": "⚠️ Import ค่าแรง 43 คนจาก SQL compensations", "done": false},
+              {"name": "⚠️ Machine costs จริง (ค่าเสื่อม/ค่าไฟ)", "done": false},
+              {"name": "⚠️ Selling price ยังไม่มีใน jobs table", "done": false},
+              {"name": "⚠️ Dashboard UI กำไร/ขาดทุน", "done": false}
             ],
             "owner": "บัญชี"
           }
@@ -270,26 +289,31 @@
           {
             "id": "PRJ-I01",
             "name": "AI Agent (BCD AI ถาม-ตอบ + แจ้งปัญหา)",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 55,
+            "version": "V2 — Chat + Gemini ใช้ได้, NLP ยังจำกัด 6 คำถาม",
             "subtasks": [
               {"name": "Chat UI + Quick Actions", "done": true},
               {"name": "เชื่อมต่อ Gemini AI API", "done": true},
               {"name": "Bug Report / Suggestion ส่ง LINE", "done": true},
-              {"name": "AI วิเคราะห์ข้อมูลจาก DB อัตโนมัติ", "done": true}
+              {"name": "⚠️ NLP จริง (ปัจจุบัน hardcoded 6 คำถาม)", "done": false},
+              {"name": "⚠️ Cross-module query (กำไร/ต้นทุน/คน)", "done": false},
+              {"name": "⚠️ Auto-quote จาก chat", "done": false}
             ],
             "owner": "นาม (CEO)"
           },
           {
             "id": "PRJ-I02",
             "name": "ระบบแจ้งเตือนอัจฉริยะ (Smart Notification Engine)",
-            "status": "completed",
-            "progress": 100,
+            "status": "in_progress",
+            "progress": 65,
+            "version": "V1 — Rule Engine CRUD มี, ยังไม่มี cron + evaluation",
             "subtasks": [
-              {"name": "Rule Engine (If/Then conditions)", "done": true},
-              {"name": "LINE Notify ตามเงื่อนไข", "done": true},
-              {"name": "Daily Summary Report อัตโนมัติ 9:30", "done": true},
-              {"name": "แจ้งเตือน Defect/Backlog/Skill Risk", "done": true}
+              {"name": "Rule Engine CRUD [API]", "done": true},
+              {"name": "LINE Notify ตามเงื่อนไข [API]", "done": true},
+              {"name": "⚠️ Cron job สำหรับ 09:30 summary", "done": false},
+              {"name": "⚠️ Rule evaluation engine (run rules จริง)", "done": false},
+              {"name": "⚠️ Rules ยังไม่เคย trigger จริง (ไม่มี data)", "done": false}
             ],
             "owner": "นาม (CEO)"
           },
