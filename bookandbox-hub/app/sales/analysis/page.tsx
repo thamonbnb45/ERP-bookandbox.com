@@ -18,12 +18,26 @@ export default function SalesAnalysisPage() {
   const loadAll = async () => {
     setLoading(true);
     try {
-      const [a, m, d] = await Promise.all([
+      const [aRes, mRes, dRes] = await Promise.allSettled([
         fetch(`${API}/chat-analysis`).then(r => r.json()),
         fetch(`${API}/sales-matching`).then(r => r.json()),
         fetch(`${API}/dashboard-stats`).then(r => r.json()),
       ]);
-      setAnalysis(a); setMatching(m); setDashboard(d);
+      const a = aRes.status === 'fulfilled' ? aRes.value : null;
+      const m = mRes.status === 'fulfilled' ? mRes.value : [];
+      const d = dRes.status === 'fulfilled' ? dRes.value : null;
+      // Ensure analysis has required structure
+      if (a && a.summary && Array.isArray(a.leads)) {
+        setAnalysis(a);
+      } else {
+        setAnalysis({ summary: { withMessages: 0, withPriceMention: 0, withOrderMention: 0, withQuotes: 0, withPurchases: 0, withIssues: 0, totalLeads: 0 }, leads: [] });
+      }
+      setMatching(Array.isArray(m) ? m : []);
+      if (d && d.pipeline && d.monthly) {
+        setDashboard(d);
+      } else {
+        setDashboard({ totalLeads: 0, totalMessages: 0, totalQuotes: 0, totalPurchases: 0, totalRevenue: 0, pipeline: {}, monthly: [] });
+      }
     } catch (e) { console.error(e); }
     setLoading(false);
   };
