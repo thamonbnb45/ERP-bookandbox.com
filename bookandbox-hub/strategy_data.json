@@ -67,13 +67,13 @@
   ],
   "projects": {
     "summary": {
-      "total_projects": 12,
+      "total_projects": 13,
       "total_departments": 7,
-      "total_subtasks": 58,
-      "completed": 4,
+      "total_subtasks": 70,
+      "completed": 5,
       "in_progress": 6,
       "planned": 2,
-      "overall_progress": 52
+      "overall_progress": 58
     },
     "departments": [
       {
@@ -283,13 +283,32 @@
           {
             "id": "PRJ-I02",
             "name": "ระบบแจ้งเตือนอัจฉริยะ (Smart Notification Engine)",
-            "status": "planned",
-            "progress": 5,
+            "status": "in_progress",
+            "progress": 50,
             "subtasks": [
               {"name": "Rule Engine (If/Then conditions)", "done": false},
-              {"name": "LINE Notify ตามเงื่อนไข", "done": false},
-              {"name": "Daily Summary Report อัตโนมัติ 17:00", "done": true},
+              {"name": "LINE Notify ตามเงื่อนไข", "done": true},
+              {"name": "Daily Summary Report อัตโนมัติ 9:30", "done": true},
               {"name": "แจ้งเตือน Defect/Backlog/Skill Risk", "done": false}
+            ],
+            "owner": "นาม (CEO)"
+          },
+          {
+            "id": "PRJ-I03",
+            "name": "Task Tracker (ติดตามงาน + LINE Quick Action)",
+            "status": "completed",
+            "progress": 100,
+            "subtasks": [
+              {"name": "Board / List / Calendar View", "done": true},
+              {"name": "สร้าง/แก้ไข/ลบ Task จากเว็บ", "done": true},
+              {"name": "คอมเมนต์ + แนบรูปภาพ", "done": true},
+              {"name": "My Tasks กรองรายคน", "done": true},
+              {"name": "ปฏิทินทั้งเดือน + เลื่อนเดือน", "done": true},
+              {"name": "Export CSV สำหรับ Google Sheets", "done": true},
+              {"name": "Auto-Reminder งานค้าง 24 ชม. ผ่าน LINE", "done": true},
+              {"name": "Pre-Meeting Report 9:30 อัตโนมัติ", "done": true},
+              {"name": "LINE Quick Action (เสร็จ/ติด/เริ่ม #ID)", "done": true},
+              {"name": "แสดง % ความสำเร็จ Real-time", "done": true}
             ],
             "owner": "นาม (CEO)"
           }
