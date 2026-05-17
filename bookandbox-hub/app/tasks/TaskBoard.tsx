@@ -6,11 +6,13 @@ import { CSS } from '@dnd-kit/utilities';
 
 const API = 'https://erp-bookandboxcom-production.up.railway.app';
 const TEAM = [
-  { id: 'หน่ำ', name: 'หน่ำ', color: '#2563eb', emoji: '👨‍💼' },
-  { id: 'บิ๊ก', name: 'บิ๊ก', color: '#16a34a', emoji: '🔧' },
-  { id: 'หนึ่ง', name: 'หนึ่ง', color: '#9333ea', emoji: '⚡' },
-  { id: 'อ้อ', name: 'อ้อ', color: '#dc2626', emoji: '📋' },
-  { id: 'กวาง', name: 'กวาง', color: '#ea580c', emoji: '🦌' },
+  { id: 'หน่ำ', name: 'Nam', color: '#2563eb', emoji: '👨‍💼' },
+  { id: 'ซัน', name: 'SUN', color: '#f59e0b', emoji: '☀️' },
+  { id: 'หนึ่ง', name: 'Nueng', color: '#9333ea', emoji: '⚡' },
+  { id: 'อ้อ', name: 'Aor', color: '#dc2626', emoji: '📋' },
+  { id: 'บิ๊ก', name: 'BIG', color: '#16a34a', emoji: '🔧' },
+  { id: 'กวาง', name: 'Kwang', color: '#ea580c', emoji: '🦌' },
+  { id: 'สา', name: 'Sa', color: '#06b6d4', emoji: '💎' },
 ];
 const COLS = [
   { id: 'pending', label: '📋 รอรับ', color: '#64748b', bg: '#f8fafc' },

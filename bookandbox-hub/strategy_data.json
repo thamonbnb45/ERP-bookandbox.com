@@ -70,10 +70,10 @@
       "total_projects": 13,
       "total_departments": 7,
       "total_subtasks": 71,
-      "completed": 11,
-      "in_progress": 2,
+      "completed": 13,
+      "in_progress": 0,
       "planned": 0,
-      "overall_progress": 87
+      "overall_progress": 100
     },
     "departments": [
       {
@@ -204,14 +204,14 @@
           {
             "id": "PRJ-Q01",
             "name": "Prepress QA AI (ตรวจไฟล์ก่อนพิมพ์)",
-            "status": "in_progress",
-            "progress": 70,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
               {"name": "อัพโหลดไฟล์ PDF เปรียบเทียบ", "done": true},
               {"name": "ตรวจจับสีเพี้ยน/ภาพเบลอ", "done": true},
               {"name": "ตรวจจับข้อความหาย/สลับหน้า", "done": true},
-              {"name": "Session-based inspection history", "done": false},
-              {"name": "รายงาน QC Summary ส่งลูกค้า", "done": false}
+              {"name": "Session-based inspection history", "done": true},
+              {"name": "รายงาน QC Summary ส่งลูกค้า", "done": true}
             ],
             "owner": "พรีเพรส"
           }
@@ -270,13 +270,13 @@
           {
             "id": "PRJ-I01",
             "name": "AI Agent (BCD AI ถาม-ตอบ + แจ้งปัญหา)",
-            "status": "in_progress",
-            "progress": 75,
+            "status": "completed",
+            "progress": 100,
             "subtasks": [
               {"name": "Chat UI + Quick Actions", "done": true},
               {"name": "เชื่อมต่อ Gemini AI API", "done": true},
               {"name": "Bug Report / Suggestion ส่ง LINE", "done": true},
-              {"name": "AI วิเคราะห์ข้อมูลจาก DB อัตโนมัติ", "done": false}
+              {"name": "AI วิเคราะห์ข้อมูลจาก DB อัตโนมัติ", "done": true}
             ],
             "owner": "นาม (CEO)"
           },
