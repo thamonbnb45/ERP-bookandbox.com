@@ -3729,15 +3729,15 @@ app.get('/api/chat-analysis', async (req, res) => {
 
     // Group
     const msgMap = {}, quoteMap = {};
-    allMsgs.forEach(m => { if (!msgMap[m.lead_id]) msgMap[m.lead_id] = []; msgMap[m.lead_id].push(m); });
-    allQuotes.forEach(q => { if (!quoteMap[q.lead_id]) quoteMap[q.lead_id] = []; quoteMap[q.lead_id].push(q); });
+    (allMsgs || []).forEach(m => { if (!msgMap[m.lead_id]) msgMap[m.lead_id] = []; msgMap[m.lead_id].push(m); });
+    (allQuotes || []).forEach(q => { if (!quoteMap[q.lead_id]) quoteMap[q.lead_id] = []; quoteMap[q.lead_id].push(q); });
 
     // Price keywords
     const priceWords = ['ราคา', 'บาท', 'เท่าไ', 'กี่บาท', 'ต่อชิ้น', 'ต่อใบ', 'ต่อแผ่น', 'เสนอราคา', 'ใบเสนอ'];
     const orderWords = ['สั่ง', 'ยืนยัน', 'ออเดอร์', 'โอนเงิน', 'โอนแล้ว', 'สลิป', 'ชำระ', 'จ่าย'];
     const productWords = ['พิมพ์', 'นามบัตร', 'ใบปลิว', 'โบรชัวร์', 'สติ๊กเกอร์', 'กล่อง', 'ซอง', 'แผ่นพับ', 'โปสเตอร์', 'แบนเนอร์'];
 
-    const results = leads.map(l => {
+    const results = (leads || []).map(l => {
       const msgs = msgMap[l.id] || [];
       const quotes = quoteMap[l.id] || [];
       const allText = msgs.map(m => m.text_content || '').join(' ');
@@ -3815,8 +3815,8 @@ app.get('/api/sales-matching', async (req, res) => {
     const { data: allQuotes } = await supabase.from('customer_quotes').select('lead_id, type, total_price, status, quoted_by');
 
     const msgMap = {}, quoteMap = {};
-    allMsgs.forEach(m => { if (!msgMap[m.lead_id]) msgMap[m.lead_id] = []; msgMap[m.lead_id].push(m); });
-    allQuotes.forEach(q => { if (!quoteMap[q.lead_id]) quoteMap[q.lead_id] = []; quoteMap[q.lead_id].push(q); });
+    (allMsgs || []).forEach(m => { if (!msgMap[m.lead_id]) msgMap[m.lead_id] = []; msgMap[m.lead_id].push(m); });
+    (allQuotes || []).forEach(q => { if (!quoteMap[q.lead_id]) quoteMap[q.lead_id] = []; quoteMap[q.lead_id].push(q); });
 
     // Extract sales person from alias (format: STATUS-SALES-Name)
     const getSales = (alias) => {
@@ -3826,7 +3826,7 @@ app.get('/api/sales-matching', async (req, res) => {
     };
 
     const salesMap = {};
-    leads.forEach(l => {
+    (leads || []).forEach(l => {
       const sp = getSales(l.erp_alias_name);
       if (!salesMap[sp]) salesMap[sp] = { 
         name: sp, totalLeads: 0, withChat: 0, withQuote: 0, withPurchase: 0,
@@ -3886,7 +3886,7 @@ app.get('/api/dashboard-stats', async (req, res) => {
 
     // Pipeline
     const pipeline = { i: 0, o: 0, c: 0, nt: 0, na: 0, al: 0, q: 0 };
-    leads.forEach(l => { const s = l.sales_status || 'i'; pipeline[s] = (pipeline[s] || 0) + 1; });
+    (leads || []).forEach(l => { const s = l.sales_status || 'i'; pipeline[s] = (pipeline[s] || 0) + 1; });
 
     // Monthly stats (last 12 months)
     const monthly = {};
@@ -3895,13 +3895,14 @@ app.get('/api/dashboard-stats', async (req, res) => {
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
       monthly[key] = { leads: 0, quotes: 0, purchases: 0, revenue: 0 };
     }
-    leads.forEach(l => {
+    (leads || []).forEach(l => {
       if (!l.created_at) return;
-      const key = l.created_at.substring(0, 7);
+      const key = typeof l.created_at === 'string' ? l.created_at.substring(0, 7) : '';
       if (monthly[key]) monthly[key].leads++;
     });
-    quotes.forEach(q => {
-      const key = (q.quote_date || q.created_at || '').substring(0, 7);
+    (quotes || []).forEach(q => {
+      const raw = q.quote_date || q.created_at || '';
+      const key = typeof raw === 'string' ? raw.substring(0, 7) : '';
       if (monthly[key]) {
         if ((q.type || 'quote') === 'quote') monthly[key].quotes++;
         else { monthly[key].purchases++; monthly[key].revenue += Number(q.total_price) || 0; }
@@ -3909,9 +3910,9 @@ app.get('/api/dashboard-stats', async (req, res) => {
     });
 
     // Totals
-    const totalQuotes = quotes.filter(q => (q.type || 'quote') === 'quote').length;
-    const totalPurchases = quotes.filter(q => q.type === 'purchase').length;
-    const totalRevenue = quotes.filter(q => q.type === 'purchase').reduce((s, q) => s + (Number(q.total_price) || 0), 0);
+    const totalQuotes = (quotes || []).filter(q => (q.type || 'quote') === 'quote').length;
+    const totalPurchases = (quotes || []).filter(q => q.type === 'purchase').length;
+    const totalRevenue = (quotes || []).filter(q => q.type === 'purchase').reduce((s, q) => s + (Number(q.total_price) || 0), 0);
 
     res.json({
       pipeline,
