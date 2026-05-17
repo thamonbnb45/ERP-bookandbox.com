@@ -273,7 +273,7 @@ export default function Production() {
 
       {/* Machine Workload Bar (Summary) */}
       <div style={{ padding: '1rem 2rem', display: 'flex', gap: '1rem', overflowX: 'auto', flexShrink: 0 }}>
-        {dashboardData?.by_machine?.map((m: any) => {
+        {(dashboardData?.by_machine || []).map((m: any) => {
           const config = getMachineConfig(m.machine);
           if (m.queued === 0 && m.printing === 0 && m.machine === 'ไม่ระบุ') return null; // hide empty
           return (
@@ -394,7 +394,7 @@ export default function Production() {
       )}
 
       {/* ========== TAB: DASHBOARD ========== */}
-      {activeTab === 'dashboard' && dashboardData && (
+      {activeTab === 'dashboard' && dashboardData && dashboardData.post_press && (
         <div style={{ padding: '0 2rem 2rem', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
           <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', borderTop: '4px solid #8b5cf6' }}>
