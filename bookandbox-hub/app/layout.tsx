@@ -30,7 +30,7 @@ const modules = [
     icon: '💰',
     color: '#2EC4B6',
     children: [
-      { label: 'Chat Center', href: '/adweb', icon: '💬' },
+      { label: 'Chat Center', href: '/chat', icon: '💬' },
       { label: 'Sales Pipeline', href: '/sales/pipeline', icon: '📊' },
       { label: 'คิดราคา (Estimate)', href: '/sales/estimate', icon: '🧮' },
       { label: 'ใบเสนอราคา (QT)', href: '/sales/quotation', icon: '📄' },
