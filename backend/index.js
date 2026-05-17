@@ -1572,6 +1572,50 @@ app.get('/api/production/jobs/:jog_no', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// Full update job (all fields)
+app.put('/api/production/jobs/:jog_no', async (req, res) => {
+    try {
+        const { job_name, customer, machine, paper, paper_size, sheets_plan, sheets_actual, colors, coating, die_cut, fold, glue, hot_stamp, due_date, status, notes } = req.body;
+        const result = await db.query(
+            `UPDATE production_jobs_real SET 
+                job_name=COALESCE($1,job_name), customer=COALESCE($2,customer), machine=COALESCE($3,machine),
+                paper=COALESCE($4,paper), paper_size=COALESCE($5,paper_size), sheets_plan=COALESCE($6,sheets_plan),
+                sheets_actual=COALESCE($7,sheets_actual), colors=COALESCE($8,colors), coating=COALESCE($9,coating),
+                die_cut=COALESCE($10,die_cut), fold=COALESCE($11,fold), glue=COALESCE($12,glue),
+                hot_stamp=COALESCE($13,hot_stamp), due_date=COALESCE($14,due_date), status=COALESCE($15,status),
+                notes=COALESCE($16,notes), updated_at=NOW()
+             WHERE jog_no = $17 RETURNING *`,
+            [job_name, customer, machine, paper, paper_size, sheets_plan?parseInt(sheets_plan):null, sheets_actual?parseInt(sheets_actual):null,
+             colors, coating, die_cut, fold, glue, hot_stamp, due_date, status, notes, req.params.jog_no]
+        );
+        if (result.rows.length === 0) return res.status(404).json({ error: 'Job not found' });
+        res.json(result.rows[0]);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Create new job
+app.post('/api/production/jobs', async (req, res) => {
+    try {
+        const { jog_no, job_name, customer, machine, paper, paper_size, sheets_plan, sheets_actual, colors, coating, die_cut, fold, glue, hot_stamp, due_date, status, notes } = req.body;
+        if (!jog_no || !job_name) return res.status(400).json({ error: 'jog_no and job_name required' });
+        const result = await db.query(
+            `INSERT INTO production_jobs_real (jog_no,job_name,customer,machine,paper,paper_size,sheets_plan,sheets_actual,colors,coating,die_cut,fold,glue,hot_stamp,due_date,status,notes)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING *`,
+            [jog_no, job_name, customer||'', machine||'', paper||'', paper_size||'A4', parseInt(sheets_plan)||0, parseInt(sheets_actual)||0,
+             colors||'4/4', coating||'ไม่ทำ', die_cut||'ไม่ทำ', fold||'ไม่ทำ', glue||'ไม่ทำ', hot_stamp||'ไม่ทำ', due_date, status||'queued', notes||'']
+        );
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Delete job
+app.delete('/api/production/jobs/:jog_no', async (req, res) => {
+    try {
+        await db.query('DELETE FROM production_jobs_real WHERE jog_no = $1', [req.params.jog_no]);
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ====== SMART IE: MACHINE PROFILES ======
 
 app.get('/api/machine_profiles', async (req, res) => {

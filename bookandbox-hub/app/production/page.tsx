@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { JobDetailModal, AddJobModal } from './JobModals';
 
 
 // Call the Express Backend
@@ -63,6 +64,12 @@ export default function Production() {
   const [jogSearch, setJogSearch] = useState('');
   const [showJogList, setShowJogList] = useState(false);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
+  const [editingJob, setEditingJob] = useState<any>(null);
+  const [showAddJob, setShowAddJob] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const emptyJob = { jog_no:'', job_name:'', customer:'', machine:'SM74F', paper:'', paper_size:'A4', sheets_plan:0, sheets_actual:0, colors:'4/4', coating:'ไม่ทำ', die_cut:'ไม่ทำ', fold:'ไม่ทำ', glue:'ไม่ทำ', hot_stamp:'ไม่ทำ', due_date: new Date().toISOString().split('T')[0], status:'queued', notes:'' };
+  const [addForm, setAddForm] = useState({...emptyJob});
   
   // Log System States
   const [productionLogs, setProductionLogs] = useState<any[]>([]);
@@ -186,6 +193,35 @@ export default function Production() {
     }
   };
 
+  // === CRUD Functions ===
+  const updateJob = async (jogNo: string, updates: any) => {
+    setSaving(true);
+    try {
+      await fetch(`${API_URL}/production/jobs/${jogNo}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(updates) });
+      setJobOrders(prev => prev.map(j => j.jog_no === jogNo ? {...j, ...updates} : j));
+      setSelectedJob(null); setEditingJob(null);
+      fetchData();
+    } catch(e:any) { alert('บันทึกไม่สำเร็จ: '+e.message); }
+    setSaving(false);
+  };
+  const createJob = async () => {
+    if (!addForm.jog_no || !addForm.job_name) return alert('กรอก JOG No. และชื่องาน');
+    setSaving(true);
+    try {
+      await fetch(`${API_URL}/production/jobs`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(addForm) });
+      setShowAddJob(false); setAddForm({...emptyJob});
+      fetchData();
+    } catch(e:any) { alert('เพิ่มงานไม่สำเร็จ: '+e.message); }
+    setSaving(false);
+  };
+  const deleteJob = async (jogNo: string) => {
+    if (!confirm(`ลบงาน ${jogNo}?`)) return;
+    try {
+      await fetch(`${API_URL}/production/jobs/${jogNo}`, { method:'DELETE' });
+      setSelectedJob(null); fetchData();
+    } catch(e:any) { alert('ลบไม่สำเร็จ'); }
+  };
+
   const submitLog = async () => {
     if (!newLog.machine || !newLog.operator_name || !newLog.job_ref) {
       return alert('กรุณากรอก เครื่องจักร, ชื่อพนักงาน และ JOG No.');
@@ -306,8 +342,8 @@ export default function Production() {
       {/* ========== TAB: KANBAN BOARD ========== */}
       {activeTab === 'board' && (
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
-          {/* Search Bar */}
-          <div style={{ padding: '0 2rem 1rem' }}>
+          {/* Search Bar + Add Button */}
+          <div style={{ padding: '0 2rem 1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
             <div style={{ position: 'relative', width: '350px' }}>
               <i className="fa-solid fa-search" style={{ position: 'absolute', left: '12px', top: '12px', color: '#94a3b8' }}></i>
               <input type="text" placeholder="ค้นหา JOG No. หรือ ชื่องาน..." 
@@ -319,6 +355,10 @@ export default function Production() {
                 }} 
               />
             </div>
+            <button onClick={() => { setAddForm({...emptyJob, jog_no: `6805-${String(jobOrders.length+17).padStart(4,'0')}`}); setShowAddJob(true); }}
+              style={{ background: '#22c55e', color: 'white', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '24px', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+              ＋ เพิ่มงานใหม่
+            </button>
           </div>
 
           <div style={{ display: 'flex', gap: '1.2rem', padding: '0 2rem 2rem', flex: 1, overflowX: 'auto', overflowY: 'hidden' }}>
@@ -344,9 +384,10 @@ export default function Production() {
                       
                       return (
                         <div key={job.jog_no} draggable="true" onDragStart={(e) => handleDragStart(e, job.jog_no)} onDragEnd={handleDragEnd}
+                          onClick={() => { setSelectedJob(job); setEditingJob({...job}); }}
                           style={{ 
                             background: 'white', padding: '1rem', borderRadius: '10px', 
-                            cursor: 'grab', boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)', 
+                            cursor: 'pointer', boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)', 
                             borderLeft: isUrgent ? '5px solid #ef4444' : '5px solid transparent',
                             transition: 'transform 0.2s, box-shadow 0.2s'
                           }}
@@ -693,6 +734,35 @@ export default function Production() {
         <ScheduleTab jobOrders={jobOrders} API_URL={API_URL} />
       )}
 
+      {/* ========== JOB DETAIL MODAL ========== */}
+      {selectedJob && (
+        <JobDetailModal
+          job={selectedJob}
+          onClose={() => setSelectedJob(null)}
+          onSave={(data: any) => updateJob(data.jog_no, data)}
+          onDelete={(jogNo: string) => deleteJob(jogNo)}
+          saving={saving}
+        />
+      )}
+
+      {/* ========== ADD JOB MODAL ========== */}
+      {showAddJob && (
+        <AddJobModal
+          initialJogNo={`6805-${String(jobOrders.length + 17).padStart(4, '0')}`}
+          onClose={() => setShowAddJob(false)}
+          onCreate={async (data: any) => {
+            setSaving(true);
+            try {
+              await fetch(`${API_URL}/production/jobs`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+              setShowAddJob(false);
+              fetchData();
+            } catch(e:any) { alert('เพิ่มงานไม่สำเร็จ: '+e.message); }
+            setSaving(false);
+          }}
+          saving={saving}
+        />
+      )}
+
     </div>
   );
 }
@@ -940,6 +1010,7 @@ function ScheduleTab({ jobOrders, API_URL }: { jobOrders: any[], API_URL: string
           ))}
         </div>
       </div>
+
     </div>
   );
 }
