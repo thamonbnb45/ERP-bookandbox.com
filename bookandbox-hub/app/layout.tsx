@@ -30,11 +30,11 @@ const modules = [
     icon: '💰',
     color: '#2EC4B6',
     children: [
-      { label: 'ใบสั่งงาน (JO)', href: '/jobs', icon: '📋' },
+      { label: 'Chat Center', href: '/adweb', icon: '💬' },
       { label: 'Sales Pipeline', href: '/sales/pipeline', icon: '📊' },
-      { label: 'CRM / LINE Chat', href: '/chat', icon: '💬' },
       { label: 'คิดราคา (Estimate)', href: '/sales/estimate', icon: '🧮' },
-      { label: 'เสนอราคา', href: '/sales', icon: '📄' },
+      { label: 'ใบเสนอราคา (QT)', href: '/sales/quotation', icon: '📄' },
+      { label: 'ใบสั่งงาน (JO)', href: '/jobs', icon: '📋' },
       { label: 'รายงานขาย', href: '/sales/report', icon: '📈' },
       { label: 'Sales Intelligence', href: '/sales/analysis', icon: '🔍' },
     ]
