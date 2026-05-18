@@ -22,6 +22,7 @@ const modules = [
     color: '#dc2626',
     children: [
       { label: 'Task Tracker', href: '/tasks', icon: '📋' },
+      { label: 'ลงเวลาทำงาน (Time Logger)', href: '/time-logger', icon: '⏱️', external: true },
     ]
   },
   {
@@ -45,6 +46,8 @@ const modules = [
     icon: '🏭',
     color: '#3b82f6',
     children: [
+      { label: 'Smart Factory', href: '/smart-factory', icon: '🏭', external: true },
+      { label: 'วางแผน (Print Flow)', href: '/print-flow', icon: '🗓️', external: true },
       { label: 'ภาพรวมผลิต', href: '/production', icon: '📊' },
       { label: 'ติดตาม Live', href: '/production/live-tracking', icon: '🔴' },
       { label: 'ปริมาณงาน', href: '/production/workload', icon: '⚖️' },
